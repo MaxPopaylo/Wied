@@ -1,4 +1,4 @@
-package ua.wied.presentation.theme.common.theme
+package ua.wied.presentation.common.theme
 
 import androidx.compose.ui.graphics.Color
 
