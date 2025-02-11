@@ -1,4 +1,4 @@
-package ua.wied.domain.user
+package ua.wied.domain.models.user
 
 import java.util.UUID
 
