@@ -18,6 +18,7 @@
             android:name=".presentation.MainActivity"
             android:exported="false"
             android:screenOrientation="portrait"
+            android:theme="@style/Theme.Wied"
             tools:ignore="DiscouragedApi" />
 
         <activity

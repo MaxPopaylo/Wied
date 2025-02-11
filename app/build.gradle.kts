@@ -57,6 +57,7 @@ dependencies {
 
     // MARK: - Jetpack Compose
     implementation(libs.bundles.androidx.compose)
+    implementation(platform(libs.androidx.compose.bom))
 
     // MARK: - Testing
     testImplementation(libs.junit)
