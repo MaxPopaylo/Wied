@@ -3,6 +3,8 @@ package ua.wied.presentation.common.navigation
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
+import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -23,17 +25,43 @@ fun GlobalNavGraph(
         composable(
             route = Global.Auth.route,
             enterTransition = {
-                return@composable fadeIn(tween(500))
+                slideInHorizontally(initialOffsetX = { it }, animationSpec = tween(500)) +
+                        fadeIn(animationSpec = tween(500))
             },
             exitTransition = {
-                return@composable fadeOut(tween(700))
+                slideOutHorizontally(targetOffsetX = { -it }, animationSpec = tween(500)) +
+                        fadeOut(animationSpec = tween(500))
+            },
+            popEnterTransition = {
+                slideInHorizontally(initialOffsetX = { -it }, animationSpec = tween(500)) +
+                        fadeIn(animationSpec = tween(500))
+            },
+            popExitTransition = {
+                slideOutHorizontally(targetOffsetX = { it }, animationSpec = tween(500)) +
+                        fadeOut(animationSpec = tween(500))
             }
         ) {
             AuthScreen(globalNavController = navController)
         }
 
         composable(
-            route = Global.Main.route
+            route = Global.Main.route,
+            enterTransition = {
+                slideInHorizontally(initialOffsetX = { it }, animationSpec = tween(500)) +
+                        fadeIn(animationSpec = tween(500))
+            },
+            exitTransition = {
+                slideOutHorizontally(targetOffsetX = { -it }, animationSpec = tween(500)) +
+                        fadeOut(animationSpec = tween(500))
+            },
+            popEnterTransition = {
+                slideInHorizontally(initialOffsetX = { -it }, animationSpec = tween(500)) +
+                        fadeIn(animationSpec = tween(500))
+            },
+            popExitTransition = {
+                slideOutHorizontally(targetOffsetX = { it }, animationSpec = tween(500)) +
+                        fadeOut(animationSpec = tween(500))
+            }
         ) {
 
         }

@@ -1,8 +1,5 @@
 package ua.wied.presentation.common.navigation
 
-import kotlinx.serialization.Serializable
-
-@Serializable
 sealed class NavScreen
 
 sealed class Screen(val route: String)

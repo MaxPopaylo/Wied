@@ -9,6 +9,7 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 import ua.wied.presentation.screens.auth.AuthViewModel
 import ua.wied.presentation.screens.auth.SignInScreen
 import ua.wied.presentation.screens.auth.SignUpScreen
@@ -16,7 +17,7 @@ import ua.wied.presentation.screens.auth.SignUpScreen
 @Composable
 fun AuthNavGraph(
     authViewModel: AuthViewModel,
-    navController: NavHostController
+    navController: NavHostController = rememberNavController()
 ) {
     NavHost(
         navController = navController,
