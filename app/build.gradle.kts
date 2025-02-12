@@ -47,6 +47,9 @@ android {
 }
 
 dependencies {
+    // MARK: - DataStore
+    implementation(libs.datastore.preferences)
+
     // MARK: - Dependency Injection (Hilt)
     implementation(libs.bundles.hilt)
     ksp(libs.hilt.compiler)
