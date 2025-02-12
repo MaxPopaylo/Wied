@@ -13,6 +13,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
@@ -34,7 +35,9 @@ fun SignInScreen(
     authViewModel: AuthViewModel,
     navController: NavHostController
 ) {
+    val keyboardController = LocalSoftwareKeyboardController.current
     val state = authViewModel.state.signIn
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -96,6 +99,7 @@ fun SignInScreen(
             PrimaryButton (
                 title = stringResource(R.string.login),
                 onClick = {
+                    keyboardController?.hide()
                     authViewModel.onEvent(SignInUiEvent.SignInClicked)
                 }
             )
@@ -103,6 +107,7 @@ fun SignInScreen(
             SecondaryButton (
                 title = stringResource(R.string.signup),
                 onClick = {
+                    keyboardController?.hide()
                     authViewModel.clearAll()
                     navController.navigate(AuthNav.SignUp.route)
                 }
