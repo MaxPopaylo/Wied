@@ -5,10 +5,10 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import ua.wied.domain.models.auth.AuthResult
-import ua.wied.presentation.common.composable.ErrorAlertDialog
 import ua.wied.presentation.common.composable.LoadingIndicator
 import ua.wied.presentation.common.navigation.AuthNavGraph
 import ua.wied.presentation.common.navigation.Global
@@ -18,6 +18,11 @@ fun AuthScreen(
     globalNavController: NavHostController,
     viewModel: AuthViewModel = hiltViewModel()
 ) {
+    val context = LocalContext.current
+    LaunchedEffect(Unit) {
+        viewModel.toastManager.processToastMessages(context)
+    }
+
     LaunchedEffect(viewModel) {
         viewModel.authResult.collect { result ->
             if (result is AuthResult.Success) {
@@ -28,24 +33,13 @@ fun AuthScreen(
                     launchSingleTop = true
                 }
             } else if (result is AuthResult.Error) {
-                viewModel.showErrorDialog(result.errorMessage)
+                viewModel.showErrorToast(result.errorMessage)
             }
         }
     }
 
     Column(modifier = Modifier.fillMaxSize()) {
         AuthNavGraph(authViewModel = viewModel)
-    }
-
-    if (viewModel.pageState.showErrorDialog) {
-        ErrorAlertDialog(
-            text = viewModel.pageState.errorDialogMessage,
-            title = "Authentication Failed",
-            onDismiss = {
-                viewModel.clearAll()
-                viewModel.clearErrorDialog()
-            }
-        )
     }
 
     if (viewModel.pageState.isLoading) {
