@@ -20,15 +20,12 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
-import androidx.navigation.compose.rememberNavController
 import ua.wied.R
 import ua.wied.presentation.common.composable.AuthTextField
 import ua.wied.presentation.common.composable.PrimaryButton
-import ua.wied.presentation.common.theme.WiEDTheme
 import ua.wied.presentation.common.theme.WiEDTheme.colors
 import ua.wied.presentation.common.theme.WiEDTheme.typography
 import ua.wied.presentation.screens.auth.models.SignInUiEvent
@@ -167,19 +164,5 @@ fun SignUpScreen(
             }
 
         }
-    }
-}
-
-
-
-
-@Preview
-@Composable
-fun SignInScreenP() {
-    WiEDTheme {
-        AuthScreen(
-            globalNavController = rememberNavController(),
-            navController = rememberNavController()
-        )
     }
 }

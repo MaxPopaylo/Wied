@@ -4,12 +4,16 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.receiveAsFlow
+import kotlinx.coroutines.launch
 import ua.wied.domain.models.auth.AuthResult
 import ua.wied.domain.models.auth.SignInRequest
 import ua.wied.domain.models.auth.SignUpRequest
+import ua.wied.domain.usecases.SignInUseCase
+import ua.wied.domain.usecases.SignUpUseCase
 import ua.wied.presentation.screens.auth.models.AuthState
 import ua.wied.presentation.screens.auth.models.PageState
 import ua.wied.presentation.screens.auth.models.SignInUiEvent
@@ -17,7 +21,10 @@ import ua.wied.presentation.screens.auth.models.SignUpUiEvent
 import javax.inject.Inject
 
 @HiltViewModel
-class AuthViewModel @Inject constructor() : ViewModel() {
+class AuthViewModel @Inject constructor(
+    private val signInUseCase: SignInUseCase,
+    private val signUpUseCase: SignUpUseCase
+) : ViewModel() {
     private var _state by mutableStateOf(AuthState())
     val state: AuthState get() = _state
 
@@ -91,11 +98,19 @@ class AuthViewModel @Inject constructor() : ViewModel() {
     }
 
     private fun signIn(request: SignInRequest) {
-
+        viewModelScope.launch {
+            showLoadingBar()
+            resultChannel.send(signInUseCase.invoke(request))
+            clearLoadingBar()
+        }
     }
 
     private fun signUp(request: SignUpRequest) {
-
+        viewModelScope.launch {
+            showLoadingBar()
+            resultChannel.send(signUpUseCase.invoke(request))
+            clearLoadingBar()
+        }
     }
 
     fun showErrorDialog(errorMessage: String) {
@@ -113,13 +128,13 @@ class AuthViewModel @Inject constructor() : ViewModel() {
         )
     }
 
-    fun showLoadingBar() {
+    private fun showLoadingBar() {
         _pageState = _pageState.copy(
             isLoading = true
         )
     }
 
-    fun clearLoadingBar() {
+    private fun clearLoadingBar() {
         _pageState = _pageState.copy(
             isLoading = false
         )
