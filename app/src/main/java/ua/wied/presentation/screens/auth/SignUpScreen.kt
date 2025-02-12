@@ -159,7 +159,7 @@ fun SignUpScreen(
                 verticalArrangement = Arrangement.spacedBy(14.dp)
             ) {
                 PrimaryButton (
-                    title = stringResource(R.string.signup),
+                    title = stringResource(R.string.create_account),
                     onClick = {
                         keyboardController?.hide()
                         authViewModel.onEvent(SignUpUiEvent.SignUpClicked)

@@ -1,5 +1,7 @@
 package ua.wied.presentation.screens.auth.models
 
+import androidx.annotation.StringRes
+
 data class AuthState(
     val signIn: SignInState = SignInState(),
     val signUp: SignUpState = SignUpState()
@@ -20,7 +22,6 @@ data class SignUpState(
 
 data class PageState(
     val isLoading: Boolean = false,
-    val showErrorDialog: Boolean = false,
-    val errorDialogMessage: String = ""
+    @StringRes val errorMessage: Int? = null
 )
 

@@ -1,5 +1,6 @@
 package ua.wied.presentation.screens.auth
 
+import androidx.annotation.StringRes
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -9,14 +10,18 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
+import ua.wied.R
 import ua.wied.domain.models.auth.AuthResult
 import ua.wied.domain.models.auth.SignInRequest
 import ua.wied.domain.models.auth.SignUpRequest
 import ua.wied.domain.usecases.SignInUseCase
 import ua.wied.domain.usecases.SignUpUseCase
+import ua.wied.presentation.common.utils.ToastManager
 import ua.wied.presentation.screens.auth.models.AuthState
 import ua.wied.presentation.screens.auth.models.PageState
+import ua.wied.presentation.screens.auth.models.SignInState
 import ua.wied.presentation.screens.auth.models.SignInUiEvent
+import ua.wied.presentation.screens.auth.models.SignUpState
 import ua.wied.presentation.screens.auth.models.SignUpUiEvent
 import javax.inject.Inject
 
@@ -34,110 +39,110 @@ class AuthViewModel @Inject constructor(
     private val resultChannel = Channel<AuthResult>()
     val authResult = resultChannel.receiveAsFlow()
 
+    val toastManager = ToastManager()
+
+
     fun onEvent(event: SignInUiEvent) {
         when(event) {
-            is SignInUiEvent.PhoneChanged -> {
-                _state = _state.copy(
-                    signIn = _state.signIn.copy(phone = event.value)
-                )
-            }
-            is SignInUiEvent.PasswordChanged -> {
-                _state = _state.copy(
-                    signIn = _state.signIn.copy(password = event.value)
-                )
-            }
+            is SignInUiEvent.PhoneChanged -> updateSignInState { copy(phone = event.value) }
+            is SignInUiEvent.PasswordChanged -> updateSignInState { copy(password = event.value) }
             is SignInUiEvent.SignInClicked -> {
-                signIn(
-                    SignInRequest(
-                        phone = _state.signIn.phone,
-                        password = _state.signIn.password
+                if (validateSignIn()) {
+                    signIn(
+                        SignInRequest(
+                            phone = _state.signIn.phone,
+                            password = _state.signIn.password
+                        )
                     )
-                )
+                } else _pageState.errorMessage?.let { showToast(it) }
             }
         }
+    }
+    private fun updateSignInState(update: SignInState.() -> SignInState) {
+        _state = _state.copy(signIn = _state.signIn.update())
     }
 
     fun onEvent(event: SignUpUiEvent) {
         when(event) {
-            is SignUpUiEvent.NameChanged -> {
-                _state = _state.copy(
-                    signUp = _state.signUp.copy(name = event.value)
-                )
-            }
-            is SignUpUiEvent.PhoneChanged -> {
-                _state = _state.copy(
-                    signUp = _state.signUp.copy(phone = event.value)
-                )
-            }
-            is SignUpUiEvent.PasswordChanged -> {
-                _state = _state.copy(
-                    signUp = _state.signUp.copy(password = event.value)
-                )
-            }
-            is SignUpUiEvent.ConfirmPasswordChanged -> {
-                _state = _state.copy(
-                    signUp = _state.signUp.copy(confirmPassword = event.value)
-                )
-            }
-            is SignUpUiEvent.CompanyChanged -> {
-                _state = _state.copy(
-                    signUp = _state.signUp.copy(company = event.value)
-                )
-            }
+            is SignUpUiEvent.NameChanged -> updateSignUpState { copy(name = event.value) }
+            is SignUpUiEvent.PhoneChanged -> updateSignUpState { copy(phone = event.value) }
+            is SignUpUiEvent.PasswordChanged -> updateSignUpState { copy(password = event.value) }
+            is SignUpUiEvent.ConfirmPasswordChanged -> updateSignUpState { copy(confirmPassword = event.value) }
+            is SignUpUiEvent.CompanyChanged -> updateSignUpState { copy(company = event.value) }
             is SignUpUiEvent.SignUpClicked -> {
-                signUp(
-                    SignUpRequest(
-                        name = _state.signUp.name,
-                        phone = _state.signUp.phone,
-                        password = _state.signUp.password,
-                        company = _state.signUp.company
+                if (validateSignUp()) {
+                    signUp(
+                        SignUpRequest(
+                            name = _state.signUp.name,
+                            phone = _state.signUp.phone,
+                            password = _state.signUp.password,
+                            company = _state.signUp.company
+                        )
                     )
-                )
+                } else _pageState.errorMessage?.let { showToast(it) }
             }
         }
     }
+    private fun updateSignUpState(update: SignUpState.() -> SignUpState) {
+        _state = _state.copy(signUp = _state.signUp.update())
+    }
+
+
+    private fun validateSignIn(): Boolean {
+        val state = _state.signIn
+        return when {
+            state.phone.isBlank() -> setError(R.string.phone_hint)
+            state.password.isBlank() -> setError(R.string.enter_password)
+            state.password.length < 8 -> setError(R.string.password_error)
+            else -> true
+        }
+    }
+    private fun validateSignUp(): Boolean {
+        val state = _state.signUp
+        return when {
+            state.name.isBlank() -> setError(R.string.name_hint)
+            state.phone.isBlank() -> setError(R.string.phone_hint)
+            state.company.isBlank() -> setError(R.string.company_hint)
+            state.password.isBlank() -> setError(R.string.enter_password)
+            state.password.length < 8 -> setError(R.string.password_error)
+            state.password != state.confirmPassword -> setError(R.string.password_no_similar)
+            else -> true
+        }
+    }
+    private fun setError(@StringRes messageResId: Int): Boolean {
+        _pageState = _pageState.copy(errorMessage = messageResId)
+        return false
+    }
+
 
     private fun signIn(request: SignInRequest) {
         viewModelScope.launch {
-            showLoadingBar()
+            _pageState = _pageState.copy(isLoading = true)
             resultChannel.send(signInUseCase.invoke(request))
-            clearLoadingBar()
+            _pageState = _pageState.copy(isLoading = false)
         }
     }
 
     private fun signUp(request: SignUpRequest) {
         viewModelScope.launch {
-            showLoadingBar()
+            _pageState = _pageState.copy(isLoading = true)
             resultChannel.send(signUpUseCase.invoke(request))
-            clearLoadingBar()
+            _pageState = _pageState.copy(isLoading = false)
         }
     }
 
-    fun showErrorDialog(errorMessage: String) {
-        _pageState = _pageState.copy(
-            errorDialogMessage = errorMessage,
-            showErrorDialog = true
-        )
+
+    private fun showToast(@StringRes messageResId: Int) {
+        viewModelScope.launch {
+            toastManager.showToast(messageResId)
+        }
     }
 
-    fun clearErrorDialog() {
-        clearAll()
-        _pageState = _pageState.copy(
-            errorDialogMessage = "",
-            showErrorDialog = false
-        )
-    }
-
-    private fun showLoadingBar() {
-        _pageState = _pageState.copy(
-            isLoading = true
-        )
-    }
-
-    private fun clearLoadingBar() {
-        _pageState = _pageState.copy(
-            isLoading = false
-        )
+    fun showErrorToast(@StringRes messageResId: Int) {
+        viewModelScope.launch {
+            clearAll()
+            toastManager.showToast(messageResId)
+        }
     }
 
     fun clearAll() {
