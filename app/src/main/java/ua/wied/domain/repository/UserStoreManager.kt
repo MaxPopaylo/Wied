@@ -2,8 +2,9 @@ package ua.wied.domain.repository
 
 import ua.wied.domain.models.user.User
 
-interface UserStorage {
+interface UserStoreManager {
     suspend fun saveUser(user: User)
-    suspend fun getUser(): User
+    suspend fun getUser(): User?
+    suspend fun updateUserData(user: User)
     suspend fun clearUserData()
 }
