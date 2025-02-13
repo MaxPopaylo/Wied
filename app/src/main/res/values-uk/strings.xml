@@ -163,4 +163,6 @@
     <string name="all_practices">📁 Всі практики</string>
     <string name="error_clipboard">Не вдається скопіювати в буфер обміну</string>
     <string name="clipboard">Посилання скопійовано в буфер обміну</string>
+
+    <string name="forgot_password_answer">Забув пароль?</string>
 </resources>
