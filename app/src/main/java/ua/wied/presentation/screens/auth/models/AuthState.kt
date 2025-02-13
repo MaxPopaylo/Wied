@@ -9,7 +9,10 @@ data class AuthState(
 
 data class SignInState (
     val phone: String = "",
-    val password: String = ""
+    val password: String = "",
+
+    @StringRes val phoneError: Int? = null,
+    @StringRes val passwordError: Int? = null
 )
 
 data class SignUpState(
@@ -17,11 +20,16 @@ data class SignUpState(
     val phone: String = "",
     val company: String = "",
     val password: String = "",
-    val confirmPassword: String = ""
+    val confirmPassword: String = "",
+
+    @StringRes val nameError: Int? = null,
+    @StringRes val phoneError: Int? = null,
+    @StringRes val companyError: Int? = null,
+    @StringRes val passwordError: Int? = null,
+    @StringRes val confirmPasswordError: Int? = null
 )
 
 data class PageState(
-    val isLoading: Boolean = false,
-    @StringRes val errorMessage: Int? = null
+    val isLoading: Boolean = false
 )
 

@@ -14,8 +14,6 @@ import ua.wied.R
 import ua.wied.domain.models.auth.AuthResult
 import ua.wied.domain.models.auth.SignInRequest
 import ua.wied.domain.models.auth.SignUpRequest
-import ua.wied.domain.usecases.SignInUseCase
-import ua.wied.domain.usecases.SignUpUseCase
 import ua.wied.presentation.common.utils.ToastManager
 import ua.wied.presentation.screens.auth.models.AuthState
 import ua.wied.presentation.screens.auth.models.PageState
@@ -27,8 +25,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class AuthViewModel @Inject constructor(
-    private val signInUseCase: SignInUseCase,
-    private val signUpUseCase: SignUpUseCase
+//    private val signInUseCase: SignInUseCase,
+//    private val signUpUseCase: SignUpUseCase
 ) : ViewModel() {
     private var _state by mutableStateOf(AuthState())
     val state: AuthState get() = _state
@@ -54,7 +52,7 @@ class AuthViewModel @Inject constructor(
                             password = _state.signIn.password
                         )
                     )
-                } else _pageState.errorMessage?.let { showToast(it) }
+                }
             }
         }
     }
@@ -79,7 +77,7 @@ class AuthViewModel @Inject constructor(
                             company = _state.signUp.company
                         )
                     )
-                } else _pageState.errorMessage?.let { showToast(it) }
+                }
             }
         }
     }
@@ -89,36 +87,49 @@ class AuthViewModel @Inject constructor(
 
 
     private fun validateSignIn(): Boolean {
-        val state = _state.signIn
-        return when {
-            state.phone.isBlank() -> setError(R.string.phone_hint)
-            state.password.isBlank() -> setError(R.string.enter_password)
-            state.password.length < 8 -> setError(R.string.password_error)
-            else -> true
+        with(_state.signIn) {
+            updateSignInState {
+                copy(
+                    phoneError = if (phone.isBlank()) R.string.phone_hint else null,
+                    passwordError = when {
+                        password.isBlank() -> R.string.enter_password
+                        password.length < 8 -> R.string.password_error
+                        else -> null
+                    }
+                )
+            }
         }
+        return _state.signIn.run { phoneError == null && passwordError == null }
     }
     private fun validateSignUp(): Boolean {
-        val state = _state.signUp
-        return when {
-            state.name.isBlank() -> setError(R.string.name_hint)
-            state.phone.isBlank() -> setError(R.string.phone_hint)
-            state.company.isBlank() -> setError(R.string.company_hint)
-            state.password.isBlank() -> setError(R.string.enter_password)
-            state.password.length < 8 -> setError(R.string.password_error)
-            state.password != state.confirmPassword -> setError(R.string.password_no_similar)
-            else -> true
+        with(_state.signUp) {
+            updateSignUpState {
+                copy(
+                    nameError = if (name.isBlank()) R.string.name_hint else null,
+                    companyError = if (company.isBlank()) R.string.company_hint else null,
+                    phoneError = if (phone.isBlank()) R.string.phone_hint else null,
+                    passwordError = when {
+                        password.isBlank() -> R.string.enter_password
+                        password.length < 8 -> R.string.password_error
+                        else -> null
+                    },
+                    confirmPasswordError = if (password != confirmPassword) R.string.password_no_similar else null
+                )
+            }
+        }
+        return _state.signUp.run {
+            nameError == null &&
+                    companyError == null &&
+                    phoneError == null &&
+                    passwordError == null &&
+                    confirmPasswordError == null
         }
     }
-    private fun setError(@StringRes messageResId: Int): Boolean {
-        _pageState = _pageState.copy(errorMessage = messageResId)
-        return false
-    }
-
 
     private fun signIn(request: SignInRequest) {
         viewModelScope.launch {
             _pageState = _pageState.copy(isLoading = true)
-            resultChannel.send(signInUseCase.invoke(request))
+//            resultChannel.send(signInUseCase.invoke(request))
             _pageState = _pageState.copy(isLoading = false)
         }
     }
@@ -126,7 +137,7 @@ class AuthViewModel @Inject constructor(
     private fun signUp(request: SignUpRequest) {
         viewModelScope.launch {
             _pageState = _pageState.copy(isLoading = true)
-            resultChannel.send(signUpUseCase.invoke(request))
+//            resultChannel.send(signUpUseCase.invoke(request))
             _pageState = _pageState.copy(isLoading = false)
         }
     }
