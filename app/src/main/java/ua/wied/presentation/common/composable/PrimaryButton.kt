@@ -26,11 +26,11 @@ fun PrimaryButton(
             containerColor = colors.tintColor
         ),
         shape = RoundedCornerShape(24.dp),
-        contentPadding = PaddingValues(horizontal = 24.dp, vertical = 14.dp)
+        contentPadding = PaddingValues(horizontal = 10.dp, vertical = 10.dp)
     ) {
         Text(
             text = title,
-            style = typography.w700.copy(
+            style = typography.w400.copy(
                 color = colors.tertiaryText,
                 fontSize = 16.sp
             )

@@ -28,12 +28,12 @@ fun SecondaryButton(
             containerColor = Color.Transparent
         ),
         shape = RoundedCornerShape(24.dp),
-        contentPadding = PaddingValues(horizontal = 24.dp, vertical = 14.dp),
+        contentPadding = PaddingValues(horizontal = 10.dp, vertical = 10.dp),
         border = BorderStroke(1.dp, colors.tintColor)
     ) {
         Text(
             text = title,
-            style = typography.w500.copy(
+            style = typography.w400.copy(
                 color = colors.tintColor,
                 fontSize = 16.sp
             )

@@ -1,6 +1,6 @@
 package ua.wied.presentation.screens.auth
 
-import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -19,6 +19,7 @@ fun AuthScreen(
     viewModel: AuthViewModel = hiltViewModel()
 ) {
     val context = LocalContext.current
+
     LaunchedEffect(Unit) {
         viewModel.toastManager.processToastMessages(context)
     }
@@ -38,9 +39,10 @@ fun AuthScreen(
         }
     }
 
-    Column(modifier = Modifier.fillMaxSize()) {
+    Box(modifier = Modifier.fillMaxSize()) {
         AuthNavGraph(authViewModel = viewModel)
     }
+
 
     if (viewModel.pageState.isLoading) {
         LoadingIndicator()
