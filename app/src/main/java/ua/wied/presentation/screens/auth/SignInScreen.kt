@@ -40,6 +40,8 @@ fun SignInScreen(
     val keyboardController = LocalSoftwareKeyboardController.current
     val state = authViewModel.state.signIn
 
+    val enableButton = state.phone.isNotEmpty() && state.password.isNotEmpty()
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -120,6 +122,7 @@ fun SignInScreen(
             ) {
                 PrimaryButton (
                     title = stringResource(R.string.login),
+                    isEnabled = enableButton,
                     onClick = {
                         keyboardController?.hide()
                         authViewModel.onEvent(SignInUiEvent.SignInClicked)

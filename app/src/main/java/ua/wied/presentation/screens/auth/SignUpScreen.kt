@@ -48,6 +48,9 @@ fun SignUpScreen(
     val state = authViewModel.state.signUp
     val isImeVisible by rememberImeState()
 
+    val enableButton = state.phone.isNotEmpty() && state.password.isNotEmpty() &&
+                        state.company.isNotEmpty() && state.confirmPassword.isNotEmpty()
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -135,9 +138,10 @@ fun SignUpScreen(
                     text = state.phone,
                     errorMessage = state.phoneError?.let { stringResource(it) },
                     onValueChange = {
-                        authViewModel.onEvent(SignInUiEvent.PhoneChanged(it))
+                        authViewModel.onEvent(SignUpUiEvent.PhoneChanged(it))
                     }
                 )
+
 
                 PasswordTextField(
                     title = stringResource(R.string.password),
@@ -165,6 +169,7 @@ fun SignUpScreen(
             ) {
                 PrimaryButton (
                     title = stringResource(R.string.create_account),
+                    isEnabled = enableButton,
                     onClick = {
                         keyboardController?.hide()
                         authViewModel.onEvent(SignUpUiEvent.SignUpClicked)

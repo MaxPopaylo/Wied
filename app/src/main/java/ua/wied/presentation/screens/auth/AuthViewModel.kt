@@ -95,7 +95,6 @@ class AuthViewModel @Inject constructor(
                     phoneError = if (phone.isBlank()) R.string.phone_hint else null,
                     passwordError = when {
                         password.isBlank() -> R.string.enter_password
-                        password.length < 8 -> R.string.password_error
                         else -> null
                     }
                 )

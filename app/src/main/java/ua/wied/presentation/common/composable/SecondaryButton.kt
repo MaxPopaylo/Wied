@@ -29,7 +29,7 @@ fun SecondaryButton(
         ),
         shape = RoundedCornerShape(24.dp),
         contentPadding = PaddingValues(horizontal = 10.dp, vertical = 10.dp),
-        border = BorderStroke(1.dp, colors.tintColor)
+        border = BorderStroke(1.25.dp, colors.tintColor)
     ) {
         Text(
             text = title,
