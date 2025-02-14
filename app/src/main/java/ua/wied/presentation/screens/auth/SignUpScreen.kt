@@ -1,21 +1,24 @@
 package ua.wied.presentation.screens.auth
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material3.CenterAlignedTopAppBar
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -25,128 +28,134 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import ua.wied.R
-import ua.wied.presentation.common.composable.AuthTextField
+import ua.wied.presentation.common.composable.BaseTextField
+import ua.wied.presentation.common.composable.PasswordTextField
+import ua.wied.presentation.common.composable.PhoneTextField
 import ua.wied.presentation.common.composable.PrimaryButton
+import ua.wied.presentation.common.composable.SecondaryButton
+import ua.wied.presentation.common.composable.rememberImeState
 import ua.wied.presentation.common.theme.WiEDTheme.colors
 import ua.wied.presentation.common.theme.WiEDTheme.typography
 import ua.wied.presentation.screens.auth.models.SignInUiEvent
 import ua.wied.presentation.screens.auth.models.SignUpUiEvent
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SignUpScreen(
     authViewModel: AuthViewModel,
-    navController: NavHostController
+    navController: NavHostController,
 ) {
     val keyboardController = LocalSoftwareKeyboardController.current
     val state = authViewModel.state.signUp
+    val isImeVisible by rememberImeState()
 
-    Scaffold(
-        topBar = {
-            CenterAlignedTopAppBar(
-                colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
-                    containerColor = colors.primaryBackground,
-                    titleContentColor = colors.primaryText,
-                ),
-                title = {
+    val enableButton = state.phone.isNotEmpty() && state.password.isNotEmpty() &&
+                        state.company.isNotEmpty() && state.confirmPassword.isNotEmpty()
+
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(colors.primaryBackground),
+        verticalArrangement = Arrangement.spacedBy(12.dp)
+    ) {
+
+        AnimatedVisibility(!isImeVisible) {
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .wrapContentHeight()
+                    .background(
+                        colors.secondaryBackground,
+                        RoundedCornerShape(12.dp)
+                    )
+                    .padding(16.dp)
+                    .padding(top = 12.dp),
+                contentAlignment = Alignment.Center
+            ) {
+                Column(
+                    verticalArrangement = Arrangement.spacedBy(16.dp)
+                ) {
+                    Image(
+                        modifier = Modifier
+                            .fillMaxWidth(0.5f)
+                            .wrapContentHeight(),
+                        painter = painterResource(R.drawable.icon_big),
+                        contentScale = ContentScale.Crop,
+                        contentDescription = stringResource(R.string.logo)
+                    )
                     Text(
-                        text = stringResource(R.string.signup),
+                        text = stringResource(R.string.welcome),
                         color = colors.primaryText,
-                        style = typography.w700.copy(
-                            fontSize = 16.sp
+                        style = typography.w400.copy(
+                            fontSize = 15.sp
                         )
                     )
-                },
-                navigationIcon = {
-                    IconButton(
-                        onClick = {
-                            authViewModel.clearAll()
-                            navController.popBackStack()
-                        }
-                    ) {
-                        Icon(
-                            painter = painterResource(R.drawable.icon_arrow_back),
-                            contentDescription = null,
-                            tint = colors.primaryText
-                        )
-                    }
                 }
-            )
+            }
+
         }
-    ) { innerPadding ->
-        Column(
+
+        Column (
             modifier = Modifier
                 .fillMaxSize()
-                .background(colors.primaryBackground)
-                .padding(innerPadding)
-                .padding(16.dp),
-            verticalArrangement = Arrangement.spacedBy(32.dp)
+                .background(
+                    colors.secondaryBackground,
+                    RoundedCornerShape(12.dp)
+                )
+                .padding(horizontal = 16.dp, vertical = 24.dp),
+            verticalArrangement = Arrangement.spacedBy(24.dp)
         ) {
             Column(
                 verticalArrangement = Arrangement.spacedBy(14.dp)
             ) {
-                AuthTextField(
+                BaseTextField(
                     title = stringResource(R.string.name),
                     text = state.name,
-                    description = stringResource(R.string.name_hint),
                     keyboardOptions = KeyboardOptions(
                         keyboardType = KeyboardType.Text,
                         imeAction = ImeAction.Done
                     ),
+                    errorMessage = state.nameError?.let { stringResource(it) },
                     onValueChange = {
                         authViewModel.onEvent(SignUpUiEvent.NameChanged(it))
                     }
                 )
 
-                AuthTextField(
+                BaseTextField(
                     title = stringResource(R.string.company),
                     text = state.company,
-                    description = stringResource(R.string.company_hint),
                     keyboardOptions = KeyboardOptions(
                         keyboardType = KeyboardType.Text,
                         imeAction = ImeAction.Done
                     ),
+                    errorMessage = state.companyError?.let { stringResource(it) },
                     onValueChange = {
                         authViewModel.onEvent(SignUpUiEvent.CompanyChanged(it))
                     }
                 )
 
-                AuthTextField(
+                PhoneTextField (
                     title = stringResource(R.string.phone),
                     text = state.phone,
-                    description = stringResource(R.string.phone_hint),
-                    keyboardOptions = KeyboardOptions(
-                        keyboardType = KeyboardType.Number,
-                        imeAction = ImeAction.Done
-                    ),
+                    errorMessage = state.phoneError?.let { stringResource(it) },
                     onValueChange = {
-                        authViewModel.onEvent(SignInUiEvent.PhoneChanged(it))
+                        authViewModel.onEvent(SignUpUiEvent.PhoneChanged(it))
                     }
                 )
 
-                AuthTextField(
+
+                PasswordTextField(
                     title = stringResource(R.string.password),
                     text = state.password,
-                    description = stringResource(R.string.enter_password),
-                    isPassword = true,
-                    keyboardOptions = KeyboardOptions(
-                        keyboardType = KeyboardType.Text,
-                        imeAction = ImeAction.Done
-                    ),
+                    errorMessage = state.passwordError?.let { stringResource(it) },
                     onValueChange = {
                         authViewModel.onEvent(SignUpUiEvent.PasswordChanged(it))
                     }
                 )
 
-                AuthTextField(
+                PasswordTextField(
                     title = stringResource(R.string.confirm_password),
                     text = state.confirmPassword,
-                    description = stringResource(R.string.password_again),
-                    isPassword = true,
-                    keyboardOptions = KeyboardOptions(
-                        keyboardType = KeyboardType.Text,
-                        imeAction = ImeAction.Done
-                    ),
+                    errorMessage = state.confirmPasswordError?.let { stringResource(it) },
                     onValueChange = {
                         authViewModel.onEvent(SignUpUiEvent.ConfirmPasswordChanged(it))
                     }
@@ -156,17 +165,26 @@ fun SignUpScreen(
             Spacer(modifier = Modifier.weight(1f))
 
             Column(
-                verticalArrangement = Arrangement.spacedBy(14.dp)
+                verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
                 PrimaryButton (
                     title = stringResource(R.string.create_account),
+                    isEnabled = enableButton,
                     onClick = {
                         keyboardController?.hide()
                         authViewModel.onEvent(SignUpUiEvent.SignUpClicked)
                     }
                 )
-            }
 
+                SecondaryButton (
+                    title = stringResource(R.string.login),
+                    onClick = {
+                        keyboardController?.hide()
+                        authViewModel.clearAll()
+                        navController.popBackStack()
+                    }
+                )
+            }
         }
     }
 }
