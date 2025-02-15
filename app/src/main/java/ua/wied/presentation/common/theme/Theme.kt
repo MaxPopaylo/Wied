@@ -19,7 +19,7 @@ fun WiEDTheme(
     }
 
     val baseTextStyle = TextStyle(
-        fontFamily = WiEDFonts.poppinsFamily,
+        fontFamily = WiEDFonts.robotoFamily,
         letterSpacing = 0.5.sp
     )
     val typography = WiEDTypography(

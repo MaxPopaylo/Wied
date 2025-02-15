@@ -28,13 +28,9 @@ data class WiEDTypography(
 )
 
 object WiEDFonts {
-    val poppinsFamily: FontFamily by lazy {
+    val robotoFamily: FontFamily by lazy {
         FontFamily(
-            Font(R.font.font_poppins_light, FontWeight.W300),
-            Font(R.font.font_poppins_regular, FontWeight.W400),
-            Font(R.font.font_poppins_medium, FontWeight.W500),
-            Font(R.font.font_poppins_semibold, FontWeight.W600),
-            Font(R.font.font_poppins_bold, FontWeight.W700)
+            Font(R.font.font_roboto)
         )
     }
 }
