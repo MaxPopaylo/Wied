@@ -8,6 +8,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import ua.wied.presentation.screens.auth.AuthScreen
+import ua.wied.presentation.screens.main.MainScreen
 
 
 @Composable
@@ -53,7 +54,7 @@ fun GlobalNavGraph(
                 slideOutHorizontally(targetOffsetX = { it }, animationSpec = tween(500))
             }
         ) {
-
+            MainScreen()
         }
 
     }

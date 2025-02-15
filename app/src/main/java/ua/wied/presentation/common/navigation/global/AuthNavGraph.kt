@@ -1,4 +1,4 @@
-package ua.wied.presentation.common.navigation
+package ua.wied.presentation.common.navigation.global
 
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.slideInHorizontally
@@ -8,6 +8,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import ua.wied.presentation.common.navigation.AuthNav
 import ua.wied.presentation.screens.auth.AuthViewModel
 import ua.wied.presentation.screens.auth.SignInScreen
 import ua.wied.presentation.screens.auth.SignUpScreen

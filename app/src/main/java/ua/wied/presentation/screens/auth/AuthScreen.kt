@@ -10,7 +10,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import ua.wied.domain.models.auth.AuthResult
 import ua.wied.presentation.common.composable.LoadingIndicator
-import ua.wied.presentation.common.navigation.AuthNavGraph
+import ua.wied.presentation.common.navigation.global.AuthNavGraph
 import ua.wied.presentation.common.navigation.Global
 
 @Composable
