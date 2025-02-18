@@ -47,6 +47,15 @@ android {
 }
 
 dependencies {
+    // MARK: - Coil
+    implementation(libs.coil.compose)
+
+    // MARK: - Networking
+    implementation(libs.bundles.moshi)
+    implementation(libs.bundles.retrofit)
+    implementation(platform(libs.okhttp.bom))
+    implementation(libs.bundles.okhttp)
+
     // MARK: - DataStore
     implementation(libs.datastore.preferences)
 
