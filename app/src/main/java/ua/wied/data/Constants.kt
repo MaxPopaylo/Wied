@@ -13,3 +13,9 @@ object UserPreferencesConstants {
 
     val ACCESS_JWT_KEY = stringPreferencesKey("access_jwt")
 }
+
+internal object NetworkKeys {
+    const val BASE_URL = "http://10.0.2.2:5000/"
+    const val HEADER_AUTHORIZATION = "Authorization"
+    const val TOKEN_TYPE = "Bearer"
+}
