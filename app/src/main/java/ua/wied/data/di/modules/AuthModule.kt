@@ -3,12 +3,20 @@ package ua.wied.data.di.modules
 import android.content.Context
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
+import com.skydoves.sandwich.retrofit.adapters.ApiResponseCallAdapterFactory
+import com.squareup.moshi.Moshi
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import okhttp3.OkHttpClient
+import retrofit2.Retrofit
+import retrofit2.converter.moshi.MoshiConverterFactory
+import ua.wied.data.NetworkKeys.BASE_URL
 import ua.wied.data.UserPreferencesConstants.JWT_TOKEN_PREFERENCES
+import ua.wied.data.datasource.network.api.AuthApi
+import ua.wied.data.di.AuthClient
 import ua.wied.data.di.JwtTokenPreference
 import ua.wied.data.di.NetworkModule
 import ua.wied.data.di.StorageModule
@@ -54,8 +62,29 @@ class AuthModule {
 
     @Provides
     @Singleton
-    fun provideAuthRepository(saveUserUseCase: SaveUserUseCase, clearUserDataUseCase: ClearUserDataUseCase): AuthRepository {
-        return AuthRepositoryImpl(saveUserUseCase, clearUserDataUseCase)
+    fun provideAuthRepository(
+        saveUserUseCase: SaveUserUseCase,
+        clearUserDataUseCase: ClearUserDataUseCase,
+        saveAccessJwtUseCase: SaveAccessJwtUseCase,
+        clearAllTokensUseCase: ClearAllTokensUseCase,
+        authApi: AuthApi
+    ): AuthRepository {
+        return AuthRepositoryImpl(saveUserUseCase, saveAccessJwtUseCase, clearUserDataUseCase, clearAllTokensUseCase, authApi)
+    }
+
+    @Provides
+    @Singleton
+    fun provideAuthApi(
+        @AuthClient okHttpClient: OkHttpClient,
+        moshi: Moshi
+    ): AuthApi {
+        return Retrofit.Builder()
+            .baseUrl(BASE_URL)
+            .addConverterFactory(MoshiConverterFactory.create(moshi))
+            .addCallAdapterFactory(ApiResponseCallAdapterFactory.create())
+            .client(okHttpClient)
+            .build()
+            .create(AuthApi::class.java)
     }
 
 

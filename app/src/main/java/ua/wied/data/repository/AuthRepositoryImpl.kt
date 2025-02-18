@@ -25,7 +25,6 @@ class AuthRepositoryImpl @Inject constructor(
     private val saveJwtUseCase: SaveAccessJwtUseCase,
     private val clearUserDataUseCase: ClearUserDataUseCase,
     private val clearAllTokensUseCase: ClearAllTokensUseCase,
-    private val context: Context,
     private val api: AuthApi
 ): AuthRepository {
     override suspend fun signIn(request: SignInRequest): AuthResult {
