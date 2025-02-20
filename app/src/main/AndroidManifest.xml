@@ -25,6 +25,7 @@
         <activity
             android:name=".presentation.screens.splash.SplashActivity"
             android:exported="true"
+            android:windowSoftInputMode="stateHidden"
             android:theme="@style/Theme.App.Starting">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
