@@ -3,6 +3,7 @@ package ua.wied.presentation.common.composable
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -23,17 +24,17 @@ fun SecondaryButton(
 ) {
     Button(
         onClick = onClick,
-        modifier = modifier.fillMaxWidth(),
+        modifier = modifier.fillMaxWidth().height(42.dp),
         colors = ButtonDefaults.buttonColors(
             containerColor = Color.Transparent
         ),
-        shape = RoundedCornerShape(24.dp),
+        shape = RoundedCornerShape(4.dp),
         contentPadding = PaddingValues(horizontal = 10.dp, vertical = 10.dp),
         border = BorderStroke(1.25.dp, colors.tintColor)
     ) {
         Text(
             text = title,
-            style = typography.w400.copy(
+            style = typography.w700.copy(
                 color = colors.tintColor,
                 fontSize = 16.sp
             )
