@@ -44,13 +44,13 @@ class AuthViewModel @Inject constructor(
 
     fun onEvent(event: SignInUiEvent) {
         when(event) {
-            is SignInUiEvent.PhoneChanged -> updateSignInState { copy(phone = event.value) }
+            is SignInUiEvent.LoginChanged -> updateSignInState { copy(login = event.value) }
             is SignInUiEvent.PasswordChanged -> updateSignInState { copy(password = event.value) }
             is SignInUiEvent.SignInClicked -> {
                 if (validateSignIn()) {
                     signIn(
                         SignInRequest(
-                            phone = _state.signIn.phone,
+                            login = _state.signIn.login,
                             password = _state.signIn.password
                         )
                     )
@@ -92,7 +92,7 @@ class AuthViewModel @Inject constructor(
         with(_state.signIn) {
             updateSignInState {
                 copy(
-                    phoneError = if (phone.isBlank()) R.string.phone_hint else null,
+                    loginError = if (login.isBlank()) R.string.enter_login else null,
                     passwordError = when {
                         password.isBlank() -> R.string.enter_password
                         else -> null
@@ -100,7 +100,7 @@ class AuthViewModel @Inject constructor(
                 )
             }
         }
-        return _state.signIn.run { phoneError == null && passwordError == null }
+        return _state.signIn.run { loginError == null && passwordError == null }
     }
     private fun validateSignUp(): Boolean {
         with(_state.signUp) {

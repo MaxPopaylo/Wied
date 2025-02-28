@@ -1,7 +1,7 @@
 package ua.wied.presentation.screens.auth.models
 
 sealed class SignInUiEvent {
-    data class PhoneChanged(val value: String): SignInUiEvent()
+    data class LoginChanged(val value: String): SignInUiEvent()
     data class PasswordChanged(val value: String): SignInUiEvent()
     data object SignInClicked : SignInUiEvent()
 }

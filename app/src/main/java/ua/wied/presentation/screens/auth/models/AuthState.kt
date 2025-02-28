@@ -8,10 +8,10 @@ data class AuthState(
 )
 
 data class SignInState (
-    val phone: String = "",
+    val login: String = "",
     val password: String = "",
 
-    @StringRes val phoneError: Int? = null,
+    @StringRes val loginError: Int? = null,
     @StringRes val passwordError: Int? = null
 )
 
