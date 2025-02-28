@@ -4,7 +4,9 @@
     <string name="enter_phone" translatable="false">+1 212 555 0123</string>
     <string name="password">Password</string>
     <string name="enter_password">Enter password</string>
-    <string name="login">Login in</string>
+    <string name="enter_login">Enter login</string>
+    <string name="login">Login</string>
+    <string name="signin">Sign in</string>
     <string name="signup">Sign up</string>
     <string name="welcome">Create clear video instructions for your employees in 3 minutes for free!</string>
     <string name="login_in_first">Login in first</string>
@@ -166,6 +168,5 @@
     <string name="all_practices">📁 All practices</string>
     <string name="error_clipboard">Can\'t copy to clipboard</string>
     <string name="clipboard">Link copied to clipboard</string>
-
     <string name="forgot_password_answer">Forgot Password?</string>
 </resources>

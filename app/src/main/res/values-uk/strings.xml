@@ -3,7 +3,9 @@
     <string name="phone">Телефон</string>
     <string name="password">Пароль</string>
     <string name="enter_password">Введіть пароль</string>
-    <string name="login">Увійти</string>
+    <string name="enter_login">Введіть логін</string>
+    <string name="login">Логін</string>
+    <string name="signin">Увійти</string>
     <string name="signup">Зареєструватися</string>
     <string name="welcome">Створюйте зрозумілі відеоінструкції для ваших працівників за 3 хвилини безплатно!</string>
     <string name="login_in_first">Для початку увійдіть у систему</string>
