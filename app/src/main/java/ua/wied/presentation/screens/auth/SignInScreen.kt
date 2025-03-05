@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
@@ -87,6 +88,32 @@ fun SignInScreen(
             }
         }
 
+        Row(
+            modifier = modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp)
+        ) {
+            PrimaryButton (
+                modifier = Modifier.weight(1f),
+                title = stringResource(R.string.signin),
+                onClick = {
+                    keyboardController?.hide()
+                }
+            )
+
+            Spacer(modifier = Modifier.width(10.dp))
+
+            SecondaryButton (
+                modifier = Modifier.weight(1f),
+                title = stringResource(R.string.signup),
+                onClick = {
+                    keyboardController?.hide()
+                    authViewModel.clearAll()
+                    navController.navigate(AuthNav.SignUp.route)
+                }
+            )
+        }
+
         Column (
             modifier = modifier
                 .fillMaxWidth()
@@ -94,60 +121,37 @@ fun SignInScreen(
                 .background(
                     colors.secondaryBackground
                 )
-                .padding(horizontal = 16.dp, vertical = 24.dp),
-            verticalArrangement = Arrangement.spacedBy(32.dp)
+                .padding(horizontal = 16.dp, vertical = 32.dp)
         ) {
-            Column(
-                verticalArrangement = Arrangement.spacedBy(16.dp)
-            ) {
-                Row {
-                    PrimaryButton (
-                        modifier = Modifier.weight(1f),
-                        title = stringResource(R.string.signin),
-                        onClick = {
-                            keyboardController?.hide()
-                        }
-                    )
-
-                    Spacer(modifier = Modifier.width(10.dp))
-
-                    SecondaryButton (
-                        modifier = Modifier.weight(1f),
-                        title = stringResource(R.string.signup),
-                        onClick = {
-                            keyboardController?.hide()
-                            authViewModel.clearAll()
-                            navController.navigate(AuthNav.SignUp.route)
-                        }
-                    )
+            BaseTextField(
+                title = stringResource(R.string.login),
+                text = state.login,
+                fieldColor = colors.primaryBackground,
+                errorMessage = state.loginError?.let { stringResource(it) },
+                keyboardOptions = KeyboardOptions(
+                    keyboardType = KeyboardType.Text,
+                    imeAction = ImeAction.Done
+                ),
+                onValueChange = {
+                    authViewModel.onEvent(SignInUiEvent.LoginChanged(it))
                 }
+            )
 
-                BaseTextField(
-                    title = stringResource(R.string.login),
-                    text = state.login,
-                    fieldColor = colors.primaryBackground,
-                    errorMessage = state.loginError?.let { stringResource(it) },
-                    keyboardOptions = KeyboardOptions(
-                        keyboardType = KeyboardType.Text,
-                        imeAction = ImeAction.Done
-                    ),
-                    onValueChange = {
-                        authViewModel.onEvent(SignInUiEvent.LoginChanged(it))
-                    }
-                )
+            Spacer(modifier = Modifier.height(16.dp))
 
-                PasswordTextField (
-                    title = stringResource(R.string.password),
-                    text = state.password,
-                    fieldColor = colors.primaryBackground,
-                    textButton = stringResource(R.string.forgot_password_answer),
-                    errorMessage = state.passwordError?.let { stringResource(it) },
-                    onTextButtonClick = {},
-                    onValueChange = {
-                        authViewModel.onEvent(SignInUiEvent.PasswordChanged(it))
-                    }
-                )
-            }
+            PasswordTextField (
+                title = stringResource(R.string.password),
+                text = state.password,
+                fieldColor = colors.primaryBackground,
+                textButton = stringResource(R.string.forgot_password_answer),
+                errorMessage = state.passwordError?.let { stringResource(it) },
+                onTextButtonClick = {},
+                onValueChange = {
+                    authViewModel.onEvent(SignInUiEvent.PasswordChanged(it))
+                }
+            )
+
+            Spacer(modifier = Modifier.height(32.dp))
 
             PrimaryButton (
                 title = stringResource(R.string.signin),
