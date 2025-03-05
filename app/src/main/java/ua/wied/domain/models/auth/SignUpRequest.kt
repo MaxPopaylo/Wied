@@ -1,8 +1,10 @@
 package ua.wied.domain.models.auth
 
 data class SignUpRequest(
+    val login: String,
     val name: String,
     val phone: String,
-    val password: String,
-    val company: String
+    val email: String,
+    val company: String,
+    val password: String
 )

@@ -74,14 +74,18 @@ class AuthViewModel @Inject constructor(
             is SignUpUiEvent.ConfirmPasswordChanged -> updateSignUpState { copy(confirmPassword = event.value) }
             is SignUpUiEvent.SignUpClicked -> {
                 if (validateSignUp()) {
-                    signUp(
-                        SignUpRequest(
-                            name = _state.signUp.name,
-                            phone = _state.signUp.phone,
-                            password = _state.signUp.password,
-                            company = _state.signUp.company
+                    with(_state.signUp) {
+                        signUp(
+                            SignUpRequest(
+                                login = login,
+                                name = name,
+                                phone = phone,
+                                email = email,
+                                company = company,
+                                password = password
+                            )
                         )
-                    )
+                    }
                 }
             }
         }
