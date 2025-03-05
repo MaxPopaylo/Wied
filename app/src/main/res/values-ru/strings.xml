@@ -35,6 +35,7 @@
     <string name="validation_empty_field">Это поле обязательно</string>
     <string name="validation_login_field">Логин должен содержать не менее 5 символов</string>
     <string name="validation_password_field">Пароль должен содержать не менее 8 символов</string>
+    <string name="validation_password_confirm_field">Пароли не совпадают.</string>
     <string name="validation_email_field">Неверный формат электронного адреса</string>
     <string name="validation_phone_field">Неверный формат номера телефона</string>
     <string name="validation_uniq_login">Этот логин уже занят</string>

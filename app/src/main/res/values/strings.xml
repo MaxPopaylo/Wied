@@ -36,6 +36,7 @@
     <string name="validation_empty_field">This field is required</string>
     <string name="validation_login_field">Login must contain at least 5 characters</string>
     <string name="validation_password_field">Password must contain at least 8 characters</string>
+    <string name="validation_password_confirm_field">Passwords do not match.</string>
     <string name="validation_email_field">Invalid email format</string>
     <string name="validation_phone_field">Invalid phone number format</string>
     <string name="validation_uniq_login">This login is already taken</string>
