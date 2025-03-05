@@ -20,7 +20,7 @@ class ValidateEmptyUseCase @Inject constructor(
 
         else -> {
             ValidationResult(
-                isSuccessful = false,
+                isSuccessful = true,
                 errorMessage = null
             )
         }

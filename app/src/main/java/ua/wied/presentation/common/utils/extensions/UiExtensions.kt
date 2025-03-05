@@ -1,4 +1,4 @@
-package ua.wied.presentation.common.utils
+package ua.wied.presentation.common.utils.extensions
 
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.consumeWindowInsets

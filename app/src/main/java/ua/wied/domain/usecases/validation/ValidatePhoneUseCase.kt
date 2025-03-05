@@ -12,6 +12,7 @@ class ValidatePhoneUseCase @Inject constructor(
 ) : Validation {
 
     override operator fun invoke(text: String): ValidationResult = when {
+
         text.isEmpty() -> {
             ValidationResult(
                 isSuccessful = false,
@@ -19,7 +20,7 @@ class ValidatePhoneUseCase @Inject constructor(
             )
         }
 
-        text.length < 8 -> {
+        text.any { !it.isDigit() } || text.length < 7 || text.length > 15  -> {
             ValidationResult(
                 isSuccessful = false,
                 errorMessage = context.getString(R.string.validation_phone_field)

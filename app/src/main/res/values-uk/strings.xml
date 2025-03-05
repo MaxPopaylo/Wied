@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-<!--    App-->
+    <!--    App-->
     <string name="welcome">Створюйте зрозумілі відео-інструкції для ваших працівників за 3 хвилини безплатно!</string>
 
-<!--    Errors-->
+    <!--    Errors-->
     <string name="error">Щось пішло не так, перепрошуємо</string>
 
-<!--    Yes/No-->
+    <!--    Yes/No-->
     <string name="yes">Так</string>
     <string name="no">Ні</string>
 
-<!--    Auth Screen Fields-->
+    <!--    Auth Screen Fields-->
     <string name="logo">Логотип</string>
     <string name="registration">Реєстрація</string>
     <string name="create_account">Створити акаунт</string>
@@ -31,7 +31,7 @@
     <string name="email">Email</string>
     <string name="email_hint">Ваш Email</string>
 
-<!--    Validation -->
+    <!--    Validation -->
     <string name="validation_signin">Невірний пароль чи логін</string>
     <string name="validation_empty_field">Це поле є обов\'язковим</string>
     <string name="validation_login_field">Логін повинен містити не менше 5 символів</string>
@@ -43,4 +43,6 @@
     <string name="validation_uniq_phone">Цей номер вже зайнятий</string>
     <string name="validation_uniq_email">Цей email вже зайнятий</string>
 
+    <!-- Instructions Screen -->
+    <string name="instructions">Інструкції</string>
 </resources>

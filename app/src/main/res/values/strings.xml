@@ -43,5 +43,8 @@
     <string name="validation_uniq_login">This login is already taken</string>
     <string name="validation_uniq_phone">This phone number is already taken</string>
     <string name="validation_uniq_email">This email is already taken</string>
+
+    <!-- Instructions Screen -->
+    <string name="instructions">Instructions</string>
 </resources>
 
