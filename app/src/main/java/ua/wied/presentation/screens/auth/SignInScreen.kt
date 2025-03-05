@@ -47,7 +47,7 @@ fun SignInScreen(
     val keyboardController = LocalSoftwareKeyboardController.current
     val state = authViewModel.state.signIn
 
-    val enableButton = state.login.isNotEmpty() && state.password.isNotEmpty()
+    val enableButton = authViewModel.isFieldsEmpty(state.login, state.password)
 
     Column(
         modifier = Modifier

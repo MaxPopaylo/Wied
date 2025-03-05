@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
@@ -50,8 +51,7 @@ fun SignUpScreen(
     val state = authViewModel.state.signUp
     val scrollState = rememberScrollState()
 
-    val enableButton = state.phone.isNotEmpty() && state.password.isNotEmpty() &&
-                        state.company.isNotEmpty() && state.confirmPassword.isNotEmpty()
+    val enableButton = with(state) {authViewModel.isFieldsEmpty(login, name, phone, email, company, password, confirmPassword)}
 
     Column(
         modifier = Modifier
@@ -95,120 +95,118 @@ fun SignUpScreen(
         Column (
             modifier = Modifier
                 .fillMaxWidth()
-                .wrapContentHeight()
                 .positionAwareImePadding()
-                .padding(horizontal = 16.dp, vertical = 24.dp),
-            verticalArrangement = Arrangement.spacedBy(32.dp)
+                .padding(horizontal = 16.dp, vertical = 24.dp)
         ) {
+            Row {
+                SecondaryButton (
+                    modifier = Modifier.fillMaxWidth().weight(1f),
+                    title = stringResource(R.string.signin),
+                    onClick = {
+                        keyboardController?.hide()
+                        authViewModel.clearAll()
+                        navController.navigate(AuthNav.SignIn.route)
+                    }
+                )
+
+                Spacer(modifier = Modifier.width(10.dp))
+
+                PrimaryButton (
+                    modifier = Modifier.fillMaxWidth().weight(1f),
+                    title = stringResource(R.string.signup),
+                    onClick = {
+                        keyboardController?.hide()
+                    }
+                )
+            }
+
+            Spacer(modifier = Modifier.height(16.dp))
+
             Column(
+                Modifier.weight(1f).verticalScroll(scrollState),
                 verticalArrangement = Arrangement.spacedBy(16.dp)
             ) {
-                Row {
-                    SecondaryButton (
-                        modifier = Modifier.fillMaxWidth().weight(1f),
-                        title = stringResource(R.string.signin),
-                        onClick = {
-                            keyboardController?.hide()
-                            authViewModel.clearAll()
-                            navController.navigate(AuthNav.SignIn.route)
-                        }
-                    )
+                BaseTextField(
+                    title = stringResource(R.string.login_hint),
+                    text = state.login,
+                    keyboardOptions = KeyboardOptions(
+                        keyboardType = KeyboardType.Text,
+                        imeAction = ImeAction.Done
+                    ),
+                    errorMessage = state.loginError,
+                    onValueChange = {
+                        authViewModel.onEvent(SignUpUiEvent.LoginChanged(it))
+                    }
+                )
 
-                    Spacer(modifier = Modifier.width(10.dp))
+                BaseTextField(
+                    title = stringResource(R.string.name_hint),
+                    text = state.name,
+                    keyboardOptions = KeyboardOptions(
+                        keyboardType = KeyboardType.Text,
+                        imeAction = ImeAction.Done
+                    ),
+                    errorMessage = state.nameError,
+                    onValueChange = {
+                        authViewModel.onEvent(SignUpUiEvent.NameChanged(it))
+                    }
+                )
 
-                    PrimaryButton (
-                        modifier = Modifier.fillMaxWidth().weight(1f),
-                        title = stringResource(R.string.signup),
-                        onClick = {
-                            keyboardController?.hide()
-                        }
-                    )
-                }
+                PhoneTextField(
+                    title = stringResource(R.string.phone_hint),
+                    text = state.phone,
+                    errorMessage = state.phoneError,
+                    onValueChange = {
+                        authViewModel.onEvent(SignUpUiEvent.PhoneChanged(it))
+                    }
+                )
 
-                Column(
-                    Modifier.verticalScroll(scrollState),
-                    verticalArrangement = Arrangement.spacedBy(16.dp)
-                ) {
-                    BaseTextField(
-                        title = stringResource(R.string.login_hint),
-                        text = state.login,
-                        keyboardOptions = KeyboardOptions(
-                            keyboardType = KeyboardType.Text,
-                            imeAction = ImeAction.Done
-                        ),
-                        errorMessage = state.loginError,
-                        onValueChange = {
-                            authViewModel.onEvent(SignUpUiEvent.LoginChanged(it))
-                        }
-                    )
+                BaseTextField(
+                    title = stringResource(R.string.email_hint),
+                    text = state.email,
+                    keyboardOptions = KeyboardOptions(
+                        keyboardType = KeyboardType.Email,
+                        imeAction = ImeAction.Done
+                    ),
+                    errorMessage = state.emailError,
+                    onValueChange = {
+                        authViewModel.onEvent(SignUpUiEvent.EmailChanged(it))
+                    }
+                )
 
-                    BaseTextField(
-                        title = stringResource(R.string.name_hint),
-                        text = state.name,
-                        keyboardOptions = KeyboardOptions(
-                            keyboardType = KeyboardType.Text,
-                            imeAction = ImeAction.Done
-                        ),
-                        errorMessage = state.nameError,
-                        onValueChange = {
-                            authViewModel.onEvent(SignUpUiEvent.NameChanged(it))
-                        }
-                    )
+                BaseTextField(
+                    title = stringResource(R.string.company_hint),
+                    text = state.company,
+                    keyboardOptions = KeyboardOptions(
+                        keyboardType = KeyboardType.Text,
+                        imeAction = ImeAction.Done
+                    ),
+                    errorMessage = state.companyError,
+                    onValueChange = {
+                        authViewModel.onEvent(SignUpUiEvent.CompanyChanged(it))
+                    }
+                )
 
-                    PhoneTextField(
-                        title = stringResource(R.string.phone_hint),
-                        text = state.phone,
-                        errorMessage = state.phoneError,
-                        onValueChange = {
-                            authViewModel.onEvent(SignUpUiEvent.PhoneChanged(it))
-                        }
-                    )
+                PasswordTextField(
+                    title = stringResource(R.string.password),
+                    text = state.password,
+                    errorMessage = state.passwordError,
+                    onValueChange = {
+                        authViewModel.onEvent(SignUpUiEvent.PasswordChanged(it))
+                    }
+                )
 
-                    BaseTextField(
-                        title = stringResource(R.string.email_hint),
-                        text = state.email,
-                        keyboardOptions = KeyboardOptions(
-                            keyboardType = KeyboardType.Email,
-                            imeAction = ImeAction.Done
-                        ),
-                        errorMessage = state.emailError,
-                        onValueChange = {
-                            authViewModel.onEvent(SignUpUiEvent.EmailChanged(it))
-                        }
-                    )
-
-                    BaseTextField(
-                        title = stringResource(R.string.company_hint),
-                        text = state.company,
-                        keyboardOptions = KeyboardOptions(
-                            keyboardType = KeyboardType.Text,
-                            imeAction = ImeAction.Done
-                        ),
-                        errorMessage = state.companyError,
-                        onValueChange = {
-                            authViewModel.onEvent(SignUpUiEvent.CompanyChanged(it))
-                        }
-                    )
-
-                    PasswordTextField(
-                        title = stringResource(R.string.password),
-                        text = state.password,
-                        errorMessage = state.passwordError,
-                        onValueChange = {
-                            authViewModel.onEvent(SignUpUiEvent.PasswordChanged(it))
-                        }
-                    )
-
-                    PasswordTextField(
-                        title = stringResource(R.string.confirm_password),
-                        text = state.confirmPassword,
-                        errorMessage = state.confirmPasswordError,
-                        onValueChange = {
-                            authViewModel.onEvent(SignUpUiEvent.ConfirmPasswordChanged(it))
-                        }
-                    )
-                }
+                PasswordTextField(
+                    title = stringResource(R.string.confirm_password),
+                    text = state.confirmPassword,
+                    errorMessage = state.confirmPasswordError,
+                    onValueChange = {
+                        authViewModel.onEvent(SignUpUiEvent.ConfirmPasswordChanged(it))
+                    }
+                )
             }
+
+            Spacer(modifier = Modifier.height(16.dp))
 
             PrimaryButton(
                 title = stringResource(R.string.create_account),
@@ -220,15 +218,5 @@ fun SignUpScreen(
             )
 
         }
-
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .weight(1f)
-                .background(
-                    colors.secondaryBackground
-                )
-        )
-
     }
 }

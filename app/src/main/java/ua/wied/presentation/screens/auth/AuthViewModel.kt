@@ -10,10 +10,10 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
-import ua.wied.R
 import ua.wied.domain.models.auth.AuthResult
 import ua.wied.domain.models.auth.SignInRequest
 import ua.wied.domain.models.auth.SignUpRequest
+import ua.wied.domain.models.validation.Validator
 import ua.wied.domain.usecases.SignInUseCase
 import ua.wied.domain.usecases.SignUpUseCase
 import ua.wied.presentation.common.utils.ToastManager
@@ -28,7 +28,8 @@ import javax.inject.Inject
 @HiltViewModel
 class AuthViewModel @Inject constructor(
     private val signInUseCase: SignInUseCase,
-    private val signUpUseCase: SignUpUseCase
+    private val signUpUseCase: SignUpUseCase,
+    private val validator: Validator
 ) : ViewModel() {
     private var _state by mutableStateOf(AuthState())
     val state: AuthState get() = _state
@@ -64,11 +65,13 @@ class AuthViewModel @Inject constructor(
 
     fun onEvent(event: SignUpUiEvent) {
         when(event) {
+            is SignUpUiEvent.LoginChanged -> updateSignUpState { copy(login = event.value) }
             is SignUpUiEvent.NameChanged -> updateSignUpState { copy(name = event.value) }
             is SignUpUiEvent.PhoneChanged -> updateSignUpState { copy(phone = event.value) }
+            is SignUpUiEvent.EmailChanged -> updateSignUpState { copy(email = event.value) }
+            is SignUpUiEvent.CompanyChanged -> updateSignUpState { copy(company = event.value) }
             is SignUpUiEvent.PasswordChanged -> updateSignUpState { copy(password = event.value) }
             is SignUpUiEvent.ConfirmPasswordChanged -> updateSignUpState { copy(confirmPassword = event.value) }
-            is SignUpUiEvent.CompanyChanged -> updateSignUpState { copy(company = event.value) }
             is SignUpUiEvent.SignUpClicked -> {
                 if (validateSignUp()) {
                     signUp(
@@ -88,44 +91,48 @@ class AuthViewModel @Inject constructor(
     }
 
 
-    private fun validateSignIn(): Boolean {
-        with(_state.signIn) {
-            updateSignInState {
-                copy(
-                    loginError = if (login.isBlank()) R.string.enter_login else null,
-                    passwordError = when {
-                        password.isBlank() -> R.string.enter_password
-                        else -> null
-                    }
-                )
-            }
+    private fun validateSignIn(): Boolean = with(_state.signIn) {
+        val loginValidation = validator.validateEmptyField(login)
+        val passwordValidation = validator.validateEmptyField(password)
+
+        updateSignInState {
+            copy(
+                loginError = loginValidation.errorMessage,
+                passwordError = passwordValidation.errorMessage
+            )
         }
-        return _state.signIn.run { loginError == null && passwordError == null }
+
+        return loginValidation.isSuccessful && passwordValidation.isSuccessful
     }
-    private fun validateSignUp(): Boolean {
-        with(_state.signUp) {
-            updateSignUpState {
-                copy(
-                    nameError = if (name.isBlank()) R.string.name_hint else null,
-                    companyError = if (company.isBlank()) R.string.company_hint else null,
-                    phoneError = if (phone.isBlank()) R.string.phone_hint else null,
-                    passwordError = when {
-                        password.isBlank() -> R.string.enter_password
-                        password.length < 8 -> R.string.password_error
-                        else -> null
-                    },
-                    confirmPasswordError = if (password != confirmPassword) R.string.password_no_similar else null
-                )
-            }
+
+    private fun validateSignUp(): Boolean = with(_state.signUp) {
+        val validations = listOf(
+            validator.validateLoginField(login),
+            validator.validateEmptyField(name),
+            validator.validatePhoneField(phone),
+            validator.validateEmailField(email),
+            validator.validateCompanyField(company),
+            validator.validatePasswordField(password),
+            validator.validatePasswordConfirmField(password, confirmPassword)
+        )
+
+        updateSignUpState {
+            copy(
+                loginError = validations[0].errorMessage,
+                nameError = validations[1].errorMessage,
+                phoneError = validations[2].errorMessage,
+                emailError = validations[3].errorMessage,
+                companyError = validations[4].errorMessage,
+                passwordError = validations[5].errorMessage,
+                confirmPasswordError = validations[6].errorMessage
+            )
         }
-        return _state.signUp.run {
-            nameError == null &&
-                    companyError == null &&
-                    phoneError == null &&
-                    passwordError == null &&
-                    confirmPasswordError == null
-        }
+
+        validations.all { it.isSuccessful }
     }
+
+    fun isFieldsEmpty(vararg fields: String): Boolean = fields
+        .all { validator.validateEmptyField(it).isSuccessful }
 
     private fun signIn(request: SignInRequest) {
         viewModelScope.launch {
