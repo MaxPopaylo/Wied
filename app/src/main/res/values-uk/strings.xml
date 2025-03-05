@@ -18,6 +18,7 @@
     <string name="signup">Зареєструватися</string>
     <string name="password">Пароль</string>
     <string name="password_hint">Введіть пароль</string>
+    <string name="confirm_password">Підтвердіть пароль</string>
     <string name="forgot_password_answer">Забув пароль?</string>
     <string name="login">Логін</string>
     <string name="login_hint">Введіть логін</string>

@@ -127,7 +127,7 @@ fun SignInScreen(
                 title = stringResource(R.string.login),
                 text = state.login,
                 fieldColor = colors.primaryBackground,
-                errorMessage = state.loginError?.let { stringResource(it) },
+                errorMessage = state.loginError,
                 keyboardOptions = KeyboardOptions(
                     keyboardType = KeyboardType.Text,
                     imeAction = ImeAction.Done
@@ -144,7 +144,7 @@ fun SignInScreen(
                 text = state.password,
                 fieldColor = colors.primaryBackground,
                 textButton = stringResource(R.string.forgot_password_answer),
-                errorMessage = state.passwordError?.let { stringResource(it) },
+                errorMessage = state.passwordError,
                 onTextButtonClick = {},
                 onValueChange = {
                     authViewModel.onEvent(SignInUiEvent.PasswordChanged(it))

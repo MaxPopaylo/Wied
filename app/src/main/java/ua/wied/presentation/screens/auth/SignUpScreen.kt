@@ -38,7 +38,7 @@ import ua.wied.presentation.common.composable.SecondaryButton
 import ua.wied.presentation.common.navigation.AuthNav
 import ua.wied.presentation.common.theme.WiEDTheme.colors
 import ua.wied.presentation.common.theme.WiEDTheme.typography
-import ua.wied.presentation.common.utils.positionAwareImePadding
+import ua.wied.presentation.common.utils.extensions.positionAwareImePadding
 import ua.wied.presentation.screens.auth.models.SignUpUiEvent
 
 @Composable
@@ -63,7 +63,7 @@ fun SignUpScreen(
             modifier = Modifier
                 .fillMaxWidth()
                 .wrapContentHeight()
-                .fillMaxHeight(0.2f)
+                    .fillMaxHeight(0.2f)
                 .background(
                     colors.secondaryBackground
                 )
@@ -130,45 +130,70 @@ fun SignUpScreen(
                     verticalArrangement = Arrangement.spacedBy(16.dp)
                 ) {
                     BaseTextField(
-                        title = stringResource(R.string.name),
+                        title = stringResource(R.string.login_hint),
+                        text = state.login,
+                        keyboardOptions = KeyboardOptions(
+                            keyboardType = KeyboardType.Text,
+                            imeAction = ImeAction.Done
+                        ),
+                        errorMessage = state.loginError,
+                        onValueChange = {
+                            authViewModel.onEvent(SignUpUiEvent.LoginChanged(it))
+                        }
+                    )
+
+                    BaseTextField(
+                        title = stringResource(R.string.name_hint),
                         text = state.name,
                         keyboardOptions = KeyboardOptions(
                             keyboardType = KeyboardType.Text,
                             imeAction = ImeAction.Done
                         ),
-                        errorMessage = state.nameError?.let { stringResource(it) },
+                        errorMessage = state.nameError,
                         onValueChange = {
                             authViewModel.onEvent(SignUpUiEvent.NameChanged(it))
                         }
                     )
 
-                    BaseTextField(
-                        title = stringResource(R.string.company),
-                        text = state.company,
-                        keyboardOptions = KeyboardOptions(
-                            keyboardType = KeyboardType.Text,
-                            imeAction = ImeAction.Done
-                        ),
-                        errorMessage = state.companyError?.let { stringResource(it) },
-                        onValueChange = {
-                            authViewModel.onEvent(SignUpUiEvent.CompanyChanged(it))
-                        }
-                    )
-
                     PhoneTextField(
-                        title = stringResource(R.string.phone),
+                        title = stringResource(R.string.phone_hint),
                         text = state.phone,
-                        errorMessage = state.phoneError?.let { stringResource(it) },
+                        errorMessage = state.phoneError,
                         onValueChange = {
                             authViewModel.onEvent(SignUpUiEvent.PhoneChanged(it))
                         }
                     )
 
+                    BaseTextField(
+                        title = stringResource(R.string.email_hint),
+                        text = state.email,
+                        keyboardOptions = KeyboardOptions(
+                            keyboardType = KeyboardType.Email,
+                            imeAction = ImeAction.Done
+                        ),
+                        errorMessage = state.emailError,
+                        onValueChange = {
+                            authViewModel.onEvent(SignUpUiEvent.EmailChanged(it))
+                        }
+                    )
+
+                    BaseTextField(
+                        title = stringResource(R.string.company_hint),
+                        text = state.company,
+                        keyboardOptions = KeyboardOptions(
+                            keyboardType = KeyboardType.Text,
+                            imeAction = ImeAction.Done
+                        ),
+                        errorMessage = state.companyError,
+                        onValueChange = {
+                            authViewModel.onEvent(SignUpUiEvent.CompanyChanged(it))
+                        }
+                    )
 
                     PasswordTextField(
                         title = stringResource(R.string.password),
                         text = state.password,
-                        errorMessage = state.passwordError?.let { stringResource(it) },
+                        errorMessage = state.passwordError,
                         onValueChange = {
                             authViewModel.onEvent(SignUpUiEvent.PasswordChanged(it))
                         }
@@ -177,7 +202,7 @@ fun SignUpScreen(
                     PasswordTextField(
                         title = stringResource(R.string.confirm_password),
                         text = state.confirmPassword,
-                        errorMessage = state.confirmPasswordError?.let { stringResource(it) },
+                        errorMessage = state.confirmPasswordError,
                         onValueChange = {
                             authViewModel.onEvent(SignUpUiEvent.ConfirmPasswordChanged(it))
                         }
