@@ -13,6 +13,7 @@ import ua.wied.data.datasource.network.api.AuthApi
 import ua.wied.domain.models.auth.AuthResult
 import ua.wied.domain.models.auth.SignInRequest
 import ua.wied.domain.models.auth.SignUpRequest
+import ua.wied.domain.models.user.User
 import ua.wied.domain.repository.AuthRepository
 import ua.wied.domain.usecases.ClearAllTokensUseCase
 import ua.wied.domain.usecases.ClearUserDataUseCase
@@ -32,19 +33,29 @@ class AuthRepositoryImpl @Inject constructor(
         api.signIn(request)
             .suspendOnSuccess {
                 data.let {
-                    saveUserUseCase.invoke(it.user)
-                    saveJwtUseCase.invoke(it.token)
+                    saveUserUseCase.invoke(User(
+                        id = it.data.id,
+                        login = it.data.login,
+                        name = it.data.name,
+                        phone = it.data.phone,
+                        email = it.data.email,
+                        company = it.data.company,
+                        info = it.data.info,
+                        role = it.data.role
+                    ))
+                    saveJwtUseCase.invoke(it.data.token)
                 }
                 result = AuthResult.Success
             }
             .suspendOnError {
-                when(statusCode) {
+                result = when(statusCode) {
                     
                     else -> AuthResult.Error(R.string.error)
                 }
+            }
+            .suspendOnFailure {
                 result = AuthResult.Error(R.string.error)
             }
-            .suspendOnFailure { AuthResult.Error(R.string.error)  }
 
         return result
     }
@@ -54,19 +65,26 @@ class AuthRepositoryImpl @Inject constructor(
         api.signUp(request)
             .suspendOnSuccess {
                 data.let {
-                    saveUserUseCase.invoke(it.user)
+                    saveUserUseCase.invoke(User(
+                        id = it.id,
+                        login = it.login,
+                        name = it.name,
+                        phone = it.phone,
+                        email = it.email,
+                        company = it.company,
+                        info = it.info,
+                        role = it.role
+                    ))
                     saveJwtUseCase.invoke(it.token)
                 }
                 result = AuthResult.Success
             }
             .suspendOnError {
-                when(statusCode) {
-
+                result = when(statusCode) {
                     else -> AuthResult.Error(R.string.error)
                 }
-                result = AuthResult.Error(R.string.error)
             }
-            .suspendOnFailure { AuthResult.Error(R.string.error)  }
+            .suspendOnFailure { result = AuthResult.Error(R.string.error)  }
 
         return result
     }

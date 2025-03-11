@@ -13,6 +13,7 @@ import kotlinx.coroutines.launch
 import ua.wied.domain.models.auth.AuthResult
 import ua.wied.domain.models.auth.SignInRequest
 import ua.wied.domain.models.auth.SignUpRequest
+import ua.wied.domain.models.user.Role
 import ua.wied.domain.models.validation.Validator
 import ua.wied.domain.usecases.SignInUseCase
 import ua.wied.domain.usecases.SignUpUseCase
@@ -82,7 +83,9 @@ class AuthViewModel @Inject constructor(
                                 phone = phone,
                                 email = email,
                                 company = company,
-                                password = password
+                                password = password,
+                                info = "",
+                                role = Role.OWNER
                             )
                         )
                     }
