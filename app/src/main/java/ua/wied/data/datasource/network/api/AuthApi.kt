@@ -4,20 +4,21 @@ import com.skydoves.sandwich.ApiResponse
 
 import retrofit2.http.Body
 import retrofit2.http.POST
-import ua.wied.data.datasource.network.dto.AuthResponseDto
+import ua.wied.data.datasource.network.dto.SignInResponseDto
+import ua.wied.data.datasource.network.dto.UserDto
 import ua.wied.domain.models.auth.SignInRequest
 import ua.wied.domain.models.auth.SignUpRequest
 
 interface AuthApi {
 
-    @POST("api/auth/signUp")
+    @POST("api/users/registration")
     suspend fun signUp(
         @Body request: SignUpRequest
-    ): ApiResponse<AuthResponseDto>
+    ): ApiResponse<UserDto>
 
-    @POST("api/auth/signIn")
+    @POST("api/users/login")
     suspend fun signIn(
         @Body request: SignInRequest
-    ): ApiResponse<AuthResponseDto>
+    ): ApiResponse<SignInResponseDto>
 
 }
