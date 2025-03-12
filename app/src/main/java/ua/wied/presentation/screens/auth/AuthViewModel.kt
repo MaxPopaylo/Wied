@@ -159,7 +159,6 @@ class AuthViewModel @Inject constructor(
 
     fun showErrorToast(@StringRes messageResId: Int) {
         viewModelScope.launch {
-            clearAll()
             toastManager.showToast(messageResId)
         }
     }
