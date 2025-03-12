@@ -32,7 +32,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
@@ -51,6 +50,7 @@ import androidx.compose.ui.text.style.TextOverflow
 fun BaseTextField(
     text: String,
     title: String,
+    fieldColor: Color? = null,
     trailingIcon: Int? = null,
     textButton: String? = null,
     description: String? = null,
@@ -62,6 +62,8 @@ fun BaseTextField(
     onTrailingIconClick: (() -> Unit)? = null,
     onValueChange: (String) -> Unit
 ) {
+    val backgroundColor = fieldColor ?: colors.secondaryBackground
+
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -76,6 +78,7 @@ fun BaseTextField(
             )
         )
         BasicTextField(
+            modifier = Modifier.height(52.dp),
             value = text,
             onValueChange = {
                 onValueChange(it)
@@ -84,7 +87,7 @@ fun BaseTextField(
             keyboardActions = keyboardActions,
             textStyle = typography.w400.copy(
                 fontSize = 16.sp,
-                color = colors.primaryText
+                color = if(errorMessage != null) colors.errorColor else colors.primaryText
             ),
             maxLines = 1,
             cursorBrush = SolidColor(colors.primaryText),
@@ -95,13 +98,13 @@ fun BaseTextField(
                     .fillMaxWidth()
                     .height(IntrinsicSize.Max)
                     .background(
-                        color = colors.primaryBackground,
-                        shape = RoundedCornerShape(100.dp)
+                        color = backgroundColor,
+                        shape = RoundedCornerShape(4.dp)
                     )
                     .border(
                         width = 1.dp,
-                        color = if(errorMessage != null) colors.tintColor else Color.Transparent,
-                        shape = RoundedCornerShape(100.dp)
+                        color = if(errorMessage != null) colors.errorColor else Color.Transparent,
+                        shape = RoundedCornerShape(4.dp)
                     )
                     .padding(vertical = 10.dp, horizontal = 20.dp),
                 verticalAlignment = Alignment.CenterVertically
@@ -152,8 +155,8 @@ fun BaseTextField(
                 if (errorMessage != null) {
                     Text(
                         text = errorMessage,
-                        color = colors.tintColor,
-                        style = typography.w400.copy(fontSize = 12.sp),
+                        color = colors.errorColor,
+                        style = typography.w400.copy(fontSize = 14.sp),
                         modifier = Modifier.weight(1f),
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis
@@ -179,6 +182,7 @@ fun BaseTextField(
 fun PasswordTextField(
     text: String,
     title: String,
+    fieldColor: Color? = null,
     textButton: String? = null,
     description: String? = null,
     errorMessage: String? = null,
@@ -191,6 +195,7 @@ fun PasswordTextField(
     BaseTextField(
         text = text,
         title = title,
+        fieldColor = fieldColor,
         description = description,
         errorMessage = errorMessage,
         onValueChange = onValueChange,
@@ -219,7 +224,6 @@ fun PhoneTextField(
     BaseTextField(
         text = text,
         title = title,
-        description = stringResource(R.string.enter_phone),
         errorMessage = errorMessage,
         onValueChange = { newValue ->
             onValueChange(newValue.filterNot { it == ' ' })

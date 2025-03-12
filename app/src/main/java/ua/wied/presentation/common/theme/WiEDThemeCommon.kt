@@ -7,6 +7,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontWeight
 import ua.wied.R
 
 data class WiEDColors(
@@ -15,7 +16,9 @@ data class WiEDColors(
     val secondaryText: Color,
     val secondaryBackground: Color,
     val tertiaryText: Color,
-    val tintColor: Color
+    val tintColor: Color,
+    val errorColor: Color,
+    val starColor: Color
 )
 
 data class WiEDTypography(
@@ -30,6 +33,13 @@ object WiEDFonts {
     val robotoFamily: FontFamily by lazy {
         FontFamily(
             Font(R.font.font_roboto)
+        )
+    }
+    val mariupolFamily: FontFamily by lazy {
+        FontFamily(
+            Font(R.font.font_mariupol_regular, FontWeight.W400),
+            Font(R.font.font_mariupol_medium, FontWeight.W500),
+            Font(R.font.font_mariupol_bold, FontWeight.W700)
         )
     }
 }

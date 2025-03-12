@@ -1,32 +1,34 @@
 package ua.wied.presentation.screens.auth.models
 
-import androidx.annotation.StringRes
-
 data class AuthState(
     val signIn: SignInState = SignInState(),
     val signUp: SignUpState = SignUpState()
 )
 
-data class SignInState (
-    val phone: String = "",
+data class SignInState(
+    val login: String = "",
     val password: String = "",
 
-    @StringRes val phoneError: Int? = null,
-    @StringRes val passwordError: Int? = null
+    val loginError: String? = null,
+    val passwordError: String? = null
 )
 
 data class SignUpState(
+    val login: String = "",
     val name: String = "",
     val phone: String = "",
+    val email: String = "",
     val company: String = "",
     val password: String = "",
     val confirmPassword: String = "",
 
-    @StringRes val nameError: Int? = null,
-    @StringRes val phoneError: Int? = null,
-    @StringRes val companyError: Int? = null,
-    @StringRes val passwordError: Int? = null,
-    @StringRes val confirmPasswordError: Int? = null
+    val loginError: String? = null,
+    val nameError: String? = null,
+    val phoneError: String? = null,
+    val emailError: String? = null,
+    val companyError: String? = null,
+    val passwordError: String? = null,
+    val confirmPasswordError: String? = null
 )
 
 data class PageState(

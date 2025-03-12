@@ -19,7 +19,7 @@ fun WiEDTheme(
     }
 
     val baseTextStyle = TextStyle(
-        fontFamily = WiEDFonts.robotoFamily,
+        fontFamily = WiEDFonts.mariupolFamily,
         letterSpacing = 0.5.sp
     )
     val typography = WiEDTypography(

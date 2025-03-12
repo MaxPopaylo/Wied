@@ -1,8 +1,12 @@
 package ua.wied.domain.models.user
 
 data class User (
-    val id: String,
+    val id: Int,
+    val login: String,
     val name: String,
     val phone: String,
-    val company: String
+    val email: String,
+    val company: String,
+    val info: String,
+    val role: Role
 )

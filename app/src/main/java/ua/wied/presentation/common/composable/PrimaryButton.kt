@@ -2,6 +2,7 @@ package ua.wied.presentation.common.composable
 
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -17,24 +18,24 @@ import ua.wied.presentation.common.theme.WiEDTheme.typography
 @Composable
 fun PrimaryButton(
     modifier: Modifier = Modifier,
-    isEnabled: Boolean = false,
+    isEnabled: Boolean = true,
     title: String,
     onClick: () -> Unit
 ) {
     Button(
         onClick = onClick,
-        modifier = modifier.fillMaxWidth().alpha(if (isEnabled) 1f else 0.3f),
+        modifier = modifier.fillMaxWidth().height(42.dp).alpha(if (isEnabled) 1f else 0.3f),
         colors = ButtonDefaults.buttonColors(
             disabledContainerColor = colors.tintColor,
             containerColor = colors.tintColor
         ),
-        shape = RoundedCornerShape(24.dp),
+        shape = RoundedCornerShape(4.dp),
         contentPadding = PaddingValues(horizontal = 10.dp, vertical = 10.dp),
         enabled = isEnabled
     ) {
         Text(
             text = title,
-            style = typography.w400.copy(
+            style = typography.w700.copy(
                 color = colors.tertiaryText,
                 fontSize = 16.sp
             )

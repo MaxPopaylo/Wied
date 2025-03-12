@@ -1,14 +1,15 @@
-package ua.wied.domain.models.auth
+package ua.wied.data.datasource.network.dto
 
 import ua.wied.domain.models.user.Role
 
-data class SignUpRequest(
+data class UserDto (
+    val id: Int,
     val login: String,
     val name: String,
     val phone: String,
     val email: String,
     val company: String,
-    val password: String,
     val info: String,
-    val role: Role
+    val role: Role,
+    val token: String
 )
