@@ -5,6 +5,11 @@
 
     <!--    Errors-->
     <string name="error">Что-то пошло не так, приносим извинения</string>
+    <string name="error_uniq_login">Этот логин уже занят</string>
+    <string name="error_uniq_phone">Этот номер уже занят</string>
+    <string name="error_uniq_email">Этот email уже занят</string>
+    <string name="error_uniq_company">Это имя компании уже занято</string>
+    <string name="error_incorrect_login_or_password">Неверный логин или пароль</string>
 
     <!--    Yes/No-->
     <string name="yes">Да</string>
@@ -39,9 +44,6 @@
     <string name="validation_password_confirm_field">Пароли не совпадают.</string>
     <string name="validation_email_field">Неверный формат электронного адреса</string>
     <string name="validation_phone_field">Неверный формат номера телефона</string>
-    <string name="validation_uniq_login">Этот логин уже занят</string>
-    <string name="validation_uniq_phone">Этот номер уже занят</string>
-    <string name="validation_uniq_email">Этот email уже занят</string>
 
     <!-- Instructions Screen -->
     <string name="instructions">Инструкции</string>

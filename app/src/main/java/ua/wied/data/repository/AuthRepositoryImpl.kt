@@ -2,14 +2,15 @@ package ua.wied.data.repository
 
 import android.content.Context
 import android.content.Intent
-import com.skydoves.sandwich.retrofit.statusCode
+import com.skydoves.sandwich.retrofit.errorBody
 import com.skydoves.sandwich.suspendOnError
-import com.skydoves.sandwich.suspendOnFailure
 import com.skydoves.sandwich.suspendOnSuccess
+import com.squareup.moshi.Moshi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import ua.wied.R
 import ua.wied.data.datasource.network.api.AuthApi
+import ua.wied.data.datasource.network.dto.ErrorResponse
 import ua.wied.domain.models.auth.AuthResult
 import ua.wied.domain.models.auth.SignInRequest
 import ua.wied.domain.models.auth.SignUpRequest
@@ -26,8 +27,11 @@ class AuthRepositoryImpl @Inject constructor(
     private val saveJwtUseCase: SaveAccessJwtUseCase,
     private val clearUserDataUseCase: ClearUserDataUseCase,
     private val clearAllTokensUseCase: ClearAllTokensUseCase,
-    private val api: AuthApi
+    private val api: AuthApi,
+    moshi: Moshi
 ): AuthRepository {
+    private val jsonAdapter = moshi.adapter(ErrorResponse::class.java)
+
     override suspend fun signIn(request: SignInRequest): AuthResult {
         var result: AuthResult = AuthResult.Error(R.string.error)
         api.signIn(request)
@@ -48,13 +52,12 @@ class AuthRepositoryImpl @Inject constructor(
                 result = AuthResult.Success
             }
             .suspendOnError {
-                result = when(statusCode) {
-                    
+                val errorResponse = errorBody?.let { jsonAdapter.fromJson(it.string()) }
+                val msg = errorResponse?.detail ?: "Unknown error"
+                result = when {
+                    msg.contains("Wrong login or password") -> AuthResult.Error(R.string.error_incorrect_login_or_password)
                     else -> AuthResult.Error(R.string.error)
                 }
-            }
-            .suspendOnFailure {
-                result = AuthResult.Error(R.string.error)
             }
 
         return result
@@ -66,25 +69,33 @@ class AuthRepositoryImpl @Inject constructor(
             .suspendOnSuccess {
                 data.let {
                     saveUserUseCase.invoke(User(
-                        id = it.id,
-                        login = it.login,
-                        name = it.name,
-                        phone = it.phone,
-                        email = it.email,
-                        company = it.company,
-                        info = it.info,
-                        role = it.role
+                        id = it.data.id,
+                        login = it.data.login,
+                        name = it.data.name,
+                        phone = it.data.phone,
+                        email = it.data.email,
+                        company = it.data.company,
+                        info = it.data.info,
+                        role = it.data.role
                     ))
-                    saveJwtUseCase.invoke(it.token)
+                    saveJwtUseCase.invoke(it.data.token)
                 }
                 result = AuthResult.Success
             }
             .suspendOnError {
-                result = when(statusCode) {
+                val errorResponse = errorBody?.let { jsonAdapter.fromJson(it.string()) }
+                val msg = errorResponse?.detail ?: "Unknown error"
+                result = when {
+                    msg.contains("already exists") -> {
+                        when {
+                            msg.contains("User with login") -> AuthResult.Error(R.string.error_uniq_login)
+                            msg.contains("Company") -> AuthResult.Error(R.string.error_uniq_company)
+                            else -> AuthResult.Error(R.string.error)
+                        }
+                    }
                     else -> AuthResult.Error(R.string.error)
                 }
             }
-            .suspendOnFailure { result = AuthResult.Error(R.string.error)  }
 
         return result
     }
