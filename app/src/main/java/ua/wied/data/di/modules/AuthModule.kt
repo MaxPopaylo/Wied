@@ -67,9 +67,10 @@ class AuthModule {
         clearUserDataUseCase: ClearUserDataUseCase,
         saveAccessJwtUseCase: SaveAccessJwtUseCase,
         clearAllTokensUseCase: ClearAllTokensUseCase,
-        authApi: AuthApi
+        authApi: AuthApi,
+        moshi: Moshi
     ): AuthRepository {
-        return AuthRepositoryImpl(saveUserUseCase, saveAccessJwtUseCase, clearUserDataUseCase, clearAllTokensUseCase, authApi)
+        return AuthRepositoryImpl(saveUserUseCase, saveAccessJwtUseCase, clearUserDataUseCase, clearAllTokensUseCase, authApi, moshi)
     }
 
     @Provides
