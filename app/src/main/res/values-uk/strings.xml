@@ -2,6 +2,8 @@
 <resources>
     <!--    App-->
     <string name="welcome">Створюйте зрозумілі відео-інструкції для ваших працівників за 3 хвилини безплатно!</string>
+    <string name="placeholder">Плейсхолдер</string>
+    <string name="icon">Іконка</string>
 
     <!--    Errors-->
     <string name="error">Щось пішло не так, перепрошуємо</string>
@@ -47,4 +49,6 @@
 
     <!-- Instructions Screen -->
     <string name="instructions">Інструкції</string>
+    <string name="instruction_num_title">Інструкція %1$d</string>
+
 </resources>

@@ -3,6 +3,8 @@
     <!-- App -->
     <string name="app_name" translatable="false">WiED</string>
     <string name="welcome">Create clear video instructions for your employees in 3 minutes for free!</string>
+    <string name="placeholder">Placeholder</string>
+    <string name="icon">Icon</string>
 
     <!-- Errors -->
     <string name="error">Something went wrong, we apologize</string>
@@ -50,5 +52,7 @@
 
     <!-- Instructions Screen -->
     <string name="instructions">Instructions</string>
+    <string name="instruction_num_title">Instruction %1$d</string>
+
 </resources>
 
