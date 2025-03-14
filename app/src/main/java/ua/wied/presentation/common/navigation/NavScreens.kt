@@ -3,8 +3,6 @@ package ua.wied.presentation.common.navigation
 import androidx.annotation.DrawableRes
 import ua.wied.R
 
-sealed class NavScreen
-
 sealed class Screen(val route: String)
 
 sealed class Global(route: String) : Screen(route) {

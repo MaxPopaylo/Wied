@@ -5,6 +5,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import ua.wied.presentation.common.navigation.InstructionNav
 import ua.wied.presentation.common.navigation.main.instructionNavGraph
+import ua.wied.presentation.common.navigation.main.reportsNavGraph
 
 @Composable
 fun MainNavGraph(
@@ -16,8 +17,7 @@ fun MainNavGraph(
     ) {
 
         instructionNavGraph(navController)
-
-
+        reportsNavGraph(navController)
 
     }
 }
