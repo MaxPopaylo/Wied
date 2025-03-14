@@ -1,4 +1,4 @@
-package ua.wied.presentation.screens.main.composables
+package ua.wied.presentation.screens.main.composable
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding

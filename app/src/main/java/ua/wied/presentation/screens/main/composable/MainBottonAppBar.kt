@@ -1,4 +1,4 @@
-package ua.wied.presentation.screens.main.composables
+package ua.wied.presentation.screens.main.composable
 
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar

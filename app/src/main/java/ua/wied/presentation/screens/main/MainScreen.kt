@@ -9,8 +9,8 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import ua.wied.presentation.common.navigation.global.MainNavGraph
-import ua.wied.presentation.screens.main.composables.MainBottomAppBar
-import ua.wied.presentation.screens.main.composables.MainTopAppBar
+import ua.wied.presentation.screens.main.composable.MainBottomAppBar
+import ua.wied.presentation.screens.main.composable.MainTopAppBar
 
 @Composable
 fun MainScreen(
