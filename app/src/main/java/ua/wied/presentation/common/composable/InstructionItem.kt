@@ -1,0 +1,87 @@
+package ua.wied.presentation.common.composable
+
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import coil.compose.AsyncImage
+import ua.wied.R
+import ua.wied.domain.models.instruction.Instruction
+import ua.wied.presentation.common.theme.WiEDTheme.colors
+import ua.wied.presentation.common.theme.WiEDTheme.typography
+
+@Composable
+fun InstructionItem(
+    modifier: Modifier = Modifier,
+    instruction: Instruction,
+    instructionNum: Int,
+    actions: @Composable () -> Unit
+) {
+    Row(
+        modifier = modifier
+            .fillMaxWidth()
+            .background(
+                colors.secondaryBackground,
+                RoundedCornerShape(4.dp)
+            )
+            .padding(vertical = 16.dp, horizontal = 14.dp)
+            .height(40.dp)
+    ) {
+        AsyncImage(
+            modifier = Modifier
+                .height(40.dp)
+                .width(45.dp)
+                .clip(RoundedCornerShape(4.dp)),
+            model = instruction.posterUrl,
+            placeholder = painterResource(R.drawable.img_placeholder),
+            contentDescription = stringResource(R.string.placeholder),
+            contentScale = ContentScale.Crop,
+        )
+
+        Column(
+            modifier = Modifier
+                .fillMaxHeight()
+                .padding(start = 8.dp),
+            verticalArrangement = Arrangement.Center,
+        ) {
+            Text(
+                text = stringResource(R.string.instruction_num_title, instructionNum),
+                color = colors.primaryText,
+                style = typography.w400.copy(fontSize = 14.sp),
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis
+            )
+
+            Spacer(modifier = Modifier.height(2.dp))
+
+            Text(
+                text = instruction.title,
+                color = colors.primaryText,
+                style = typography.w500.copy(fontSize = 20.sp),
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis
+            )
+        }
+
+        Spacer(modifier = Modifier.weight(1f))
+
+        actions()
+    }
+}
