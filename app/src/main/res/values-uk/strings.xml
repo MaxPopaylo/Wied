@@ -4,6 +4,7 @@
     <string name="welcome">Створюйте зрозумілі відео-інструкції для ваших працівників за 3 хвилини безплатно!</string>
     <string name="placeholder">Плейсхолдер</string>
     <string name="icon">Іконка</string>
+    <string name="main">Основна</string>
 
     <!--    Errors-->
     <string name="error">Щось пішло не так, перепрошуємо</string>
@@ -50,5 +51,9 @@
     <!-- Instructions Screen -->
     <string name="instructions">Інструкції</string>
     <string name="instruction_num_title">Інструкція %1$d</string>
+
+    <!-- Reports Screen -->
+    <string name="reports">Заявки</string>
+
 
 </resources>
