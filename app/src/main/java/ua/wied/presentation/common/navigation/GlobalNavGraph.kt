@@ -24,7 +24,7 @@ fun GlobalNavGraph(
         composable(
             route = Global.Auth.route,
             enterTransition = {
-                slideInHorizontally(initialOffsetX = { it }, animationSpec = tween(5300))
+                slideInHorizontally(initialOffsetX = { it }, animationSpec = tween(500))
             },
             exitTransition = {
                 slideOutHorizontally(targetOffsetX = { -it }, animationSpec = tween(500))
