@@ -24,7 +24,7 @@ fun ReportsScreen(
         modifier = Modifier
             .fillMaxSize()
             .background(colors.primaryBackground)
-            .padding(horizontal = 16.dp)
+            .padding(horizontal = 12.dp)
     ) {
         val folders by viewModel.folders.collectAsStateWithLifecycle()
         FolderList(

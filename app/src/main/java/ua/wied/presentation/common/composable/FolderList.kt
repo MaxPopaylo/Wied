@@ -3,6 +3,7 @@ package ua.wied.presentation.common.composable
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -18,6 +19,7 @@ import ua.wied.domain.models.HasId
 import ua.wied.domain.models.instruction.Folder
 import ua.wied.presentation.common.theme.WiEDTheme
 import ua.wied.presentation.common.theme.WiEDTheme.colors
+import ua.wied.presentation.screens.main.reports.composable.ReportListItem
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -36,7 +38,9 @@ fun <T : HasId> FolderList (
                 FolderListHeader(folder.title)
             }
             itemsIndexed(folder.items, key = { _, item -> "${folder.id}-${item.id}" }) { index, item ->
-                itemView(index, item)
+                Box(modifier = Modifier.fillMaxWidth().padding(horizontal = 12.dp)) {
+                    itemView(index, item)
+                }
             }
         }
     }

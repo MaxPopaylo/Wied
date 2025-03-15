@@ -64,8 +64,8 @@ fun SignInScreen(
                     colors.secondaryBackground
                 )
                 .padding(16.dp)
-                .padding(top = 12.dp),
-            contentAlignment = Alignment.Center
+                .padding(bottom = 12.dp),
+            contentAlignment = Alignment.BottomCenter
         ) {
             Column(
                 verticalArrangement = Arrangement.spacedBy(12.dp)
@@ -79,6 +79,7 @@ fun SignInScreen(
                     contentDescription = stringResource(R.string.logo)
                 )
                 Text(
+                    modifier = Modifier.padding(top = 4.dp),
                     text = stringResource(R.string.welcome),
                     color = colors.primaryText,
                     style = typography.w500.copy(
@@ -151,7 +152,7 @@ fun SignInScreen(
                 }
             )
 
-            Spacer(modifier = Modifier.height(32.dp))
+            Spacer(modifier = Modifier.height(42.dp))
 
             PrimaryButton (
                 title = stringResource(R.string.signin),

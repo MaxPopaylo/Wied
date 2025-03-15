@@ -63,13 +63,13 @@ fun SignUpScreen(
             modifier = Modifier
                 .fillMaxWidth()
                 .wrapContentHeight()
-                    .fillMaxHeight(0.2f)
+                .fillMaxHeight(0.2f)
                 .background(
                     colors.secondaryBackground
                 )
                 .padding(16.dp)
-                .padding(top = 12.dp),
-            contentAlignment = Alignment.Center
+                .padding(bottom = 12.dp),
+            contentAlignment = Alignment.BottomCenter
         ) {
             Column(
                 verticalArrangement = Arrangement.spacedBy(12.dp)
@@ -83,6 +83,7 @@ fun SignUpScreen(
                     contentDescription = stringResource(R.string.logo)
                 )
                 Text(
+                    modifier = Modifier.padding(top = 4.dp),
                     text = stringResource(R.string.welcome),
                     color = colors.primaryText,
                     style = typography.w500.copy(
