@@ -53,7 +53,7 @@ private fun DefaultTopAppBar(
             Text(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(start = 10.dp, top = 0.dp, end = 0.dp, bottom = 0.dp),
+                    .padding(start = 7.5.dp),
                 text = title,
                 color = colors.primaryText,
                 style = typography.w500.copy(
@@ -79,7 +79,7 @@ private fun TopAppBarWithCloseButton(
             Text(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(start = 10.dp, top = 0.dp, end = 0.dp, bottom = 0.dp),
+                    .padding(start = 7.5.dp),
                 text = title,
                 color = colors.primaryText,
                 style = typography.w500.copy(
@@ -114,8 +114,7 @@ private fun TopAppBarWithBackground(
         title = {
             Text(
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(start = 10.dp, top = 0.dp, end = 0.dp, bottom = 0.dp),
+                    .fillMaxWidth(),
                 text = title,
                 color = colors.primaryText,
                 style = typography.w500.copy(
