@@ -3,7 +3,6 @@ package ua.wied.presentation.screens.splash
 import android.annotation.SuppressLint
 import android.app.ActivityOptions
 import android.content.Intent
-import android.os.Build
 import android.os.Bundle
 import androidx.core.app.ComponentActivity
 import androidx.lifecycle.lifecycleScope
@@ -11,7 +10,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import ua.wied.R
 import ua.wied.presentation.MainActivity
-import ua.wied.presentation.common.navigation.Global
+import ua.wied.presentation.common.navigation.GlobalNav
 
 @SuppressLint("RestrictedApi", "CustomSplashScreen")
 class SplashActivity : ComponentActivity() {
@@ -20,8 +19,8 @@ class SplashActivity : ComponentActivity() {
 
         lifecycleScope.launch {
             delay(300)
-            val startDestination = Global.Auth
-            openActivity(MainActivity::class.java, startDestination.route)
+            val startDestination = GlobalNav.Main::class.simpleName!!
+            openActivity(MainActivity::class.java, startDestination)
         }
     }
 
