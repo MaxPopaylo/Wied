@@ -1,46 +1,97 @@
 package ua.wied.presentation.common.navigation
 
 import androidx.annotation.DrawableRes
+import kotlinx.serialization.Serializable
 import ua.wied.R
+import ua.wied.domain.models.instruction.Instruction
+import ua.wied.domain.models.report.Report
 
-sealed class Screen(val route: String)
+@Serializable
+sealed class Screen
 
-sealed class Global(route: String) : Screen(route) {
-    data object Auth : Global("auth_screen")
-    data object Main : Global("main_screen")
-}
+@Serializable
+sealed class GlobalNav : Screen() {
+    @Serializable
+    data object Auth : GlobalNav()
 
-sealed class AuthNav(route: String) : Screen(route){
-    data object SignIn : AuthNav("sign_in_screen")
-    data object SignUp : AuthNav("sign_Up_screen")
-}
-
-
-sealed class MainNav(route: String) : Screen(route)
-sealed class InstructionNav(route: String) : MainNav(route) {
-    data object Instructions: InstructionNav("instructions_screen")
-    data object InstructionDetail : InstructionNav("instruction_detail_screen")
-    data object CreateInstruction : InstructionNav("create_instruction_screen")
-}
-sealed class ReportNav(route: String) : MainNav(route) {
-    data object Reports: ReportNav("reports_screen")
-}
-sealed class EvaluationNav(route: String) : MainNav(route) {
-    data object Evaluations: EvaluationNav("evaluations_screen")
-}
-sealed class PeopleNav(route: String) : MainNav(route) {
-    data object People: PeopleNav("people_screen")
-}
-sealed class AccessNav(route: String) : MainNav(route){
-    data object Accesses: AccessNav("accesses_screen")
-}
-sealed class ProfileNav(route: String): MainNav(route) {
-    data object Profile: ProfileNav("profile_screen")
+    @Serializable
+    data object Main : GlobalNav()
 }
 
-enum class BottomBarScreens(val label: String, @DrawableRes val icon: Int, val route: String) {
-    Instructions("Instructions", R.drawable.icon_camcorder, InstructionNav.Instructions.route),
-    Reports("Reports", R.drawable.icon_pencil, ReportNav.Reports.route),
-    Evaluations("Evaluations", R.drawable.icon_star, EvaluationNav.Evaluations.route),
-    Profile("Profile", R.drawable.icon_account, ProfileNav.Profile.route)
+@Serializable
+sealed class AuthNav : Screen() {
+    @Serializable
+    data object SignIn : AuthNav()
+
+    @Serializable
+    data object SignUp : AuthNav()
+}
+
+@Serializable
+sealed class MainNav : Screen()
+
+@Serializable
+sealed class InstructionNav : MainNav() {
+    @Serializable
+    data object Instructions: InstructionNav()
+
+    @Serializable
+    data object InstructionDetail : InstructionNav()
+
+    @Serializable
+    data object CreateInstruction : InstructionNav()
+}
+
+@Serializable
+sealed class ReportNav : MainNav() {
+    @Serializable
+    data object Reports: ReportNav()
+
+    @Serializable
+    data class ReportStatusList(val instruction: Instruction, val instructionNum: Int): ReportNav()
+
+    @Serializable
+    data class ReportsByStatusList(val reports: List<Report>): ReportNav()
+
+    @Serializable
+    data class ReportDetail(val report: Report): ReportNav()
+}
+
+@Serializable
+sealed class EvaluationNav : MainNav() {
+    @Serializable
+    data object Evaluations: EvaluationNav()
+}
+
+@Serializable
+sealed class PeopleNav : MainNav() {
+    @Serializable
+    data object People: PeopleNav()
+}
+
+@Serializable
+sealed class AccessNav : MainNav() {
+    @Serializable
+    data object Accesses: AccessNav()
+}
+
+@Serializable
+sealed class ProfileNav: MainNav() {
+    @Serializable
+    data object Profile: ProfileNav()
+}
+
+@Serializable
+sealed class BottomBarScreen(val label: String, @DrawableRes val icon: Int, val route: MainNav) {
+    @Serializable
+    data object Instructions : BottomBarScreen("Instructions", R.drawable.icon_camcorder, InstructionNav.Instructions)
+
+    @Serializable
+    data object Reports : BottomBarScreen("Reports", R.drawable.icon_pencil, ReportNav.Reports)
+
+    @Serializable
+    data object Evaluations : BottomBarScreen("Evaluations", R.drawable.icon_star, EvaluationNav.Evaluations)
+
+    @Serializable
+    data object Profile : BottomBarScreen("Profile", R.drawable.icon_account, ProfileNav.Profile)
 }
