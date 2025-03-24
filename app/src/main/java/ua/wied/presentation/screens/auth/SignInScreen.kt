@@ -110,7 +110,7 @@ fun SignInScreen(
                 onClick = {
                     keyboardController?.hide()
                     authViewModel.clearAll()
-                    navController.navigate(AuthNav.SignUp.route)
+                    navController.navigate(AuthNav.SignUp)
                 }
             )
         }

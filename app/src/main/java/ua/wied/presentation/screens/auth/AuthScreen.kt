@@ -11,7 +11,7 @@ import androidx.navigation.NavHostController
 import ua.wied.domain.models.auth.AuthResult
 import ua.wied.presentation.common.composable.LoadingIndicator
 import ua.wied.presentation.common.navigation.global.AuthNavGraph
-import ua.wied.presentation.common.navigation.Global
+import ua.wied.presentation.common.navigation.GlobalNav
 
 @Composable
 fun AuthScreen(
@@ -27,8 +27,8 @@ fun AuthScreen(
     LaunchedEffect(viewModel) {
         viewModel.authResult.collect { result ->
             if (result is AuthResult.Success) {
-                globalNavController.navigate(Global.Main.route) {
-                    popUpTo(Global.Auth.route) {
+                globalNavController.navigate(GlobalNav.Main) {
+                    popUpTo(GlobalNav.Auth) {
                         inclusive = true
                     }
                     launchSingleTop = true

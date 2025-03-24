@@ -106,7 +106,7 @@ fun SignUpScreen(
                     onClick = {
                         keyboardController?.hide()
                         authViewModel.clearAll()
-                        navController.navigate(AuthNav.SignIn.route)
+                        navController.navigate(AuthNav.SignIn)
                     }
                 )
 
