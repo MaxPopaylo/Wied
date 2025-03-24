@@ -14,15 +14,14 @@ import ua.wied.presentation.screens.main.MainScreen
 @Composable
 fun GlobalNavGraph(
     navController: NavHostController,
-    startDestination: String
+    startDestination: GlobalNav
 ) {
     NavHost(
         navController = navController,
         startDestination = startDestination
     ) {
 
-        composable(
-            route = Global.Auth.route,
+        composable<GlobalNav.Auth>(
             enterTransition = {
                 slideInHorizontally(initialOffsetX = { it }, animationSpec = tween(500))
             },
@@ -39,8 +38,7 @@ fun GlobalNavGraph(
             AuthScreen(globalNavController = navController)
         }
 
-        composable(
-            route = Global.Main.route,
+        composable<GlobalNav.Main>(
             enterTransition = {
                 slideInHorizontally(initialOffsetX = { it }, animationSpec = tween(500))
             },

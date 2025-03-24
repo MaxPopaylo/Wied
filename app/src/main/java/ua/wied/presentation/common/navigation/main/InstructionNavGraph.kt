@@ -10,8 +10,7 @@ import ua.wied.presentation.common.navigation.InstructionNav
 import ua.wied.presentation.screens.main.instructions.InstructionsScreen
 
 fun NavGraphBuilder.instructionNavGraph(navController: NavHostController) {
-    composable(
-        route = InstructionNav.Instructions.route,
+    composable<InstructionNav.Instructions>(
         enterTransition = {
             fadeIn(tween(300))
         },

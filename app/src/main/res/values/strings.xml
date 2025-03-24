@@ -58,6 +58,9 @@
 
     <!-- Reports Screen -->
     <string name="reports">Reports</string>
+    <string name="new_reports">New reports</string>
+    <string name="in_progress_reports">In progress</string>
+    <string name="done_reports">Done</string>
 
 </resources>
 

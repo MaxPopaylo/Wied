@@ -20,11 +20,10 @@ fun AuthNavGraph(
 ) {
     NavHost(
         navController = navController,
-        startDestination = AuthNav.SignIn.route
+        startDestination = AuthNav.SignIn
     ) {
 
-        composable(
-            route = AuthNav.SignIn.route,
+        composable<AuthNav.SignIn>(
             enterTransition = {
                 slideInHorizontally(initialOffsetX = { -it }, animationSpec = tween(500))
             },
@@ -44,8 +43,7 @@ fun AuthNavGraph(
             )
         }
 
-        composable(
-            route = AuthNav.SignUp.route,
+        composable<AuthNav.SignUp>(
             enterTransition = {
                 slideInHorizontally(initialOffsetX = { it }, animationSpec = tween(500))
             },

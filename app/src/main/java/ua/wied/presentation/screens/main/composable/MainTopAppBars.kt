@@ -31,8 +31,8 @@ fun MainTopAppBar(
     val currentDestinationRoute = navBackStackEntry?.destination?.route
 
     when(currentDestinationRoute) {
-        InstructionNav.Instructions.route -> DefaultTopAppBar(stringResource(R.string.instructions))
-        ReportNav.Reports.route -> DefaultTopAppBar(stringResource(R.string.reports))
+        InstructionNav.Instructions::class.qualifiedName -> DefaultTopAppBar(stringResource(R.string.instructions))
+        ReportNav.Reports::class.qualifiedName -> DefaultTopAppBar(stringResource(R.string.reports))
 
         else -> DefaultTopAppBar(stringResource(R.string.main))
     }

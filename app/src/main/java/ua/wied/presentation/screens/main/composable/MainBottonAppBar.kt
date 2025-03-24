@@ -7,6 +7,7 @@ import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
@@ -18,7 +19,7 @@ import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import ua.wied.R
-import ua.wied.presentation.common.navigation.BottomBarScreens
+import ua.wied.presentation.common.navigation.BottomBarScreen
 import ua.wied.presentation.common.theme.WiEDTheme.colors
 import ua.wied.presentation.common.theme.WiEDTheme.typography
 
@@ -26,16 +27,24 @@ import ua.wied.presentation.common.theme.WiEDTheme.typography
 fun MainBottomAppBar(
     navController: NavHostController
 ) {
-    val screens = BottomBarScreens.entries
+    val screens = remember {
+        listOf(
+            BottomBarScreen.Instructions,
+            BottomBarScreen.Reports,
+            BottomBarScreen.Evaluations,
+            BottomBarScreen.Profile
+        )
+    }
 
-    val currentBackStackEntry by navController.currentBackStackEntryAsState()
-    val currentRoute = currentBackStackEntry?.destination?.route
+    val navBackStackEntry by navController.currentBackStackEntryAsState()
+    val currentDestination = navBackStackEntry?.destination
 
     NavigationBar(
         modifier = Modifier.shadow(10.dp),
         containerColor = colors.primaryBackground,
     ) {
         screens.forEach { screen ->
+            val isSelected = currentDestination?.hierarchy?.any { it.route == screen.route::class.qualifiedName } == true
             NavigationBarItem(
                 colors = NavigationBarItemDefaults.colors().copy(
                     selectedTextColor = colors.tintColor,
@@ -45,7 +54,7 @@ fun MainBottomAppBar(
                     unselectedIconColor = colors.primaryText,
                     unselectedTextColor = colors.primaryText
                 ),
-                selected = currentBackStackEntry?.destination?.hierarchy?.any { it.route == screen.route } == true,
+                selected = isSelected,
                 icon = {
                     Icon(
                         painter = painterResource(screen.icon),
@@ -61,7 +70,7 @@ fun MainBottomAppBar(
                     )
                 },
                 onClick = {
-                    if (currentRoute != screen.route) {
+                    if (currentDestination != screen) {
                         navController.navigate(screen.route) {
                             launchSingleTop = true
                             restoreState = true

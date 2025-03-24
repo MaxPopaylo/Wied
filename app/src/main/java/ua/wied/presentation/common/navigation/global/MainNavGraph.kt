@@ -13,7 +13,7 @@ fun MainNavGraph(
 ) {
     NavHost(
         navController = navController,
-        startDestination = InstructionNav.Instructions.route
+        startDestination = InstructionNav.Instructions
     ) {
 
         instructionNavGraph(navController)
