@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
@@ -31,7 +32,6 @@ import ua.wied.presentation.common.theme.WiEDTheme.typography
 fun InstructionItem(
     modifier: Modifier = Modifier,
     instruction: Instruction,
-    instructionNum: Int,
     actions: @Composable () -> Unit
 ) {
     Row(
@@ -42,7 +42,8 @@ fun InstructionItem(
                 RoundedCornerShape(4.dp)
             )
             .padding(vertical = 16.dp, horizontal = 14.dp)
-            .height(40.dp)
+            .height(40.dp),
+        verticalAlignment = Alignment.CenterVertically
     ) {
         AsyncImage(
             modifier = Modifier
@@ -55,30 +56,14 @@ fun InstructionItem(
             contentScale = ContentScale.Crop,
         )
 
-        Column(
-            modifier = Modifier
-                .fillMaxHeight()
-                .padding(start = 8.dp),
-            verticalArrangement = Arrangement.Center,
-        ) {
-            Text(
-                text = stringResource(R.string.instruction_num_title, instructionNum),
-                color = colors.primaryText,
-                style = typography.w400.copy(fontSize = 14.sp),
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis
-            )
-
-            Spacer(modifier = Modifier.height(2.dp))
-
-            Text(
-                text = instruction.title,
-                color = colors.primaryText,
-                style = typography.w500.copy(fontSize = 20.sp),
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis
-            )
-        }
+        Text(
+            modifier = Modifier.padding(start = 8.dp),
+            text = instruction.title,
+            color = colors.primaryText,
+            style = typography.w500.copy(fontSize = 20.sp),
+            maxLines = 1,
+            overflow = TextOverflow.Ellipsis
+        )
 
         Spacer(modifier = Modifier.weight(1f))
 

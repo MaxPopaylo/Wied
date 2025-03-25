@@ -57,7 +57,6 @@ fun NavGraphBuilder.reportsNavGraph(navController: NavHostController) {
         val args = backStackEntry.toRoute<ReportNav.ReportStatusList>()
         ReportStatusListScreen(
             navController = navController,
-            instructionNum = args.instructionNum,
             instruction = args.instruction
         )
     }

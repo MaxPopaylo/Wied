@@ -26,14 +26,12 @@ import ua.wied.presentation.common.theme.WiEDTheme.typography
 fun ReportListItem(
     modifier: Modifier = Modifier,
     instruction: Instruction,
-    instructionNum: Int,
     reportsCount: Int,
     iconOnClick: () -> Unit
 ) {
     InstructionItem(
         modifier = modifier,
         instruction = instruction,
-        instructionNum = instructionNum,
         actions = {
             Row(
                 horizontalArrangement = Arrangement.spacedBy(4.dp)

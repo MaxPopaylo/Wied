@@ -14,13 +14,11 @@ import ua.wied.presentation.common.theme.WiEDTheme.colors
 fun InstructionListItem(
     modifier: Modifier = Modifier,
     instruction: Instruction,
-    instructionNum: Int,
     iconOnClick: () -> Unit
 ) {
     InstructionItem(
         modifier = modifier,
         instruction = instruction,
-        instructionNum = instructionNum,
         actions = {
             IconButton(
                 icon = painterResource(R.drawable.icon_play),

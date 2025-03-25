@@ -51,7 +51,6 @@
 
     <!-- Instructions Screen -->
     <string name="instructions">Інструкції</string>
-    <string name="instruction_num_title">Інструкція %1$d</string>
 
     <!-- Reports Screen -->
     <string name="reports">Заявки</string>

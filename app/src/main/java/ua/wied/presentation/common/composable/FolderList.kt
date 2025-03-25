@@ -6,7 +6,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
@@ -24,7 +24,7 @@ import ua.wied.presentation.common.theme.WiEDTheme.colors
 fun <T : HasId> FolderList (
     modifier: Modifier = Modifier,
     folders: List<Folder<T>>,
-    itemView: @Composable (Int, T) -> Unit
+    itemView: @Composable (T) -> Unit
 ) {
     LazyColumn(
         modifier = modifier,
@@ -35,8 +35,11 @@ fun <T : HasId> FolderList (
             stickyHeader(key = "folder-${folder.id}") {
                 FolderListHeader(folder.title)
             }
-            itemsIndexed(folder.items, key = { _, item -> "${folder.id}-${item.id}" }) { index, item ->
-                itemView(index, item)
+            items(
+                folder.items,
+                key = { "instruction-${folder.id}-${it.id}" }
+            ) { item ->
+                itemView(item)
             }
         }
     }

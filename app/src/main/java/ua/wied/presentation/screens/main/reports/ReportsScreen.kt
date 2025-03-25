@@ -16,10 +16,9 @@ fun ReportsScreen(
     val folders by viewModel.folders.collectAsStateWithLifecycle()
     FolderList(
         folders = folders,
-        itemView = { index, instruction ->
+        itemView = { instruction ->
             ReportListItem(
                 instruction = instruction,
-                instructionNum = index + 1,
                 reportsCount = 0,
                 iconOnClick = {}
             )

@@ -3,9 +3,7 @@ package ua.wied.presentation.screens.main.reports.status_list
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -38,7 +36,6 @@ import ua.wied.presentation.common.theme.WiEDTheme.typography
 @Composable
 fun ReportStatusListScreen(
     navController: NavHostController,
-    instructionNum: Int,
     instruction: Instruction,
     viewModel: ReportStatusListViewModel = hiltViewModel()
 ) {
@@ -52,25 +49,13 @@ fun ReportStatusListScreen(
             .fillMaxHeight(0.25f),
         contentAlignment = Alignment.Center
     ) {
-        Column(
-            verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            Text(
-                text = stringResource(R.string.instruction_num_title, instructionNum),
-                color = colors.secondaryText,
-                style = typography.w400.copy(
-                    fontSize = 18.sp
-                )
+        Text(
+            text = instruction.title,
+            color = colors.primaryText,
+            style = typography.w500.copy(
+                fontSize = 26.sp
             )
-            Text(
-                text = instruction.title,
-                color = colors.primaryText,
-                style = typography.w500.copy(
-                    fontSize = 26.sp
-                )
-            )
-        }
+        )
     }
 
     ReportsByStatusItem(
