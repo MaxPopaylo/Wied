@@ -9,7 +9,7 @@ import ua.wied.presentation.common.navigation.main.reportsNavGraph
 
 @Composable
 fun MainNavGraph(
-    navController: NavHostController,
+    navController: NavHostController
 ) {
     NavHost(
         navController = navController,

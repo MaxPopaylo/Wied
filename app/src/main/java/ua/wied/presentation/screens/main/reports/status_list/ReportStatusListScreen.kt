@@ -4,6 +4,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -43,41 +44,43 @@ fun ReportStatusListScreen(
     val inProgressReports by viewModel.inProgressReports.collectAsState()
     val doneReports by viewModel.doneReports.collectAsState()
 
-    Box(
-        modifier = Modifier
-            .fillMaxWidth()
-            .fillMaxHeight(0.25f),
-        contentAlignment = Alignment.Center
-    ) {
-        Text(
-            text = instruction.title,
-            color = colors.primaryText,
-            style = typography.w500.copy(
-                fontSize = 26.sp
+    Column {
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .fillMaxHeight(0.25f),
+            contentAlignment = Alignment.Center
+        ) {
+            Text(
+                text = instruction.title,
+                color = colors.primaryText,
+                style = typography.w500.copy(
+                    fontSize = 26.sp
+                )
             )
+        }
+
+        ReportsByStatusItem(
+            modifier = Modifier,
+            title = stringResource(R.string.new_reports),
+            reportsCount = todoReports?.size ?: 0,
+            itemClick = {}
+        )
+
+        ReportsByStatusItem(
+            modifier = Modifier.padding(top = 24.dp),
+            title = stringResource(R.string.in_progress_reports),
+            reportsCount = inProgressReports?.size ?: 0,
+            itemClick = {}
+        )
+
+        ReportsByStatusItem(
+            modifier = Modifier.padding(top = 24.dp),
+            title = stringResource(R.string.done_reports),
+            reportsCount = doneReports?.size ?: 0,
+            itemClick = {}
         )
     }
-
-    ReportsByStatusItem(
-        modifier = Modifier,
-        title = stringResource(R.string.new_reports),
-        reportsCount = todoReports?.size ?: 0,
-        itemClick = {}
-    )
-
-    ReportsByStatusItem(
-        modifier = Modifier.padding(top = 24.dp),
-        title = stringResource(R.string.in_progress_reports),
-        reportsCount = inProgressReports?.size ?: 0,
-        itemClick = {}
-    )
-
-    ReportsByStatusItem(
-        modifier = Modifier.padding(top = 24.dp),
-        title = stringResource(R.string.done_reports),
-        reportsCount = doneReports?.size ?: 0,
-        itemClick = {}
-    )
 }
 
 @Composable

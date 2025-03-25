@@ -15,11 +15,15 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavDestination.Companion.hierarchy
+import androidx.navigation.NavDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import ua.wied.R
 import ua.wied.presentation.common.navigation.BottomBarScreen
+import ua.wied.presentation.common.navigation.EvaluationNav
+import ua.wied.presentation.common.navigation.InstructionNav
+import ua.wied.presentation.common.navigation.ProfileNav
+import ua.wied.presentation.common.navigation.ReportNav
 import ua.wied.presentation.common.theme.WiEDTheme.colors
 import ua.wied.presentation.common.theme.WiEDTheme.typography
 
@@ -44,7 +48,7 @@ fun MainBottomAppBar(
         containerColor = colors.primaryBackground,
     ) {
         screens.forEach { screen ->
-            val isSelected = currentDestination?.hierarchy?.any { it.route == screen.route::class.qualifiedName } == true
+            val isSelected = isSelected(currentDestination, screen)
             NavigationBarItem(
                 colors = NavigationBarItemDefaults.colors().copy(
                     selectedTextColor = colors.tintColor,
@@ -73,9 +77,9 @@ fun MainBottomAppBar(
                     if (currentDestination != screen) {
                         navController.navigate(screen.route) {
                             launchSingleTop = true
-                            restoreState = true
+                            restoreState = false
                             popUpTo(navController.graph.startDestinationId) {
-                                saveState = true
+                                saveState = false
                             }
                         }
                     }
@@ -83,4 +87,18 @@ fun MainBottomAppBar(
             )
         }
     }
+}
+
+private fun isSelected(currentDestination: NavDestination?, screen: BottomBarScreen): Boolean {
+    val currentRoute = currentDestination?.route ?: return false
+
+    val parentDestination = when {
+        "InstructionNav" in currentRoute -> InstructionNav.Instructions
+        "ReportNav" in currentRoute -> ReportNav.Reports
+        "EvaluationNav" in currentRoute -> EvaluationNav.Evaluations
+        "ProfileNav" in currentRoute -> ProfileNav.Profile
+        else -> null
+    }
+
+    return parentDestination == screen.route
 }
