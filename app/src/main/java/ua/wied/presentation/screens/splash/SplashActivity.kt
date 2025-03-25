@@ -19,7 +19,7 @@ class SplashActivity : ComponentActivity() {
 
         lifecycleScope.launch {
             delay(300)
-            val startDestination = GlobalNav.Main::class.simpleName!!
+            val startDestination = GlobalNav.Auth::class.simpleName!!
             openActivity(MainActivity::class.java, startDestination)
         }
     }

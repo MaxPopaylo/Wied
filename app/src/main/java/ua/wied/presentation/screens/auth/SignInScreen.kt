@@ -2,6 +2,7 @@ package ua.wied.presentation.screens.auth
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -12,13 +13,17 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.painterResource
@@ -120,14 +125,14 @@ fun SignInScreen(
                 .fillMaxWidth()
                 .wrapContentHeight()
                 .background(
-                    colors.secondaryBackground
+                    colors.primaryBackground
                 )
                 .padding(horizontal = 16.dp, vertical = 32.dp)
         ) {
             BaseTextField(
                 title = stringResource(R.string.login),
                 text = state.login,
-                fieldColor = colors.primaryBackground,
+                fieldColor = colors.secondaryBackground,
                 errorMessage = state.loginError,
                 keyboardOptions = KeyboardOptions(
                     keyboardType = KeyboardType.Text,
@@ -143,7 +148,7 @@ fun SignInScreen(
             PasswordTextField (
                 title = stringResource(R.string.password),
                 text = state.password,
-                fieldColor = colors.primaryBackground,
+                fieldColor = colors.secondaryBackground,
                 textButton = stringResource(R.string.forgot_password_answer),
                 errorMessage = state.passwordError,
                 onTextButtonClick = {},
@@ -152,7 +157,7 @@ fun SignInScreen(
                 }
             )
 
-            Spacer(modifier = Modifier.height(42.dp))
+            Spacer(modifier = Modifier.height(52.dp))
 
             PrimaryButton (
                 title = stringResource(R.string.signin),
@@ -164,14 +169,102 @@ fun SignInScreen(
             )
         }
 
-        Box(
+        Column (
             modifier = Modifier
                 .fillMaxWidth()
                 .weight(1f)
                 .background(
                     colors.secondaryBackground
                 )
-        )
+                .padding(horizontal = 16.dp)
+        ) {
+
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = 24.dp),
+                horizontalArrangement = Arrangement.Center,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                HorizontalDivider(
+                    modifier = Modifier.height(1.5.dp).width(60.dp),
+                    color = colors.primaryText
+                )
+                Text(
+                    modifier = Modifier.padding(horizontal = 12.dp),
+                    text = "OR",
+                    color = colors.primaryText,
+                    style = typography.w500.copy(
+                        fontSize = 16.sp
+                    )
+                )
+                HorizontalDivider(
+                    modifier = Modifier.height(1.5.dp).width(60.dp),
+                    color = colors.primaryText
+                )
+            }
+
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(12.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                SignInIntegrationButton(
+                    modifier = Modifier.weight(1f),
+                    icon = painterResource(R.drawable.icon_google),
+                    description = stringResource(R.string.google),
+                    onClick = {
+                        authViewModel.showErrorToast(R.string.coming_soon)
+                    }
+                )
+                SignInIntegrationButton(
+                    modifier = Modifier.weight(1f),
+                    icon = painterResource(R.drawable.icon_facebook),
+                    description = stringResource(R.string.facebook),
+                    onClick = {
+                        authViewModel.showErrorToast(R.string.coming_soon)
+                    }
+                )
+                SignInIntegrationButton(
+                    modifier = Modifier.weight(1f),
+                    icon = painterResource(R.drawable.icon_apple),
+                    description = stringResource(R.string.apple),
+                    onClick = {
+                        authViewModel.showErrorToast(R.string.coming_soon)
+                    }
+                )
+            }
+
+
+
+        }
     }
 }
 
+
+@Composable
+private fun SignInIntegrationButton(
+    modifier: Modifier = Modifier,
+    description: String,
+    icon: Painter,
+    onClick: () -> Unit
+) {
+    Row(
+        modifier = modifier
+            .background(
+                colors.primaryBackground,
+                RoundedCornerShape(4.dp)
+            )
+            .clickable { onClick() }
+            .padding(12.dp),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.Center
+    ) {
+        Image(
+            modifier = Modifier.size(24.dp),
+            painter = icon,
+            contentDescription = description
+        )
+    }
+}

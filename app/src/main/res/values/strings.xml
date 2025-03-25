@@ -6,6 +6,10 @@
     <string name="placeholder">Placeholder</string>
     <string name="icon">Icon</string>
     <string name="main">Main</string>
+    <string name="apple" translatable="false">Apple</string>
+    <string name="google" translatable="false">Google</string>
+    <string name="facebook" translatable="false">Facebook</string>
+    <string name="coming_soon">Coming soon</string>
 
     <!-- Errors -->
     <string name="error">Something went wrong, we apologize</string>

@@ -5,6 +5,7 @@
     <string name="placeholder">Плейсхолдер</string>
     <string name="icon">Иконка</string>
     <string name="main">Основная</string>
+    <string name="coming_soon">Скоро будет</string>
 
     <!--    Errors-->
     <string name="error">Что-то пошло не так, приносим извинения</string>
