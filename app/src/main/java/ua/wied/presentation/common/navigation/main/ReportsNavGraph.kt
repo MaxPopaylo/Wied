@@ -63,7 +63,8 @@ fun NavGraphBuilder.reportsNavGraph(navController: NavHostController) {
 
     composable<ReportNav.ReportsByStatusList>(
         typeMap = mapOf(
-            typeOf<List<Report>>() to ReportsType
+            typeOf<List<Report>>() to ReportsType,
+            typeOf<Instruction>() to InstructionType
         ),
         enterTransition = {
             fadeIn(tween(300))
@@ -81,7 +82,8 @@ fun NavGraphBuilder.reportsNavGraph(navController: NavHostController) {
         val args = backStackEntry.toRoute<ReportNav.ReportsByStatusList>()
         ReportsByStatusScreen(
             navController = navController,
-            reports = args.reports
+            reports = args.reports,
+            instruction = args.instruction
         )
     }
 

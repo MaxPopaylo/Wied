@@ -5,6 +5,8 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import ua.wied.domain.models.report.ReportStatus
 import ua.wied.domain.models.report.Report
+import ua.wied.domain.models.user.Role
+import ua.wied.domain.models.user.User
 import java.time.LocalDateTime
 import javax.inject.Inject
 
@@ -37,7 +39,17 @@ class ReportStatusListViewModel @Inject constructor(
                 imageUrls = listOf("", ""),
                 createTime = LocalDateTime.now(),
                 updateTime = LocalDateTime.now(),
-                status = ReportStatus.TODO
+                status = ReportStatus.TODO,
+                creator = User(
+                    1,
+                    "",
+                    "Max",
+                    "",
+                    "",
+                    "",
+                    "",
+                    Role.EMPLOYEE
+                )
             ),
             Report(
                 id = 2,
@@ -47,7 +59,17 @@ class ReportStatusListViewModel @Inject constructor(
                 imageUrls = listOf("", ""),
                 createTime = LocalDateTime.now(),
                 updateTime = LocalDateTime.now(),
-                status = ReportStatus.TODO
+                status = ReportStatus.TODO,
+                creator = User(
+                    1,
+                    "",
+                    "Max",
+                    "",
+                    "",
+                    "",
+                    "",
+                    Role.EMPLOYEE
+                )
             ),
             Report(
                 id = 3,
@@ -57,7 +79,17 @@ class ReportStatusListViewModel @Inject constructor(
                 imageUrls = listOf("", ""),
                 createTime = LocalDateTime.now(),
                 updateTime = LocalDateTime.now(),
-                status = ReportStatus.IN_PROGRESS
+                status = ReportStatus.IN_PROGRESS,
+                creator = User(
+                    1,
+                    "",
+                    "Max",
+                    "",
+                    "",
+                    "",
+                    "",
+                    Role.EMPLOYEE
+                )
             ),            Report(
                 id = 4,
                 instructionId = 1,
@@ -66,7 +98,17 @@ class ReportStatusListViewModel @Inject constructor(
                 imageUrls = listOf("", ""),
                 createTime = LocalDateTime.now(),
                 updateTime = LocalDateTime.now(),
-                status = ReportStatus.IN_PROGRESS
+                status = ReportStatus.IN_PROGRESS,
+                creator = User(
+                    1,
+                    "",
+                    "Max",
+                    "",
+                    "",
+                    "",
+                    "",
+                    Role.EMPLOYEE
+                )
             ),            Report(
                 id = 5,
                 instructionId = 1,
@@ -75,7 +117,17 @@ class ReportStatusListViewModel @Inject constructor(
                 imageUrls = listOf("", ""),
                 createTime = LocalDateTime.now(),
                 updateTime = LocalDateTime.now(),
-                status = ReportStatus.DONE
+                status = ReportStatus.DONE,
+                creator = User(
+                    1,
+                    "",
+                    "Max",
+                    "",
+                    "",
+                    "",
+                    "",
+                    Role.EMPLOYEE
+                )
             ),            Report(
                 id = 6,
                 instructionId = 1,
@@ -84,7 +136,17 @@ class ReportStatusListViewModel @Inject constructor(
                 imageUrls = listOf("", ""),
                 createTime = LocalDateTime.now(),
                 updateTime = LocalDateTime.now(),
-                status = ReportStatus.DONE
+                status = ReportStatus.DONE,
+                creator = User(
+                    1,
+                    "",
+                    "Max",
+                    "",
+                    "",
+                    "",
+                    "",
+                    Role.EMPLOYEE
+                )
             ),
             Report(
                 id = 7,
@@ -94,7 +156,17 @@ class ReportStatusListViewModel @Inject constructor(
                 imageUrls = listOf("", ""),
                 createTime = LocalDateTime.now(),
                 updateTime = LocalDateTime.now(),
-                status = ReportStatus.DONE
+                status = ReportStatus.DONE,
+                creator = User(
+                    1,
+                    "",
+                    "Max",
+                    "",
+                    "",
+                    "",
+                    "",
+                    Role.EMPLOYEE
+                )
             )
         )
 
