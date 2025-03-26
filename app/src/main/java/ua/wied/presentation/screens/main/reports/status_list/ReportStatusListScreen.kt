@@ -31,6 +31,7 @@ import androidx.navigation.NavHostController
 import ua.wied.R
 import ua.wied.domain.models.instruction.Instruction
 import ua.wied.presentation.common.composable.IconButton
+import ua.wied.presentation.common.navigation.ReportNav
 import ua.wied.presentation.common.theme.WiEDTheme.colors
 import ua.wied.presentation.common.theme.WiEDTheme.typography
 
@@ -48,7 +49,7 @@ fun ReportStatusListScreen(
         Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .fillMaxHeight(0.25f),
+                .fillMaxHeight(0.20f),
             contentAlignment = Alignment.Center
         ) {
             Text(
@@ -64,21 +65,36 @@ fun ReportStatusListScreen(
             modifier = Modifier,
             title = stringResource(R.string.new_reports),
             reportsCount = todoReports?.size ?: 0,
-            itemClick = {}
+            itemClick = {
+                navController.navigate(ReportNav.ReportsByStatusList(
+                    reports = todoReports ?: emptyList(),
+                    instruction = instruction
+                ))
+            }
         )
 
         ReportsByStatusItem(
             modifier = Modifier.padding(top = 24.dp),
             title = stringResource(R.string.in_progress_reports),
             reportsCount = inProgressReports?.size ?: 0,
-            itemClick = {}
+            itemClick = {
+                navController.navigate(ReportNav.ReportsByStatusList(
+                    reports = inProgressReports ?: emptyList(),
+                    instruction = instruction
+                ))
+            }
         )
 
         ReportsByStatusItem(
             modifier = Modifier.padding(top = 24.dp),
             title = stringResource(R.string.done_reports),
             reportsCount = doneReports?.size ?: 0,
-            itemClick = {}
+            itemClick = {
+                navController.navigate(ReportNav.ReportsByStatusList(
+                    reports = doneReports ?: emptyList(),
+                    instruction = instruction
+                ))
+            }
         )
     }
 }
@@ -98,7 +114,7 @@ private fun ReportsByStatusItem(
                 color = colors.secondaryBackground,
                 shape = RoundedCornerShape(4.dp)
             )
-            .padding(vertical = 16.dp)
+            .padding(vertical = 10.dp)
             .padding(start = 14.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
@@ -141,7 +157,9 @@ private fun ReportsByStatusItem(
             backgroundColor = Color.Transparent,
             iconColor = colors.primaryText,
             borderColor = Color.Transparent,
-            onClick = {  }
+            onClick = {
+                itemClick()
+            }
         )
     }
 }
