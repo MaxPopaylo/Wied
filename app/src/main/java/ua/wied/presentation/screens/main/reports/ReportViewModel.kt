@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import ua.wied.domain.models.instruction.Element
 import ua.wied.domain.models.instruction.Folder
 import ua.wied.domain.models.instruction.Instruction
@@ -32,8 +33,12 @@ class ReportViewModel @Inject constructor(
         Folder(5, "Folder 5", list)
     )
 
-    private var _folders = MutableStateFlow<List<Folder<Instruction>>>(folderList)
+    private var _folders = MutableStateFlow<List<Folder<Instruction>>?>(null)
     val folders = _folders.asStateFlow()
+
+    init {
+        _folders.update { folderList }
+    }
 
 
 }

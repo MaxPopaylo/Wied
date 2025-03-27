@@ -12,11 +12,15 @@ import androidx.compose.ui.unit.dp
 import ua.wied.presentation.common.theme.WiEDTheme.colors
 
 @Composable
-fun LoadingIndicator() {
+fun LoadingIndicator(
+    isDarkened: Boolean = true
+) {
     Box(
         Modifier
             .fillMaxSize()
-            .background(Color(0x80000000)),
+            .background(
+                if (isDarkened) Color(0x80000000) else Color.Transparent
+            ),
         contentAlignment = Alignment.Center
     ) {
         CircularProgressIndicator(
