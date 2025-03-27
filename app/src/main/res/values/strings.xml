@@ -66,6 +66,9 @@
     <string name="done_reports">Done</string>
     <string name="current_reports">Current reports</string>
     <string name="report">Report</string>
+    <string name="todo_report_message">Pending</string>
+    <string name="in_progress_report_message">Working</string>
+    <string name="done_report_message">Done</string>
 
 </resources>
 

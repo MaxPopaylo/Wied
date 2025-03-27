@@ -60,6 +60,9 @@
     <string name="done_reports">Выполнены</string>
     <string name="current_reports">Текущие заявки</string>
     <string name="report">Заявка</string>
+    <string name="todo_report_message">Ждёт</string>
+    <string name="in_progress_report_message">В работе</string>
+    <string name="done_report_message">Готово</string>
 
 
 </resources>
