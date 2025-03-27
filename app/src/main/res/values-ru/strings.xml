@@ -6,6 +6,10 @@
     <string name="icon">Иконка</string>
     <string name="main">Основная</string>
     <string name="coming_soon">Скоро будет</string>
+    <string name="title">Название</string>
+    <string name="description">Описание</string>
+    <string name="photo">Фото</string>
+    <string name="send">Отправить</string>
 
     <!--    Errors-->
     <string name="error">Что-то пошло не так, приносим извинения</string>
@@ -63,6 +67,7 @@
     <string name="todo_report_message">Ждёт</string>
     <string name="in_progress_report_message">В работе</string>
     <string name="done_report_message">Готово</string>
+    <string name="create_report">Создать заявку</string>
 
 
 </resources>

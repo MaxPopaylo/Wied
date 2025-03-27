@@ -10,6 +10,10 @@
     <string name="google" translatable="false">Google</string>
     <string name="facebook" translatable="false">Facebook</string>
     <string name="coming_soon">Coming soon</string>
+    <string name="title">Title</string>
+    <string name="description">Description</string>
+    <string name="photo">Photo</string>
+    <string name="send">Send</string>
 
     <!-- Errors -->
     <string name="error">Something went wrong, we apologize</string>
@@ -69,6 +73,7 @@
     <string name="todo_report_message">Pending</string>
     <string name="in_progress_report_message">Working</string>
     <string name="done_report_message">Done</string>
+    <string name="create_report">Create report</string>
 
 </resources>
 
