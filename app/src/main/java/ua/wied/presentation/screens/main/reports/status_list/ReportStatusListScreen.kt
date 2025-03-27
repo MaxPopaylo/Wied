@@ -20,6 +20,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
@@ -30,6 +31,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import ua.wied.R
 import ua.wied.domain.models.instruction.Instruction
+import ua.wied.domain.models.report.ReportStatus
 import ua.wied.presentation.common.composable.IconButton
 import ua.wied.presentation.common.navigation.ReportNav
 import ua.wied.presentation.common.theme.WiEDTheme.colors
@@ -68,7 +70,8 @@ fun ReportStatusListScreen(
             itemClick = {
                 navController.navigate(ReportNav.ReportsByStatusList(
                     reports = todoReports ?: emptyList(),
-                    instruction = instruction
+                    instruction = instruction,
+                    status = ReportStatus.TODO.name
                 ))
             }
         )
@@ -80,7 +83,8 @@ fun ReportStatusListScreen(
             itemClick = {
                 navController.navigate(ReportNav.ReportsByStatusList(
                     reports = inProgressReports ?: emptyList(),
-                    instruction = instruction
+                    instruction = instruction,
+                    status = ReportStatus.IN_PROGRESS.name
                 ))
             }
         )
@@ -92,7 +96,8 @@ fun ReportStatusListScreen(
             itemClick = {
                 navController.navigate(ReportNav.ReportsByStatusList(
                     reports = doneReports ?: emptyList(),
-                    instruction = instruction
+                    instruction = instruction,
+                    status = ReportStatus.DONE.name
                 ))
             }
         )
@@ -109,6 +114,7 @@ private fun ReportsByStatusItem(
     Row(
         modifier = modifier
             .fillMaxWidth()
+            .clip(RoundedCornerShape(4.dp))
             .clickable { itemClick() }
             .background(
                 color = colors.secondaryBackground,
@@ -157,9 +163,7 @@ private fun ReportsByStatusItem(
             backgroundColor = Color.Transparent,
             iconColor = colors.primaryText,
             borderColor = Color.Transparent,
-            onClick = {
-                itemClick()
-            }
+            onClick = itemClick
         )
     }
 }

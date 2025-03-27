@@ -57,5 +57,7 @@
     <string name="new_reports">Нові заявки</string>
     <string name="in_progress_reports">В роботі</string>
     <string name="done_reports">Виконані</string>
+    <string name="current_reports">Поточні заявки</string>
+    <string name="report">Заявка</string>
 
 </resources>

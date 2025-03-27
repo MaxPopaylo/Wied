@@ -17,6 +17,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import ua.wied.domain.models.instruction.Instruction
 import ua.wied.domain.models.report.Report
+import ua.wied.presentation.common.navigation.ReportNav
 import ua.wied.presentation.common.theme.WiEDTheme.colors
 import ua.wied.presentation.common.theme.WiEDTheme.typography
 import ua.wied.presentation.screens.main.reports.by_status.composable.ReportsByStatusItem
@@ -54,7 +55,9 @@ fun ReportsByStatusScreen(
             ) { report ->
                 ReportsByStatusItem(
                     report = report,
-                    onClick = {}
+                    onClick = {
+                        navController.navigate(ReportNav.ReportDetail(report))
+                    }
                 )
             }
         }

@@ -51,7 +51,7 @@ sealed class ReportNav : MainNav() {
     data class ReportStatusList(val instruction: Instruction): ReportNav()
 
     @Serializable
-    data class ReportsByStatusList(val reports: List<Report>, val instruction: Instruction): ReportNav()
+    data class ReportsByStatusList(val reports: List<Report>, val instruction: Instruction, val status: String): ReportNav()
 
     @Serializable
     data class ReportDetail(val report: Report): ReportNav()

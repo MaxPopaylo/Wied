@@ -20,6 +20,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import ua.wied.R
@@ -39,17 +40,24 @@ fun MainTopAppBar(
     when {
         currentDestinationRoute == InstructionNav.Instructions::class.qualifiedName ->
             DefaultTopAppBar(stringResource(R.string.instructions))
+
         currentDestinationRoute == ReportNav.Reports::class.qualifiedName ->
             DefaultTopAppBar(stringResource(R.string.reports))
+
         currentDestinationRoute?.startsWith(ReportNav.ReportStatusList::class.qualifiedName ?: "") == true ->
-            TopAppBarWithBackButton(stringResource(R.string.reports), navController)
+            TopAppBarWithBackButton(stringResource(R.string.current_reports), navController)
+
+        currentDestinationRoute?.startsWith(ReportNav.ReportsByStatusList::class.qualifiedName ?: "") == true ->
+            TopAppBarWithBackButton(stringResource(titleForReportsByStatusList(navBackStackEntry)), navController)
+
+        currentDestinationRoute?.startsWith(ReportNav.ReportDetail::class.qualifiedName ?: "") == true ->
+            TopAppBarWithBackButton(stringResource(R.string.report), navController)
+
         else ->
             DefaultTopAppBar(stringResource(R.string.main))
     }
 
 }
-
-
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -74,7 +82,6 @@ private fun DefaultTopAppBar(
         }
     )
 }
-
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -157,3 +164,12 @@ private fun TopAppBarWithBackButton(
         }
     )
 }
+
+
+private fun titleForReportsByStatusList(navBackStackEntry: NavBackStackEntry?) =
+    when (navBackStackEntry?.arguments?.getString("status")) {
+        "TODO" -> R.string.new_reports
+        "IN_PROGRESS" -> R.string.in_progress_reports
+        "DONE" -> R.string.done_reports
+        else -> R.string.reports
+    }

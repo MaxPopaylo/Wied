@@ -64,6 +64,8 @@
     <string name="new_reports">New reports</string>
     <string name="in_progress_reports">In progress</string>
     <string name="done_reports">Done</string>
+    <string name="current_reports">Current reports</string>
+    <string name="report">Report</string>
 
 </resources>
 
