@@ -12,7 +12,7 @@ import ua.wied.presentation.screens.main.instructions.InstructionsScreen
 fun NavGraphBuilder.instructionNavGraph(navController: NavHostController) {
     composable<InstructionNav.Instructions>(
         enterTransition = {
-            fadeIn(tween(300))
+            fadeIn(tween(500))
         },
         exitTransition = {
             fadeOut(tween(300))

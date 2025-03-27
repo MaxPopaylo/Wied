@@ -3,6 +3,7 @@ package ua.wied.presentation.common.navigation.main
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
+import androidx.compose.animation.slideInHorizontally
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
@@ -22,13 +23,13 @@ import kotlin.reflect.typeOf
 fun NavGraphBuilder.reportsNavGraph(navController: NavHostController) {
     composable<ReportNav.Reports>(
         enterTransition = {
-            fadeIn(tween(300))
+            fadeIn(tween(500))
         },
         exitTransition = {
             fadeOut(tween(300))
         },
         popEnterTransition = {
-            fadeIn(tween(300))
+            slideInHorizontally(initialOffsetX = { -it }, animationSpec = tween(500))
         },
         popExitTransition = {
             fadeOut(tween(300))
@@ -42,13 +43,13 @@ fun NavGraphBuilder.reportsNavGraph(navController: NavHostController) {
             typeOf<Instruction>() to InstructionType
         ),
         enterTransition = {
-            fadeIn(tween(300))
+            slideInHorizontally(initialOffsetX = { it }, animationSpec = tween(500))
         },
         exitTransition = {
             fadeOut(tween(300))
         },
         popEnterTransition = {
-            fadeIn(tween(300))
+            slideInHorizontally(initialOffsetX = { -it }, animationSpec = tween(500))
         },
         popExitTransition = {
             fadeOut(tween(300))
@@ -67,13 +68,13 @@ fun NavGraphBuilder.reportsNavGraph(navController: NavHostController) {
             typeOf<Instruction>() to InstructionType
         ),
         enterTransition = {
-            fadeIn(tween(300))
+            slideInHorizontally(initialOffsetX = { it }, animationSpec = tween(500))
         },
         exitTransition = {
             fadeOut(tween(300))
         },
         popEnterTransition = {
-            fadeIn(tween(300))
+            slideInHorizontally(initialOffsetX = { -it }, animationSpec = tween(500))
         },
         popExitTransition = {
             fadeOut(tween(300))
@@ -92,13 +93,13 @@ fun NavGraphBuilder.reportsNavGraph(navController: NavHostController) {
             typeOf<Report>() to ReportType
         ),
         enterTransition = {
-            fadeIn(tween(300))
+            slideInHorizontally(initialOffsetX = { it }, animationSpec = tween(500))
         },
         exitTransition = {
             fadeOut(tween(300))
         },
         popEnterTransition = {
-            fadeIn(tween(300))
+            slideInHorizontally(initialOffsetX = { -it }, animationSpec = tween(500))
         },
         popExitTransition = {
             fadeOut(tween(300))
