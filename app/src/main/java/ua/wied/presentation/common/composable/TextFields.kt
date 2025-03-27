@@ -19,6 +19,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
@@ -234,6 +235,95 @@ fun PhoneTextField(
         ),
         visualTransformation = phoneNumberVisualTransformation()
     )
+}
+
+@Composable
+fun UnderlineTextField(
+    text: String,
+    title: String?,
+    maxTextLength: Int,
+    keyboardOptions: KeyboardOptions = KeyboardOptions(),
+    keyboardActions: KeyboardActions = KeyboardActions(),
+    onValueChange: (String) -> Unit
+) {
+    val textLength = text.length
+
+    BasicTextField(
+        modifier = Modifier.height(60.dp),
+        value = text,
+        onValueChange = {
+            if (textLength < maxTextLength) {
+                onValueChange(it)
+            }
+        },
+        keyboardOptions = keyboardOptions,
+        keyboardActions = keyboardActions,
+        textStyle = typography.w400.copy(
+            fontSize = 16.sp,
+            color = colors.primaryText
+        ),
+        maxLines = 1,
+        singleLine = true,
+        cursorBrush = SolidColor(colors.primaryText)
+    ) {
+        Column {
+            Row (
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(IntrinsicSize.Max)
+                    .padding(vertical = 10.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Box (
+                    modifier = Modifier
+                        .weight(1f),
+                    contentAlignment = Alignment.CenterStart
+                ) {
+
+                    title?.let {
+                        if (text.isEmpty()) {
+                            Text(
+                                text = it,
+                                color = colors.secondaryText,
+                                style = typography.w400.copy(
+                                    fontSize = 14.sp
+                                ),
+                                modifier = Modifier.animateContentSize()
+                            )
+                        }
+                    }
+
+                    it.invoke()
+                }
+
+            }
+
+            HorizontalDivider(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(1.dp),
+                color = colors.secondaryText
+            )
+
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(IntrinsicSize.Max)
+                    .padding(vertical = 4.dp),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.End
+            ) {
+                Text(
+                    text = "$textLength/$maxTextLength",
+                    color = colors.secondaryText,
+                    style = typography.w400.copy(
+                        fontSize = 10.sp
+                    ),
+                    modifier = Modifier.animateContentSize()
+                )
+            }
+        }
+    }
 }
 
 private fun phoneNumberVisualTransformation(): VisualTransformation {
