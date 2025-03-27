@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layer-list
     xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:drawable="@color/tintColor"/>
+    <item android:drawable="@color/white"/>
 
     <item
-        android:height="216dp"
+        android:height="170dp"
         android:width="256dp"
         android:gravity="center"
-        android:drawable="@drawable/icon_big_square"/>
+        android:drawable="@drawable/splash_app_logo"/>
 </layer-list>
