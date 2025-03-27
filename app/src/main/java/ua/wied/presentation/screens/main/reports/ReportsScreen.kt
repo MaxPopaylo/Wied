@@ -33,7 +33,9 @@ fun ReportsScreen(
                             reportsIconOnClick = {
                                 navController.navigate(ReportNav.ReportStatusList(instruction))
                             },
-                            createIconOnClick = {}
+                            createIconOnClick = {
+                                navController.navigate(ReportNav.CreateReport(instruction))
+                            }
                         )
                     }
                 )

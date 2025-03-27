@@ -48,6 +48,9 @@ sealed class ReportNav : MainNav() {
     data object Reports: ReportNav()
 
     @Serializable
+    data class CreateReport(val instruction: Instruction): ReportNav()
+
+    @Serializable
     data class ReportStatusList(val instruction: Instruction): ReportNav()
 
     @Serializable

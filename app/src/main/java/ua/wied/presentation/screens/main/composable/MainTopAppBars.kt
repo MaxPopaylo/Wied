@@ -44,6 +44,9 @@ fun MainTopAppBar(
         currentDestinationRoute == ReportNav.Reports::class.qualifiedName ->
             DefaultTopAppBar(stringResource(R.string.reports))
 
+        currentDestinationRoute?.startsWith(ReportNav.CreateReport::class.qualifiedName ?: "") == true ->
+            TopAppBarWithBackButton(stringResource(R.string.create_report), navController)
+
         currentDestinationRoute?.startsWith(ReportNav.ReportStatusList::class.qualifiedName ?: "") == true ->
             TopAppBarWithBackButton(stringResource(R.string.current_reports), navController)
 

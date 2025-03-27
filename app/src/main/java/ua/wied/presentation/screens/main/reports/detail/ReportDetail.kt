@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -25,20 +24,15 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import ua.wied.R
 import ua.wied.domain.models.report.Report
 import ua.wied.domain.models.report.ReportStatus
-import ua.wied.domain.models.user.Role
-import ua.wied.domain.models.user.User
-import ua.wied.presentation.common.theme.WiEDTheme
 import ua.wied.presentation.common.theme.WiEDTheme.colors
 import ua.wied.presentation.common.theme.WiEDTheme.typography
 import ua.wied.presentation.common.utils.extensions.formatToShortDate
-import java.time.LocalDateTime
 
 @Composable
 fun ReportDetailScreen(
@@ -195,40 +189,3 @@ private fun getStatusMessage(status: ReportStatus) =
         ReportStatus.IN_PROGRESS -> stringResource(R.string.in_progress_reports)
         ReportStatus.DONE -> stringResource(R.string.done_report_message)
     }
-
-@Preview(showBackground = true, showSystemUi = true)
-@Composable
-fun ReportDetailScreenPrew() {
-    WiEDTheme {
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(colors.primaryBackground)
-                .padding(horizontal = 24.dp)
-                .padding(top = 52.dp)
-        ) {
-            ReportDetailScreen(
-                Report(
-                    id = 3,
-                    instructionId = 1,
-                    title = "Test 3",
-                    info = "testtesttesttesttesttesttesttesttesttesttestvtesttest",
-                    imageUrls = listOf("", ""),
-                    createTime = LocalDateTime.now(),
-                    updateTime = LocalDateTime.now(),
-                    status = ReportStatus.IN_PROGRESS,
-                    creator = User(
-                        1,
-                        "",
-                        "Max",
-                        "",
-                        "",
-                        "",
-                        "",
-                        Role.EMPLOYEE
-                    )
-                )
-            )
-        }
-    }
-}

@@ -16,6 +16,7 @@ import ua.wied.presentation.common.navigation.ReportType
 import ua.wied.presentation.common.navigation.ReportsType
 import ua.wied.presentation.screens.main.reports.ReportsScreen
 import ua.wied.presentation.screens.main.reports.by_status.ReportsByStatusScreen
+import ua.wied.presentation.screens.main.reports.create.CreateReportScreen
 import ua.wied.presentation.screens.main.reports.detail.ReportDetailScreen
 import ua.wied.presentation.screens.main.reports.status_list.ReportStatusListScreen
 import kotlin.reflect.typeOf
@@ -108,6 +109,29 @@ fun NavGraphBuilder.reportsNavGraph(navController: NavHostController) {
         val args = backStackEntry.toRoute<ReportNav.ReportDetail>()
         ReportDetailScreen(
             report = args.report
+        )
+    }
+
+    composable<ReportNav.CreateReport>(
+        typeMap = mapOf(
+            typeOf<Instruction>() to InstructionType
+        ),
+        enterTransition = {
+            slideInHorizontally(initialOffsetX = { it }, animationSpec = tween(500))
+        },
+        exitTransition = {
+            fadeOut(tween(300))
+        },
+        popEnterTransition = {
+            slideInHorizontally(initialOffsetX = { -it }, animationSpec = tween(500))
+        },
+        popExitTransition = {
+            fadeOut(tween(300))
+        }
+    ) { backStackEntry ->
+        val args = backStackEntry.toRoute<ReportNav.CreateReport>()
+        CreateReportScreen(
+            instruction = args.instruction
         )
     }
 }
