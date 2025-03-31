@@ -45,7 +45,7 @@ fun ReportsByStatusItem(
     ) {
         Column {
             Text(
-                text = report.creator.name,
+                text = report.userId.toString(),
                 color = colors.primaryText,
                 style = typography.w400.copy(
                     fontSize = 18.sp

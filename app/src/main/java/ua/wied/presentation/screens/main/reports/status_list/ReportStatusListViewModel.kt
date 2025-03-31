@@ -3,10 +3,9 @@ package ua.wied.presentation.screens.main.reports.status_list
 import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import ua.wied.domain.models.report.ImageUrl
 import ua.wied.domain.models.report.ReportStatus
 import ua.wied.domain.models.report.Report
-import ua.wied.domain.models.user.Role
-import ua.wied.domain.models.user.User
 import java.time.LocalDateTime
 import javax.inject.Inject
 
@@ -34,141 +33,91 @@ class ReportStatusListViewModel @Inject constructor(
             Report(
                 id = 1,
                 instructionId = 1,
+                userId = 1,
                 title = "Test 1",
                 info = "testtesttesttesttesttesttesttesttesttesttestvtesttest",
-                imageUrls = listOf("https://randomwordgenerator.com/img/picture-generator/53e4d4404b54a914f1dc8460962e33791c3ad6e04e507749742c78d69e48c1_640.jpg"),
-                createTime = LocalDateTime.now(),
-                updateTime = LocalDateTime.now(),
+                imageUrls = listOf(
+                    ImageUrl(1, "https://randomwordgenerator.com/img/picture-generator/53e4d4404b54a914f1dc8460962e33791c3ad6e04e507749742c78d69e48c1_640.jpg")
+                ),
                 status = ReportStatus.TODO,
-                creator = User(
-                    1,
-                    "",
-                    "Max",
-                    "",
-                    "",
-                    "",
-                    "",
-                    Role.EMPLOYEE
-                )
+                createTime = LocalDateTime.now(),
+                updateTime = LocalDateTime.now()
             ),
             Report(
                 id = 2,
                 instructionId = 1,
+                userId = 1,
                 title = "Test 2",
                 info = "testtesttesttesttesttesttesttesttesttesttestvtesttest",
-                imageUrls = listOf("https://randomwordgenerator.com/img/picture-generator/53e4d4404b54a914f1dc8460962e33791c3ad6e04e507749742c78d69e48c1_640.jpg", "https://randomwordgenerator.com/img/picture-generator/53e4d4404b54a914f1dc8460962e33791c3ad6e04e507749742c78d69e48c1_640.jpg"),
-                createTime = LocalDateTime.now(),
-                updateTime = LocalDateTime.now(),
+                imageUrls = listOf(
+                    ImageUrl(2, "https://randomwordgenerator.com/img/picture-generator/53e4d4404b54a914f1dc8460962e33791c3ad6e04e507749742c78d69e48c1_640.jpg"),
+                    ImageUrl(3, "https://randomwordgenerator.com/img/picture-generator/53e4d4404b54a914f1dc8460962e33791c3ad6e04e507749742c78d69e48c1_640.jpg")
+                ),
                 status = ReportStatus.TODO,
-                creator = User(
-                    1,
-                    "",
-                    "Max",
-                    "",
-                    "",
-                    "",
-                    "",
-                    Role.EMPLOYEE
-                )
+                createTime = LocalDateTime.now(),
+                updateTime = LocalDateTime.now()
             ),
             Report(
                 id = 3,
                 instructionId = 1,
+                userId = 2,
                 title = "Зламана ручка",
                 info = "Відлетіла дверна ручка, не можливо двері відчинити",
-                imageUrls = listOf("https://randomwordgenerator.com/img/picture-generator/53e4d4404b54a914f1dc8460962e33791c3ad6e04e507749742c78d69e48c1_640.jpg", "https://randomwordgenerator.com/img/picture-generator/53e4d4404b54a914f1dc8460962e33791c3ad6e04e507749742c78d69e48c1_640.jpg", "https://randomwordgenerator.com/img/picture-generator/53e4d4404b54a914f1dc8460962e33791c3ad6e04e507749742c78d69e48c1_640.jpg"),
-                createTime = LocalDateTime.now(),
-                updateTime = LocalDateTime.now(),
+                imageUrls = listOf(
+                    ImageUrl(4, "https://randomwordgenerator.com/img/picture-generator/53e4d4404b54a914f1dc8460962e33791c3ad6e04e507749742c78d69e48c1_640.jpg"),
+                    ImageUrl(5, "https://randomwordgenerator.com/img/picture-generator/53e4d4404b54a914f1dc8460962e33791c3ad6e04e507749742c78d69e48c1_640.jpg"),
+                    ImageUrl(6, "https://randomwordgenerator.com/img/picture-generator/53e4d4404b54a914f1dc8460962e33791c3ad6e04e507749742c78d69e48c1_640.jpg")
+                ),
                 status = ReportStatus.TODO,
-                creator = User(
-                    1,
-                    "",
-                    "Зозуля А.",
-                    "",
-                    "",
-                    "",
-                    "",
-                    Role.EMPLOYEE
-                )
-            ),            Report(
+                createTime = LocalDateTime.now(),
+                updateTime = LocalDateTime.now()
+            ),
+            Report(
                 id = 4,
                 instructionId = 1,
+                userId = 1,
                 title = "Test 4",
                 info = "testtesttesttesttesttesttesttesttesttesttestvtesttest",
-                imageUrls = listOf("", ""),
-                createTime = LocalDateTime.now(),
-                updateTime = LocalDateTime.now(),
+                imageUrls = emptyList(),
                 status = ReportStatus.IN_PROGRESS,
-                creator = User(
-                    1,
-                    "",
-                    "Max",
-                    "",
-                    "",
-                    "",
-                    "",
-                    Role.EMPLOYEE
-                )
-            ),            Report(
+                createTime = LocalDateTime.now(),
+                updateTime = LocalDateTime.now()
+            ),
+            Report(
                 id = 5,
                 instructionId = 1,
+                userId = 1,
                 title = "Test 5",
                 info = "Відлетіла дверна ручка, не можливо двері відчинити",
-                imageUrls = listOf("", ""),
-                createTime = LocalDateTime.now(),
-                updateTime = LocalDateTime.now(),
+                imageUrls = emptyList(),
                 status = ReportStatus.DONE,
-                creator = User(
-                    1,
-                    "",
-                    "Max",
-                    "",
-                    "",
-                    "",
-                    "",
-                    Role.EMPLOYEE
-                )
-            ),            Report(
+                createTime = LocalDateTime.now(),
+                updateTime = LocalDateTime.now()
+            ),
+            Report(
                 id = 6,
                 instructionId = 1,
+                userId = 1,
                 title = "Test 6",
                 info = "testtesttesttesttesttesttesttesttesttesttestvtesttest",
-                imageUrls = listOf("", ""),
-                createTime = LocalDateTime.now(),
-                updateTime = LocalDateTime.now(),
+                imageUrls = emptyList(),
                 status = ReportStatus.DONE,
-                creator = User(
-                    1,
-                    "",
-                    "Max",
-                    "",
-                    "",
-                    "",
-                    "",
-                    Role.EMPLOYEE
-                )
+                createTime = LocalDateTime.now(),
+                updateTime = LocalDateTime.now()
             ),
             Report(
                 id = 7,
                 instructionId = 1,
+                userId = 1,
                 title = "Test 7",
                 info = "testtesttesttesttesttesttesttesttesttesttestvtesttest",
-                imageUrls = listOf("", ""),
-                createTime = LocalDateTime.now(),
-                updateTime = LocalDateTime.now(),
+                imageUrls = emptyList(),
                 status = ReportStatus.DONE,
-                creator = User(
-                    1,
-                    "",
-                    "Max",
-                    "",
-                    "",
-                    "",
-                    "",
-                    Role.EMPLOYEE
-                )
+                createTime = LocalDateTime.now(),
+                updateTime = LocalDateTime.now()
             )
         )
+
 
         splitReportsByStatus()
     }

@@ -63,7 +63,7 @@ fun ReportStatusListScreen(
             )
         }
 
-        ReportsByStatusItem(
+        ReportStatusItem(
             modifier = Modifier,
             title = stringResource(R.string.new_reports),
             reportsCount = todoReports?.size ?: 0,
@@ -76,7 +76,7 @@ fun ReportStatusListScreen(
             }
         )
 
-        ReportsByStatusItem(
+        ReportStatusItem(
             modifier = Modifier.padding(top = 24.dp),
             title = stringResource(R.string.in_progress_reports),
             reportsCount = inProgressReports?.size ?: 0,
@@ -89,7 +89,7 @@ fun ReportStatusListScreen(
             }
         )
 
-        ReportsByStatusItem(
+        ReportStatusItem(
             modifier = Modifier.padding(top = 24.dp),
             title = stringResource(R.string.done_reports),
             reportsCount = doneReports?.size ?: 0,
@@ -105,7 +105,7 @@ fun ReportStatusListScreen(
 }
 
 @Composable
-private fun ReportsByStatusItem(
+private fun ReportStatusItem(
     modifier: Modifier = Modifier,
     title: String,
     reportsCount: Int,

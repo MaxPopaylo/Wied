@@ -11,15 +11,20 @@ import java.time.LocalDateTime
 data class Report (
     override val id: Int,
     val instructionId: Int,
+    val userId: Int,
     val title: String,
     val info: String,
-    val imageUrls: List<String>,
+    val imageUrls: List<ImageUrl>,
+    val status: ReportStatus,
     @Serializable(with = LocalDateTimeSerializer::class) val createTime: LocalDateTime,
-    @Serializable(with = LocalDateTimeSerializer::class) val updateTime: LocalDateTime,
-    val creator: User,
-    val status: ReportStatus
+    @Serializable(with = LocalDateTimeSerializer::class) val updateTime: LocalDateTime
 ): HasId
 
+@Serializable
+data class ImageUrl(
+    val id: Int,
+    val imageUrl: String
+)
 
 enum class ReportStatus{
     @Json(name = "todo")
