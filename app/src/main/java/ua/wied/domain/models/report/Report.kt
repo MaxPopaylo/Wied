@@ -3,7 +3,6 @@ package ua.wied.domain.models.report
 import com.squareup.moshi.Json
 import kotlinx.serialization.Serializable
 import ua.wied.domain.models.HasId
-import ua.wied.domain.models.user.User
 import ua.wied.domain.serializer.LocalDateTimeSerializer
 import java.time.LocalDateTime
 
