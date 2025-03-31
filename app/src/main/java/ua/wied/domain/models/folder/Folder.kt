@@ -1,4 +1,4 @@
-package ua.wied.domain.models.instruction
+package ua.wied.domain.models.folder
 
 import ua.wied.domain.models.HasId
 

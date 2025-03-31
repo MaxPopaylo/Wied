@@ -15,7 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import ua.wied.domain.models.HasId
-import ua.wied.domain.models.instruction.Folder
+import ua.wied.domain.models.folder.Folder
 import ua.wied.presentation.common.theme.WiEDTheme
 import ua.wied.presentation.common.theme.WiEDTheme.colors
 
