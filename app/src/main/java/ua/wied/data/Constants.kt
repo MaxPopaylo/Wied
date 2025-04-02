@@ -20,6 +20,6 @@ object UserPreferencesConstants {
 
 internal object NetworkKeys {
     const val BASE_URL = "https://wied-backend.onrender.com/"
-    const val HEADER_AUTHORIZATION = "Authorization"
+    const val HEADER_AUTHORIZATION = "token"
     const val TOKEN_TYPE = "Bearer"
 }
