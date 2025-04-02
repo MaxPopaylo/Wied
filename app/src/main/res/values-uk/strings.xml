@@ -2,6 +2,14 @@
 <resources>
     <!--    App-->
     <string name="welcome">Створюйте зрозумілі відео-інструкції для ваших працівників за 3 хвилини безплатно!</string>
+    <string name="placeholder">Плейсхолдер</string>
+    <string name="icon">Іконка</string>
+    <string name="main">Основна</string>
+    <string name="coming_soon">Скоро буде</string>
+    <string name="title">Назва</string>
+    <string name="description">Опис</string>
+    <string name="photo">Фото</string>
+    <string name="send">Надіслати</string>
 
     <!--    Errors-->
     <string name="error">Щось пішло не так, перепрошуємо</string>
@@ -47,4 +55,17 @@
 
     <!-- Instructions Screen -->
     <string name="instructions">Інструкції</string>
+
+    <!-- Reports Screen -->
+    <string name="reports">Заявки</string>
+    <string name="new_reports">Нові заявки</string>
+    <string name="in_progress_reports">В роботі</string>
+    <string name="done_reports">Виконані</string>
+    <string name="current_reports">Поточні заявки</string>
+    <string name="report">Заявка</string>
+    <string name="todo_report_message">Очікує</string>
+    <string name="in_progress_report_message">В роботі</string>
+    <string name="done_report_message">Виконано</string>
+    <string name="create_report">Створити заявку</string>
+
 </resources>

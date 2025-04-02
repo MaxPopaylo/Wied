@@ -5,19 +5,19 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import ua.wied.presentation.common.navigation.InstructionNav
 import ua.wied.presentation.common.navigation.main.instructionNavGraph
+import ua.wied.presentation.common.navigation.main.reportsNavGraph
 
 @Composable
 fun MainNavGraph(
-    navController: NavHostController,
+    navController: NavHostController
 ) {
     NavHost(
         navController = navController,
-        startDestination = InstructionNav.Instructions.route
+        startDestination = InstructionNav.Instructions
     ) {
 
         instructionNavGraph(navController)
-
-
+        reportsNavGraph(navController)
 
     }
 }

@@ -3,6 +3,17 @@
     <!-- App -->
     <string name="app_name" translatable="false">WiED</string>
     <string name="welcome">Create clear video instructions for your employees in 3 minutes for free!</string>
+    <string name="placeholder">Placeholder</string>
+    <string name="icon">Icon</string>
+    <string name="main">Main</string>
+    <string name="apple" translatable="false">Apple</string>
+    <string name="google" translatable="false">Google</string>
+    <string name="facebook" translatable="false">Facebook</string>
+    <string name="coming_soon">Coming soon</string>
+    <string name="title">Title</string>
+    <string name="description">Description</string>
+    <string name="photo">Photo</string>
+    <string name="send">Send</string>
 
     <!-- Errors -->
     <string name="error">Something went wrong, we apologize</string>
@@ -50,5 +61,19 @@
 
     <!-- Instructions Screen -->
     <string name="instructions">Instructions</string>
+
+
+    <!-- Reports Screen -->
+    <string name="reports">Reports</string>
+    <string name="new_reports">New reports</string>
+    <string name="in_progress_reports">In progress</string>
+    <string name="done_reports">Done</string>
+    <string name="current_reports">Current reports</string>
+    <string name="report">Report</string>
+    <string name="todo_report_message">Pending</string>
+    <string name="in_progress_report_message">Working</string>
+    <string name="done_report_message">Done</string>
+    <string name="create_report">Create report</string>
+
 </resources>
 

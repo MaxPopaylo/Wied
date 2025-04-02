@@ -2,9 +2,6 @@ package ua.wied.data.repository
 
 import android.content.Context
 import android.content.Intent
-import com.skydoves.sandwich.retrofit.errorBody
-import com.skydoves.sandwich.suspendOnError
-import com.skydoves.sandwich.suspendOnSuccess
 import com.squareup.moshi.Moshi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -20,6 +17,7 @@ import ua.wied.domain.usecases.ClearAllTokensUseCase
 import ua.wied.domain.usecases.ClearUserDataUseCase
 import ua.wied.domain.usecases.SaveAccessJwtUseCase
 import ua.wied.domain.usecases.SaveUserUseCase
+import java.io.IOException
 import javax.inject.Inject
 
 class AuthRepositoryImpl @Inject constructor(
@@ -33,59 +31,76 @@ class AuthRepositoryImpl @Inject constructor(
     private val jsonAdapter = moshi.adapter(ErrorResponse::class.java)
 
     override suspend fun signIn(request: SignInRequest): AuthResult {
-        var result: AuthResult = AuthResult.Error(R.string.error)
-        api.signIn(request)
-            .suspendOnSuccess {
-                data.let {
-                    saveUserUseCase.invoke(User(
-                        id = it.data.id,
-                        login = it.data.login,
-                        name = it.data.name,
-                        phone = it.data.phone,
-                        email = it.data.email,
-                        company = it.data.company,
-                        info = it.data.info,
-                        role = it.data.role
-                    ))
-                    saveJwtUseCase.invoke(it.data.token)
+        return try {
+            val response = api.signIn(request)
+
+            if (response.isSuccessful) {
+                val responseBody = response.body()
+
+                responseBody?.let { data ->
+                    data.let {
+                        saveUserUseCase.invoke(User(
+                            id = it.data.id,
+                            login = it.data.login,
+                            name = it.data.name,
+                            phone = it.data.phone,
+                            email = it.data.email ?: "",
+                            company = it.data.company,
+                            info = it.data.info ?: "",
+                            role = it.data.role
+                        ))
+                        saveJwtUseCase.invoke(it.data.token)
+                    }
                 }
-                result = AuthResult.Success
-            }
-            .suspendOnError {
+
+                AuthResult.Success
+            } else {
+                val errorBody = response.errorBody()
                 val errorResponse = errorBody?.let { jsonAdapter.fromJson(it.string()) }
                 val msg = errorResponse?.detail ?: "Unknown error"
-                result = when {
+
+                 when {
                     msg.contains("Wrong login or password") -> AuthResult.Error(R.string.error_incorrect_login_or_password)
                     else -> AuthResult.Error(R.string.error)
                 }
             }
-
-        return result
+        } catch (exception: IOException) {
+            AuthResult.Error(R.string.error)
+        } catch (exception: Exception) {
+            AuthResult.Error(R.string.error)
+        }
     }
 
     override suspend fun signUp(request: SignUpRequest): AuthResult {
-        var result: AuthResult = AuthResult.Error(R.string.error)
-        api.signUp(request)
-            .suspendOnSuccess {
-                data.let {
-                    saveUserUseCase.invoke(User(
-                        id = it.data.id,
-                        login = it.data.login,
-                        name = it.data.name,
-                        phone = it.data.phone,
-                        email = it.data.email,
-                        company = it.data.company,
-                        info = it.data.info,
-                        role = it.data.role
-                    ))
-                    saveJwtUseCase.invoke(it.data.token)
+        return try {
+            val response = api.signUp(request)
+
+            if (response.isSuccessful) {
+                val responseBody = response.body()
+
+                responseBody?.let { data ->
+                    data.let {
+                        saveUserUseCase.invoke(User(
+                            id = it.data.id,
+                            login = it.data.login,
+                            name = it.data.name,
+                            phone = it.data.phone,
+                            email = it.data.email ?: "",
+                            company = it.data.company,
+                            info = it.data.info ?: "",
+                            role = it.data.role
+                        ))
+                        saveJwtUseCase.invoke(it.data.token)
+                    }
                 }
-                result = AuthResult.Success
-            }
-            .suspendOnError {
+
+                AuthResult.Success
+            } else {
+                val errorBody = response.errorBody()
                 val errorResponse = errorBody?.let { jsonAdapter.fromJson(it.string()) }
                 val msg = errorResponse?.detail ?: "Unknown error"
-                result = when {
+
+                when {
                     msg.contains("already exists") -> {
                         when {
                             msg.contains("User with login") -> AuthResult.Error(R.string.error_uniq_login)
@@ -96,8 +111,11 @@ class AuthRepositoryImpl @Inject constructor(
                     else -> AuthResult.Error(R.string.error)
                 }
             }
-
-        return result
+        } catch (exception: IOException) {
+            AuthResult.Error(R.string.error)
+        } catch (exception: Exception) {
+            AuthResult.Error(R.string.error)
+        }
     }
 
     override suspend fun logout(context: Context) {
