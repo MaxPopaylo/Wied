@@ -1,6 +1,6 @@
 package ua.wied.domain.usecases
 
-import ua.wied.domain.models.network.NetworkResponse
+import ua.wied.domain.models.FlowResultList
 import ua.wied.domain.models.report.Report
 import ua.wied.domain.models.report.ReportStatus
 import ua.wied.domain.repository.ReportRepository
@@ -9,7 +9,7 @@ import javax.inject.Inject
 class GetReportsByInstructionUseCase @Inject constructor(
     private val reportRepository: ReportRepository
 ) {
-    suspend operator fun invoke(): NetworkResponse<List<Report>> =
+    suspend operator fun invoke():FlowResultList<Report> =
         reportRepository.getReportsByInstruction()
 }
 
