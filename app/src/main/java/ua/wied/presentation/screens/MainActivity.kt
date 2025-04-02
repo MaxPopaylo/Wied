@@ -1,4 +1,4 @@
-package ua.wied.presentation
+package ua.wied.presentation.screens
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
