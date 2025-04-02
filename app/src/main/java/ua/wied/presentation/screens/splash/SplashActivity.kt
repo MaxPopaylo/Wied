@@ -1,26 +1,34 @@
 package ua.wied.presentation.screens.splash
 
+import androidx.activity.ComponentActivity
 import android.annotation.SuppressLint
 import android.app.ActivityOptions
 import android.content.Intent
 import android.os.Bundle
-import androidx.core.app.ComponentActivity
+import androidx.activity.viewModels
 import androidx.lifecycle.lifecycleScope
-import kotlinx.coroutines.delay
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import ua.wied.R
-import ua.wied.presentation.MainActivity
+import ua.wied.presentation.screens.MainActivity
 import ua.wied.presentation.common.navigation.GlobalNav
 
 @SuppressLint("RestrictedApi", "CustomSplashScreen")
+@AndroidEntryPoint
 class SplashActivity : ComponentActivity() {
+
+    private val viewModel by viewModels<SplashViewModel>()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         lifecycleScope.launch {
-            delay(300)
-            val startDestination = GlobalNav.Auth::class.simpleName!!
-            openActivity(MainActivity::class.java, startDestination)
+            viewModel.isUserAuthorized.collect { status ->
+                val startDestination = if (status) GlobalNav.Main::class.simpleName!!
+                else GlobalNav.Auth::class.simpleName!!
+
+                openActivity(MainActivity::class.java, startDestination)
+            }
         }
     }
 
