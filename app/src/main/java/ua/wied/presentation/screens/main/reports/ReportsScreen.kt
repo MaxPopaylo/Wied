@@ -15,31 +15,34 @@ fun ReportsScreen(
     navController: NavHostController,
     viewModel: ReportViewModel = hiltViewModel()
 ) {
-    val folders by viewModel.folders.collectAsStateWithLifecycle()
-    when (folders) {
-        null -> {
+    val state by viewModel.state.collectAsStateWithLifecycle()
+
+    when {
+        state.isLoading -> {
             LoadingIndicator(false)
         }
+        state.isEmpty -> {
+            // TODO: empty screen
+        }
+        state.isNotInternetConnection -> {
+            // TODO: no internet connection
+        }
         else -> {
-            if (folders!!.isEmpty()) {
-
-            } else {
-                FolderList(
-                    folders = folders!!,
-                    itemView = { instruction ->
-                        ReportListItem(
-                            instruction = instruction,
-                            reportsCount = 0,
-                            reportsIconOnClick = {
-                                navController.navigate(ReportNav.ReportStatusList(instruction))
-                            },
-                            createIconOnClick = {
-                                navController.navigate(ReportNav.CreateReport(instruction))
-                            }
-                        )
-                    }
-                )
-            }
+            FolderList(
+                folders = state.folders,
+                itemView = { data ->
+                    ReportListItem(
+                        instruction = data.instruction,
+                        reportsCount = data.reportCount,
+                        reportsIconOnClick = {
+                            navController.navigate(ReportNav.ReportStatusList(data.instruction))
+                        },
+                        createIconOnClick = {
+                            navController.navigate(ReportNav.CreateReport(data.instruction))
+                        }
+                    )
+                }
+            )
         }
     }
 
