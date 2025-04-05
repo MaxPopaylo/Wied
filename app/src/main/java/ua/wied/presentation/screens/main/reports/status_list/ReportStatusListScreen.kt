@@ -2,7 +2,6 @@ package ua.wied.presentation.screens.main.reports.status_list
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -11,9 +10,11 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -22,7 +23,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.rotate
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -32,10 +32,10 @@ import androidx.navigation.NavHostController
 import ua.wied.R
 import ua.wied.domain.models.instruction.Instruction
 import ua.wied.domain.models.report.ReportStatus
-import ua.wied.presentation.common.composable.IconButton
 import ua.wied.presentation.common.navigation.ReportNav
 import ua.wied.presentation.common.theme.WiEDTheme.colors
 import ua.wied.presentation.common.theme.WiEDTheme.typography
+import ua.wied.presentation.common.utils.bounceClick
 
 @Composable
 fun ReportStatusListScreen(
@@ -115,7 +115,7 @@ private fun ReportStatusItem(
         modifier = modifier
             .fillMaxWidth()
             .clip(RoundedCornerShape(4.dp))
-            .clickable { itemClick() }
+            .bounceClick(itemClick)
             .background(
                 color = colors.secondaryBackground,
                 shape = RoundedCornerShape(4.dp)
@@ -157,13 +157,11 @@ private fun ReportStatusItem(
 
         Spacer(modifier = Modifier.width(4.dp))
 
-        IconButton(
-            modifier = Modifier.rotate(180f),
-            icon = painterResource(R.drawable.icon_arrow_back),
-            backgroundColor = Color.Transparent,
-            iconColor = colors.primaryText,
-            borderColor = Color.Transparent,
-            onClick = itemClick
+        Icon(
+            modifier = Modifier.rotate(180f).size(25.dp),
+            painter = painterResource(R.drawable.icon_arrow_back),
+            tint = colors.tintColor,
+            contentDescription = stringResource(R.string.icon)
         )
     }
 }

@@ -1,7 +1,6 @@
 package ua.wied.presentation.screens.main.reports.composable
 
 import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
@@ -23,6 +22,7 @@ import ua.wied.presentation.common.composable.IconButton
 import ua.wied.presentation.common.composable.InstructionItem
 import ua.wied.presentation.common.theme.WiEDTheme.colors
 import ua.wied.presentation.common.theme.WiEDTheme.typography
+import ua.wied.presentation.common.utils.bounceClick
 
 @Composable
 fun ReportListItem(
@@ -49,7 +49,7 @@ fun ReportListItem(
                             colors.tintColor,
                             RoundedCornerShape(4.dp)
                         )
-                        .clickable { reportsIconOnClick() },
+                        .bounceClick(reportsIconOnClick),
                     contentAlignment = Alignment.Center
                 ) {
                     Text(
