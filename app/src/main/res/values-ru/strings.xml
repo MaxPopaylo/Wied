@@ -10,6 +10,9 @@
     <string name="description">Описание</string>
     <string name="photo">Фото</string>
     <string name="send">Отправить</string>
+    <string name="video">Видео</string>
+    <string name="accesses">Доступа</string>
+    <string name="delete">Удалить</string>
 
     <!--    Errors-->
     <string name="error">Что-то пошло не так, приносим извинения</string>
