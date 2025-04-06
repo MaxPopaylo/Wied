@@ -1,9 +1,12 @@
 package ua.wied.presentation.screens.auth.models
 
+import ua.wied.presentation.common.base.BaseState
+
 data class AuthState(
     val signIn: SignInState = SignInState(),
-    val signUp: SignUpState = SignUpState()
-)
+    val signUp: SignUpState = SignUpState(),
+    override val isLoading: Boolean = false
+): BaseState
 
 data class SignInState(
     val login: String = "",
@@ -30,8 +33,3 @@ data class SignUpState(
     val passwordError: String? = null,
     val confirmPasswordError: String? = null
 )
-
-data class PageState(
-    val isLoading: Boolean = false
-)
-

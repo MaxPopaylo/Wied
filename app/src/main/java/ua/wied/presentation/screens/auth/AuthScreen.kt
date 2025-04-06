@@ -44,7 +44,7 @@ fun AuthScreen(
     }
 
 
-    if (viewModel.pageState.isLoading) {
+    if (viewModel.state.isLoading) {
         LoadingIndicator()
     }
 }
