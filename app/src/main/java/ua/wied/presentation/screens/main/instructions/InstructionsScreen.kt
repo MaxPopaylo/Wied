@@ -11,6 +11,7 @@ import androidx.navigation.NavHostController
 import ua.wied.presentation.common.composable.FolderList
 import ua.wied.presentation.common.composable.LoadingIndicator
 import ua.wied.presentation.common.composable.SearchField
+import ua.wied.presentation.screens.main.instructions.composable.InstructionEmptyScreen
 import ua.wied.presentation.screens.main.instructions.composable.InstructionListItem
 import ua.wied.presentation.screens.main.instructions.model.InstructionsEvent.SearchChanged
 
@@ -35,7 +36,7 @@ fun InstructionsScreen(
                 LoadingIndicator(false)
             }
             state.isEmpty -> {
-                // TODO: empty screen
+                InstructionEmptyScreen()
             }
             state.isNotInternetConnection -> {
                 // TODO: no internet connection

@@ -18,6 +18,8 @@
     <string name="accesses">Accesses</string>
     <string name="delete">Delete</string>
     <string name="search">Search</string>
+    <string name="no_instructions">No instructions have been created yet</string>
+    <string name="create">Create</string>
 
     <!-- Errors -->
     <string name="error">Something went wrong, we apologize</string>

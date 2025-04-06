@@ -14,6 +14,8 @@
     <string name="accesses">Доступи</string>
     <string name="delete">Видалити</string>
     <string name="search">Пошук</string>
+    <string name="no_instructions">Не створено ще жодної інструкції</string>
+    <string name="create">Створити</string>
 
     <!--    Errors-->
     <string name="error">Щось пішло не так, перепрошуємо</string>
