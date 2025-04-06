@@ -13,6 +13,7 @@
     <string name="video">Видео</string>
     <string name="accesses">Доступа</string>
     <string name="delete">Удалить</string>
+    <string name="search">Поиск</string>
 
     <!--    Errors-->
     <string name="error">Что-то пошло не так, приносим извинения</string>

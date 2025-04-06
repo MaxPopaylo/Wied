@@ -17,6 +17,7 @@
     <string name="video">Video</string>
     <string name="accesses">Accesses</string>
     <string name="delete">Delete</string>
+    <string name="search">Search</string>
 
     <!-- Errors -->
     <string name="error">Something went wrong, we apologize</string>

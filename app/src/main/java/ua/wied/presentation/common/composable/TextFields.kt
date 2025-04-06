@@ -33,6 +33,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
@@ -324,6 +325,84 @@ fun UnderlineTextField(
             }
         }
     }
+}
+
+@Composable
+fun SearchField(
+    modifier: Modifier = Modifier,
+    text: String,
+    onSearchValueChange: (String) -> Unit = {},
+) {
+
+    BasicTextField(
+        modifier = Modifier.height(52.dp),
+        value = text,
+        onValueChange = {
+            onSearchValueChange(it)
+        },
+        keyboardOptions = KeyboardOptions(
+            keyboardType = KeyboardType.Text,
+            imeAction = ImeAction.Done
+        ),
+        textStyle = typography.w400.copy(
+            fontSize = 16.sp,
+            color = colors.primaryText
+        ),
+        maxLines = 1,
+        singleLine = true,
+        cursorBrush = SolidColor(colors.primaryText)
+    ) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(IntrinsicSize.Max)
+                .background(
+                    color = Color(0xFFF4F4FA),
+                    shape = RoundedCornerShape(8.dp)
+                )
+                .padding(vertical = 10.dp, horizontal = 20.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Icon(
+                modifier = Modifier.size(17.dp),
+                painter = painterResource(R.drawable.icon_search),
+                tint = colors.primaryText,
+                contentDescription = stringResource(R.string.icon)
+            )
+
+            Box (
+                modifier = Modifier
+                    .padding(horizontal = 2.dp)
+                    .weight(1f),
+                contentAlignment = Alignment.CenterStart
+            ) {
+
+                if (text.isEmpty()) {
+                    Text(
+                        text = stringResource(R.string.search),
+                        color = colors.secondaryText,
+                        style = typography.w400.copy(
+                            fontSize = 16.sp
+                        ),
+                        modifier = Modifier.animateContentSize()
+                    )
+                }
+
+                it.invoke()
+            }
+
+
+            IconButton(
+                icon = painterResource(R.drawable.icon_microphone),
+                backgroundColor = Color.Transparent,
+                borderColor = Color.Transparent,
+                iconColor = colors.primaryText,
+                onClick = {}
+            )
+
+        }
+    }
+
 }
 
 private fun phoneNumberVisualTransformation(): VisualTransformation {
