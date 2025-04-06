@@ -17,7 +17,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -28,6 +27,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import ua.wied.R
 import ua.wied.domain.models.instruction.Instruction
@@ -43,9 +43,7 @@ fun ReportStatusListScreen(
     instruction: Instruction,
     viewModel: ReportStatusListViewModel = hiltViewModel()
 ) {
-    val todoReports by viewModel.todoReports.collectAsState()
-    val inProgressReports by viewModel.inProgressReports.collectAsState()
-    val doneReports by viewModel.doneReports.collectAsState()
+    val state by viewModel.uiState.collectAsStateWithLifecycle()
 
     Column {
         Box(
@@ -66,10 +64,10 @@ fun ReportStatusListScreen(
         ReportStatusItem(
             modifier = Modifier,
             title = stringResource(R.string.new_reports),
-            reportsCount = todoReports?.size ?: 0,
+            reportsCount = state.todoReports.size,
             itemClick = {
                 navController.navigate(ReportNav.ReportsByStatusList(
-                    reports = todoReports ?: emptyList(),
+                    reports = state.inProgressReports,
                     instruction = instruction,
                     status = ReportStatus.TODO.name
                 ))
@@ -79,10 +77,10 @@ fun ReportStatusListScreen(
         ReportStatusItem(
             modifier = Modifier.padding(top = 24.dp),
             title = stringResource(R.string.in_progress_reports),
-            reportsCount = inProgressReports?.size ?: 0,
+            reportsCount = state.inProgressReports.size,
             itemClick = {
                 navController.navigate(ReportNav.ReportsByStatusList(
-                    reports = inProgressReports ?: emptyList(),
+                    reports = state.inProgressReports,
                     instruction = instruction,
                     status = ReportStatus.IN_PROGRESS.name
                 ))
@@ -92,10 +90,10 @@ fun ReportStatusListScreen(
         ReportStatusItem(
             modifier = Modifier.padding(top = 24.dp),
             title = stringResource(R.string.done_reports),
-            reportsCount = doneReports?.size ?: 0,
+            reportsCount = state.doneReports.size,
             itemClick = {
                 navController.navigate(ReportNav.ReportsByStatusList(
-                    reports = doneReports ?: emptyList(),
+                    reports = state.doneReports,
                     instruction = instruction,
                     status = ReportStatus.DONE.name
                 ))

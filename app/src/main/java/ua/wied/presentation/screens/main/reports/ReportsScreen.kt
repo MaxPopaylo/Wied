@@ -15,7 +15,7 @@ fun ReportsScreen(
     navController: NavHostController,
     viewModel: ReportViewModel = hiltViewModel()
 ) {
-    val state by viewModel.state.collectAsStateWithLifecycle()
+    val state by viewModel.uiState.collectAsStateWithLifecycle()
 
     when {
         state.isLoading -> {

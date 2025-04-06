@@ -1,27 +1,15 @@
 package ua.wied.presentation.screens.main.reports.status_list
 
-import androidx.lifecycle.ViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
 import ua.wied.domain.models.report.ImageUrl
 import ua.wied.domain.models.report.ReportStatus
 import ua.wied.domain.models.report.Report
+import ua.wied.presentation.common.base.BaseViewModel
+import ua.wied.presentation.screens.main.reports.status_list.models.ReportStatusListState
 import java.time.LocalDateTime
 import javax.inject.Inject
 
 class ReportStatusListViewModel @Inject constructor(
-) : ViewModel() {
-
-    private val reports = MutableStateFlow<List<Report>?>(null)
-
-    private val _todoReports = MutableStateFlow<List<Report>?>(null)
-    val todoReports = _todoReports.asStateFlow()
-
-    private val _inProgressReports = MutableStateFlow<List<Report>?>(null)
-    val inProgressReports = _inProgressReports.asStateFlow()
-
-    private val _doneReports = MutableStateFlow<List<Report>?>(null)
-    val doneReports = _doneReports.asStateFlow()
+) : BaseViewModel<ReportStatusListState>(ReportStatusListState()) {
 
 
     init {
@@ -29,7 +17,7 @@ class ReportStatusListViewModel @Inject constructor(
     }
 
     private fun initialize() {
-        reports.value = listOf(
+        val mockList = listOf(
             Report(
                 id = 1,
                 instructionId = 1,
@@ -117,17 +105,27 @@ class ReportStatusListViewModel @Inject constructor(
                 updateTime = LocalDateTime.now()
             )
         )
+        updateState { it.copy(reports = mockList) }
 
 
         splitReportsByStatus()
     }
 
     private fun splitReportsByStatus() {
-        reports.value?.let { reportList ->
-            _todoReports.value = reportList.filter { it.status == ReportStatus.TODO }
-            _inProgressReports.value = reportList.filter { it.status == ReportStatus.IN_PROGRESS }
-            _doneReports.value = reportList.filter { it.status == ReportStatus.DONE }
+        if (uiState.value.reports.isNotEmpty()) {
+            updateState { state ->
+                val todo = state.reports.filter { it.status == ReportStatus.TODO }
+                val inProgress = state.reports.filter { it.status == ReportStatus.IN_PROGRESS }
+                val done = state.reports.filter { it.status == ReportStatus.DONE }
+
+                state.copy(
+                    todoReports = todo,
+                    inProgressReports = inProgress,
+                    doneReports = done
+                )
+            }
         }
+
     }
 
 
