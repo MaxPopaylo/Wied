@@ -1,6 +1,5 @@
 package ua.wied.presentation.screens.main.reports.create
 
-import android.net.Uri
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -13,6 +12,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -24,6 +24,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import ua.wied.R
 import ua.wied.domain.models.instruction.Instruction
 import ua.wied.presentation.common.composable.IconButton
@@ -33,7 +34,8 @@ import ua.wied.presentation.common.composable.PrimaryButton
 import ua.wied.presentation.common.composable.UnderlineTextField
 import ua.wied.presentation.common.theme.WiEDTheme.colors
 import ua.wied.presentation.common.theme.WiEDTheme.typography
-import ua.wied.presentation.screens.main.reports.create.models.CreateReportEvents
+import ua.wied.presentation.screens.main.reports.create.models.CreateReportEvent
+import androidx.core.net.toUri
 
 @Composable
 fun CreateReportScreen(
@@ -43,6 +45,7 @@ fun CreateReportScreen(
 
     val isEnabled = viewModel.isFieldsEmpty()
     val roundedShape = RoundedCornerShape(4.dp)
+    val state by viewModel.uiState.collectAsStateWithLifecycle()
 
     Column(
         modifier = Modifier
@@ -87,7 +90,7 @@ fun CreateReportScreen(
                     modifier = Modifier.weight(1f)
                 ) {
                     UnderlineTextField(
-                        text = viewModel.state.title,
+                        text = state.title,
                         title = stringResource(R.string.title) + ":",
                         maxTextLength = 20,
                         keyboardOptions = KeyboardOptions(
@@ -95,12 +98,12 @@ fun CreateReportScreen(
                             imeAction = ImeAction.Done
                         ),
                         onValueChange = { value ->
-                            viewModel.onEvent(CreateReportEvents.TitleChanged(value))
+                            viewModel.onEvent(CreateReportEvent.TitleChanged(value))
                         }
                     )
 
                     UnderlineTextField(
-                        text = viewModel.state.description,
+                        text = state.description,
                         title = stringResource(R.string.description) + ":",
                         maxTextLength = 2040,
                         keyboardOptions = KeyboardOptions(
@@ -108,7 +111,7 @@ fun CreateReportScreen(
                             imeAction = ImeAction.Done
                         ),
                         onValueChange = { value ->
-                            viewModel.onEvent(CreateReportEvents.DescriptionChanged(value))
+                            viewModel.onEvent(CreateReportEvent.DescriptionChanged(value))
                         }
                     )
                 }
@@ -141,12 +144,12 @@ fun CreateReportScreen(
                             .fillMaxWidth()
                             .clip(roundedShape),
                         shape = roundedShape,
-                        imageUri = viewModel.state.imgUrls.getOrNull(index)?.let { Uri.parse(it) },
+                        imageUri = state.imgUrls.getOrNull(index)?.toUri(),
                         onImageChosen = { url ->
-                            viewModel.onEvent(CreateReportEvents.PhotoAdded(index, url))
+                            viewModel.onEvent(CreateReportEvent.PhotoAdded(index, url))
                         },
                         onDeleteImage = { url ->
-                            viewModel.onEvent(CreateReportEvents.PhotoDeleted(url))
+                            viewModel.onEvent(CreateReportEvent.PhotoDeleted(url))
                         }
                     )
                 }

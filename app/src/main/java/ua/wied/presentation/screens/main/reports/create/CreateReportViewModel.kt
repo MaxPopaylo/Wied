@@ -1,35 +1,33 @@
 package ua.wied.presentation.screens.main.reports.create
 
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
-import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
-import ua.wied.presentation.screens.main.reports.create.models.CreateReportEvents
+import ua.wied.presentation.common.base.BaseViewModel
+import ua.wied.presentation.screens.main.reports.create.models.CreateReportEvent
 import ua.wied.presentation.screens.main.reports.create.models.CreateReportState
 import javax.inject.Inject
 
 @HiltViewModel
 class CreateReportViewModel @Inject constructor(
-) : ViewModel() {
+) : BaseViewModel<CreateReportState, CreateReportEvent>(CreateReportState()) {
 
-    private var _state by mutableStateOf(CreateReportState())
-    val state: CreateReportState get() = _state
-
-    fun onEvent(event: CreateReportEvents) {
-        _state = when(event) {
-            is CreateReportEvents.TitleChanged -> _state.copy(title = event.value)
-            is CreateReportEvents.DescriptionChanged -> _state.copy(description = event.value)
-            is CreateReportEvents.PhotoAdded -> _state.copy(
-                imgUrls = _state.imgUrls.toMutableList().also { it.add(event.url)}
-            )
-            is CreateReportEvents.PhotoDeleted -> _state.copy(
-                imgUrls = _state.imgUrls.toMutableList().also { it.remove(event.url) }
-            )
+    override fun onEvent(event: CreateReportEvent) {
+        when(event) {
+            is CreateReportEvent.TitleChanged -> updateState { it.copy(title = event.value) }
+            is CreateReportEvent.DescriptionChanged -> updateState { it.copy(description = event.value) }
+            is CreateReportEvent.PhotoAdded -> updateState { state ->
+                state.copy(
+                    imgUrls = state.imgUrls.toMutableList().also { it.add(event.url) }
+                )
+            }
+            is CreateReportEvent.PhotoDeleted -> updateState { state ->
+                state.copy(
+                    imgUrls = state.imgUrls.toMutableList().also { it.remove(event.url) }
+                )
+            }
         }
     }
 
     fun isFieldsEmpty(): Boolean {
-        return _state.title.isNotEmpty() && _state.imgUrls.isNotEmpty()
+        return uiState.value.title.isNotEmpty() && uiState.value.imgUrls.isNotEmpty()
     }
 }
