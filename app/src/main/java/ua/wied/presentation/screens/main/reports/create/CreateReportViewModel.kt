@@ -1,14 +1,14 @@
 package ua.wied.presentation.screens.main.reports.create
 
 import dagger.hilt.android.lifecycle.HiltViewModel
-import ua.wied.presentation.common.base.BaseViewModel
+import ua.wied.presentation.common.base.BaseViewModelWithEvent
 import ua.wied.presentation.screens.main.reports.create.models.CreateReportEvent
 import ua.wied.presentation.screens.main.reports.create.models.CreateReportState
 import javax.inject.Inject
 
 @HiltViewModel
 class CreateReportViewModel @Inject constructor(
-) : BaseViewModel<CreateReportState, CreateReportEvent>(CreateReportState()) {
+) : BaseViewModelWithEvent<CreateReportState, CreateReportEvent>(CreateReportState()) {
 
     override fun onEvent(event: CreateReportEvent) {
         when(event) {

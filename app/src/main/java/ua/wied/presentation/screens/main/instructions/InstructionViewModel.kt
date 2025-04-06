@@ -5,7 +5,7 @@ import kotlinx.coroutines.launch
 import ua.wied.domain.models.folder.Folder
 import ua.wied.domain.models.instruction.Element
 import ua.wied.domain.models.instruction.Instruction
-import ua.wied.presentation.common.base.BaseViewModel
+import ua.wied.presentation.common.base.BaseViewModelWithEvent
 import ua.wied.presentation.common.composable.SwipeableItemState
 import ua.wied.presentation.screens.main.instructions.model.InstructionsEvent
 import ua.wied.presentation.screens.main.instructions.model.InstructionsState
@@ -13,7 +13,7 @@ import java.time.LocalDateTime
 import javax.inject.Inject
 
 class InstructionViewModel @Inject constructor(
-) : BaseViewModel<InstructionsState, InstructionsEvent>(InstructionsState()) {
+) : BaseViewModelWithEvent<InstructionsState, InstructionsEvent>(InstructionsState()) {
 
 
     override fun onEvent(event: InstructionsEvent) {
