@@ -9,7 +9,7 @@ interface ReportApi {
 
     @GET("api/instructions/{instruction_id}/reports")
     suspend fun getAllByInstruction(
-        @Path("instruction_id") instructionId: String
-    ): Response<List<InstructionWithReportsDto>>
+        @Path("instruction_id") instructionId: Int
+    ): Response<InstructionWithReportsDto>
 
 }

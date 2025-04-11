@@ -2,6 +2,7 @@ package ua.wied.data.datasource.network.dto.report
 
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
+import ua.wied.domain.models.report.Author
 import ua.wied.domain.models.report.ImageUrl
 import ua.wied.domain.models.report.Report
 import ua.wied.domain.models.report.ReportStatus
@@ -10,7 +11,6 @@ import java.time.format.DateTimeFormatter
 
 @JsonClass(generateAdapter = true)
 data class ImageUrlDto(
-    @Json(name = "id")
     val id: Int,
     @Json(name = "image_url")
     val imageUrl: String
@@ -25,19 +25,14 @@ data class ImageUrlDto(
 
 @JsonClass(generateAdapter = true)
 data class ReportDto(
-    @Json(name = "id")
     val id: Int,
     @Json(name = "instruction_id")
     val instructionId: Int,
-    @Json(name = "user_id")
-    val userId: Int,
-    @Json(name = "title")
+    val author: Author,
     val title: String,
-    @Json(name = "info")
     val info: String,
     @Json(name = "image_urls")
     val imageUrls: List<ImageUrlDto>,
-    @Json(name = "status")
     val status: ReportStatus,
     @Json(name = "create_time")
     val createTime: String,
@@ -48,7 +43,7 @@ data class ReportDto(
         return Report(
             id = id,
             instructionId = instructionId,
-            userId = userId,
+            author = author,
             title = title,
             info = info,
             imageUrls = imageUrls.map { it.toDomain() },

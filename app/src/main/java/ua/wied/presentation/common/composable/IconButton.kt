@@ -3,6 +3,7 @@ package ua.wied.presentation.common.composable
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
@@ -12,12 +13,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import ua.wied.R
 
 @Composable
 fun IconButton(
     modifier: Modifier = Modifier,
+    size: Dp = 40.dp,
     icon: Painter,
     backgroundColor: Color,
     borderColor: Color,
@@ -26,7 +29,7 @@ fun IconButton(
 ) {
 
     TextButton(
-        modifier = modifier.size(40.dp),
+        modifier = modifier.size(size).wrapContentWidth(),
         colors = ButtonDefaults.buttonColors(
             containerColor = backgroundColor,
             contentColor = iconColor

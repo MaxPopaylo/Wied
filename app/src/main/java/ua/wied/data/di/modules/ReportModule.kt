@@ -10,55 +10,66 @@ import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import ua.wied.data.NetworkKeys.BASE_URL
-import ua.wied.data.datasource.network.api.FolderApi
+import ua.wied.data.datasource.network.api.ReportApi
 import ua.wied.data.di.AuthenticatedClient
 import ua.wied.data.di.NetworkModule
 import ua.wied.data.di.StorageModule
-import ua.wied.data.repository.FolderRepositoryImpl
-import ua.wied.domain.repository.FolderRepository
-import ua.wied.domain.usecases.GetInstructionFoldersUseCase
-import ua.wied.domain.usecases.GetInstructionWithReportCountFoldersUseCase
+import ua.wied.data.repository.ReportRepositoryImpl
+import ua.wied.domain.repository.ReportRepository
+import ua.wied.domain.usecases.CreateReportUseCase
+import ua.wied.domain.usecases.GetReportsByInstructionUseCase
+import ua.wied.domain.usecases.UpdateReportStatusUseCase
 import javax.inject.Singleton
 
 @Module(includes = [NetworkModule::class, StorageModule::class])
 @InstallIn(SingletonComponent::class)
-class FolderModule {
+class ReportModule {
 
     @Provides
-    fun provideGetInstructionFoldersUseCase(
-        repository: FolderRepository
-    ): GetInstructionFoldersUseCase {
-        return GetInstructionFoldersUseCase(repository)
+    @Singleton
+    fun provideGetReportsByInstructionUseCase(
+        reportRepository: ReportRepository
+    ): GetReportsByInstructionUseCase {
+        return GetReportsByInstructionUseCase(reportRepository)
     }
 
     @Provides
-    fun provideGetInstructionWithReportCountFoldersUseCase(
-        repository: FolderRepository
-    ): GetInstructionWithReportCountFoldersUseCase {
-        return GetInstructionWithReportCountFoldersUseCase(repository)
+    @Singleton
+    fun provideCreateReportUseCase(
+        reportRepository: ReportRepository
+    ): CreateReportUseCase {
+        return CreateReportUseCase(reportRepository)
+    }
+
+    @Provides
+    @Singleton
+    fun provideUpdateReportStatusUseCase(
+        reportRepository: ReportRepository
+    ): UpdateReportStatusUseCase {
+        return UpdateReportStatusUseCase(reportRepository)
     }
 
     @Provides
     @Singleton
     fun provideFolderRepository(
-        api: FolderApi
-    ): FolderRepository {
-        return FolderRepositoryImpl(api)
+        api: ReportApi
+    ): ReportRepository {
+        return ReportRepositoryImpl(api)
     }
 
     @Provides
     @Singleton
-    fun provideFolderApi(
+    fun provideReportApi(
         @AuthenticatedClient okHttpClient: OkHttpClient,
         moshi: Moshi
-    ): FolderApi {
+    ): ReportApi {
         return Retrofit.Builder()
             .baseUrl(BASE_URL)
             .addConverterFactory(MoshiConverterFactory.create(moshi))
             .addCallAdapterFactory(ApiResponseCallAdapterFactory.create())
             .client(okHttpClient)
             .build()
-            .create(FolderApi::class.java)
+            .create(ReportApi::class.java)
     }
 
 }

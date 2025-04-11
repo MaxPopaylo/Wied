@@ -17,6 +17,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -32,6 +33,7 @@ import androidx.navigation.NavHostController
 import ua.wied.R
 import ua.wied.domain.models.instruction.Instruction
 import ua.wied.domain.models.report.ReportStatus
+import ua.wied.presentation.common.composable.LoadingIndicator
 import ua.wied.presentation.common.navigation.ReportNav
 import ua.wied.presentation.common.theme.WiEDTheme.colors
 import ua.wied.presentation.common.theme.WiEDTheme.typography
@@ -43,62 +45,92 @@ fun ReportStatusListScreen(
     instruction: Instruction,
     viewModel: ReportStatusListViewModel = hiltViewModel()
 ) {
+    LaunchedEffect(Unit) {
+        viewModel.initialize(instruction.id)
+    }
+
     val state by viewModel.uiState.collectAsStateWithLifecycle()
 
-    Column {
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .fillMaxHeight(0.20f),
-            contentAlignment = Alignment.Center
-        ) {
-            Text(
-                text = instruction.title,
-                color = colors.primaryText,
-                style = typography.w500.copy(
-                    fontSize = 26.sp
-                )
-            )
+    val todoReportsCount = state.todoReports.size
+    val inProgressReportsCount = state.inProgressReports.size
+    val doneReportsCount = state.doneReports.size
+
+    when {
+        state.isLoading -> {
+            LoadingIndicator(false)
         }
 
-        ReportStatusItem(
-            modifier = Modifier,
-            title = stringResource(R.string.new_reports),
-            reportsCount = state.todoReports.size,
-            itemClick = {
-                navController.navigate(ReportNav.ReportsByStatusList(
-                    reports = state.inProgressReports,
-                    instruction = instruction,
-                    status = ReportStatus.TODO.name
-                ))
-            }
-        )
+        state.isEmpty -> {
+            // TODO: empty screen
+        }
 
-        ReportStatusItem(
-            modifier = Modifier.padding(top = 24.dp),
-            title = stringResource(R.string.in_progress_reports),
-            reportsCount = state.inProgressReports.size,
-            itemClick = {
-                navController.navigate(ReportNav.ReportsByStatusList(
-                    reports = state.inProgressReports,
-                    instruction = instruction,
-                    status = ReportStatus.IN_PROGRESS.name
-                ))
-            }
-        )
+        state.isNotInternetConnection -> {
+            // TODO: no internet connection
+        }
 
-        ReportStatusItem(
-            modifier = Modifier.padding(top = 24.dp),
-            title = stringResource(R.string.done_reports),
-            reportsCount = state.doneReports.size,
-            itemClick = {
-                navController.navigate(ReportNav.ReportsByStatusList(
-                    reports = state.doneReports,
-                    instruction = instruction,
-                    status = ReportStatus.DONE.name
-                ))
+        else -> {
+            Column {
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .fillMaxHeight(0.20f),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Text(
+                        text = instruction.title,
+                        color = colors.primaryText,
+                        style = typography.w500.copy(
+                            fontSize = 26.sp
+                        )
+                    )
+                }
+
+                ReportStatusItem(
+                    modifier = Modifier,
+                    title = stringResource(R.string.new_reports),
+                    reportsCount = todoReportsCount,
+                    itemClick = {
+                        if (todoReportsCount > 0) {
+                            navController.navigate(ReportNav.ReportsByStatusList(
+                                reports = state.inProgressReports,
+                                instruction = instruction,
+                                status = ReportStatus.TODO.name
+                            ))
+                        }
+                    }
+                )
+
+                ReportStatusItem(
+                    modifier = Modifier.padding(top = 24.dp),
+                    title = stringResource(R.string.in_progress_reports),
+                    reportsCount = inProgressReportsCount,
+                    itemClick = {
+                        if (inProgressReportsCount > 0) {
+                            navController.navigate(ReportNav.ReportsByStatusList(
+                                reports = state.inProgressReports,
+                                instruction = instruction,
+                                status = ReportStatus.IN_PROGRESS.name
+                            ))
+                        }
+                    }
+                )
+
+                ReportStatusItem(
+                    modifier = Modifier.padding(top = 24.dp),
+                    title = stringResource(R.string.done_reports),
+                    reportsCount = doneReportsCount,
+                    itemClick = {
+                        if (doneReportsCount > 0) {
+                            navController.navigate(ReportNav.ReportsByStatusList(
+                                reports = state.doneReports,
+                                instruction = instruction,
+                                status = ReportStatus.DONE.name
+                            ))
+                        }
+                    }
+                )
             }
-        )
+        }
     }
 }
 

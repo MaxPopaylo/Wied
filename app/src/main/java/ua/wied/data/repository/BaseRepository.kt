@@ -1,5 +1,6 @@
 package ua.wied.data.repository
 
+import android.util.Log
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import retrofit2.Response
@@ -34,8 +35,10 @@ abstract class BaseRepository {
             }
 
         } catch (e: IOException) {
+            Log.d("TAG", e.message!!)
             emit(Result.failure(NetworkException.NoConnectionException))
         } catch (e: Exception) {
+            Log.d("TAG", e.message!!)
             emit(Result.failure(NetworkException.UnknownErrorException))
         }
     }

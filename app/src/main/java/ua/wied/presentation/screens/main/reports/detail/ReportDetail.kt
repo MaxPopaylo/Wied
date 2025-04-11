@@ -55,7 +55,7 @@ fun ReportDetailScreen(
                     )
                 )
                 Text(
-                    text = report.userId.toString(),
+                    text = report.author.name,
                     color = colors.primaryText,
                     style = typography.w400.copy(
                         fontSize = 18.sp

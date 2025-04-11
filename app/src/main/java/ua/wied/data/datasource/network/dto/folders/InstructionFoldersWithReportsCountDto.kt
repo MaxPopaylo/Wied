@@ -16,7 +16,7 @@ data class InstructionWithReportsCountDto(
     val folderId: Int,
     val id: Int,
     @Json(name = "poster_url")
-    val posterUrl: String,
+    val posterUrl: String?,
     @Json(name = "report_count")
     val reportCount: Int
 ) {

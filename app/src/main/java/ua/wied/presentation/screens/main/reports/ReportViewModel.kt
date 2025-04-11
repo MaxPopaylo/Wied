@@ -19,7 +19,9 @@ class ReportViewModel @Inject constructor(
         collectNetworkRequest(
             apiCall = { getInstructionWithReportCount() },
             updateLoadingState = { value -> updateState { it.copy(isLoading = value) } },
-            updateFailure = { updateState { it.copy(isNotInternetConnection = true) } },
+            updateFailure = {
+                updateState { it.copy(isNotInternetConnection = true) }
+            },
             onSuccess = { folderList -> updateState { it.copy(folders = folderList) } }
         )
     }

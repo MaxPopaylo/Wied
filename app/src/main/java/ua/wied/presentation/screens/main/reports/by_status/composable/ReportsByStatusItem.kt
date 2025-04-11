@@ -1,7 +1,6 @@
 package ua.wied.presentation.screens.main.reports.by_status.composable
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -47,7 +46,7 @@ fun ReportsByStatusItem(
     ) {
         Column {
             Text(
-                text = report.userId.toString(),
+                text = report.author.name,
                 color = colors.primaryText,
                 style = typography.w400.copy(
                     fontSize = 18.sp

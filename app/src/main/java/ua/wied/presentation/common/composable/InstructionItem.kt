@@ -1,8 +1,8 @@
 package ua.wied.presentation.common.composable
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -33,42 +33,59 @@ import ua.wied.presentation.common.utils.bounceClick
 fun InstructionItem(
     modifier: Modifier = Modifier,
     instruction: Instruction,
-    onClick: () -> Unit = {},
+    onClick: (() -> Unit)? = null,
     actions: @Composable () -> Unit = { EmptyAction() }
 ) {
+
+    val clickableModifier = if (onClick != null) {
+        modifier.bounceClick(onClick)
+    } else {
+        modifier
+    }
+
     Row(
-        modifier = modifier
+        modifier = clickableModifier
             .fillMaxWidth()
-            .bounceClick(onClick)
             .background(
                 colors.secondaryBackground,
-                RoundedCornerShape(4.dp)
+                RoundedCornerShape(8.dp)
             )
-            .padding(vertical = 16.dp, horizontal = 14.dp)
-            .height(40.dp),
+            .padding(vertical = 16.dp, horizontal = 14.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        AsyncImage(
-            modifier = Modifier
-                .height(40.dp)
-                .width(45.dp)
-                .clip(RoundedCornerShape(4.dp)),
-            model = instruction.posterUrl,
-            placeholder = painterResource(R.drawable.img_placeholder),
-            contentDescription = stringResource(R.string.placeholder),
-            contentScale = ContentScale.Crop,
-        )
+        if (instruction.posterUrl.isNullOrEmpty()) {
+            Image(
+                modifier = Modifier
+                    .height(40.dp)
+                    .width(45.dp)
+                    .clip(RoundedCornerShape(8.dp)),
+                painter = painterResource(R.drawable.img_placeholder),
+                contentDescription = stringResource(R.string.placeholder),
+                contentScale = ContentScale.Crop,
+            )
+        } else {
+            AsyncImage(
+                modifier = Modifier
+                    .height(40.dp)
+                    .width(45.dp)
+                    .clip(RoundedCornerShape(8.dp)),
+                model = instruction.posterUrl,
+                placeholder = painterResource(R.drawable.img_placeholder),
+                contentDescription = stringResource(R.string.placeholder),
+                contentScale = ContentScale.Crop,
+            )
+        }
 
         Text(
-            modifier = Modifier.padding(start = 8.dp),
+            modifier = Modifier
+                .padding(start = 8.dp)
+                .weight(1f),
             text = instruction.title,
             color = colors.primaryText,
-            style = typography.w500.copy(fontSize = 20.sp),
+            style = typography.w500.copy(fontSize = 18.sp),
             maxLines = 1,
             overflow = TextOverflow.Ellipsis
         )
-
-        Spacer(modifier = Modifier.weight(1f))
 
         actions()
     }

@@ -8,15 +8,11 @@ import ua.wied.domain.models.instruction.Instruction
 
 @JsonClass(generateAdapter = true)
 data class InstructionFoldersDto(
-    @Json(name = "title")
+    val id: Int,
     val title: String,
     @Json(name = "order_num")
     val orderNum: Int,
-    @Json(name = "id")
-    val id: Int,
-    @Json(name = "accesses")
     val accesses: List<AccessDto>,
-    @Json(name = "instructions")
     val instructions: List<InstructionDto>
 ) {
     fun toDomain(): Folder<Instruction> =

@@ -9,8 +9,8 @@ import javax.inject.Inject
 class GetReportsByInstructionUseCase @Inject constructor(
     private val reportRepository: ReportRepository
 ) {
-    suspend operator fun invoke():FlowResultList<Report> =
-        reportRepository.getReportsByInstruction()
+    suspend operator fun invoke(instructionId: Int):FlowResultList<Report> =
+        reportRepository.getReportsByInstruction(instructionId)
 }
 
 class CreateReportUseCase @Inject constructor(

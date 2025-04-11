@@ -32,12 +32,12 @@ fun <T : HasId> FolderList (
         verticalArrangement = Arrangement.spacedBy(12.dp)
     ) {
         folders.forEach { folder ->
-            stickyHeader(key = "folder-${folder.id}") {
+            stickyHeader(key = "${folder.id}") {
                 FolderListHeader(folder.title)
             }
             items(
                 folder.items,
-                key = { "instruction-${folder.id}-${it.id}" }
+                key = { "${folder.id}-${it.id}" }
             ) { item ->
                 itemView(item)
             }

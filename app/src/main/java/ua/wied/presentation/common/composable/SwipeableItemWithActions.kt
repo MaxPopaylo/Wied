@@ -5,7 +5,9 @@ import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.gestures.detectHorizontalDragGestures
+import androidx.compose.foundation.gestures.Orientation
+import androidx.compose.foundation.gestures.draggable
+import androidx.compose.foundation.gestures.rememberDraggableState
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -20,35 +22,41 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.ripple
+import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.Stable
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
-import androidx.compose.ui.input.pointer.pointerInput
-import androidx.compose.ui.layout.onSizeChanged
+import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import kotlinx.coroutines.CancellationException
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import ua.wied.domain.models.HasId
 import ua.wied.presentation.common.theme.WiEDTheme.typography
+import kotlin.math.abs
 import kotlin.math.roundToInt
 
+private val SwipeAnimationSpec = tween<Float>(durationMillis = 300, easing = FastOutSlowInEasing)
+private val ActionItemShape = RoundedCornerShape(topStart = 0.dp, bottomStart = 0.dp, bottomEnd = 4.dp, topEnd = 4.dp)
+
+
 @Composable
-fun SwipeableItemWithActions(
+fun SwipeableItem(
     modifier: Modifier = Modifier,
     isRevealed: Boolean,
     onExpanded: () -> Unit = {},
@@ -56,23 +64,22 @@ fun SwipeableItemWithActions(
     actions: @Composable RowScope.() -> Unit,
     content: @Composable () -> Unit
 ) {
-    var contextMenuWidth by remember { mutableFloatStateOf(0f) }
-
-    val offset = remember { Animatable(initialValue = 0f) }
     val scope = rememberCoroutineScope()
 
-    LaunchedEffect(key1 = isRevealed, key2 = contextMenuWidth) {
-        if (isRevealed) {
-            offset.animateTo(
-                targetValue = -contextMenuWidth,
-                animationSpec = tween(durationMillis = 250, easing = FastOutSlowInEasing)
-            )
-        } else {
-            offset.animateTo(
-                targetValue = 0f,
-                animationSpec = tween(durationMillis = 250, easing = FastOutSlowInEasing)
-            )
+    val controller = remember { SwipeableItemController(scope) }
+
+    val measureActions = remember {
+        Modifier.onGloballyPositioned { layoutCoordinates ->
+            controller.updateActionsWidth(layoutCoordinates.size.width.toFloat())
         }
+    }
+
+    val offsetIntX by remember {
+        derivedStateOf { IntOffset(controller.getOffsetX().roundToInt(), 0) }
+    }
+
+    LaunchedEffect(isRevealed) {
+        controller.forceAnimateTo(isRevealed)
     }
 
     Box(
@@ -80,60 +87,59 @@ fun SwipeableItemWithActions(
             .fillMaxWidth()
             .height(IntrinsicSize.Min)
     ) {
-        Row(
+        SwipeableItemActions(
             modifier = Modifier
                 .align(Alignment.CenterEnd)
-                .onSizeChanged { contextMenuWidth = it.width.toFloat() }
-                .clip(RoundedCornerShape(topStart = 0.dp, bottomStart = 0.dp, bottomEnd = 4.dp, topEnd = 4.dp)),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            actions()
-        }
+                .fillMaxHeight()
+                .then(measureActions),
+            actions = actions
+        )
 
-        Surface(
-            modifier = Modifier
-                .fillMaxSize()
-                .offset { IntOffset(offset.value.roundToInt(), 0) }
-                .pointerInput(contextMenuWidth) {
-                    detectHorizontalDragGestures(
-                        onHorizontalDrag = { _, dragAmount ->
-                            scope.launch {
-                                val newOffset = (offset.value + dragAmount)
-                                    .coerceIn(-contextMenuWidth, 0f)
-                                offset.snapTo(newOffset)
-                            }
-                        },
-                        onDragEnd = {
-                            when {
-                                offset.value <= -contextMenuWidth / 2f -> {
-                                    scope.launch {
-                                        offset.animateTo(
-                                            targetValue = -contextMenuWidth,
-                                            animationSpec = tween(durationMillis = 250, easing = FastOutSlowInEasing)
-                                        )
-                                        onExpanded()
-                                    }
-                                }
-                                else -> {
-                                    scope.launch {
-                                        offset.animateTo(
-                                            targetValue = 0f,
-                                            animationSpec = tween(durationMillis = 250, easing = FastOutSlowInEasing)
-                                        )
-                                        onCollapsed()
-                                    }
-                                }
-                            }
-                        }
-                    )
-                }
-        ) {
-            content()
-        }
+        SwipeableItemContent(
+            modifier = Modifier.fillMaxSize(),
+            offsetIntX = offsetIntX,
+            onDrag = { controller.handleDrag(it) },
+            onDragStopped = { controller.handleDragEnd(it, onExpanded, onCollapsed) },
+            content = content
+        )
     }
 }
 
+@Composable
+private fun SwipeableItemActions(
+    modifier: Modifier,
+    actions: @Composable RowScope.() -> Unit
+) {
+    Row(
+        modifier = modifier.clip(ActionItemShape),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        actions()
+    }
+}
 
+@Composable
+private fun SwipeableItemContent(
+    modifier: Modifier,
+    offsetIntX: IntOffset,
+    onDrag: (Float) -> Unit,
+    onDragStopped: (Float) -> Unit,
+    content: @Composable () -> Unit
+) {
+    Surface(
+        modifier = modifier
+            .offset { offsetIntX }
+            .draggable(
+                orientation = Orientation.Horizontal,
+                state = rememberDraggableState { delta -> onDrag(delta) },
+                onDragStopped = { velocity -> onDragStopped(velocity) }
+            )
+    ) {
+        content()
+    }
+}
+
+@Stable
 @Composable
 fun ActionIcon(
     onClick: () -> Unit,
@@ -144,15 +150,15 @@ fun ActionIcon(
     contentDescription: String? = null,
     tint: Color = Color.White
 ) {
+    val interactionSource = remember { MutableInteractionSource() }
+
     Column(
         modifier = modifier
             .fillMaxHeight()
-            .clickable (
+            .clickable(
                 onClick = onClick,
-                indication = ripple(
-                    color = backgroundColor.copy(alpha = 1.5f)
-                ),
-                interactionSource = remember { MutableInteractionSource() }
+                indication = ripple(color = backgroundColor.copy(alpha = 1.5f)),
+                interactionSource = interactionSource
             )
             .background(backgroundColor),
         verticalArrangement = Arrangement.Center,
@@ -170,6 +176,83 @@ fun ActionIcon(
             color = tint,
             style = typography.w400.copy(fontSize = 12.sp)
         )
+    }
+}
+
+object SwipeableItemStatePool {
+    private val pool = mutableMapOf<Int, SwipeableItemState<*>>()
+
+    fun <T : HasId> getOrCreate(item: T): SwipeableItemState<T> {
+        @Suppress("UNCHECKED_CAST")
+        return pool.getOrPut(item.id) {
+            SwipeableItemState(item)
+        } as SwipeableItemState<T>
+    }
+
+    fun clear() {
+        pool.clear()
+    }
+}
+
+@Stable
+private class SwipeableItemController(
+    private val coroutineScope: CoroutineScope
+) {
+    private val offsetX = Animatable(0f)
+    private var actionsWidth = 0f
+    private var currentJob: Job? = null
+
+    var isRevealed = false
+        private set
+
+    fun updateActionsWidth(width: Float) {
+        if (width > 0f && abs(width - actionsWidth) > 0.1f) {
+            actionsWidth = width
+        }
+    }
+
+    fun getOffsetX(): Float = offsetX.value
+
+    fun handleDrag(delta: Float) {
+        coroutineScope.launch {
+            val newValue = (offsetX.value + delta).coerceIn(-actionsWidth, 0f)
+            offsetX.snapTo(newValue)
+        }
+    }
+
+    fun handleDragEnd(velocity: Float, onExpanded: () -> Unit, onCollapsed: () -> Unit) {
+        val thresholdRatio = if (abs(velocity) > 500) 0.25f else 0.5f
+        val threshold = actionsWidth * thresholdRatio
+
+        currentJob?.cancel()
+        currentJob = coroutineScope.launch {
+            try {
+                if (abs(offsetX.value) > threshold) {
+
+                    offsetX.animateTo(-actionsWidth, SwipeAnimationSpec)
+                    isRevealed = true
+                    onExpanded()
+                } else {
+
+                    offsetX.animateTo(0f, SwipeAnimationSpec)
+                    isRevealed = false
+                    onCollapsed()
+                }
+            } catch (_: CancellationException) { }
+        }
+    }
+
+    fun forceAnimateTo(revealed: Boolean) {
+        if (actionsWidth <= 0) return
+
+        currentJob?.cancel()
+        currentJob = coroutineScope.launch {
+            try {
+                val targetValue = if (revealed) -actionsWidth else 0f
+                offsetX.animateTo(targetValue, SwipeAnimationSpec)
+                isRevealed = revealed
+            } catch (_: CancellationException) { }
+        }
     }
 }
 
