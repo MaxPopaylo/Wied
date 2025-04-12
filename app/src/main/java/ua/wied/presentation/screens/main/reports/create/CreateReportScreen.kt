@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -20,7 +21,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import ua.wied.R
@@ -34,16 +34,31 @@ import ua.wied.presentation.common.theme.WiEDTheme.colors
 import ua.wied.presentation.common.theme.WiEDTheme.typography
 import ua.wied.presentation.screens.main.reports.create.models.CreateReportEvent
 import androidx.core.net.toUri
+import androidx.navigation.NavHostController
+import ua.wied.presentation.common.navigation.ReportNav
 import ua.wied.presentation.common.theme.WiEDTheme.dimen
 
 @Composable
 fun CreateReportScreen(
     instruction: Instruction,
+    navController: NavHostController,
     viewModel: CreateReportViewModel = hiltViewModel()
 ) {
-
     val isEnabled = viewModel.isFieldsEmpty()
     val state by viewModel.uiState.collectAsStateWithLifecycle()
+
+    LaunchedEffect(state.createResult) {
+        state.createResult.collect { result ->
+            result?.fold(
+                onSuccess = {
+                    navController.navigate(ReportNav.Reports)
+                },
+                onFailure = {
+
+                }
+            )
+        }
+    }
 
     Column(
         modifier = Modifier
@@ -60,10 +75,7 @@ fun CreateReportScreen(
         Text(
             modifier = Modifier.padding(vertical = dimen.paddingLarge),
             text = stringResource(R.string.report) + ":",
-            color = colors.primaryText,
-            style = typography.w400.copy(
-                fontSize = 20.sp
-            )
+            style = typography.h4
         )
 
         Column(
@@ -127,9 +139,7 @@ fun CreateReportScreen(
             Text(
                 text = stringResource(R.string.photo) + ":",
                 color = colors.secondaryText,
-                style = typography.w400.copy(
-                    fontSize = 14.sp
-                ),
+                style = typography.body2,
                 modifier = Modifier.padding(bottom = dimen.paddingL)
             )
 
@@ -142,7 +152,7 @@ fun CreateReportScreen(
                             .fillMaxWidth()
                             .clip(dimen.shape),
                         shape = dimen.shape,
-                        imageUri = state.imgUrls.getOrNull(index)?.toUri(),
+                        imageUri = state.imageUris.getOrNull(index)?.toUri(),
                         onImageChosen = { url ->
                             viewModel.onEvent(CreateReportEvent.PhotoAdded(index, url))
                         },
@@ -159,7 +169,9 @@ fun CreateReportScreen(
         PrimaryButton(
             isEnabled = isEnabled,
             title = stringResource(R.string.send),
-            onClick = {}
+            onClick = {
+                viewModel.onEvent(CreateReportEvent.Create(instruction.id))
+            }
         )
     }
 }

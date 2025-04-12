@@ -17,7 +17,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import ua.wied.R
 import ua.wied.domain.models.instruction.Instruction
 import ua.wied.presentation.common.composable.InstructionItem
@@ -56,10 +55,7 @@ fun ReportListItem(
                     Text(
                         modifier = Modifier.padding(dimen.paddingXs),
                         text = "$reportsCount",
-                        color = colors.primaryText,
-                        style = typography.w500.copy(
-                            fontSize = 24.sp
-                        )
+                        style = typography.h1
                     )
                 }
 

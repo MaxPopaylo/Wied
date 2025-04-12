@@ -22,23 +22,65 @@ fun WiEDTheme(
 
     val baseTextStyle = TextStyle(
         fontFamily = WiEDFonts.mariupolFamily,
+        color = colors.primaryText,
         letterSpacing = 0.5.sp
     )
     val typography = WiEDTypography(
-        w300 = baseTextStyle.copy(
-            fontWeight = FontWeight.W300
+        h1 = baseTextStyle.copy(
+            fontWeight = FontWeight.W500,
+            fontSize = 24.sp
         ),
-        w400 = baseTextStyle.copy(
-            fontWeight = FontWeight.W400
+        h2 = baseTextStyle.copy(
+            fontWeight = FontWeight.W700,
+            fontSize = 22.sp
         ),
-        w500 = baseTextStyle.copy(
-            fontWeight = FontWeight.W500
+        h3 = baseTextStyle.copy(
+            fontWeight = FontWeight.W500,
+            fontSize = 22.sp
         ),
-        w600 = baseTextStyle.copy(
-            fontWeight = FontWeight.W600
+        h4 = baseTextStyle.copy(
+            fontWeight = FontWeight.W500,
+            fontSize = 20.sp
         ),
-        w700 = baseTextStyle.copy(
-            fontWeight = FontWeight.W700
+        h5 = baseTextStyle.copy(
+            fontWeight = FontWeight.W500,
+            fontSize = 18.sp
+        ),
+        h6 = baseTextStyle.copy(
+            fontWeight = FontWeight.W700,
+            fontSize = 12.sp
+        ),
+        h7 = baseTextStyle.copy(
+            fontWeight = FontWeight.W400,
+            fontSize = 12.sp
+        ),
+        body1 = baseTextStyle.copy(
+            fontWeight = FontWeight.W400,
+            fontSize = 16.sp
+        ),
+        body2 = baseTextStyle.copy(
+            fontWeight = FontWeight.W400,
+            fontSize = 14.sp
+        ),
+        body3 = baseTextStyle.copy(
+            fontWeight = FontWeight.W500,
+            fontSize = 14.sp
+        ),
+        body4 = baseTextStyle.copy(
+            fontWeight = FontWeight.W400,
+            fontSize = 12.sp
+        ),
+        button1 = baseTextStyle.copy(
+            fontWeight = FontWeight.W700,
+            fontSize = 18.sp
+        ),
+        button2 = baseTextStyle.copy(
+            fontWeight = FontWeight.W700,
+            fontSize = 16.sp
+        ),
+        button3 = baseTextStyle.copy(
+            fontWeight = FontWeight.W400,
+            fontSize = 16.sp
         )
     )
 

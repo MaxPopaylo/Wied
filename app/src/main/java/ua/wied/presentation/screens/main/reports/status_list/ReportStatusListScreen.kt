@@ -59,31 +59,17 @@ fun ReportStatusListScreen(
         state.isLoading -> {
             LoadingIndicator(false)
         }
-
-        state.isEmpty -> {
-            // TODO: empty screen
-        }
-
         state.isNotInternetConnection -> {
             // TODO: no internet connection
         }
-
         else -> {
             Column {
-                Box(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .fillMaxHeight(0.20f),
-                    contentAlignment = Alignment.Center
-                ) {
-                    Text(
-                        text = instruction.title,
-                        color = colors.primaryText,
-                        style = typography.w500.copy(
-                            fontSize = 26.sp
-                        )
-                    )
-                }
+                Spacer(Modifier.fillMaxHeight(.15f))
+                Text(
+                    modifier = Modifier.padding(vertical = dimen.padding3Xl),
+                    text = instruction.title,
+                    style = typography.h4
+                )
 
                 ReportStatusItem(
                     modifier = Modifier,
@@ -156,10 +142,7 @@ private fun ReportStatusItem(
     ) {
         Text(
             text = title,
-            color = colors.primaryText,
-            style = typography.w500.copy(
-                fontSize = 20.sp
-            )
+            style = typography.h4
         )
 
         Spacer(modifier = Modifier.weight(1f))
@@ -178,8 +161,7 @@ private fun ReportStatusItem(
             Text(
                 modifier = Modifier.padding(dimen.paddingS),
                 text = "$reportsCount",
-                color = colors.primaryText,
-                style = typography.w500.copy(
+                style = typography.h4.copy(
                     fontSize = 16.sp
                 )
             )

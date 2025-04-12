@@ -21,7 +21,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import ua.wied.R
 import ua.wied.domain.models.instruction.Instruction
@@ -82,8 +81,7 @@ fun InstructionItem(
                 .padding(start = dimen.paddingS)
                 .weight(1f),
             text = instruction.title,
-            color = colors.primaryText,
-            style = typography.w500.copy(fontSize = 18.sp),
+            style = typography.h5,
             maxLines = 1,
             overflow = TextOverflow.Ellipsis
         )

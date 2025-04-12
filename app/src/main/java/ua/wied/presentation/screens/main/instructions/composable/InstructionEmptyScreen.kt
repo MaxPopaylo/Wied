@@ -12,7 +12,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.sp
 import ua.wied.R
 import ua.wied.presentation.common.composable.PrimaryTextButton
 import ua.wied.presentation.common.theme.WiEDTheme.colors
@@ -35,8 +34,7 @@ fun InstructionEmptyScreen() {
         Text(
             modifier = Modifier.padding(top = dimen.padding2Xs),
             text = stringResource(R.string.no_instructions),
-            style = typography.w500.copy(fontSize = 16.sp),
-            color = colors.primaryText
+            style = typography.body1
         )
         PrimaryTextButton(
             title = stringResource(R.string.create),

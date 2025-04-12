@@ -38,7 +38,6 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import ua.wied.R
 import ua.wied.presentation.common.theme.WiEDTheme.colors
 import ua.wied.presentation.common.theme.WiEDTheme.typography
@@ -75,9 +74,7 @@ fun BaseTextField(
         Text(
             text = title,
             color = colors.secondaryText,
-            style = typography.w400.copy(
-                fontSize = 16.sp
-            )
+            style = typography.body1
         )
         BasicTextField(
             modifier = Modifier.height(52.dp),
@@ -87,8 +84,7 @@ fun BaseTextField(
             },
             keyboardOptions = keyboardOptions,
             keyboardActions = keyboardActions,
-            textStyle = typography.w400.copy(
-                fontSize = 16.sp,
+            textStyle = typography.body1.copy(
                 color = if(errorMessage != null) colors.errorColor else colors.primaryText
             ),
             maxLines = 1,
@@ -122,9 +118,7 @@ fun BaseTextField(
                             Text(
                                 text = it,
                                 color = colors.secondaryText,
-                                style = typography.w400.copy(
-                                    fontSize = 16.sp
-                                ),
+                                style = typography.body1,
                                 modifier = Modifier.animateContentSize()
                             )
                         }
@@ -158,7 +152,7 @@ fun BaseTextField(
                     Text(
                         text = errorMessage,
                         color = colors.errorColor,
-                        style = typography.w400.copy(fontSize = 14.sp),
+                        style = typography.body2,
                         modifier = Modifier.weight(1f),
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis
@@ -168,7 +162,7 @@ fun BaseTextField(
                     Text(
                         text = buttonText,
                         color = colors.secondaryText,
-                        style = typography.w400.copy(fontSize = 14.sp),
+                        style = typography.body2,
                         modifier = Modifier.clickable { onTextButtonClick?.invoke() }
                     )
                 }
@@ -259,10 +253,7 @@ fun UnderlineTextField(
         },
         keyboardOptions = keyboardOptions,
         keyboardActions = keyboardActions,
-        textStyle = typography.w400.copy(
-            fontSize = 16.sp,
-            color = colors.primaryText
-        ),
+        textStyle = typography.body1,
         maxLines = 1,
         singleLine = true,
         cursorBrush = SolidColor(colors.primaryText)
@@ -286,9 +277,7 @@ fun UnderlineTextField(
                             Text(
                                 text = it,
                                 color = colors.secondaryText,
-                                style = typography.w400.copy(
-                                    fontSize = 14.sp
-                                ),
+                                style = typography.body2,
                                 modifier = Modifier.animateContentSize()
                             )
                         }
@@ -317,9 +306,7 @@ fun UnderlineTextField(
                 Text(
                     text = "$textLength/$maxTextLength",
                     color = colors.secondaryText,
-                    style = typography.w400.copy(
-                        fontSize = 10.sp
-                    ),
+                    style = typography.body4,
                     modifier = Modifier.animateContentSize()
                 )
             }
@@ -335,7 +322,7 @@ fun SearchField(
 ) {
 
     BasicTextField(
-        modifier = Modifier.height(52.dp),
+        modifier = modifier.height(52.dp),
         value = text,
         onValueChange = {
             onSearchValueChange(it)
@@ -344,10 +331,7 @@ fun SearchField(
             keyboardType = KeyboardType.Text,
             imeAction = ImeAction.Done
         ),
-        textStyle = typography.w400.copy(
-            fontSize = 16.sp,
-            color = colors.primaryText
-        ),
+        textStyle = typography.body1,
         maxLines = 1,
         singleLine = true,
         cursorBrush = SolidColor(colors.primaryText)
@@ -381,9 +365,7 @@ fun SearchField(
                     Text(
                         text = stringResource(R.string.search),
                         color = colors.secondaryText,
-                        style = typography.w400.copy(
-                            fontSize = 16.sp
-                        ),
+                        style = typography.body1,
                         modifier = Modifier.animateContentSize()
                     )
                 }

@@ -16,9 +16,8 @@ class GetReportsByInstructionUseCase @Inject constructor(
 class CreateReportUseCase @Inject constructor(
     private val reportRepository: ReportRepository
 ) {
-    suspend operator fun invoke(instructionId: Int, title: String, info: String) {
-        reportRepository.createReport(instructionId, title, info)
-    }
+    suspend operator fun invoke(instructionId: Int, title: String, info: String, imageUris: List<String?>) =
+        reportRepository.createReport(instructionId, title, info, imageUris)
 }
 
 class UpdateReportStatusUseCase @Inject constructor(

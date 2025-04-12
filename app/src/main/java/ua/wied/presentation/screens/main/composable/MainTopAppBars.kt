@@ -18,7 +18,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
@@ -77,10 +76,7 @@ private fun DefaultTopAppBar(
                     .fillMaxWidth()
                     .padding(start = 4.5.dp),
                 text = title,
-                color = colors.primaryText,
-                style = typography.w500.copy(
-                    fontSize = 24.sp
-                )
+                style = typography.h3
             )
         }
     )
@@ -102,10 +98,7 @@ private fun TopAppBarWithCloseButton(
                     .fillMaxWidth()
                     .padding(start = 7.5.dp),
                 text = title,
-                color = colors.primaryText,
-                style = typography.w500.copy(
-                    fontSize = 24.sp
-                )
+                style = typography.h3
             )
         },
         actions = {
@@ -139,10 +132,7 @@ private fun TopAppBarWithBackButton(
                     .fillMaxWidth()
                     .padding(start = 4.5.dp),
                 text = title,
-                color = colors.primaryText,
-                style = typography.w500.copy(
-                    fontSize = 24.sp
-                )
+                style = typography.h3
             )
         },
         navigationIcon = {

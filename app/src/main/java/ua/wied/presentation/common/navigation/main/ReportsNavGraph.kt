@@ -131,7 +131,8 @@ fun NavGraphBuilder.reportsNavGraph(navController: NavHostController) {
     ) { backStackEntry ->
         val args = backStackEntry.toRoute<ReportNav.CreateReport>()
         CreateReportScreen(
-            instruction = args.instruction
+            instruction = args.instruction,
+            navController = navController
         )
     }
 }

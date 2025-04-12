@@ -11,7 +11,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import ua.wied.presentation.common.theme.WiEDTheme.colors
 import ua.wied.presentation.common.theme.WiEDTheme.dimen
 import ua.wied.presentation.common.theme.WiEDTheme.typography
@@ -34,10 +33,8 @@ fun SecondaryButton(
     ) {
         Text(
             text = title,
-            style = typography.w700.copy(
-                color = colors.tintColor,
-                fontSize = 16.sp
-            )
+            style = typography.button1,
+            color = colors.tintColor
         )
     }
 }

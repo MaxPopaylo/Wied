@@ -17,18 +17,26 @@ data class WiEDColors(
     val primaryBackground: Color,
     val secondaryText: Color,
     val secondaryBackground: Color,
-    val tertiaryText: Color,
     val tintColor: Color,
     val errorColor: Color,
     val starColor: Color
 )
 
 data class WiEDTypography(
-    val w300: TextStyle,
-    val w400: TextStyle,
-    val w500: TextStyle,
-    val w600: TextStyle,
-    val w700: TextStyle
+    val h1: TextStyle,
+    val h2: TextStyle,
+    val h3: TextStyle,
+    val h4: TextStyle,
+    val h5: TextStyle,
+    val h6: TextStyle,
+    val h7: TextStyle,
+    val body1: TextStyle,
+    val body2: TextStyle,
+    val body3: TextStyle,
+    val body4: TextStyle,
+    val button1: TextStyle,
+    val button2: TextStyle,
+    val button3: TextStyle
 )
 
 data class WiEDDimension(

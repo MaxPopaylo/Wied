@@ -12,7 +12,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.sp
 import ua.wied.domain.models.HasId
 import ua.wied.domain.models.folder.Folder
 import ua.wied.presentation.common.theme.WiEDTheme
@@ -51,7 +50,7 @@ private fun FolderListHeader(
     modifier: Modifier = Modifier
 ) {
     val typography = WiEDTheme.typography
-    val headerTextStyle = remember { typography.w500.copy(fontSize = 20.sp) }
+    val headerTextStyle = remember { typography.h4 }
 
     Text(
         modifier = modifier
@@ -59,7 +58,6 @@ private fun FolderListHeader(
             .background(colors.primaryBackground)
             .padding(horizontal = dimen.zero, vertical = dimen.paddingS),
         text = text,
-        color = colors.primaryText,
         style = headerTextStyle
     )
 }

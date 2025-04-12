@@ -1,10 +1,12 @@
 package ua.wied.data.di.modules
 
+import android.content.Context
 import com.skydoves.sandwich.retrofit.adapters.ApiResponseCallAdapterFactory
 import com.squareup.moshi.Moshi
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
@@ -52,9 +54,10 @@ class ReportModule {
     @Provides
     @Singleton
     fun provideFolderRepository(
-        api: ReportApi
+        api: ReportApi,
+        @ApplicationContext context: Context
     ): ReportRepository {
-        return ReportRepositoryImpl(api)
+        return ReportRepositoryImpl(api, context)
     }
 
     @Provides

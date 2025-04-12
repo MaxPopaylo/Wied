@@ -16,26 +16,35 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.sp
+import androidx.compose.ui.text.font.FontWeight
 import coil.compose.AsyncImage
 import ua.wied.R
 import ua.wied.domain.models.report.Report
 import ua.wied.domain.models.report.ReportStatus
+import ua.wied.presentation.common.composable.FullScreenImageDialog
 import ua.wied.presentation.common.theme.WiEDTheme.colors
 import ua.wied.presentation.common.theme.WiEDTheme.dimen
 import ua.wied.presentation.common.theme.WiEDTheme.typography
+import ua.wied.presentation.common.utils.bounceClick
 import ua.wied.presentation.common.utils.extensions.formatToShortDate
 
 @Composable
 fun ReportDetailScreen(
     report: Report
 ) {
+    var choseImage by remember { mutableStateOf("") }
+    var showDialog by remember { mutableStateOf(false) }
+
     Column(
         modifier = Modifier
             .padding(top = dimen.containerPaddingLarge)
@@ -47,16 +56,12 @@ fun ReportDetailScreen(
             ) {
                 Text(
                     text = report.title,
-                    color = colors.primaryText,
-                    style = typography.w500.copy(
-                        fontSize = 20.sp
-                    )
+                    style = typography.h4
                 )
                 Text(
                     text = report.author.name,
-                    color = colors.primaryText,
-                    style = typography.w400.copy(
-                        fontSize = 18.sp
+                    style = typography.h5.copy(
+                        fontWeight = FontWeight.W400
                     )
                 )
             }
@@ -67,10 +72,7 @@ fun ReportDetailScreen(
                     .wrapContentWidth(Alignment.End)
                     .weight(1f),
                 text = report.createTime.formatToShortDate(),
-                color = colors.primaryText,
-                style = typography.w500.copy(
-                    fontSize = 16.sp
-                )
+                style = typography.h5
             )
         }
 
@@ -87,10 +89,7 @@ fun ReportDetailScreen(
         ) {
             Text(
                 text = report.info,
-                color = colors.primaryText,
-                style = typography.w500.copy(
-                    fontSize = 18.sp
-                )
+                style = typography.h5
             )
         }
 
@@ -104,7 +103,13 @@ fun ReportDetailScreen(
                 )
                 .padding(dimen.paddingL)
         ){
-            PhotoGrid(report.imageUrls.map { it.imageUrl })
+            PhotoGrid(
+                imageUrls = report.imageUrls.map { it.imageUrl },
+                onClick = {
+                    choseImage = it
+                    showDialog = true
+                }
+            )
         }
 
         Box(
@@ -117,24 +122,32 @@ fun ReportDetailScreen(
                 Text(
                     text = getStatusMessage(report.status),
                     color = colors.tintColor,
-                    style = typography.w700.copy(
-                        fontSize = 25.sp
-                    )
+                    style = typography.h2
                 )
                 Text(
                     text = report.updateTime.formatToShortDate(),
-                    color = colors.primaryText,
-                    style = typography.w500.copy(
-                        fontSize = 16.sp
-                    )
+                    style = typography.h5
                 )
             }
         }
     }
+
+    if (showDialog) {
+        FullScreenImageDialog(
+            url = choseImage,
+            onDismissRequest = {
+                choseImage = ""
+                showDialog = false
+            }
+        )
+    }
 }
 
 @Composable
-private fun PhotoGrid(imageUrls: List<String>) {
+private fun PhotoGrid(
+    imageUrls: List<String>,
+    onClick: (String) -> Unit
+) {
     if (imageUrls.isNotEmpty()) {
         LazyVerticalGrid(
             columns = GridCells.Fixed(2),
@@ -153,6 +166,9 @@ private fun PhotoGrid(imageUrls: List<String>) {
                         .fillMaxWidth()
                         .aspectRatio(4f / 2.5f)
                         .clip(dimen.shape)
+                        .bounceClick {
+                            onClick(imageUrls[index])
+                        }
                 )
             }
         }

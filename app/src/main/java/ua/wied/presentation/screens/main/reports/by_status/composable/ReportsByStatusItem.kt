@@ -16,7 +16,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.sp
+import androidx.compose.ui.text.font.FontWeight
 import ua.wied.R
 import ua.wied.domain.models.report.Report
 import ua.wied.presentation.common.theme.WiEDTheme.colors
@@ -46,17 +46,13 @@ fun ReportsByStatusItem(
         Column {
             Text(
                 text = report.author.name,
-                color = colors.primaryText,
-                style = typography.w400.copy(
-                    fontSize = 18.sp
+                style = typography.h5.copy(
+                    fontWeight = FontWeight.W400
                 )
             )
             Text(
                 text = report.title,
-                color = colors.primaryText,
-                style = typography.w500.copy(
-                    fontSize = 18.sp
-                )
+                style = typography.h5
             )
         }
 

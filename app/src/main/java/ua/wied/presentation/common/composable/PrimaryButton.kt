@@ -9,8 +9,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import ua.wied.presentation.common.theme.WiEDTheme.colors
 import ua.wied.presentation.common.theme.WiEDTheme.dimen
 import ua.wied.presentation.common.theme.WiEDTheme.typography
@@ -35,10 +35,8 @@ fun PrimaryButton(
     ) {
         Text(
             text = title,
-            style = typography.w700.copy(
-                color = colors.tertiaryText,
-                fontSize = 16.sp
-            )
+            style = typography.button1,
+            color = Color.White
         )
     }
 }

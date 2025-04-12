@@ -7,4 +7,4 @@ data class DtoWrapper<T> (
     val data: T
 )
 
-typealias Response<T> = Response<DtoWrapper<T>>
+typealias WrappedResponse<T> = Response<DtoWrapper<T>>
