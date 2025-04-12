@@ -1,5 +1,6 @@
 package ua.wied.presentation.common.theme
 
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.ReadOnlyComposable
 import androidx.compose.runtime.staticCompositionLocalOf
@@ -8,6 +9,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.Dp
 import ua.wied.R
 
 data class WiEDColors(
@@ -29,12 +31,32 @@ data class WiEDTypography(
     val w700: TextStyle
 )
 
+data class WiEDDimension(
+    val shape: RoundedCornerShape,
+
+    val zero: Dp,
+    val one: Dp,
+
+    val padding2Xs: Dp,
+    val paddingXs: Dp,
+    val paddingS: Dp,
+    val paddingM: Dp,
+    val paddingL: Dp,
+    val paddingXl: Dp,
+    val padding2Xl: Dp,
+    val padding3Xl: Dp,
+
+    val paddingLarge: Dp,
+    val paddingExtraLarge: Dp,
+    val containerPadding: Dp,
+    val containerPaddingLarge: Dp,
+
+    val sizeS: Dp,
+    val sizeM: Dp,
+    val sizeL: Dp
+)
+
 object WiEDFonts {
-    val robotoFamily: FontFamily by lazy {
-        FontFamily(
-            Font(R.font.font_roboto)
-        )
-    }
     val mariupolFamily: FontFamily by lazy {
         FontFamily(
             Font(R.font.font_mariupol_regular, FontWeight.W400),
@@ -52,6 +74,9 @@ object WiEDTheme {
     internal val typography: WiEDTypography
         @Composable @ReadOnlyComposable get() = LocalWiEDTypography.current
 
+    internal val dimen: WiEDDimension
+        @Composable @ReadOnlyComposable get() = LocalWiEDDimension.current
+
 }
 
 internal val LocalWiEDColors = staticCompositionLocalOf<WiEDColors> {
@@ -60,5 +85,9 @@ internal val LocalWiEDColors = staticCompositionLocalOf<WiEDColors> {
 
 internal val LocalWiEDTypography = staticCompositionLocalOf<WiEDTypography> {
     error("no text styles provided")
+}
+
+internal val LocalWiEDDimension = staticCompositionLocalOf<WiEDDimension> {
+    error("no dimensions provided")
 }
 

@@ -1,7 +1,6 @@
 package ua.wied.presentation.screens.main.reports.detail
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -15,7 +14,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -24,13 +22,13 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import ua.wied.R
 import ua.wied.domain.models.report.Report
 import ua.wied.domain.models.report.ReportStatus
 import ua.wied.presentation.common.theme.WiEDTheme.colors
+import ua.wied.presentation.common.theme.WiEDTheme.dimen
 import ua.wied.presentation.common.theme.WiEDTheme.typography
 import ua.wied.presentation.common.utils.extensions.formatToShortDate
 
@@ -40,7 +38,7 @@ fun ReportDetailScreen(
 ) {
     Column(
         modifier = Modifier
-            .padding(top = 24.dp)
+            .padding(top = dimen.containerPaddingLarge)
     ) {
         Row {
             Column(
@@ -76,52 +74,36 @@ fun ReportDetailScreen(
             )
         }
 
-        Spacer(modifier = Modifier.height(36.dp))
+        Spacer(modifier = Modifier.height(dimen.paddingExtraLarge))
 
         Column(
             modifier = Modifier
+                .fillMaxWidth()
                 .background(
                     colors.secondaryBackground,
-                    RoundedCornerShape(4.dp)
+                    dimen.shape
                 )
-                .padding(8.dp),
-            verticalArrangement = Arrangement.spacedBy(4.dp)
+                .padding(dimen.paddingS)
         ) {
-            Text(
-                text = "Info: ",
-                color = colors.tintColor,
-                style = typography.w500.copy(
-                    fontSize = 18.sp
-                )
-            )
             Text(
                 text = report.info,
                 color = colors.primaryText,
-                style = typography.w400.copy(
+                style = typography.w500.copy(
                     fontSize = 18.sp
                 )
             )
         }
 
-        Spacer(modifier = Modifier.height(18.dp))
+        Spacer(modifier = Modifier.height(dimen.paddingXl))
 
         Column(
             modifier = Modifier
                 .background(
                     colors.secondaryBackground,
-                    RoundedCornerShape(4.dp)
+                    dimen.shape
                 )
-                .padding(12.dp),
-            verticalArrangement = Arrangement.spacedBy(4.dp)
+                .padding(dimen.paddingL)
         ){
-            Text(
-                text = "Photos: ",
-                color = colors.tintColor,
-                style = typography.w500.copy(
-                    fontSize = 18.sp
-                )
-            )
-
             PhotoGrid(report.imageUrls.map { it.imageUrl })
         }
 
@@ -157,9 +139,9 @@ private fun PhotoGrid(imageUrls: List<String>) {
         LazyVerticalGrid(
             columns = GridCells.Fixed(2),
             modifier = Modifier.fillMaxWidth(),
-            contentPadding = PaddingValues(0.dp),
-            horizontalArrangement = Arrangement.spacedBy(8.dp),
-            verticalArrangement = Arrangement.spacedBy(8.dp)
+            contentPadding = PaddingValues(dimen.zero),
+            horizontalArrangement = Arrangement.spacedBy(dimen.paddingS),
+            verticalArrangement = Arrangement.spacedBy(dimen.paddingS)
         ) {
             items(imageUrls.size) { index ->
                 AsyncImage(
@@ -169,13 +151,8 @@ private fun PhotoGrid(imageUrls: List<String>) {
                     contentScale = ContentScale.Crop,
                     modifier = Modifier
                         .fillMaxWidth()
-                        .aspectRatio(4f / 2f)
-                        .clip(RoundedCornerShape(4.dp))
-                        .border(
-                            1.5.dp,
-                            colors.tintColor,
-                            RoundedCornerShape(4.dp)
-                        )
+                        .aspectRatio(4f / 2.5f)
+                        .clip(dimen.shape)
                 )
             }
         }

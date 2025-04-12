@@ -4,7 +4,6 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -28,6 +27,7 @@ import ua.wied.presentation.common.composable.IconButton
 import ua.wied.presentation.common.navigation.InstructionNav
 import ua.wied.presentation.common.navigation.ReportNav
 import ua.wied.presentation.common.theme.WiEDTheme.colors
+import ua.wied.presentation.common.theme.WiEDTheme.dimen
 import ua.wied.presentation.common.theme.WiEDTheme.typography
 
 @Composable
@@ -75,7 +75,7 @@ private fun DefaultTopAppBar(
             Text(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(start = 7.5.dp),
+                    .padding(start = 4.5.dp),
                 text = title,
                 color = colors.primaryText,
                 style = typography.w500.copy(
@@ -110,7 +110,7 @@ private fun TopAppBarWithCloseButton(
         },
         actions = {
             IconButton(
-                modifier = Modifier.size(25.dp),
+                modifier = Modifier.size(dimen.sizeM),
                 icon = painterResource(R.drawable.icon_close),
                 iconColor = colors.primaryText,
                 backgroundColor = Color.Transparent,
@@ -137,7 +137,7 @@ private fun TopAppBarWithBackButton(
             Text(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(start = 7.5.dp),
+                    .padding(start = 4.5.dp),
                 text = title,
                 color = colors.primaryText,
                 style = typography.w500.copy(
@@ -147,13 +147,13 @@ private fun TopAppBarWithBackButton(
         },
         navigationIcon = {
             TextButton(
-                modifier = Modifier.padding(start = 16.dp).size(35.dp),
+                modifier = Modifier.padding(start = dimen.padding2Xl).size(dimen.sizeL),
                 colors = ButtonDefaults.buttonColors(
                     containerColor = colors.secondaryBackground,
                     contentColor = colors.primaryText
                 ),
-                shape = RoundedCornerShape(4.dp),
-                contentPadding = PaddingValues(10.dp),
+                shape = dimen.shape,
+                contentPadding = PaddingValues(dimen.paddingM),
                 onClick = {
                     navController.popBackStack()
                 },

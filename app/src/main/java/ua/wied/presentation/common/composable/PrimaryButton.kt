@@ -3,7 +3,6 @@ package ua.wied.presentation.common.composable
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
@@ -13,6 +12,7 @@ import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import ua.wied.presentation.common.theme.WiEDTheme.colors
+import ua.wied.presentation.common.theme.WiEDTheme.dimen
 import ua.wied.presentation.common.theme.WiEDTheme.typography
 
 @Composable
@@ -29,7 +29,7 @@ fun PrimaryButton(
             disabledContainerColor = colors.tintColor,
             containerColor = colors.tintColor
         ),
-        shape = RoundedCornerShape(4.dp),
+        shape = dimen.shape,
         contentPadding = PaddingValues(horizontal = 10.dp, vertical = 10.dp),
         enabled = isEnabled
     ) {

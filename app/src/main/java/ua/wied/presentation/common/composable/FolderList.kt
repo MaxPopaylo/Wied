@@ -12,12 +12,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import ua.wied.domain.models.HasId
 import ua.wied.domain.models.folder.Folder
 import ua.wied.presentation.common.theme.WiEDTheme
 import ua.wied.presentation.common.theme.WiEDTheme.colors
+import ua.wied.presentation.common.theme.WiEDTheme.dimen
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -29,7 +29,7 @@ fun <T : HasId> FolderList (
     LazyColumn(
         modifier = modifier,
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.spacedBy(12.dp)
+        verticalArrangement = Arrangement.spacedBy(dimen.paddingL)
     ) {
         folders.forEach { folder ->
             stickyHeader(key = "${folder.id}") {
@@ -57,7 +57,7 @@ private fun FolderListHeader(
         modifier = modifier
             .fillMaxWidth()
             .background(colors.primaryBackground)
-            .padding(horizontal = 0.dp, vertical = 8.dp),
+            .padding(horizontal = dimen.zero, vertical = dimen.paddingS),
         text = text,
         color = colors.primaryText,
         style = headerTextStyle

@@ -15,7 +15,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentHeight
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
@@ -47,6 +46,7 @@ import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.input.OffsetMapping
 import androidx.compose.ui.text.input.TransformedText
 import androidx.compose.ui.text.style.TextOverflow
+import ua.wied.presentation.common.theme.WiEDTheme.dimen
 
 @Composable
 fun BaseTextField(
@@ -70,7 +70,7 @@ fun BaseTextField(
         modifier = Modifier
             .fillMaxWidth()
             .wrapContentHeight(),
-        verticalArrangement = Arrangement.spacedBy(4.dp)
+        verticalArrangement = Arrangement.spacedBy(dimen.padding2Xs)
     ) {
         Text(
             text = title,
@@ -101,14 +101,14 @@ fun BaseTextField(
                     .height(IntrinsicSize.Max)
                     .background(
                         color = backgroundColor,
-                        shape = RoundedCornerShape(4.dp)
+                        shape = dimen.shape
                     )
                     .border(
                         width = 1.dp,
                         color = if(errorMessage != null) colors.errorColor else Color.Transparent,
-                        shape = RoundedCornerShape(4.dp)
+                        shape = dimen.shape
                     )
-                    .padding(vertical = 10.dp, horizontal = 20.dp),
+                    .padding(vertical = dimen.paddingM, horizontal = dimen.padding3Xl),
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Box (
@@ -135,7 +135,7 @@ fun BaseTextField(
 
                 trailingIcon?.let {
                     IconButton(
-                        modifier = Modifier.size(21.dp),
+                        modifier = Modifier.size(dimen.sizeM),
                         onClick = { onTrailingIconClick?.invoke() }
                     ) {
                         Icon(
@@ -272,7 +272,7 @@ fun UnderlineTextField(
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(IntrinsicSize.Max)
-                    .padding(vertical = 10.dp),
+                    .padding(vertical = dimen.paddingM),
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Box (
@@ -310,7 +310,7 @@ fun UnderlineTextField(
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(IntrinsicSize.Max)
-                    .padding(vertical = 4.dp),
+                    .padding(vertical = dimen.padding2Xs),
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.End
             ) {
@@ -358,9 +358,9 @@ fun SearchField(
                 .height(IntrinsicSize.Max)
                 .background(
                     color = Color(0xFFF4F4FA),
-                    shape = RoundedCornerShape(8.dp)
+                    shape = dimen.shape
                 )
-                .padding(vertical = 10.dp, horizontal = 20.dp),
+                .padding(vertical = dimen.paddingM, horizontal = dimen.padding3Xl),
             verticalAlignment = Alignment.CenterVertically
         ) {
             Icon(

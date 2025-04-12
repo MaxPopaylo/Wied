@@ -7,11 +7,11 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import ua.wied.presentation.common.navigation.global.MainNavGraph
 import ua.wied.presentation.common.theme.WiEDTheme.colors
+import ua.wied.presentation.common.theme.WiEDTheme.dimen
 import ua.wied.presentation.screens.main.composable.MainBottomAppBar
 import ua.wied.presentation.screens.main.composable.MainTopAppBar
 
@@ -32,7 +32,7 @@ fun MainScreen(
                 .padding(paddingValues)
                 .fillMaxSize()
                 .background(colors.primaryBackground)
-                .padding(horizontal = 24.dp)
+                .padding(horizontal = dimen.containerPadding)
         ) {
             MainNavGraph(navController)
         }

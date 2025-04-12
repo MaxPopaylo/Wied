@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -17,11 +16,11 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import ua.wied.R
 import ua.wied.domain.models.report.Report
 import ua.wied.presentation.common.theme.WiEDTheme.colors
+import ua.wied.presentation.common.theme.WiEDTheme.dimen
 import ua.wied.presentation.common.theme.WiEDTheme.typography
 import ua.wied.presentation.common.utils.bounceClick
 
@@ -34,14 +33,14 @@ fun ReportsByStatusItem(
     Row(
         modifier = modifier
             .fillMaxWidth()
-            .clip(RoundedCornerShape(4.dp))
+            .clip(dimen.shape)
             .bounceClick(onClick)
             .background(
                 color = colors.secondaryBackground,
-                shape = RoundedCornerShape(4.dp)
+                shape = dimen.shape
             )
-            .padding(vertical = 10.dp)
-            .padding(start = 14.dp),
+            .padding(vertical = dimen.paddingM)
+            .padding(start = dimen.paddingXl),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Column {
@@ -64,7 +63,7 @@ fun ReportsByStatusItem(
         Spacer(modifier = Modifier.weight(1f))
 
         Icon(
-            modifier = Modifier.rotate(180f).size(25.dp),
+            modifier = Modifier.rotate(180f).size(dimen.sizeM),
             painter = painterResource(R.drawable.icon_arrow_back),
             tint = colors.tintColor,
             contentDescription = stringResource(R.string.icon)

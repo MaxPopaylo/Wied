@@ -4,7 +4,6 @@ import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentWidth
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.TextButton
@@ -16,11 +15,12 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import ua.wied.R
+import ua.wied.presentation.common.theme.WiEDTheme.dimen
 
 @Composable
 fun IconButton(
     modifier: Modifier = Modifier,
-    size: Dp = 40.dp,
+    size: Dp = dimen.sizeL,
     icon: Painter,
     backgroundColor: Color,
     borderColor: Color,
@@ -34,8 +34,8 @@ fun IconButton(
             containerColor = backgroundColor,
             contentColor = iconColor
         ),
-        shape = RoundedCornerShape(4.dp),
-        contentPadding = PaddingValues(8.dp),
+        shape = dimen.shape,
+        contentPadding = PaddingValues(dimen.paddingS),
         border = BorderStroke(1.25.dp, borderColor),
         onClick = onClick,
     ) {

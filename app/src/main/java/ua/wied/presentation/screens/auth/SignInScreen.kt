@@ -16,7 +16,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
@@ -41,6 +40,7 @@ import ua.wied.presentation.common.composable.PrimaryButton
 import ua.wied.presentation.common.composable.SecondaryButton
 import ua.wied.presentation.common.navigation.AuthNav
 import ua.wied.presentation.common.theme.WiEDTheme.colors
+import ua.wied.presentation.common.theme.WiEDTheme.dimen
 import ua.wied.presentation.common.theme.WiEDTheme.typography
 import ua.wied.presentation.screens.auth.models.SignInUiEvent
 
@@ -59,7 +59,7 @@ fun SignInScreen(
         modifier = Modifier
             .fillMaxSize()
             .background(colors.primaryBackground),
-        verticalArrangement = Arrangement.spacedBy(18.dp)
+        verticalArrangement = Arrangement.spacedBy(dimen.padding3Xl)
     ) {
         Box(
             modifier = Modifier
@@ -69,12 +69,12 @@ fun SignInScreen(
                 .background(
                     colors.secondaryBackground
                 )
-                .padding(16.dp)
-                .padding(bottom = 12.dp),
+                .padding(dimen.containerPadding)
+                .padding(bottom = dimen.paddingL),
             contentAlignment = Alignment.BottomCenter
         ) {
             Column(
-                verticalArrangement = Arrangement.spacedBy(12.dp)
+                verticalArrangement = Arrangement.spacedBy(dimen.paddingL)
             ) {
                 Image(
                     modifier = Modifier
@@ -85,7 +85,7 @@ fun SignInScreen(
                     contentDescription = stringResource(R.string.logo)
                 )
                 Text(
-                    modifier = Modifier.padding(top = 4.dp),
+                    modifier = Modifier.padding(top = dimen.padding2Xs),
                     text = stringResource(R.string.welcome),
                     color = colors.primaryText,
                     style = typography.w500.copy(
@@ -98,7 +98,7 @@ fun SignInScreen(
         Row(
             modifier = modifier
                 .fillMaxWidth()
-                .padding(horizontal = 16.dp)
+                .padding(horizontal = dimen.containerPadding)
         ) {
             PrimaryButton (
                 modifier = Modifier.weight(1f),
@@ -108,7 +108,7 @@ fun SignInScreen(
                 }
             )
 
-            Spacer(modifier = Modifier.width(10.dp))
+            Spacer(modifier = Modifier.width(dimen.paddingM))
 
             SecondaryButton (
                 modifier = Modifier.weight(1f),
@@ -128,7 +128,7 @@ fun SignInScreen(
                 .background(
                     colors.primaryBackground
                 )
-                .padding(horizontal = 16.dp, vertical = 32.dp)
+                .padding(horizontal = dimen.padding2Xl, vertical = dimen.paddingExtraLarge)
         ) {
             BaseTextField(
                 title = stringResource(R.string.login),
@@ -144,7 +144,7 @@ fun SignInScreen(
                 }
             )
 
-            Spacer(modifier = Modifier.height(16.dp))
+            Spacer(modifier = Modifier.height(dimen.padding2Xl))
 
             PasswordTextField (
                 title = stringResource(R.string.password),
@@ -177,13 +177,13 @@ fun SignInScreen(
                 .background(
                     colors.secondaryBackground
                 )
-                .padding(horizontal = 16.dp)
+                .padding(horizontal = dimen.containerPadding)
         ) {
 
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(vertical = 24.dp),
+                    .padding(vertical = dimen.paddingLarge),
                 horizontalArrangement = Arrangement.Center,
                 verticalAlignment = Alignment.CenterVertically
             ) {
@@ -192,7 +192,7 @@ fun SignInScreen(
                     color = colors.primaryText
                 )
                 Text(
-                    modifier = Modifier.padding(horizontal = 12.dp),
+                    modifier = Modifier.padding(horizontal = dimen.paddingL),
                     text = "OR",
                     color = colors.primaryText,
                     style = typography.w500.copy(
@@ -208,7 +208,7 @@ fun SignInScreen(
             Row(
                 modifier = Modifier
                     .fillMaxWidth(),
-                horizontalArrangement = Arrangement.spacedBy(12.dp),
+                horizontalArrangement = Arrangement.spacedBy(dimen.paddingL),
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 SignInIntegrationButton(
@@ -253,18 +253,18 @@ private fun SignInIntegrationButton(
 ) {
     Row(
         modifier = modifier
-            .clip(RoundedCornerShape(4.dp))
+            .clip(dimen.shape)
             .background(
                 colors.primaryBackground,
-                RoundedCornerShape(4.dp)
+                dimen.shape
             )
             .clickable { onClick() }
-            .padding(12.dp),
+            .padding(dimen.paddingL),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.Center
     ) {
         Image(
-            modifier = Modifier.size(24.dp),
+            modifier = Modifier.size(dimen.sizeM),
             painter = icon,
             contentDescription = description
         )

@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.widthIn
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -23,6 +22,7 @@ import ua.wied.R
 import ua.wied.domain.models.instruction.Instruction
 import ua.wied.presentation.common.composable.InstructionItem
 import ua.wied.presentation.common.theme.WiEDTheme.colors
+import ua.wied.presentation.common.theme.WiEDTheme.dimen
 import ua.wied.presentation.common.theme.WiEDTheme.typography
 import ua.wied.presentation.common.utils.bounceClick
 
@@ -39,7 +39,7 @@ fun ReportListItem(
         instruction = instruction,
         actions = {
             Row(
-                horizontalArrangement = Arrangement.spacedBy(4.dp)
+                horizontalArrangement = Arrangement.spacedBy(dimen.padding2Xs)
             ) {
                 Box(
                     modifier = Modifier
@@ -49,12 +49,12 @@ fun ReportListItem(
                         .border(
                             1.25.dp,
                             colors.tintColor,
-                            RoundedCornerShape(8.dp)
+                            dimen.shape
                         ),
                     contentAlignment = Alignment.Center
                 ) {
                     Text(
-                        modifier = Modifier.padding(8.dp),
+                        modifier = Modifier.padding(dimen.paddingXs),
                         text = "$reportsCount",
                         color = colors.primaryText,
                         style = typography.w500.copy(
@@ -70,12 +70,12 @@ fun ReportListItem(
                         .bounceClick(createIconOnClick)
                         .background(
                             colors.tintColor,
-                            RoundedCornerShape(8.dp)
+                            dimen.shape
                         ),
                     contentAlignment = Alignment.Center
                 ) {
                     Icon(
-                        modifier = Modifier.size(14.dp),
+                        modifier = Modifier.size(dimen.sizeS),
                         painter = painterResource(R.drawable.icon_plus),
                         contentDescription = "Plus",
                         tint = Color.White

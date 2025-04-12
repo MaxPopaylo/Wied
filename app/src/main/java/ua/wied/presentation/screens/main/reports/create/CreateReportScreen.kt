@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -21,7 +20,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -36,6 +34,7 @@ import ua.wied.presentation.common.theme.WiEDTheme.colors
 import ua.wied.presentation.common.theme.WiEDTheme.typography
 import ua.wied.presentation.screens.main.reports.create.models.CreateReportEvent
 import androidx.core.net.toUri
+import ua.wied.presentation.common.theme.WiEDTheme.dimen
 
 @Composable
 fun CreateReportScreen(
@@ -44,23 +43,22 @@ fun CreateReportScreen(
 ) {
 
     val isEnabled = viewModel.isFieldsEmpty()
-    val roundedShape = RoundedCornerShape(4.dp)
     val state by viewModel.uiState.collectAsStateWithLifecycle()
 
     Column(
         modifier = Modifier
-            .padding(top = 24.dp)
+            .padding(top = dimen.containerPaddingLarge)
     ) {
         InstructionItem(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(vertical = 12.dp),
+                .padding(vertical = dimen.paddingL),
             instruction = instruction,
             actions = {}
         )
 
         Text(
-            modifier = Modifier.padding(vertical = 24.dp),
+            modifier = Modifier.padding(vertical = dimen.paddingLarge),
             text = stringResource(R.string.report) + ":",
             color = colors.primaryText,
             style = typography.w400.copy(
@@ -73,15 +71,15 @@ fun CreateReportScreen(
                 .fillMaxWidth()
                 .background(
                     colors.secondaryBackground,
-                    roundedShape
+                    dimen.shape
                 )
                 .padding(
-                    start = 18.dp,
-                    end = 18.dp,
-                    top = 14.dp,
-                    bottom = 24.dp
+                    start = dimen.padding3Xl,
+                    end = dimen.padding3Xl,
+                    top = dimen.paddingXl,
+                    bottom = dimen.paddingLarge
                 ),
-            verticalArrangement = Arrangement.spacedBy(4.dp)
+            verticalArrangement = Arrangement.spacedBy(dimen.padding2Xs)
         ) {
             Row(
                 verticalAlignment = Alignment.Bottom
@@ -117,7 +115,7 @@ fun CreateReportScreen(
                 }
 
                 IconButton(
-                    modifier = Modifier.padding(bottom = 12.dp),
+                    modifier = Modifier.padding(bottom = dimen.paddingL),
                     icon = painterResource(R.drawable.icon_microphone),
                     backgroundColor = Color.Transparent,
                     borderColor = Color.Transparent,
@@ -132,18 +130,18 @@ fun CreateReportScreen(
                 style = typography.w400.copy(
                     fontSize = 14.sp
                 ),
-                modifier = Modifier.padding(bottom = 12.dp)
+                modifier = Modifier.padding(bottom = dimen.paddingL)
             )
 
-            Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+            Row(horizontalArrangement = Arrangement.spacedBy(dimen.paddingL)) {
 
                 repeat(4) { index ->
                     ImagePickerButton(
                         modifier = Modifier
                             .weight(1f)
                             .fillMaxWidth()
-                            .clip(roundedShape),
-                        shape = roundedShape,
+                            .clip(dimen.shape),
+                        shape = dimen.shape,
                         imageUri = state.imgUrls.getOrNull(index)?.toUri(),
                         onImageChosen = { url ->
                             viewModel.onEvent(CreateReportEvent.PhotoAdded(index, url))
@@ -156,7 +154,7 @@ fun CreateReportScreen(
             }
         }
 
-        Spacer(modifier = Modifier.height(32.dp))
+        Spacer(modifier = Modifier.height(dimen.paddingExtraLarge))
 
         PrimaryButton(
             isEnabled = isEnabled,

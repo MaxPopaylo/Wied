@@ -13,7 +13,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.widthIn
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -36,6 +35,7 @@ import ua.wied.domain.models.report.ReportStatus
 import ua.wied.presentation.common.composable.LoadingIndicator
 import ua.wied.presentation.common.navigation.ReportNav
 import ua.wied.presentation.common.theme.WiEDTheme.colors
+import ua.wied.presentation.common.theme.WiEDTheme.dimen
 import ua.wied.presentation.common.theme.WiEDTheme.typography
 import ua.wied.presentation.common.utils.bounceClick
 
@@ -92,7 +92,7 @@ fun ReportStatusListScreen(
                     itemClick = {
                         if (todoReportsCount > 0) {
                             navController.navigate(ReportNav.ReportsByStatusList(
-                                reports = state.inProgressReports,
+                                reports = state.todoReports,
                                 instruction = instruction,
                                 status = ReportStatus.TODO.name
                             ))
@@ -101,7 +101,7 @@ fun ReportStatusListScreen(
                 )
 
                 ReportStatusItem(
-                    modifier = Modifier.padding(top = 24.dp),
+                    modifier = Modifier.padding(top = dimen.paddingLarge),
                     title = stringResource(R.string.in_progress_reports),
                     reportsCount = inProgressReportsCount,
                     itemClick = {
@@ -116,7 +116,7 @@ fun ReportStatusListScreen(
                 )
 
                 ReportStatusItem(
-                    modifier = Modifier.padding(top = 24.dp),
+                    modifier = Modifier.padding(top = dimen.paddingLarge),
                     title = stringResource(R.string.done_reports),
                     reportsCount = doneReportsCount,
                     itemClick = {
@@ -144,14 +144,14 @@ private fun ReportStatusItem(
     Row(
         modifier = modifier
             .fillMaxWidth()
-            .clip(RoundedCornerShape(4.dp))
+            .clip(dimen.shape)
             .bounceClick(itemClick)
             .background(
                 color = colors.secondaryBackground,
-                shape = RoundedCornerShape(4.dp)
+                shape = dimen.shape
             )
-            .padding(vertical = 10.dp)
-            .padding(start = 14.dp),
+            .padding(vertical = dimen.paddingXl)
+            .padding(start = dimen.paddingXl, end = dimen.paddingXs),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Text(
@@ -171,12 +171,12 @@ private fun ReportStatusItem(
                 .border(
                     1.25.dp,
                     colors.primaryText,
-                    RoundedCornerShape(4.dp)
+                    dimen.shape
                 ),
             contentAlignment = Alignment.Center
         ) {
             Text(
-                modifier = Modifier.padding(8.dp),
+                modifier = Modifier.padding(dimen.paddingS),
                 text = "$reportsCount",
                 color = colors.primaryText,
                 style = typography.w500.copy(
@@ -185,10 +185,10 @@ private fun ReportStatusItem(
             )
         }
 
-        Spacer(modifier = Modifier.width(4.dp))
+        Spacer(modifier = Modifier.width(dimen.padding2Xs))
 
         Icon(
-            modifier = Modifier.rotate(180f).size(25.dp),
+            modifier = Modifier.rotate(180f).size(dimen.sizeM),
             painter = painterResource(R.drawable.icon_arrow_back),
             tint = colors.tintColor,
             contentDescription = stringResource(R.string.icon)

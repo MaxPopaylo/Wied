@@ -38,6 +38,7 @@ import androidx.wear.compose.material.ExperimentalWearMaterialApi
 import androidx.wear.compose.material.FractionalThreshold
 import androidx.wear.compose.material.rememberSwipeableState
 import androidx.wear.compose.material.swipeable
+import ua.wied.presentation.common.theme.WiEDTheme.dimen
 import ua.wied.presentation.common.theme.WiEDTheme.typography
 import ua.wied.presentation.common.utils.bounceClick
 import kotlin.math.roundToInt
@@ -68,13 +69,13 @@ fun ActionIcon(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Icon(
-            modifier = Modifier.padding(horizontal = 14.dp),
+            modifier = Modifier.padding(horizontal = dimen.paddingXl),
             painter = icon,
             contentDescription = contentDescription,
             tint = tint
         )
         Text(
-            modifier = Modifier.padding(horizontal = 14.dp),
+            modifier = Modifier.padding(horizontal = dimen.paddingXl),
             text = title,
             color = tint,
             style = typography.w400.copy(fontSize = 12.sp)
@@ -87,7 +88,7 @@ fun ActionIcon(
 @Composable
 fun SwipeToReveal(
     modifier: Modifier = Modifier,
-    cornerShape: RoundedCornerShape = RoundedCornerShape(8.dp),
+    cornerShape: RoundedCornerShape = dimen.shape,
     threshold: Float = 0.3f,
     backgroundColorBehind: Color = Color.LightGray,
     onClick: (() -> Unit)? = null,
