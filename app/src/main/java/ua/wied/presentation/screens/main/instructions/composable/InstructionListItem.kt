@@ -9,22 +9,16 @@ import ua.wied.R
 import ua.wied.domain.models.instruction.Instruction
 import ua.wied.presentation.common.composable.ActionIcon
 import ua.wied.presentation.common.composable.InstructionItem
-import ua.wied.presentation.common.composable.SwipeableItem
+import ua.wied.presentation.common.composable.SwipeToReveal
 import ua.wied.presentation.common.theme.WiEDTheme.colors
 
 @Composable
 fun InstructionListItem(
     modifier: Modifier = Modifier,
     instruction: Instruction,
-    isRevealed: Boolean,
-    onExpanded: () -> Unit,
-    onCollapsed: () -> Unit,
     onClick: () -> Unit
 ) {
-    SwipeableItem(
-        isRevealed = isRevealed,
-        onExpanded = onExpanded,
-        onCollapsed = onCollapsed,
+    SwipeToReveal(
         actions = {
             ActionIcon(
                 backgroundColor = colors.tintColor.copy(alpha = 0.8f),
@@ -49,12 +43,12 @@ fun InstructionListItem(
                 title = stringResource(R.string.delete),
                 onClick = {}
             )
-        }
+        },
+        onClick = onClick
     ) {
         InstructionItem(
             modifier = modifier,
-            instruction = instruction,
-            onClick = onClick,
+            instruction = instruction
         )
     }
 }

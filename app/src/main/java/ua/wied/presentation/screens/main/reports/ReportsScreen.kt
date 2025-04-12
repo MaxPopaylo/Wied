@@ -8,6 +8,7 @@ import androidx.navigation.NavHostController
 import ua.wied.presentation.common.composable.FolderList
 import ua.wied.presentation.common.composable.LoadingIndicator
 import ua.wied.presentation.common.navigation.ReportNav
+import ua.wied.presentation.screens.main.instructions.composable.InstructionEmptyScreen
 import ua.wied.presentation.screens.main.reports.composable.ReportListItem
 
 @Composable
@@ -22,7 +23,7 @@ fun ReportsScreen(
             LoadingIndicator(false)
         }
         state.isEmpty -> {
-            // TODO: empty screen
+            InstructionEmptyScreen()
         }
         state.isNotInternetConnection -> {
             // TODO: no internet connection
