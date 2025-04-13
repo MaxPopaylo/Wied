@@ -5,7 +5,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import ua.wied.domain.usecases.CreateReportUseCase
-import ua.wied.presentation.common.base.BaseViewModelWithEvent
+import ua.wied.presentation.common.base.BaseViewModel
 import ua.wied.presentation.screens.main.reports.create.models.CreateReportEvent
 import ua.wied.presentation.screens.main.reports.create.models.CreateReportState
 import javax.inject.Inject
@@ -13,7 +13,7 @@ import javax.inject.Inject
 @HiltViewModel
 class CreateReportViewModel @Inject constructor(
     private val createReportUseCase: CreateReportUseCase
-) : BaseViewModelWithEvent<CreateReportState, CreateReportEvent>(CreateReportState()) {
+) : BaseViewModel<CreateReportState, CreateReportEvent>(CreateReportState()) {
 
     override fun onEvent(event: CreateReportEvent) {
         when(event) {

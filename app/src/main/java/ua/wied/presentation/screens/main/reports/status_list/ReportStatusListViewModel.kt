@@ -1,25 +1,41 @@
 package ua.wied.presentation.screens.main.reports.status_list
 
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.delay
 import ua.wied.domain.models.report.ReportStatus
 import ua.wied.domain.usecases.GetReportsByInstructionUseCase
 import ua.wied.presentation.common.base.BaseViewModel
+import ua.wied.presentation.screens.main.reports.status_list.models.ReportStatusListEvent
 import ua.wied.presentation.screens.main.reports.status_list.models.ReportStatusListState
 import javax.inject.Inject
 
 @HiltViewModel
 class ReportStatusListViewModel @Inject constructor(
     private val getReportsByInstructionUseCase: GetReportsByInstructionUseCase
-) : BaseViewModel<ReportStatusListState>(ReportStatusListState()) {
+) : BaseViewModel<ReportStatusListState, ReportStatusListEvent>(ReportStatusListState()) {
 
-    fun initialize(instructionId: Int) {
+
+    override fun onEvent(event: ReportStatusListEvent) {
+        when(event) {
+            is ReportStatusListEvent.LoadData -> { initialize(event.instructionId) }
+            is ReportStatusListEvent.Refresh -> { initialize(event.instructionId, true) }
+        }
+    }
+
+    private fun initialize(instructionId: Int, isRefresh: Boolean = false) {
         collectNetworkRequest(
             apiCall = { getReportsByInstructionUseCase(instructionId) },
             updateLoadingState = { value -> updateState { it.copy(isLoading = value) } },
             updateFailure = { updateState { it.copy(isNotInternetConnection = true) } },
-            onSuccess = {
-                reports -> updateState { it.copy(reports = reports) }
+            onSuccess = { reports ->
+                updateState { it.copy(reports = reports)}
                 splitReportsByStatus()
+            },
+            onRefresh = { value ->
+                if (isRefresh) {
+                    if (!value) delay(100)
+                    updateState { it.copy(isRefreshing = value ) }
+                }
             }
         )
     }
@@ -40,6 +56,5 @@ class ReportStatusListViewModel @Inject constructor(
         }
 
     }
-
 
 }

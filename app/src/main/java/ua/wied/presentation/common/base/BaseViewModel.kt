@@ -8,10 +8,12 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import ua.wied.domain.models.FlowResult
 
-abstract class BaseViewModel<STATE>(initialState: STATE) : ViewModel() {
+abstract class BaseViewModel<STATE, EVENT>(initialState: STATE) : ViewModel() {
 
     private val _uiState = MutableStateFlow(initialState)
     val uiState = _uiState.asStateFlow()
+
+    abstract fun onEvent(event: EVENT)
 
     protected fun updateState(block: (STATE) -> STATE) {
         _uiState.update { state -> block(state) }
@@ -21,10 +23,12 @@ abstract class BaseViewModel<STATE>(initialState: STATE) : ViewModel() {
         updateLoadingState: (Boolean) -> Unit,
         updateFailure: () -> Unit,
         apiCall: suspend () -> FlowResult<T>,
-        onSuccess: (T) -> Unit
+        onRefresh: (suspend (Boolean) -> Unit)? = null,
+        onSuccess: suspend (T) -> Unit,
     ) {
         viewModelScope.launch {
             updateLoadingState(true)
+            onRefresh?.invoke(true)
 
             apiCall().collect { result ->
                 result.fold(
@@ -37,11 +41,8 @@ abstract class BaseViewModel<STATE>(initialState: STATE) : ViewModel() {
                 )
             }
 
+            onRefresh?.invoke(false)
             updateLoadingState(false)
         }
     }
-}
-
-abstract class BaseViewModelWithEvent<STATE, EVENT>(initialState: STATE) : BaseViewModel<STATE>(initialState) {
-    abstract fun onEvent(event: EVENT)
 }

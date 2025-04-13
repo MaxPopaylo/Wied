@@ -7,12 +7,13 @@ import androidx.compose.runtime.getValue
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
+import ua.wied.presentation.common.composable.ContentBox
 import ua.wied.presentation.common.composable.FolderList
-import ua.wied.presentation.common.composable.LoadingIndicator
 import ua.wied.presentation.common.composable.SearchField
 import ua.wied.presentation.common.theme.WiEDTheme.dimen
 import ua.wied.presentation.screens.main.instructions.composable.InstructionEmptyScreen
 import ua.wied.presentation.screens.main.instructions.composable.InstructionListItem
+import ua.wied.presentation.screens.main.instructions.model.InstructionsEvent
 import ua.wied.presentation.screens.main.instructions.model.InstructionsEvent.SearchChanged
 
 @Composable
@@ -31,27 +32,20 @@ fun InstructionsScreen(
             }
         )
 
-        when {
-            state.isLoading -> {
-                LoadingIndicator(false)
-            }
-            state.isEmpty -> {
-                InstructionEmptyScreen()
-            }
-            state.isNotInternetConnection -> {
-                // TODO: no internet connection
-            }
-            else -> {
-                FolderList (
-                    folders = state.folders,
-                    itemView = { instruction ->
-                        InstructionListItem(
-                            instruction = instruction,
-                            onClick = {}
-                        )
-                    }
-                )
-            }
+        ContentBox(
+            state = state,
+            onRefresh = { viewModel.onEvent(InstructionsEvent.Refresh) },
+            emptyScreen = { InstructionEmptyScreen() }
+        ) {
+            FolderList (
+                folders = state.folders,
+                itemView = { instruction ->
+                    InstructionListItem(
+                        instruction = instruction,
+                        onClick = {}
+                    )
+                }
+            )
         }
     }
 }

@@ -32,12 +32,13 @@ import androidx.navigation.NavHostController
 import ua.wied.R
 import ua.wied.domain.models.instruction.Instruction
 import ua.wied.domain.models.report.ReportStatus
-import ua.wied.presentation.common.composable.LoadingIndicator
+import ua.wied.presentation.common.composable.ContentBox
 import ua.wied.presentation.common.navigation.ReportNav
 import ua.wied.presentation.common.theme.WiEDTheme.colors
 import ua.wied.presentation.common.theme.WiEDTheme.dimen
 import ua.wied.presentation.common.theme.WiEDTheme.typography
 import ua.wied.presentation.common.utils.bounceClick
+import ua.wied.presentation.screens.main.reports.status_list.models.ReportStatusListEvent
 
 @Composable
 fun ReportStatusListScreen(
@@ -45,77 +46,72 @@ fun ReportStatusListScreen(
     instruction: Instruction,
     viewModel: ReportStatusListViewModel = hiltViewModel()
 ) {
-    LaunchedEffect(Unit) {
-        viewModel.initialize(instruction.id)
-    }
-
     val state by viewModel.uiState.collectAsStateWithLifecycle()
+
+    LaunchedEffect(Unit) {
+        viewModel.onEvent(ReportStatusListEvent.LoadData(instruction.id))
+    }
 
     val todoReportsCount = state.todoReports.size
     val inProgressReportsCount = state.inProgressReports.size
     val doneReportsCount = state.doneReports.size
 
-    when {
-        state.isLoading -> {
-            LoadingIndicator(false)
-        }
-        state.isNotInternetConnection -> {
-            // TODO: no internet connection
-        }
-        else -> {
-            Column {
-                Spacer(Modifier.fillMaxHeight(.15f))
-                Text(
-                    modifier = Modifier.padding(vertical = dimen.padding3Xl),
-                    text = instruction.title,
-                    style = typography.h4
-                )
+    ContentBox(
+        state = state,
+        onRefresh = {}
+    ) {
+        Column {
+            Spacer(Modifier.fillMaxHeight(.15f))
+            Text(
+                modifier = Modifier.padding(vertical = dimen.padding3Xl),
+                text = instruction.title,
+                style = typography.h4
+            )
 
-                ReportStatusItem(
-                    modifier = Modifier,
-                    title = stringResource(R.string.new_reports),
-                    reportsCount = todoReportsCount,
-                    itemClick = {
-                        if (todoReportsCount > 0) {
-                            navController.navigate(ReportNav.ReportsByStatusList(
-                                reports = state.todoReports,
-                                instruction = instruction,
-                                status = ReportStatus.TODO.name
-                            ))
-                        }
+            ReportStatusItem(
+                modifier = Modifier,
+                title = stringResource(R.string.new_reports),
+                reportsCount = todoReportsCount,
+                itemClick = {
+                    if (todoReportsCount > 0) {
+                        navController.navigate(ReportNav.ReportsByStatusList(
+                            reports = state.todoReports,
+                            instruction = instruction,
+                            status = ReportStatus.TODO.name
+                        ))
                     }
-                )
+                }
+            )
 
-                ReportStatusItem(
-                    modifier = Modifier.padding(top = dimen.paddingLarge),
-                    title = stringResource(R.string.in_progress_reports),
-                    reportsCount = inProgressReportsCount,
-                    itemClick = {
-                        if (inProgressReportsCount > 0) {
-                            navController.navigate(ReportNav.ReportsByStatusList(
-                                reports = state.inProgressReports,
-                                instruction = instruction,
-                                status = ReportStatus.IN_PROGRESS.name
-                            ))
-                        }
+            ReportStatusItem(
+                modifier = Modifier.padding(top = dimen.paddingLarge),
+                title = stringResource(R.string.in_progress_reports),
+                reportsCount = inProgressReportsCount,
+                itemClick = {
+                    if (inProgressReportsCount > 0) {
+                        navController.navigate(ReportNav.ReportsByStatusList(
+                            reports = state.inProgressReports,
+                            instruction = instruction,
+                            status = ReportStatus.IN_PROGRESS.name
+                        ))
                     }
-                )
+                }
+            )
 
-                ReportStatusItem(
-                    modifier = Modifier.padding(top = dimen.paddingLarge),
-                    title = stringResource(R.string.done_reports),
-                    reportsCount = doneReportsCount,
-                    itemClick = {
-                        if (doneReportsCount > 0) {
-                            navController.navigate(ReportNav.ReportsByStatusList(
-                                reports = state.doneReports,
-                                instruction = instruction,
-                                status = ReportStatus.DONE.name
-                            ))
-                        }
+            ReportStatusItem(
+                modifier = Modifier.padding(top = dimen.paddingLarge),
+                title = stringResource(R.string.done_reports),
+                reportsCount = doneReportsCount,
+                itemClick = {
+                    if (doneReportsCount > 0) {
+                        navController.navigate(ReportNav.ReportsByStatusList(
+                            reports = state.doneReports,
+                            instruction = instruction,
+                            status = ReportStatus.DONE.name
+                        ))
                     }
-                )
-            }
+                }
+            )
         }
     }
 }

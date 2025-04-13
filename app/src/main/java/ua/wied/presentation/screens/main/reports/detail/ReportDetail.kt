@@ -16,6 +16,7 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -27,23 +28,35 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImage
 import ua.wied.R
 import ua.wied.domain.models.report.Report
 import ua.wied.domain.models.report.ReportStatus
 import ua.wied.presentation.common.composable.FullScreenImageDialog
+import ua.wied.presentation.common.composable.PrimaryButton
+import ua.wied.presentation.common.composable.SecondaryButton
 import ua.wied.presentation.common.theme.WiEDTheme.colors
 import ua.wied.presentation.common.theme.WiEDTheme.dimen
 import ua.wied.presentation.common.theme.WiEDTheme.typography
 import ua.wied.presentation.common.utils.bounceClick
 import ua.wied.presentation.common.utils.extensions.formatToShortDate
+import ua.wied.presentation.screens.main.reports.detail.models.ReportDetailEvent
 
 @Composable
 fun ReportDetailScreen(
-    report: Report
+    report: Report,
+    viewModel: ReportDetailViewModel = hiltViewModel()
 ) {
     var choseImage by remember { mutableStateOf("") }
     var showDialog by remember { mutableStateOf(false) }
+
+    LaunchedEffect(Unit) {
+        viewModel.onEvent(ReportDetailEvent.LoadData(report))
+    }
+
+    val state by viewModel.uiState.collectAsStateWithLifecycle()
 
     Column(
         modifier = Modifier
@@ -118,16 +131,23 @@ fun ReportDetailScreen(
                 .weight(1f),
             contentAlignment = Alignment.Center
         ) {
-            Column {
-                Text(
-                    text = getStatusMessage(report.status),
-                    color = colors.tintColor,
-                    style = typography.h2
+            if (viewModel.isManager()) {
+                ChangeStatusButtons(
+                    currentStatus = state.report?.status ?: ReportStatus.TODO,
+                    onEvent = viewModel::onEvent
                 )
-                Text(
-                    text = report.updateTime.formatToShortDate(),
-                    style = typography.h5
-                )
+            } else {
+                Column {
+                    Text(
+                        text = getStatusMessage(report.status),
+                        color = colors.tintColor,
+                        style = typography.h2
+                    )
+                    Text(
+                        text = report.updateTime.formatToShortDate(),
+                        style = typography.h5
+                    )
+                }
             }
         }
     }
@@ -171,6 +191,43 @@ private fun PhotoGrid(
                         }
                 )
             }
+        }
+    }
+}
+
+@Composable
+private fun ChangeStatusButtons(
+    currentStatus: ReportStatus,
+    onEvent: (ReportDetailEvent) -> Unit
+) {
+    Column(
+        verticalArrangement = Arrangement.spacedBy(dimen.paddingS)
+    ){
+        val inProgressTitle = stringResource(R.string.in_progress_reports)
+        val doneTitle = stringResource(R.string.done_reports)
+
+        if (currentStatus == ReportStatus.IN_PROGRESS) {
+            PrimaryButton(
+                title = inProgressTitle,
+                onClick = { onEvent(ReportDetailEvent.ChangeStatus(ReportStatus.IN_PROGRESS)) }
+            )
+        } else {
+            SecondaryButton(
+                title = inProgressTitle,
+                onClick = { onEvent(ReportDetailEvent.ChangeStatus(ReportStatus.IN_PROGRESS)) }
+            )
+        }
+
+        if (currentStatus == ReportStatus.DONE) {
+            PrimaryButton(
+                title = doneTitle,
+                onClick = { onEvent(ReportDetailEvent.ChangeStatus(ReportStatus.DONE)) }
+            )
+        } else {
+            SecondaryButton(
+                title = doneTitle,
+                onClick = { onEvent(ReportDetailEvent.ChangeStatus(ReportStatus.DONE)) }
+            )
         }
     }
 }
