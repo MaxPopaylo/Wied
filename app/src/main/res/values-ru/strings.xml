@@ -11,7 +11,6 @@
     <string name="photo">Фото</string>
     <string name="send">Отправить</string>
     <string name="video">Видео</string>
-    <string name="accesses">Доступа</string>
     <string name="delete">Удалить</string>
     <string name="search">Поиск</string>
     <string name="no_instructions">Еще не создано ни одной инструкции</string>
@@ -75,5 +74,16 @@
     <string name="done_report_message">Готово</string>
     <string name="create_report">Создать заявку</string>
 
+
+    <!-- Evaluations Screen -->
+    <string name="evaluations">Оценки</string>
+
+
+    <!-- Access Screen -->
+    <string name="accesses">Доступа</string>
+
+
+    <!-- Profile Screen -->
+    <string name="profile">Профиль</string>
 
 </resources>

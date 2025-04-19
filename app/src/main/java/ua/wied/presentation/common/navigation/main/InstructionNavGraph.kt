@@ -7,7 +7,7 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
 import ua.wied.presentation.common.navigation.InstructionNav
-import ua.wied.presentation.screens.main.instructions.InstructionsScreen
+import ua.wied.presentation.screens.instructions.InstructionsScreen
 
 fun NavGraphBuilder.instructionNavGraph(navController: NavHostController) {
     composable<InstructionNav.Instructions>(

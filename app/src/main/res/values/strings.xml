@@ -15,7 +15,6 @@
     <string name="photo">Photo</string>
     <string name="send">Send</string>
     <string name="video">Video</string>
-    <string name="accesses">Accesses</string>
     <string name="delete">Delete</string>
     <string name="search">Search</string>
     <string name="no_instructions">No instructions have been created yet</string>
@@ -80,6 +79,20 @@
     <string name="in_progress_report_message">Working</string>
     <string name="done_report_message">Done</string>
     <string name="create_report">Create report</string>
+
+
+    <!-- Evaluations Screen -->
+    <string name="evaluations">Evaluations</string>
+
+
+    <!-- Access Screen -->
+    <string name="accesses">Accesses</string>
+
+
+    <!-- Profile Screen -->
+    <string name="profile">Profile</string>
+
+
 
 </resources>
 

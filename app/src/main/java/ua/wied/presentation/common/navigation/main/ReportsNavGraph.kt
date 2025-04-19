@@ -14,11 +14,11 @@ import ua.wied.presentation.common.navigation.InstructionType
 import ua.wied.presentation.common.navigation.ReportNav
 import ua.wied.presentation.common.navigation.ReportType
 import ua.wied.presentation.common.navigation.ReportsType
-import ua.wied.presentation.screens.main.reports.ReportsScreen
-import ua.wied.presentation.screens.main.reports.by_status.ReportsByStatusScreen
-import ua.wied.presentation.screens.main.reports.create.CreateReportScreen
-import ua.wied.presentation.screens.main.reports.detail.ReportDetailScreen
-import ua.wied.presentation.screens.main.reports.status_list.ReportStatusListScreen
+import ua.wied.presentation.screens.reports.ReportsScreen
+import ua.wied.presentation.screens.reports.by_status.ReportsByStatusScreen
+import ua.wied.presentation.screens.reports.create.CreateReportScreen
+import ua.wied.presentation.screens.reports.detail.ReportDetailScreen
+import ua.wied.presentation.screens.reports.status_list.ReportStatusListScreen
 import kotlin.reflect.typeOf
 
 fun NavGraphBuilder.reportsNavGraph(navController: NavHostController) {

@@ -28,7 +28,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.IntOffset
@@ -48,7 +48,7 @@ fun ActionIcon(
     onClick: () -> Unit,
     backgroundColor: Color,
     title: String,
-    icon: Painter,
+    icon: ImageVector,
     modifier: Modifier = Modifier,
     contentDescription: String? = null,
     tint: Color = Color.White
@@ -69,7 +69,7 @@ fun ActionIcon(
     ) {
         Icon(
             modifier = Modifier.padding(horizontal = dimen.paddingXl),
-            painter = icon,
+            imageVector = icon,
             contentDescription = contentDescription,
             tint = tint
         )

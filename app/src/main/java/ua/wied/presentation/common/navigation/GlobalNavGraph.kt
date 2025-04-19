@@ -7,6 +7,7 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.toRoute
 import ua.wied.presentation.screens.auth.AuthScreen
 import ua.wied.presentation.screens.main.MainScreen
 
@@ -51,8 +52,9 @@ fun GlobalNavGraph(
             popExitTransition = {
                 slideOutHorizontally(targetOffsetX = { it }, animationSpec = tween(500))
             }
-        ) {
-            MainScreen()
+        ) { backStackEntry ->
+            val args = backStackEntry.toRoute<GlobalNav.Main>()
+            MainScreen(isManager = args.isManager)
         }
 
     }

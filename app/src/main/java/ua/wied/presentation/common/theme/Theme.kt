@@ -103,6 +103,7 @@ fun WiEDTheme(
         paddingExtraLarge = 32.dp,
         containerPadding = 18.dp,
         containerPaddingLarge = 24.dp,
+        topBarPadding = 4.5.dp,
 
         sizeS = 15.dp,
         sizeM = 25.dp,

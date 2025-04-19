@@ -27,14 +27,17 @@ class SplashActivity : ComponentActivity() {
                 val startDestination = if (status) GlobalNav.Main::class.simpleName!!
                 else GlobalNav.Auth::class.simpleName!!
 
-                openActivity(MainActivity::class.java, startDestination)
+                viewModel.isManager.collect { value ->
+                    openActivity(MainActivity::class.java, startDestination, value)
+                }
             }
         }
     }
 
-    private fun openActivity(activity: Class<*>, startDestination: String) {
+    private fun openActivity(activity: Class<*>, startDestination: String, isManager: Boolean) {
         val intent = Intent(this, activity).apply {
             putExtra("startDestination", startDestination)
+            putExtra("isManager", isManager)
         }
         val options = ActivityOptions.makeCustomAnimation(
             this,

@@ -17,10 +17,12 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
 
+        val isManager = intent.getBooleanExtra("isManager", false)
+
         val startDestination = intent.getStringExtra("startDestination")?.let {
             when (it) {
                 GlobalNav.Auth::class.simpleName -> GlobalNav.Auth
-                GlobalNav.Main::class.simpleName -> GlobalNav.Main
+                GlobalNav.Main::class.simpleName -> GlobalNav.Main(isManager)
                 else -> GlobalNav.Auth
             }
         } ?: GlobalNav.Auth

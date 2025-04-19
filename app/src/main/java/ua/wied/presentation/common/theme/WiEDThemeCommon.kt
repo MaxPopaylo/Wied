@@ -58,6 +58,7 @@ data class WiEDDimension(
     val paddingExtraLarge: Dp,
     val containerPadding: Dp,
     val containerPaddingLarge: Dp,
+    val topBarPadding: Dp,
 
     val sizeS: Dp,
     val sizeM: Dp,

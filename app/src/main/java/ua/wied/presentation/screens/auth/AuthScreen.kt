@@ -28,7 +28,7 @@ fun AuthScreen(
     LaunchedEffect(viewModel) {
         viewModel.authResult.collect { result ->
             if (result is AuthResult.Success) {
-                globalNavController.navigate(GlobalNav.Main) {
+                globalNavController.navigate(GlobalNav.Main(result.isManager)) {
                     popUpTo(GlobalNav.Auth) {
                         inclusive = true
                     }

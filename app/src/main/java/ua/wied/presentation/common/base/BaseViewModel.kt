@@ -46,5 +46,18 @@ abstract class BaseViewModel<STATE, EVENT>(initialState: STATE) : ViewModel() {
         }
     }
 
+    protected fun <T> collectLocalRequest(
+        updateLoadingState: (Boolean) -> Unit,
+        call: suspend () -> T,
+        callback: suspend (T) -> Unit
+    ) {
+        viewModelScope.launch {
+            updateLoadingState(true)
+            callback(call())
+            updateLoadingState(false)
+        }
+    }
+
+
 
 }

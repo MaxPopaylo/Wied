@@ -21,10 +21,11 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
@@ -78,7 +79,7 @@ fun SignUpScreen(
                     modifier = Modifier
                         .fillMaxWidth(0.5f)
                         .wrapContentHeight(),
-                    painter = painterResource(R.drawable.icon_big),
+                    imageVector = ImageVector.vectorResource(R.drawable.icon_big),
                     contentScale = ContentScale.Crop,
                     contentDescription = stringResource(R.string.logo)
                 )

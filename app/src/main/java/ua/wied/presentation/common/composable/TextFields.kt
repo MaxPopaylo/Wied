@@ -31,8 +31,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
-import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
@@ -133,7 +134,7 @@ fun BaseTextField(
                         onClick = { onTrailingIconClick?.invoke() }
                     ) {
                         Icon(
-                            painter = painterResource(id = it),
+                            imageVector = ImageVector.vectorResource(id = it),
                             contentDescription = null,
                             tint = colors.primaryText
                         )
@@ -349,7 +350,7 @@ fun SearchField(
         ) {
             Icon(
                 modifier = Modifier.size(17.dp),
-                painter = painterResource(R.drawable.icon_search),
+                imageVector = ImageVector.vectorResource(R.drawable.icon_search),
                 tint = colors.primaryText,
                 contentDescription = stringResource(R.string.icon)
             )
@@ -374,8 +375,8 @@ fun SearchField(
             }
 
 
-            IconButton(
-                icon = painterResource(R.drawable.icon_microphone),
+            SquareIconButton(
+                icon = ImageVector.vectorResource(R.drawable.icon_microphone),
                 backgroundColor = Color.Transparent,
                 borderColor = Color.Transparent,
                 iconColor = colors.primaryText,

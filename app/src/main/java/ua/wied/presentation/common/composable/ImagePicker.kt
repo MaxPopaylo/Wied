@@ -17,8 +17,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import ua.wied.R
@@ -72,7 +73,7 @@ fun ImagePickerButton(
                     contentAlignment = Alignment.Center
                 ) {
                     Image(
-                        painter = painterResource(R.drawable.icon_close),
+                        imageVector = ImageVector.vectorResource(R.drawable.icon_close),
                         contentDescription = null,
                         modifier = Modifier.fillMaxSize(0.4f),
                         contentScale = ContentScale.Crop,
@@ -84,7 +85,7 @@ fun ImagePickerButton(
         } ?: run {
             Image(
                 modifier = Modifier.fillMaxSize(0.5f).wrapContentSize(),
-                painter = painterResource(R.drawable.icon_add_photo),
+                imageVector = ImageVector.vectorResource(R.drawable.icon_add_photo),
                 contentDescription = null,
                 contentScale = ContentScale.Crop,
                 colorFilter = ColorFilter.tint(colors.primaryText)

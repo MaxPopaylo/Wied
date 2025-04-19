@@ -1,6 +1,7 @@
 package ua.wied.presentation.common.navigation
 
 import androidx.annotation.DrawableRes
+import androidx.annotation.StringRes
 import kotlinx.serialization.Serializable
 import ua.wied.R
 import ua.wied.domain.models.instruction.Instruction
@@ -15,7 +16,7 @@ sealed class GlobalNav : Screen() {
     data object Auth : GlobalNav()
 
     @Serializable
-    data object Main : GlobalNav()
+    data class Main(val isManager: Boolean) : GlobalNav()
 }
 
 @Serializable
@@ -85,16 +86,19 @@ sealed class ProfileNav: MainNav() {
 }
 
 @Serializable
-sealed class BottomBarScreen(val label: String, @DrawableRes val icon: Int, val route: MainNav) {
+sealed class BottomBarScreen(@StringRes val label: Int, @DrawableRes val icon: Int, val route: MainNav) {
     @Serializable
-    data object Instructions : BottomBarScreen("Instructions", R.drawable.icon_camcorder, InstructionNav.Instructions)
+    data object Instructions : BottomBarScreen(R.string.instructions, R.drawable.icon_camcorder, InstructionNav.Instructions)
 
     @Serializable
-    data object Reports : BottomBarScreen("Reports", R.drawable.icon_pencil, ReportNav.Reports)
+    data object Reports : BottomBarScreen(R.string.reports, R.drawable.icon_note_and_pencil, ReportNav.Reports)
 
     @Serializable
-    data object Evaluations : BottomBarScreen("Evaluations", R.drawable.icon_star, EvaluationNav.Evaluations)
+    data object Evaluations : BottomBarScreen(R.string.evaluations, R.drawable.icon_star, EvaluationNav.Evaluations)
 
     @Serializable
-    data object Profile : BottomBarScreen("Profile", R.drawable.icon_account, ProfileNav.Profile)
+    data object Accesses : BottomBarScreen(R.string.accesses, R.drawable.icon_add_person, EvaluationNav.Evaluations)
+
+    @Serializable
+    data object Profile : BottomBarScreen(R.string.profile, R.drawable.icon_account, ProfileNav.Profile)
 }

@@ -17,14 +17,15 @@ import ua.wied.presentation.screens.main.composable.MainTopAppBar
 
 @Composable
 fun MainScreen(
-    navController: NavHostController = rememberNavController()
+    navController: NavHostController = rememberNavController(),
+    isManager: Boolean
 ) {
     Scaffold(
         topBar = {
-            MainTopAppBar(navController)
+            MainTopAppBar(isManager ,navController)
         },
         bottomBar = {
-            MainBottomAppBar(navController)
+            MainBottomAppBar(isManager, navController)
         }
     ) { paddingValues ->
         Column(
