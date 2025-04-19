@@ -21,10 +21,10 @@ abstract class BaseViewModel<STATE, EVENT>(initialState: STATE) : ViewModel() {
 
     protected fun <T : Any> collectNetworkRequest(
         updateLoadingState: (Boolean) -> Unit,
-        updateFailure: () -> Unit,
         apiCall: suspend () -> FlowResult<T>,
         onRefresh: (suspend (Boolean) -> Unit)? = null,
         onSuccess: suspend (T) -> Unit,
+        onFailure: suspend (Throwable) -> Unit
     ) {
         viewModelScope.launch {
             updateLoadingState(true)
@@ -36,7 +36,7 @@ abstract class BaseViewModel<STATE, EVENT>(initialState: STATE) : ViewModel() {
                         onSuccess(it)
                     },
                     onFailure = {
-                        updateFailure()
+                        onFailure(it)
                     }
                 )
             }
@@ -45,4 +45,6 @@ abstract class BaseViewModel<STATE, EVENT>(initialState: STATE) : ViewModel() {
             updateLoadingState(false)
         }
     }
+
+
 }

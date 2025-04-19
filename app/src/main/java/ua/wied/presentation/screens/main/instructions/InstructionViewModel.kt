@@ -29,7 +29,7 @@ class InstructionViewModel @Inject constructor(
         collectNetworkRequest(
             apiCall = { getInstructionFoldersUseCase() },
             updateLoadingState = { value -> updateState { it.copy(isLoading = value) } },
-            updateFailure = {
+            onFailure = {
                 updateState { it.copy(isNotInternetConnection = true) }
             },
             onSuccess = { folders ->

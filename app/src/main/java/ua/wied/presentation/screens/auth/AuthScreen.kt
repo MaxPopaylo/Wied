@@ -12,6 +12,7 @@ import ua.wied.domain.models.auth.AuthResult
 import ua.wied.presentation.common.composable.LoadingIndicator
 import ua.wied.presentation.common.navigation.global.AuthNavGraph
 import ua.wied.presentation.common.navigation.GlobalNav
+import ua.wied.presentation.common.utils.ToastManager
 
 @Composable
 fun AuthScreen(
@@ -21,7 +22,7 @@ fun AuthScreen(
     val context = LocalContext.current
 
     LaunchedEffect(Unit) {
-        viewModel.toastManager.processToastMessages(context)
+        ToastManager.processToastMessages(context)
     }
 
     LaunchedEffect(viewModel) {

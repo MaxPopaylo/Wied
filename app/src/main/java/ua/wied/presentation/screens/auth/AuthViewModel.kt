@@ -37,8 +37,6 @@ class AuthViewModel @Inject constructor(
     private val resultChannel = Channel<AuthResult>()
     val authResult = resultChannel.receiveAsFlow()
 
-    val toastManager = ToastManager()
-
 
     fun onEvent(event: SignInUiEvent) {
         when(event) {
@@ -155,7 +153,7 @@ class AuthViewModel @Inject constructor(
 
     fun showErrorToast(@StringRes messageResId: Int) {
         viewModelScope.launch {
-            toastManager.showToast(messageResId)
+            ToastManager.showToast(messageResId)
         }
     }
 

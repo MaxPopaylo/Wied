@@ -5,6 +5,7 @@ import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Multipart
 import retrofit2.http.POST
+import retrofit2.http.PUT
 import retrofit2.http.Part
 import retrofit2.http.Path
 import ua.wied.data.datasource.network.dto.WrappedResponse
@@ -24,6 +25,12 @@ interface ReportApi {
         @Path("instruction_id") instructionId: Int,
         @Part("report") dto: CreateReportDto,
         @Part files: List<MultipartBody.Part>
+    ): Response<Any>
+
+    @PUT("api/reports/{report_id}/{status}")
+    suspend fun changeStatus(
+        @Path("report_id") reportId: Int,
+        @Path("status") status: String
     ): Response<Any>
 
 }

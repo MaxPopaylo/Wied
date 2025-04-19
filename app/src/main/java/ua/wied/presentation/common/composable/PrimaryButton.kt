@@ -23,8 +23,11 @@ fun PrimaryButton(
     onClick: () -> Unit
 ) {
     Button(
+        modifier = modifier
+            .fillMaxWidth()
+            .height(42.dp)
+            .alpha(if (isEnabled) 1f else 0.3f),
         onClick = onClick,
-        modifier = modifier.fillMaxWidth().height(42.dp).alpha(if (isEnabled) 1f else 0.3f),
         colors = ButtonDefaults.buttonColors(
             disabledContainerColor = colors.tintColor,
             containerColor = colors.tintColor

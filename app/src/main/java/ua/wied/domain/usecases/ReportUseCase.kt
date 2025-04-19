@@ -23,7 +23,6 @@ class CreateReportUseCase @Inject constructor(
 class UpdateReportStatusUseCase @Inject constructor(
     private val reportRepository: ReportRepository
 ) {
-    suspend operator fun invoke(reportId: Int, status: ReportStatus) {
+    suspend operator fun invoke(reportId: Int, status: ReportStatus) =
         reportRepository.updateReportStatus(reportId, status)
-    }
 }

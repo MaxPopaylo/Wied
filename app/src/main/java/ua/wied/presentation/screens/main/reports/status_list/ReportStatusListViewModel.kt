@@ -26,7 +26,7 @@ class ReportStatusListViewModel @Inject constructor(
         collectNetworkRequest(
             apiCall = { getReportsByInstructionUseCase(instructionId) },
             updateLoadingState = { value -> updateState { it.copy(isLoading = value) } },
-            updateFailure = { updateState { it.copy(isNotInternetConnection = true) } },
+            onFailure = { updateState { it.copy(isNotInternetConnection = true) } },
             onSuccess = { reports ->
                 updateState { it.copy(reports = reports)}
                 splitReportsByStatus()

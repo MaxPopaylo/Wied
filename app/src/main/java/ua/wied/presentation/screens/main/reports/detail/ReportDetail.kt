@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -25,6 +26,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -34,12 +36,14 @@ import coil.compose.AsyncImage
 import ua.wied.R
 import ua.wied.domain.models.report.Report
 import ua.wied.domain.models.report.ReportStatus
+import ua.wied.presentation.common.composable.ContentBox
 import ua.wied.presentation.common.composable.FullScreenImageDialog
 import ua.wied.presentation.common.composable.PrimaryButton
 import ua.wied.presentation.common.composable.SecondaryButton
 import ua.wied.presentation.common.theme.WiEDTheme.colors
 import ua.wied.presentation.common.theme.WiEDTheme.dimen
 import ua.wied.presentation.common.theme.WiEDTheme.typography
+import ua.wied.presentation.common.utils.ToastManager
 import ua.wied.presentation.common.utils.bounceClick
 import ua.wied.presentation.common.utils.extensions.formatToShortDate
 import ua.wied.presentation.screens.main.reports.detail.models.ReportDetailEvent
@@ -49,14 +53,20 @@ fun ReportDetailScreen(
     report: Report,
     viewModel: ReportDetailViewModel = hiltViewModel()
 ) {
+    val context = LocalContext.current
+
     var choseImage by remember { mutableStateOf("") }
     var showDialog by remember { mutableStateOf(false) }
+
+    val state by viewModel.uiState.collectAsStateWithLifecycle()
 
     LaunchedEffect(Unit) {
         viewModel.onEvent(ReportDetailEvent.LoadData(report))
     }
 
-    val state by viewModel.uiState.collectAsStateWithLifecycle()
+    LaunchedEffect(Unit) {
+        ToastManager.processToastMessages(context)
+    }
 
     Column(
         modifier = Modifier
@@ -125,28 +135,33 @@ fun ReportDetailScreen(
             )
         }
 
-        Box(
+        ContentBox(
             modifier = Modifier
                 .fillMaxWidth()
                 .weight(1f),
-            contentAlignment = Alignment.Center
+            state = state
         ) {
-            if (viewModel.isManager()) {
-                ChangeStatusButtons(
-                    currentStatus = state.report?.status ?: ReportStatus.TODO,
-                    onEvent = viewModel::onEvent
-                )
-            } else {
-                Column {
-                    Text(
-                        text = getStatusMessage(report.status),
-                        color = colors.tintColor,
-                        style = typography.h2
+            Box(
+                modifier = Modifier.fillMaxSize(),
+                contentAlignment = Alignment.Center
+            ) {
+                if (viewModel.isManager() == true) {
+                    ChangeStatusButtons(
+                        currentStatus = state.report?.status ?: ReportStatus.TODO,
+                        onEvent = viewModel::onEvent
                     )
-                    Text(
-                        text = report.updateTime.formatToShortDate(),
-                        style = typography.h5
-                    )
+                } else {
+                    Column {
+                        Text(
+                            text = getStatusMessage(report.status),
+                            color = colors.tintColor,
+                            style = typography.h2
+                        )
+                        Text(
+                            text = report.updateTime.formatToShortDate(),
+                            style = typography.h5
+                        )
+                    }
                 }
             }
         }
@@ -209,7 +224,7 @@ private fun ChangeStatusButtons(
         if (currentStatus == ReportStatus.IN_PROGRESS) {
             PrimaryButton(
                 title = inProgressTitle,
-                onClick = { onEvent(ReportDetailEvent.ChangeStatus(ReportStatus.IN_PROGRESS)) }
+                onClick = {}
             )
         } else {
             SecondaryButton(
@@ -221,7 +236,7 @@ private fun ChangeStatusButtons(
         if (currentStatus == ReportStatus.DONE) {
             PrimaryButton(
                 title = doneTitle,
-                onClick = { onEvent(ReportDetailEvent.ChangeStatus(ReportStatus.DONE)) }
+                onClick = {}
             )
         } else {
             SecondaryButton(

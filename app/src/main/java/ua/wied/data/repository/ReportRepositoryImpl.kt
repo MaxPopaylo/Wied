@@ -36,7 +36,8 @@ class ReportRepositoryImpl @Inject constructor(
             }
         )
 
-    override suspend fun updateReportStatus(reportId: Int, status: ReportStatus) {
-        TODO("Not yet implemented")
-    }
+    override suspend fun updateReportStatus(reportId: Int, status: ReportStatus) =
+        handlePUTApiCall(
+            apiCall = { api.changeStatus(reportId, status.name.lowercase()) }
+        )
 }

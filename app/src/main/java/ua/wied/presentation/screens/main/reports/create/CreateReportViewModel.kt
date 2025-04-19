@@ -1,9 +1,6 @@
 package ua.wied.presentation.screens.main.reports.create
 
-import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.launch
 import ua.wied.domain.usecases.CreateReportUseCase
 import ua.wied.presentation.common.base.BaseViewModel
 import ua.wied.presentation.screens.main.reports.create.models.CreateReportEvent
@@ -37,17 +34,21 @@ class CreateReportViewModel @Inject constructor(
 
     private fun createReport(instructionId: Int) {
         val state = uiState.value
-        viewModelScope.launch {
-            updateState { it.copy(isLoading = true) }
-            val response = createReportUseCase(
-                instructionId = instructionId,
-                title = state.title,
-                info = state.description,
-                imageUris = state.imageUris.toList()
-            )
-            state.createResult.emit(response.first())
-            updateState { it.copy(isLoading = false) }
-        }
+        collectNetworkRequest(
+            apiCall = {
+                createReportUseCase(
+                    instructionId = instructionId,
+                    title = state.title,
+                    info = state.description,
+                    imageUris = state.imageUris.toList()
+                )
+            },
+            updateLoadingState = { value -> updateState { it.copy(isLoading = value) } },
+            onFailure = { state.createResult.emit(Result.failure(it)) },
+            onSuccess = {
+                state.createResult.emit(Result.success(Unit))
+            }
+        )
     }
 
     fun isFieldsEmpty(): Boolean {

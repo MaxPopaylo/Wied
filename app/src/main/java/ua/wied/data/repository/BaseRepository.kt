@@ -64,6 +64,25 @@ abstract class BaseRepository {
         ))
     }
 
+    protected fun handlePUTApiCall(
+        apiCall: suspend () -> Response<Any>
+    ): UnitFlow = flow {
+        val response = apiCall()
+        if (response.isSuccessful) {
+            emit(Result.success(Unit))
+        } else {
+            emit(Result.failure(mapErrorStatus(response.code())))
+        }
+    }.catch { e ->
+        Log.d("TAG", e.message ?: "Exception occurred")
+        emit(Result.failure(
+            when(e) {
+                is IOException -> NetworkException.NoConnectionException
+                else -> NetworkException.UnknownErrorException
+            }
+        ))
+    }
+
 
     private fun mapErrorStatus(code: Int): NetworkException {
         return when (code) {
