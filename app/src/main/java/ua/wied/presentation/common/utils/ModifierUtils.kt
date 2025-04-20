@@ -19,7 +19,7 @@ fun Modifier.bounceClick(
     onClick: () -> Unit
 ) = composed {
     var buttonState by remember { mutableStateOf(ButtonState.Idle) }
-    val scale by animateFloatAsState(if (buttonState == ButtonState.Pressed) 0.9f else 1f)
+    val scale by animateFloatAsState(if (buttonState == ButtonState.Pressed) 0.95f else 1f)
 
     this
         .graphicsLayer {

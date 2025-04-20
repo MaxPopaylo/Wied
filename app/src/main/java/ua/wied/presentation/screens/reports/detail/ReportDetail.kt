@@ -4,17 +4,13 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentWidth
-import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -24,27 +20,24 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import coil.compose.AsyncImage
 import ua.wied.R
 import ua.wied.domain.models.report.Report
 import ua.wied.domain.models.report.ReportStatus
 import ua.wied.presentation.common.composable.ContentBox
 import ua.wied.presentation.common.composable.FullScreenImageDialog
+import ua.wied.presentation.common.composable.GridPhotoItem
+import ua.wied.presentation.common.composable.MediaGrid
 import ua.wied.presentation.common.composable.PrimaryButton
 import ua.wied.presentation.common.composable.SecondaryButton
 import ua.wied.presentation.common.theme.WiEDTheme.colors
 import ua.wied.presentation.common.theme.WiEDTheme.dimen
 import ua.wied.presentation.common.theme.WiEDTheme.typography
 import ua.wied.presentation.common.utils.ToastManager
-import ua.wied.presentation.common.utils.bounceClick
 import ua.wied.presentation.common.utils.extensions.formatToShortDate
 import ua.wied.presentation.screens.reports.detail.models.ReportDetailEvent
 
@@ -126,11 +119,17 @@ fun ReportDetailScreen(
                 )
                 .padding(dimen.paddingL)
         ){
-            PhotoGrid(
-                imageUrls = report.imageUrls.map { it.imageUrl },
-                onClick = {
-                    choseImage = it
-                    showDialog = true
+            MediaGrid(
+                urls = report.imageUrls.map { it.imageUrl },
+                gridItem = { url ->
+                    GridPhotoItem(
+                        modifier = Modifier.fillMaxWidth(),
+                        imgUrl = url,
+                        onViewClick = {
+                            choseImage = it
+                            showDialog = true
+                        }
+                    )
                 }
             )
         }
@@ -175,38 +174,6 @@ fun ReportDetailScreen(
                 showDialog = false
             }
         )
-    }
-}
-
-@Composable
-private fun PhotoGrid(
-    imageUrls: List<String>,
-    onClick: (String) -> Unit
-) {
-    if (imageUrls.isNotEmpty()) {
-        LazyVerticalGrid(
-            columns = GridCells.Fixed(2),
-            modifier = Modifier.fillMaxWidth(),
-            contentPadding = PaddingValues(dimen.zero),
-            horizontalArrangement = Arrangement.spacedBy(dimen.paddingS),
-            verticalArrangement = Arrangement.spacedBy(dimen.paddingS)
-        ) {
-            items(imageUrls.size) { index ->
-                AsyncImage(
-                    model = imageUrls[index],
-                    contentDescription = stringResource(R.string.placeholder),
-                    placeholder = painterResource(R.drawable.img_placeholder),
-                    contentScale = ContentScale.Crop,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .aspectRatio(4f / 2.5f)
-                        .clip(dimen.shape)
-                        .bounceClick {
-                            onClick(imageUrls[index])
-                        }
-                )
-            }
-        }
     }
 }
 

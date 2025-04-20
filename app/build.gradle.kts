@@ -52,7 +52,7 @@ dependencies {
     implementation(libs.kotlinx.serialization.json)
 
     // MARK: - Coil
-    implementation(libs.coil.compose)
+    implementation(libs.bundles.coil)
 
     // MARK: - Networking
     implementation(libs.bundles.moshi)

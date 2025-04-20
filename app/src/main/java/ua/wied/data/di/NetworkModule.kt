@@ -1,13 +1,10 @@
 package ua.wied.data.di
 
-import android.content.Context
-import coil.ImageLoader
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
-import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -56,15 +53,5 @@ class NetworkModule {
         Moshi.Builder()
             .add(KotlinJsonAdapterFactory())
             .build()
-
-    @Provides
-    @Singleton
-    fun provideImageLoader(
-        @ApplicationContext context: Context
-    ): ImageLoader {
-        return ImageLoader.Builder(context)
-            .okHttpClient(OkHttpClient.Builder().build())
-            .build()
-    }
 
 }

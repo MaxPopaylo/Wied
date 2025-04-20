@@ -33,7 +33,7 @@ moshiKotlinVersion = "1.15.1"
 converterMoshiVersion = "2.11.0"
 
 # MARK: - Coil
-coilCompose = "2.6.0"
+coil = "3.1.0"
 
 # MARK: - Serialization
 kotlinx-serialization = "1.6.3"
@@ -82,7 +82,9 @@ retrofit2-converter-moshi = { module = "com.squareup.retrofit2:converter-moshi",
 okhttp-logging-interceptor = { module = "com.squareup.okhttp3:logging-interceptor" }
 
 # MARK: - Coil
-coil-compose = { module = "io.coil-kt:coil-compose", version.ref = "coilCompose" }
+coil-compose = { module = "io.coil-kt.coil3:coil-compose", version.ref = "coil" }
+coil_okhttp = { module = "io.coil-kt.coil3:coil-network-okhttp", version.ref = "coil" }
+coil-video = { module = "io.coil-kt.coil3:coil-video", version.ref = "coil" }
 
 # MARK: - Serialization
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinx-serialization" }
@@ -137,3 +139,4 @@ hilt = [
 moshi = ["squareup-moshi-kotlin", "retrofit2-converter-moshi"]
 retrofit = ["squareup-retrofit", "skydoves-sandwich-retrofit"]
 okhttp = ["okhttp", "okhttp-logging-interceptor"]
+coil = ["coil-compose", "coil_okhttp", "coil-video"]
