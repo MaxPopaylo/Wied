@@ -21,6 +21,7 @@ data class Instruction(
 data class Element(
     val id: Int,
     val title: String,
+    val info: String?,
     val videoUrl: String?,
     val instructionId: Int,
     val orderNum: Int

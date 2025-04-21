@@ -13,8 +13,13 @@
     <string name="video">Видео</string>
     <string name="delete">Удалить</string>
     <string name="search">Поиск</string>
-    <string name="no_instructions">Еще не создано ни одной инструкции</string>
     <string name="create">Создать</string>
+    <string name="upload_image">Загрузить изображение</string>
+    <string name="upload_video">Загрузить видео</string>
+    <string name="confirm_changes_message">Вы уверены, что хотите применить эти изменения?</string>
+    <string name="confirm_button">Применить</string>
+    <string name="cancel">Отменить</string>
+
 
     <!--    Errors-->
     <string name="error">Что-то пошло не так, приносим извинения</string>
@@ -23,6 +28,7 @@
     <string name="error_uniq_email">Этот email уже занят</string>
     <string name="error_uniq_company">Это имя компании уже занято</string>
     <string name="error_incorrect_login_or_password">Неверный логин или пароль</string>
+    <string name="no_server_connection">Невозможно подключиться к серверу</string>
 
     <!--    Yes/No-->
     <string name="yes">Да</string>
@@ -60,6 +66,8 @@
 
     <!-- Instructions Screen -->
     <string name="instructions">Инструкции</string>
+    <string name="instruction">Инструкция</string>
+    <string name="no_instructions">Еще не создано ни одной инструкции</string>
 
 
     <!-- Reports Screen -->

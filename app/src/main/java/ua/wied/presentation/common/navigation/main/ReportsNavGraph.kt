@@ -21,7 +21,9 @@ import ua.wied.presentation.screens.reports.detail.ReportDetailScreen
 import ua.wied.presentation.screens.reports.status_list.ReportStatusListScreen
 import kotlin.reflect.typeOf
 
-fun NavGraphBuilder.reportsNavGraph(navController: NavHostController) {
+fun NavGraphBuilder.reportsNavGraph(
+    navController: NavHostController
+) {
     composable<ReportNav.Reports>(
         enterTransition = {
             fadeIn(tween(500))

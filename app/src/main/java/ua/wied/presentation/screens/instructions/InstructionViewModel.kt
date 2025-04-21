@@ -39,6 +39,7 @@ class InstructionViewModel @Inject constructor(
                         isEmpty = folders.isEmpty()
                     )
                 }
+                updateState { it.copy(isNotInternetConnection = false) }
             },
             onRefresh = { value ->
                 if (isRefresh) {

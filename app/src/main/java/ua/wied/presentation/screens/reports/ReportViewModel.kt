@@ -35,6 +35,7 @@ class ReportViewModel @Inject constructor(
                         isEmpty = folderList.isEmpty()
                     )
                 }
+                updateState { it.copy(isNotInternetConnection = false) }
             },
             onRefresh = { value ->
                 if (isRefresh) {

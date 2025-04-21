@@ -39,7 +39,7 @@ fun InstructionListItem(
 
             ActionIcon(
                 backgroundColor = colors.errorColor,
-                icon = ImageVector.vectorResource(R.drawable.icon_delete),
+                icon = ImageVector.vectorResource(R.drawable.icon_filled_delete),
                 tint = Color.White,
                 title = stringResource(R.string.delete),
                 onClick = {}

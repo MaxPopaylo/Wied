@@ -28,6 +28,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
+import androidx.compose.ui.unit.Dp
 import coil3.ImageLoader
 import coil3.compose.AsyncImage
 import coil3.request.ImageRequest
@@ -44,19 +45,17 @@ import ua.wied.presentation.common.utils.bounceClick
 fun MediaGrid(
     modifier: Modifier = Modifier,
     urls: List<String>,
-    gridItem: @Composable (String) -> Unit
+    gridItem: @Composable (String, Int) -> Unit
 ) {
-    if (urls.isNotEmpty()) {
-        LazyVerticalGrid(
-            modifier = modifier.fillMaxWidth(),
-            columns = GridCells.Fixed(2),
-            contentPadding = PaddingValues(dimen.zero),
-            horizontalArrangement = Arrangement.spacedBy(dimen.paddingS),
-            verticalArrangement = Arrangement.spacedBy(dimen.paddingS)
-        ) {
-            items(urls.size) { index ->
-                gridItem(urls[index])
-            }
+    LazyVerticalGrid(
+        modifier = modifier.fillMaxWidth(),
+        columns = GridCells.Fixed(2),
+        contentPadding = PaddingValues(dimen.zero),
+        horizontalArrangement = Arrangement.spacedBy(dimen.paddingS),
+        verticalArrangement = Arrangement.spacedBy(dimen.paddingS)
+    ) {
+        items(urls.size) { index ->
+            gridItem(urls[index], index)
         }
     }
 }
@@ -64,9 +63,11 @@ fun MediaGrid(
 @Composable
 fun GridPhotoItem(
     modifier: Modifier = Modifier,
-    imgUrl: String,
+    imgUrl: String?,
     isEditing: Boolean = false,
     shape: Shape = dimen.shape,
+    iconSize: Dp = dimen.sizeL,
+    aspectRatio: Float = 4f / 2.5f,
     @DrawableRes placeholderRes: Int = R.drawable.img_placeholder,
     @StringRes contentDescRes: Int = R.string.placeholder,
     onDeleteClick: (String) -> Unit = {},
@@ -74,7 +75,7 @@ fun GridPhotoItem(
 ) {
     Box(
         modifier = modifier
-            .aspectRatio(4f / 2.5f)
+            .aspectRatio(aspectRatio)
             .clip(shape)
     ) {
         AsyncImage(
@@ -89,8 +90,8 @@ fun GridPhotoItem(
             modifier = Modifier
                 .fillMaxSize()
                 .bounceClick {
-                    if (isEditing) onDeleteClick(imgUrl)
-                    else onViewClick(imgUrl)
+                    if (isEditing) onDeleteClick(imgUrl ?: "")
+                    else onViewClick(imgUrl ?: "")
                 }
                 .clip(shape)
         )
@@ -104,7 +105,7 @@ fun GridPhotoItem(
                 imageVector = if (isEditing) ImageVector.vectorResource(R.drawable.icon_close)
                 else ImageVector.vectorResource(R.drawable.icon_view_photo),
                 contentDescription = null,
-                modifier = Modifier.size(dimen.sizeM),
+                modifier = Modifier.size(iconSize),
                 contentScale = ContentScale.Crop,
                 colorFilter = ColorFilter.tint(Color.White)
             )
@@ -115,10 +116,12 @@ fun GridPhotoItem(
 @Composable
 fun GridVideoItem(
     modifier: Modifier = Modifier,
-    videoUrl: String,
+    videoUrl: String?,
     title: String? = null,
     isEditing: Boolean = false,
     shape: Shape = dimen.shape,
+    iconSize: Dp = dimen.sizeM,
+    aspectRatio: Float = 4f / 2.5f,
     @DrawableRes placeholderRes: Int = R.drawable.img_placeholder,
     @StringRes contentDescRes: Int = R.string.placeholder,
     onDeleteClick: (String) -> Unit = {},
@@ -141,7 +144,7 @@ fun GridVideoItem(
 
     Box(
         modifier = modifier
-            .aspectRatio(4f / 2.5f)
+            .aspectRatio(aspectRatio)
             .clip(shape)
     ) {
         AsyncImage(
@@ -153,8 +156,8 @@ fun GridVideoItem(
             modifier = Modifier
                 .fillMaxSize()
                 .bounceClick {
-                    if (isEditing) onDeleteClick(videoUrl)
-                    else onViewClick(videoUrl)
+                    if (isEditing) onDeleteClick(videoUrl ?: "")
+                    else onViewClick(videoUrl ?: "")
                 }
                 .clip(shape)
         )
@@ -169,7 +172,7 @@ fun GridVideoItem(
                 imageVector = if (isEditing) ImageVector.vectorResource(R.drawable.icon_close)
                 else ImageVector.vectorResource(R.drawable.icon_view_video),
                 contentDescription = null,
-                modifier = Modifier.size(dimen.sizeM),
+                modifier = Modifier.size(iconSize),
                 contentScale = ContentScale.Crop,
                 colorFilter = ColorFilter.tint(Color.White)
             )

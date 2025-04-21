@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentHeight
@@ -46,6 +47,8 @@ import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.input.OffsetMapping
 import androidx.compose.ui.text.input.TransformedText
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.sp
 import ua.wied.presentation.common.theme.WiEDTheme.dimen
 
 @Composable
@@ -387,6 +390,82 @@ fun SearchField(
     }
 
 }
+
+@Composable
+fun DetailTextField(
+    modifier: Modifier = Modifier,
+    title: String,
+    text: String,
+    minHeight: Dp? = null,
+    maxTextLength: Int? = null,
+    isEditing: Boolean = false,
+    onTextChange: (String) -> Unit = {}
+) {
+    val heightModifier = if (minHeight != null) Modifier.heightIn(min = minHeight)
+                         else Modifier
+    val textLength = text.length
+
+    Column(modifier) {
+        Row {
+            Text(
+                text = title,
+                style = typography.h5.copy(fontSize = 16.sp),
+                color = colors.secondaryText
+            )
+
+            Spacer(Modifier.weight(1f))
+
+            if (maxTextLength != null) {
+                Text(
+                    modifier = Modifier.animateContentSize(),
+                    text = "$textLength/$maxTextLength",
+                    style = typography.h5.copy(fontSize = 16.sp),
+                    color = colors.secondaryText
+                )
+            }
+        }
+
+        Spacer(Modifier.height(4.dp))
+
+        if (isEditing) {
+            BasicTextField(
+                value = text,
+                onValueChange = {
+                    if (maxTextLength != null) {
+                        if (textLength > maxTextLength) {
+                            onTextChange(it)
+                        }
+                    } else {
+                        onTextChange(it)
+                    }
+                },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .then(heightModifier)
+                    .background(
+                        colors.secondaryBackground.copy(alpha = 0.6f),
+                        dimen.shape
+                    )
+                    .padding(dimen.paddingL),
+                textStyle = typography.body1,
+                cursorBrush = SolidColor(colors.primaryText)
+            )
+        } else {
+            Text(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .background(
+                        colors.secondaryBackground,
+                        dimen.shape
+                    )
+                    .padding(dimen.paddingL),
+                text = text,
+                style = typography.body1
+            )
+        }
+    }
+}
+
 
 private fun phoneNumberVisualTransformation(): VisualTransformation {
     return VisualTransformation { text ->

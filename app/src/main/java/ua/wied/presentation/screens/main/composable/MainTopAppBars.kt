@@ -18,6 +18,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
@@ -31,11 +32,15 @@ import ua.wied.presentation.common.navigation.ReportNav
 import ua.wied.presentation.common.theme.WiEDTheme.colors
 import ua.wied.presentation.common.theme.WiEDTheme.dimen
 import ua.wied.presentation.common.theme.WiEDTheme.typography
+import ua.wied.presentation.screens.main.models.MainEvent
+import ua.wied.presentation.screens.main.models.MainState
 
 @Composable
 fun MainTopAppBar(
     isManager: Boolean,
-    navController: NavHostController
+    mainState: MainState,
+    navController: NavHostController,
+    onEvent: (MainEvent) -> Unit = {}
 ) {
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentDestinationRoute = navBackStackEntry?.destination?.route
@@ -61,9 +66,53 @@ fun MainTopAppBar(
         }
     }
 
+    val instructionDetailActions = when {
+        isManager -> {
+            listOf(
+                TopAppBarAction(
+                    ImageVector.vectorResource(
+                        if (mainState.isInstructionEditing) R.drawable.icon_save_changes
+                        else R.drawable.icon_pencil
+                    ),
+                    onClick = {
+                        onEvent(MainEvent.InstructionEditingChanged(!mainState.isInstructionEditing))
+                    }
+                )
+            )
+        }
+
+        else -> emptyList()
+    }
+
+    val elementDetailActions = when {
+        isManager -> {
+            listOf(
+                TopAppBarAction(
+                    ImageVector.vectorResource(
+                        if (mainState.isInstructionEditing) R.drawable.icon_save_changes
+                        else R.drawable.icon_pencil
+                    ),
+                    onClick = {
+                        onEvent(MainEvent.InstructionEditingChanged(!mainState.isElementEditing))
+                    }
+                )
+            )
+        }
+
+        else -> emptyList()
+    }
+
     when {
         currentDestinationRoute == InstructionNav.Instructions::class.qualifiedName ->
-            TopAppBarWithBackActions(stringResource(R.string.instructions), instructionListActions)
+            TopAppBarWithActions(stringResource(R.string.instructions), instructionListActions)
+
+        currentDestinationRoute?.startsWith(InstructionNav.InstructionDetail::class.qualifiedName ?: "") == true ->
+            TopAppBarWithBackAndActions(stringResource(R.string.instruction), instructionDetailActions, navController)
+
+        currentDestinationRoute?.startsWith(InstructionNav.InstructionElementDetail::class.qualifiedName ?: "") == true ->
+            TopAppBarWithBackAndActions(stringResource(R.string.video), elementDetailActions, navController)
+
+
 
         currentDestinationRoute == ReportNav.Reports::class.qualifiedName ->
             DefaultTopAppBar(stringResource(R.string.reports))
@@ -79,6 +128,8 @@ fun MainTopAppBar(
 
         currentDestinationRoute?.startsWith(ReportNav.ReportDetail::class.qualifiedName ?: "") == true ->
             TopAppBarWithBackButton(stringResource(R.string.report), navController)
+
+
 
         else ->
             DefaultTopAppBar(stringResource(R.string.main))
@@ -109,9 +160,10 @@ private fun DefaultTopAppBar(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun TopAppBarWithBackActions(
+private fun TopAppBarWithBackAndActions(
     title: String,
-    actions: List<TopAppBarAction>
+    actions: List<TopAppBarAction>,
+    navController: NavHostController
 ) {
     TopAppBar(
         colors = TopAppBarDefaults.topAppBarColors().copy(
@@ -151,6 +203,74 @@ private fun TopAppBarWithBackActions(
                     )
                 }
             }
+        },
+        navigationIcon = {
+            TextButton(
+                modifier = Modifier.padding(start = dimen.padding2Xl).size(dimen.sizeL),
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = colors.secondaryBackground,
+                    contentColor = colors.primaryText
+                ),
+                shape = dimen.shape,
+                contentPadding = PaddingValues(dimen.paddingM),
+                onClick = {
+                    navController.popBackStack()
+                },
+            ) {
+                Icon(
+                    imageVector = ImageVector.vectorResource(R.drawable.icon_arrow_back),
+                    tint = colors.primaryText,
+                    contentDescription = stringResource(R.string.icon)
+                )
+            }
+        }
+    )
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun TopAppBarWithActions(
+    title: String,
+    actions: List<TopAppBarAction>
+) {
+    TopAppBar(
+        colors = TopAppBarDefaults.topAppBarColors().copy(
+            containerColor = colors.primaryBackground
+        ),
+        title = {
+            Text(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(start = dimen.topBarPadding),
+                text = title,
+                style = typography.h3
+            )
+        },
+        actions = {
+            Row(
+                modifier = Modifier
+                    .padding(end = (dimen.topBarPadding * 3)),
+                horizontalArrangement = Arrangement.spacedBy(dimen.paddingS),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                actions.forEach { action ->
+                    IconButton(
+                        modifier = Modifier
+                            .size(dimen.sizeM + 2.dp),
+                        onClick = action.onClick,
+                        content = {
+                            Icon(
+                                modifier = Modifier
+                                    .size(dimen.sizeM)
+                                    .padding(action.contentPadding),
+                                imageVector = action.icon,
+                                tint = action.iconColor ?: colors.tintColor,
+                                contentDescription = "Action icon"
+                            )
+                        }
+                    )
+                }
+            }
         }
     )
 }
@@ -158,7 +278,8 @@ private fun TopAppBarWithBackActions(
 private data class TopAppBarAction(
     val icon: ImageVector,
     val onClick: () -> Unit,
-    val contentPadding: PaddingValues = PaddingValues(0.dp)
+    val contentPadding: PaddingValues = PaddingValues(0.dp),
+    val iconColor: Color? = null
 )
 
 @OptIn(ExperimentalMaterial3Api::class)

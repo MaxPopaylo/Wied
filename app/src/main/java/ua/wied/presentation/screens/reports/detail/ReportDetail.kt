@@ -121,7 +121,7 @@ fun ReportDetailScreen(
         ){
             MediaGrid(
                 urls = report.imageUrls.map { it.imageUrl },
-                gridItem = { url ->
+                gridItem = { url, _ ->
                     GridPhotoItem(
                         modifier = Modifier.fillMaxWidth(),
                         imgUrl = url,

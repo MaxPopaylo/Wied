@@ -17,19 +17,25 @@ import coil3.request.ImageRequest
 import coil3.request.error
 import coil3.request.fallback
 import ua.wied.R
+import ua.wied.presentation.common.theme.WiEDTheme.dimen
 
 @Composable
 fun CustomAsyncImage(
     modifier: Modifier = Modifier,
     posterUrl: String?,
-    width: Dp,
-    height: Dp,
-    shape: Shape,
+    width: Dp? = null,
+    height: Dp? = null,
+    shape: Shape = dimen.shape,
     @DrawableRes placeholderRes: Int = R.drawable.img_placeholder,
     @StringRes contentDescRes: Int = R.string.placeholder,
 ) {
+    val sizeModifier = when {
+        width != null && height != null -> { Modifier.size(width = width, height = height) }
+        else -> Modifier
+    }
+
     val imageModifier = modifier
-        .size(width = width, height = height)
+        .then(sizeModifier)
         .clip(shape)
 
     val placeholderPainter = painterResource(placeholderRes)

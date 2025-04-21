@@ -4,6 +4,7 @@ import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import kotlinx.serialization.Serializable
 import ua.wied.R
+import ua.wied.domain.models.instruction.Element
 import ua.wied.domain.models.instruction.Instruction
 import ua.wied.domain.models.report.Report
 
@@ -37,7 +38,10 @@ sealed class InstructionNav : MainNav() {
     data object Instructions: InstructionNav()
 
     @Serializable
-    data object InstructionDetail : InstructionNav()
+    data class InstructionDetail(val instruction: Instruction) : InstructionNav()
+
+    @Serializable
+    data class InstructionElementDetail(val element: Element) : InstructionNav()
 
     @Serializable
     data object CreateInstruction : InstructionNav()

@@ -17,8 +17,13 @@
     <string name="video">Video</string>
     <string name="delete">Delete</string>
     <string name="search">Search</string>
-    <string name="no_instructions">No instructions have been created yet</string>
     <string name="create">Create</string>
+    <string name="upload_image">Upload Image</string>
+    <string name="upload_video">Upload Video</string>
+    <string name="confirm_changes_message">Are you sure you want to apply these changes?</string>
+    <string name="confirm_button">Apply</string>
+    <string name="cancel">Cancel</string>
+
 
     <!-- Errors -->
     <string name="error">Something went wrong, we apologize</string>
@@ -27,6 +32,8 @@
     <string name="error_uniq_email">This email is already taken</string>
     <string name="error_uniq_company">This company name is already taken</string>
     <string name="error_incorrect_login_or_password">Incorrect login or password</string>
+    <string name="no_server_connection">Unable to connect to server</string>
+
 
 
     <!-- Yes/No -->
@@ -66,6 +73,8 @@
 
     <!-- Instructions Screen -->
     <string name="instructions">Instructions</string>
+    <string name="instruction">Instruction</string>
+    <string name="no_instructions">No instructions have been created yet</string>
 
 
     <!-- Reports Screen -->

@@ -1,6 +1,5 @@
 package ua.wied.presentation.screens.main.composable
 
-import android.util.Log
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
@@ -33,7 +32,6 @@ fun MainBottomAppBar(
     isManager: Boolean,
     navController: NavHostController
 ) {
-    Log.d("TAG", isManager.toString())
     val screens = remember {
         when {
             isManager -> {

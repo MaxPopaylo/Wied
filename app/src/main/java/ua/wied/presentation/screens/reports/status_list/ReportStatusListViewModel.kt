@@ -30,6 +30,7 @@ class ReportStatusListViewModel @Inject constructor(
             onSuccess = { reports ->
                 updateState { it.copy(reports = reports)}
                 splitReportsByStatus()
+                updateState { it.copy(isNotInternetConnection = false) }
             },
             onRefresh = { value ->
                 if (isRefresh) {

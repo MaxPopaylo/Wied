@@ -61,7 +61,14 @@ fun ContentBox(
             }
 
             state.isNotInternetConnection -> {
-                // TODO: no internet connection
+                Column(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .verticalScroll(rememberScrollState()),
+                    verticalArrangement = Arrangement.Center
+                ) {
+                    NoConnectionScreen()
+                }
             }
 
             state.isEmpty && emptyScreen != null -> {
