@@ -71,11 +71,15 @@ fun MainTopAppBar(
             listOf(
                 TopAppBarAction(
                     ImageVector.vectorResource(
-                        if (mainState.isInstructionEditing) R.drawable.icon_save_changes
+                        if (mainState.isInstructionEditing == true) R.drawable.icon_save_changes
                         else R.drawable.icon_pencil
                     ),
+                    contentPadding = PaddingValues(
+                        if (mainState.isInstructionEditing == true) dimen.padding2Xs
+                        else dimen.zero
+                    ),
                     onClick = {
-                        onEvent(MainEvent.InstructionEditingChanged(!mainState.isInstructionEditing))
+                        onEvent(MainEvent.InstructionEditingChanged(mainState.isInstructionEditing?.not() ?: true))
                     }
                 )
             )
@@ -89,11 +93,15 @@ fun MainTopAppBar(
             listOf(
                 TopAppBarAction(
                     ImageVector.vectorResource(
-                        if (mainState.isInstructionEditing) R.drawable.icon_save_changes
+                        if (mainState.isInstructionEditing == true) R.drawable.icon_save_changes
                         else R.drawable.icon_pencil
                     ),
+                    contentPadding = PaddingValues(
+                        if (mainState.isInstructionEditing == true) dimen.padding2Xs
+                        else dimen.zero
+                    ),
                     onClick = {
-                        onEvent(MainEvent.InstructionEditingChanged(!mainState.isElementEditing))
+                        onEvent(MainEvent.InstructionEditingChanged(mainState.isInstructionEditing?.not() ?: true))
                     }
                 )
             )

@@ -3,6 +3,7 @@ package ua.wied.presentation.common.composable
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -98,7 +99,8 @@ fun GridPhotoItem(
 
         Box(
             modifier = Modifier
-                .matchParentSize(),
+                .matchParentSize()
+                .background(Color.Black.copy(alpha = .4f), shape),
             contentAlignment = Alignment.Center
         ) {
             Image(
@@ -164,7 +166,8 @@ fun GridVideoItem(
 
         Column (
             modifier = Modifier
-                .matchParentSize(),
+                .matchParentSize()
+                .background(Color.Black.copy(alpha = .4f), shape),
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {

@@ -7,20 +7,21 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
+import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.net.toUri
-import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import ua.wied.R
 import ua.wied.domain.models.instruction.Element
 import ua.wied.presentation.common.composable.DetailTextField
@@ -28,33 +29,41 @@ import ua.wied.presentation.common.composable.FullScreenImageDialog
 import ua.wied.presentation.common.composable.LargeVideoPicker
 import ua.wied.presentation.common.composable.LoadingIndicator
 import ua.wied.presentation.common.composable.SuccessDialog
+import ua.wied.presentation.common.composable.VideoPickerBottomSheet
 import ua.wied.presentation.common.theme.WiEDTheme.colors
 import ua.wied.presentation.common.theme.WiEDTheme.dimen
 import ua.wied.presentation.common.theme.WiEDTheme.typography
+import ua.wied.presentation.common.utils.extensions.hideBottomSheet
+import ua.wied.presentation.common.utils.extensions.showBottomSheet
 import ua.wied.presentation.screens.instructions.elements.model.ElementDetailEvent
+import ua.wied.presentation.screens.instructions.elements.model.ElementDetailState
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ElementDetailScreen(
     element: Element,
-    isEditing: Boolean,
-    viewModel: ElementDetailViewModel = hiltViewModel()
+    isEditing: Boolean?,
+    state: ElementDetailState,
+    onEvent: (ElementDetailEvent) -> Unit
 ) {
     var choseImage by remember { mutableStateOf("") }
     var showDialog by remember { mutableStateOf(false) }
 
     var showConfirmDialog by remember { mutableStateOf(false) }
 
+    var showBottomSheet by remember { mutableStateOf(false) }
+    val bottomSheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
+    val coroutineScope = rememberCoroutineScope()
+
     LaunchedEffect(Unit) {
-        viewModel.onEvent(ElementDetailEvent.LoadDate(element))
+       onEvent(ElementDetailEvent.LoadDate(element))
     }
 
     LaunchedEffect(isEditing) {
-        if (isEditing) {
+        if (isEditing != null && !isEditing) {
             showConfirmDialog = true
         }
     }
-
-    val state by viewModel.uiState.collectAsStateWithLifecycle()
 
     Column(
         modifier = Modifier
@@ -65,9 +74,9 @@ fun ElementDetailScreen(
         DetailTextField(
             title = stringResource(R.string.title),
             text = state.element?.title ?: element.title,
-            isEditing = isEditing,
+            isEditing = (isEditing != null && isEditing),
             onTextChange = { value ->
-                viewModel.onEvent(ElementDetailEvent.TitleChanged(value))
+                onEvent(ElementDetailEvent.TitleChanged(value))
             }
         )
 
@@ -75,10 +84,10 @@ fun ElementDetailScreen(
             DetailTextField(
                 title = stringResource(R.string.title),
                 text = it,
-                isEditing = isEditing,
+                isEditing = (isEditing != null && isEditing),
                 minHeight = 120.dp,
                 onTextChange = { value ->
-                    viewModel.onEvent(ElementDetailEvent.InfoChanged(value))
+                    onEvent(ElementDetailEvent.InfoChanged(value))
                 }
             )
         }
@@ -91,17 +100,19 @@ fun ElementDetailScreen(
         )
         LargeVideoPicker(
             modifier = Modifier.fillMaxWidth(),
-            videoUri = (state.element?.videoUrl ?: element.videoUrl)?.toUri(),
-            isEditing = isEditing,
+            videoUri = state.element?.videoUrl?.toUri(),
+            isEditing = (isEditing != null && isEditing),
             onViewClick = {
                 choseImage = it
                 showDialog = true
             },
-            onVideoChosen = {
-                viewModel.onEvent(ElementDetailEvent.VideoChanged(it))
+            onChooseVideo = {
+                showBottomSheet(coroutineScope, bottomSheetState) {
+                    showBottomSheet = true
+                }
             },
             onDeleteVideo = {
-                viewModel.onEvent(ElementDetailEvent.VideoChanged(null))
+                onEvent(ElementDetailEvent.VideoChanged(null))
             }
         )
 
@@ -120,11 +131,26 @@ fun ElementDetailScreen(
     if (showConfirmDialog) {
         SuccessDialog(
             onDismiss = { showConfirmDialog = false },
-            onSuccess = { viewModel.onEvent(ElementDetailEvent.ChangeData) }
+            onSuccess = { onEvent(ElementDetailEvent.ChangeData) }
         )
     }
 
     if (state.isLoading) {
-        LoadingIndicator()
+        LoadingIndicator(false)
+    }
+
+    if (showBottomSheet) {
+        VideoPickerBottomSheet(
+            videoUri = state.element?.videoUrl?.toUri(),
+            onClose = {
+                hideBottomSheet(coroutineScope, bottomSheetState) {
+                    showBottomSheet = false
+                }
+            },
+            onMakeVideo = {},
+            onVideoChosen = {
+                onEvent(ElementDetailEvent.VideoChanged(it))
+            }
+        )
     }
 }

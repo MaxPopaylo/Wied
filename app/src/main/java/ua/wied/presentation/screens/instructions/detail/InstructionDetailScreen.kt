@@ -15,10 +15,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.sp
 import androidx.core.net.toUri
-import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.navigation.NavHostController
 import ua.wied.R
+import ua.wied.domain.models.instruction.Element
 import ua.wied.domain.models.instruction.Instruction
 import ua.wied.presentation.common.composable.DetailTextField
 import ua.wied.presentation.common.composable.FullScreenImageDialog
@@ -27,18 +25,19 @@ import ua.wied.presentation.common.composable.LargeImagePicker
 import ua.wied.presentation.common.composable.LoadingIndicator
 import ua.wied.presentation.common.composable.MediaGrid
 import ua.wied.presentation.common.composable.SuccessDialog
-import ua.wied.presentation.common.navigation.InstructionNav
 import ua.wied.presentation.common.theme.WiEDTheme.colors
 import ua.wied.presentation.common.theme.WiEDTheme.dimen
 import ua.wied.presentation.common.theme.WiEDTheme.typography
 import ua.wied.presentation.screens.instructions.detail.model.InstructionDetailEvent
+import ua.wied.presentation.screens.instructions.detail.model.InstructionDetailState
 
 @Composable
 fun InstructionDetailScreen(
     instruction: Instruction,
-    isEditing: Boolean,
-    navController: NavHostController,
-    viewModel: InstructionDetailViewModel = hiltViewModel()
+    isEditing: Boolean?,
+    state: InstructionDetailState,
+    onEvent: (InstructionDetailEvent) -> Unit,
+    navigateToElementDetail: (Element) -> Unit
 ) {
     var choseImage by remember { mutableStateOf("") }
     var showDialog by remember { mutableStateOf(false) }
@@ -46,16 +45,14 @@ fun InstructionDetailScreen(
     var showConfirmDialog by remember { mutableStateOf(false) }
 
     LaunchedEffect(Unit) {
-        viewModel.onEvent(InstructionDetailEvent.LoadData(instruction))
+        onEvent(InstructionDetailEvent.LoadData(instruction))
     }
 
     LaunchedEffect(isEditing) {
-        if (isEditing) {
+        if (isEditing != null && !isEditing) {
             showConfirmDialog = true
         }
     }
-
-    val state by viewModel.uiState.collectAsStateWithLifecycle()
 
     Column(
         modifier = Modifier.padding(top = dimen.containerPaddingLarge),
@@ -64,9 +61,9 @@ fun InstructionDetailScreen(
         DetailTextField(
             title = stringResource(R.string.title),
             text = state.instruction?.title ?: instruction.title,
-            isEditing = isEditing,
+            isEditing = (isEditing != null && isEditing),
             onTextChange = {
-                viewModel.onEvent(InstructionDetailEvent.TitleChanged(it))
+                onEvent(InstructionDetailEvent.TitleChanged(it))
             }
         )
 
@@ -78,17 +75,17 @@ fun InstructionDetailScreen(
         )
         LargeImagePicker(
             modifier = Modifier.fillMaxWidth(),
-            imageUri = (state.instruction?.posterUrl ?: instruction.posterUrl)?.toUri(),
-            isEditing = isEditing,
+            imageUri = state.instruction?.posterUrl?.toUri(),
+            isEditing = (isEditing != null && isEditing),
             onViewClick = {
                 choseImage = it
                 showDialog = true
             },
             onImageChosen = {
-                viewModel.onEvent(InstructionDetailEvent.PosterChanged(it))
+                onEvent(InstructionDetailEvent.PosterChanged(it))
             },
             onDeleteImage = {
-                viewModel.onEvent(InstructionDetailEvent.PosterChanged(null))
+                onEvent(InstructionDetailEvent.PosterChanged(null))
             }
         )
 
@@ -105,11 +102,7 @@ fun InstructionDetailScreen(
                     modifier = Modifier.fillMaxWidth(),
                     videoUrl = url,
                     title = instruction.elements[index].title,
-                    onViewClick = {
-                        navController.navigate(InstructionNav.InstructionElementDetail(
-                            instruction.elements[index]
-                        ))
-                    }
+                    onViewClick = { navigateToElementDetail(instruction.elements[index]) }
                 )
             }
         )
@@ -129,11 +122,11 @@ fun InstructionDetailScreen(
     if (showConfirmDialog) {
         SuccessDialog(
             onDismiss = { showConfirmDialog = false },
-            onSuccess = { viewModel.onEvent(InstructionDetailEvent.ChangeData) }
+            onSuccess = { onEvent(InstructionDetailEvent.ChangeData) }
         )
     }
 
     if (state.isLoading) {
-        LoadingIndicator()
+        LoadingIndicator(false)
     }
 }

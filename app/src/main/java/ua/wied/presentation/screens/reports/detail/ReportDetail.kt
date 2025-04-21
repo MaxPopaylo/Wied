@@ -23,8 +23,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import ua.wied.R
 import ua.wied.domain.models.report.Report
 import ua.wied.domain.models.report.ReportStatus
@@ -40,21 +38,22 @@ import ua.wied.presentation.common.theme.WiEDTheme.typography
 import ua.wied.presentation.common.utils.ToastManager
 import ua.wied.presentation.common.utils.extensions.formatToShortDate
 import ua.wied.presentation.screens.reports.detail.models.ReportDetailEvent
+import ua.wied.presentation.screens.reports.detail.models.ReportDetailState
 
 @Composable
 fun ReportDetailScreen(
     report: Report,
-    viewModel: ReportDetailViewModel = hiltViewModel()
+    state: ReportDetailState,
+    isManager: () -> Boolean?,
+    onEvent: (ReportDetailEvent) -> Unit
 ) {
     val context = LocalContext.current
 
     var choseImage by remember { mutableStateOf("") }
     var showDialog by remember { mutableStateOf(false) }
 
-    val state by viewModel.uiState.collectAsStateWithLifecycle()
-
     LaunchedEffect(Unit) {
-        viewModel.onEvent(ReportDetailEvent.LoadData(report))
+        onEvent(ReportDetailEvent.LoadData(report))
     }
 
     LaunchedEffect(Unit) {
@@ -144,10 +143,10 @@ fun ReportDetailScreen(
                 modifier = Modifier.fillMaxSize(),
                 contentAlignment = Alignment.Center
             ) {
-                if (viewModel.isManager() == true) {
+                if (isManager() == true) {
                     ChangeStatusButtons(
                         currentStatus = state.report?.status ?: ReportStatus.TODO,
-                        onEvent = viewModel::onEvent
+                        onEvent = onEvent
                     )
                 } else {
                     Column {

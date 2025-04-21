@@ -1,27 +1,24 @@
 package ua.wied.presentation.screens.reports
 
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.navigation.NavHostController
+import ua.wied.domain.models.instruction.Instruction
 import ua.wied.presentation.common.composable.ContentBox
 import ua.wied.presentation.common.composable.FolderList
-import ua.wied.presentation.common.navigation.ReportNav
 import ua.wied.presentation.screens.instructions.composable.InstructionEmptyScreen
 import ua.wied.presentation.screens.reports.composable.ReportListItem
 import ua.wied.presentation.screens.reports.models.ReportsEvent
+import ua.wied.presentation.screens.reports.models.ReportsState
 
 @Composable
 fun ReportsScreen(
-    navController: NavHostController,
-    viewModel: ReportViewModel = hiltViewModel()
+    state: ReportsState,
+    onEvent: (ReportsEvent) -> Unit,
+    navigateToStatusList: (Instruction) -> Unit,
+    navigateToCreateReport: (Instruction) -> Unit
 ) {
-    val state by viewModel.uiState.collectAsStateWithLifecycle()
-
     ContentBox(
         state = state,
-        onRefresh = { viewModel.onEvent(ReportsEvent.Refresh) },
+        onRefresh = { onEvent(ReportsEvent.Refresh) },
         emptyScreen = { InstructionEmptyScreen() }
     ) {
         FolderList(
@@ -30,12 +27,8 @@ fun ReportsScreen(
                 ReportListItem(
                     instruction = data.instruction,
                     reportsCount = data.reportCount,
-                    reportsIconOnClick = {
-                        navController.navigate(ReportNav.ReportStatusList(data.instruction))
-                    },
-                    createIconOnClick = {
-                        navController.navigate(ReportNav.CreateReport(data.instruction))
-                    }
+                    reportsIconOnClick = { navigateToStatusList(data.instruction) },
+                    createIconOnClick = { navigateToCreateReport(data.instruction) }
                 )
             }
         )

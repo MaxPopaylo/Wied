@@ -17,7 +17,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -27,30 +26,27 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.navigation.NavHostController
 import ua.wied.R
 import ua.wied.domain.models.instruction.Instruction
+import ua.wied.domain.models.report.Report
 import ua.wied.domain.models.report.ReportStatus
 import ua.wied.presentation.common.composable.ContentBox
-import ua.wied.presentation.common.navigation.ReportNav
 import ua.wied.presentation.common.theme.WiEDTheme.colors
 import ua.wied.presentation.common.theme.WiEDTheme.dimen
 import ua.wied.presentation.common.theme.WiEDTheme.typography
 import ua.wied.presentation.common.utils.bounceClick
 import ua.wied.presentation.screens.reports.status_list.models.ReportStatusListEvent
+import ua.wied.presentation.screens.reports.status_list.models.ReportStatusListState
 
 @Composable
 fun ReportStatusListScreen(
-    navController: NavHostController,
     instruction: Instruction,
-    viewModel: ReportStatusListViewModel = hiltViewModel()
+    state: ReportStatusListState,
+    onEvent: (ReportStatusListEvent) -> Unit,
+    navigateToReportsByStatus: (List<Report>, Instruction, String) -> Unit
 ) {
-    val state by viewModel.uiState.collectAsStateWithLifecycle()
-
     LaunchedEffect(Unit) {
-        viewModel.onEvent(ReportStatusListEvent.LoadData(instruction.id))
+        onEvent(ReportStatusListEvent.LoadData(instruction.id))
     }
 
     val todoReportsCount = state.todoReports.size
@@ -75,11 +71,11 @@ fun ReportStatusListScreen(
                 reportsCount = todoReportsCount,
                 itemClick = {
                     if (todoReportsCount > 0) {
-                        navController.navigate(ReportNav.ReportsByStatusList(
-                            reports = state.todoReports,
-                            instruction = instruction,
-                            status = ReportStatus.TODO.name
-                        ))
+                        navigateToReportsByStatus(
+                            state.todoReports,
+                            instruction,
+                            ReportStatus.TODO.name
+                        )
                     }
                 }
             )
@@ -90,11 +86,11 @@ fun ReportStatusListScreen(
                 reportsCount = inProgressReportsCount,
                 itemClick = {
                     if (inProgressReportsCount > 0) {
-                        navController.navigate(ReportNav.ReportsByStatusList(
-                            reports = state.inProgressReports,
-                            instruction = instruction,
-                            status = ReportStatus.IN_PROGRESS.name
-                        ))
+                        navigateToReportsByStatus(
+                            state.inProgressReports,
+                            instruction,
+                            ReportStatus.IN_PROGRESS.name
+                        )
                     }
                 }
             )
@@ -105,11 +101,11 @@ fun ReportStatusListScreen(
                 reportsCount = doneReportsCount,
                 itemClick = {
                     if (doneReportsCount > 0) {
-                        navController.navigate(ReportNav.ReportsByStatusList(
-                            reports = state.doneReports,
-                            instruction = instruction,
-                            status = ReportStatus.DONE.name
-                        ))
+                        navigateToReportsByStatus(
+                            state.doneReports,
+                            instruction,
+                            ReportStatus.DONE.name
+                        )
                     }
                 }
             )

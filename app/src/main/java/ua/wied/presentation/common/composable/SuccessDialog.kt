@@ -4,12 +4,15 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.CardColors
+import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.window.Dialog
 import ua.wied.R
+import ua.wied.presentation.common.theme.WiEDTheme.colors
 import ua.wied.presentation.common.theme.WiEDTheme.dimen
 import ua.wied.presentation.common.theme.WiEDTheme.typography
 
@@ -21,32 +24,41 @@ fun SuccessDialog(
     Dialog(
         onDismissRequest = onDismiss
     ) {
-        Column(
-            verticalArrangement = Arrangement.spacedBy(dimen.paddingS)
-        ) {
-            Text(
-                modifier = Modifier.padding(top = dimen.paddingS),
-                text = stringResource(R.string.confirm_changes_message),
-                style = typography.h5
+        ElevatedCard(
+            colors = CardColors(
+                containerColor = colors.primaryBackground,
+                contentColor = colors.primaryText,
+                disabledContainerColor = colors.primaryBackground,
+                disabledContentColor = colors.primaryText
             )
-
-            Row(
-                horizontalArrangement = Arrangement.spacedBy(dimen.paddingS)
+        ) {
+            Column(
+                modifier = Modifier.padding(dimen.containerPadding),
+                verticalArrangement = Arrangement.spacedBy(dimen.paddingL)
             ) {
-                PrimaryButton(
-                    modifier = Modifier.weight(1f),
-                    title = stringResource(R.string.confirm_button),
-                    onClick = {
-                        onSuccess()
-                        onDismiss()
-                    }
+                Text(
+                    text = stringResource(R.string.confirm_changes_message),
+                    style = typography.h5
                 )
 
-                SecondaryButton(
-                    modifier = Modifier.weight(1f),
-                    title = stringResource(R.string.cancel),
-                    onClick = onDismiss
-                )
+                Row(
+                    horizontalArrangement = Arrangement.spacedBy(dimen.paddingL)
+                ) {
+                    PrimaryButton(
+                        modifier = Modifier.weight(1f),
+                        title = stringResource(R.string.confirm_button),
+                        onClick = {
+                            onSuccess()
+                            onDismiss()
+                        }
+                    )
+
+                    SecondaryButton(
+                        modifier = Modifier.weight(1f),
+                        title = stringResource(R.string.cancel),
+                        onClick = onDismiss
+                    )
+                }
             }
         }
     }

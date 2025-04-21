@@ -19,6 +19,8 @@
     <string name="confirm_changes_message">Ви впевнені, що хочете застосувати ці зміни?</string>
     <string name="confirm_button">Застосувати</string>
     <string name="cancel">Відмінити</string>
+    <string name="make_video">Записати відео</string>
+    <string name="choose_from_gallery">Вибрати з галереї</string>
 
 
     <!--    Errors-->

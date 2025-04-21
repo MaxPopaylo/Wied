@@ -22,8 +22,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import ua.wied.R
 import ua.wied.domain.models.instruction.Instruction
 import ua.wied.presentation.common.composable.SquareIconButton
@@ -35,25 +33,23 @@ import ua.wied.presentation.common.theme.WiEDTheme.colors
 import ua.wied.presentation.common.theme.WiEDTheme.typography
 import ua.wied.presentation.screens.reports.create.models.CreateReportEvent
 import androidx.core.net.toUri
-import androidx.navigation.NavHostController
-import ua.wied.presentation.common.navigation.ReportNav
 import ua.wied.presentation.common.theme.WiEDTheme.dimen
+import ua.wied.presentation.screens.reports.create.models.CreateReportState
 
 @Composable
 fun CreateReportScreen(
     instruction: Instruction,
-    navController: NavHostController,
-    viewModel: CreateReportViewModel = hiltViewModel()
+    state: CreateReportState,
+    onEvent: (CreateReportEvent) -> Unit,
+    isFieldsEmpty: () -> Boolean,
+    navigateToReports: () -> Unit
 ) {
-    val isEnabled = viewModel.isFieldsEmpty()
-    val state by viewModel.uiState.collectAsStateWithLifecycle()
+    val isEnabled = isFieldsEmpty()
 
     LaunchedEffect(state.createResult) {
         state.createResult.collect { result ->
             result?.fold(
-                onSuccess = {
-                    navController.navigate(ReportNav.Reports)
-                },
+                onSuccess = { navigateToReports() },
                 onFailure = {
 
                 }
@@ -109,7 +105,7 @@ fun CreateReportScreen(
                             imeAction = ImeAction.Done
                         ),
                         onValueChange = { value ->
-                            viewModel.onEvent(CreateReportEvent.TitleChanged(value))
+                            onEvent(CreateReportEvent.TitleChanged(value))
                         }
                     )
 
@@ -122,7 +118,7 @@ fun CreateReportScreen(
                             imeAction = ImeAction.Done
                         ),
                         onValueChange = { value ->
-                            viewModel.onEvent(CreateReportEvent.DescriptionChanged(value))
+                            onEvent(CreateReportEvent.DescriptionChanged(value))
                         }
                     )
                 }
@@ -155,10 +151,10 @@ fun CreateReportScreen(
                         shape = dimen.shape,
                         imageUri = state.imageUris.getOrNull(index)?.toUri(),
                         onImageChosen = { url ->
-                            viewModel.onEvent(CreateReportEvent.PhotoAdded(index, url))
+                            onEvent(CreateReportEvent.PhotoAdded(index, url))
                         },
                         onDeleteImage = { url ->
-                            viewModel.onEvent(CreateReportEvent.PhotoDeleted(url))
+                            onEvent(CreateReportEvent.PhotoDeleted(url))
                         }
                     )
                 }
@@ -171,7 +167,7 @@ fun CreateReportScreen(
             isEnabled = isEnabled,
             title = stringResource(R.string.send),
             onClick = {
-                viewModel.onEvent(CreateReportEvent.Create(instruction.id))
+                onEvent(CreateReportEvent.Create(instruction.id))
             }
         )
     }

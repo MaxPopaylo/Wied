@@ -11,7 +11,6 @@ import androidx.compose.runtime.getValue
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.ViewModel
 import androidx.navigation.NavBackStackEntry
-import androidx.navigation.NavDestination
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
@@ -21,6 +20,8 @@ import androidx.navigation.toRoute
 import kotlinx.coroutines.flow.StateFlow
 import ua.wied.presentation.screens.auth.AuthScreen
 import ua.wied.presentation.screens.main.MainScreen
+import ua.wied.presentation.screens.main.MainViewModel
+import ua.wied.presentation.screens.main.models.MainState
 import kotlin.reflect.KType
 
 
@@ -33,51 +34,25 @@ fun GlobalNavGraph(
         navController = navController,
         startDestination = startDestination
     ) {
-
-//        composable<GlobalNav.Auth>(
-//            enterTransition = {
-//                slideInHorizontally(initialOffsetX = { it }, animationSpec = tween(500))
-//            },
-//            exitTransition = {
-//                slideOutHorizontally(targetOffsetX = { -it }, animationSpec = tween(500))
-//            },
-//            popEnterTransition = {
-//                slideInHorizontally(initialOffsetX = { -it }, animationSpec = tween(500))
-//            },
-//            popExitTransition = {
-//                slideOutHorizontally(targetOffsetX = { it }, animationSpec = tween(500))
-//            }
-//        ) {
-//            AuthScreen(globalNavController = navController)
-//        }
-
         screenComposable<GlobalNav.Auth>(TabType.GLOBAL) {
             AuthScreen(globalNavController = navController)
         }
 
-//        composable<GlobalNav.Main>(
-//            enterTransition = {
-//                slideInHorizontally(initialOffsetX = { it }, animationSpec = tween(500))
-//            },
-//            exitTransition = {
-//                slideOutHorizontally(targetOffsetX = { -it }, animationSpec = tween(500))
-//            },
-//            popEnterTransition = {
-//                slideInHorizontally(initialOffsetX = { -it }, animationSpec = tween(500))
-//            },
-//            popExitTransition = {
-//                slideOutHorizontally(targetOffsetX = { it }, animationSpec = tween(500))
-//            }
-//        ) { backStackEntry ->
-//            val args = backStackEntry.toRoute<GlobalNav.Main>()
-//            MainScreen(isManager = args.isManager)
-//        }
-
-        screenComposable<GlobalNav.Main>(TabType.GLOBAL) { backStackEntry ->
+        screenComposable<
+            GlobalNav.Main,
+            MainViewModel,
+            MainState
+         >(
+            tabType = TabType.GLOBAL,
+            stateProvider = { it.uiState }
+         ) { vm, state, backStackEntry ->
             val args = backStackEntry.toRoute<GlobalNav.Main>()
-            MainScreen(isManager = args.isManager)
+            MainScreen(
+                state = state,
+                onEvent = vm::onEvent,
+                isManager = args.isManager
+            )
         }
-
     }
 }
 
