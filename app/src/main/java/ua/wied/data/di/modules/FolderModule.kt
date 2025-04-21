@@ -48,7 +48,7 @@ class FolderModule {
 
     @Provides
     @Singleton
-    fun provideInstructionApi(
+    fun provideFolderApi(
         @AuthenticatedClient okHttpClient: OkHttpClient,
         moshi: Moshi
     ): FolderApi {

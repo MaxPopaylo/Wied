@@ -16,6 +16,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Wied"
         tools:ignore="LockedOrientationActivity"
+        android:networkSecurityConfig="@xml/network_security_config"
         tools:targetApi="31">
         <activity
             android:windowSoftInputMode="adjustResize"

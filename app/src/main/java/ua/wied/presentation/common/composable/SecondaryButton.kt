@@ -4,16 +4,15 @@ import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
+import androidx.wear.compose.material.ContentAlpha
 import ua.wied.presentation.common.theme.WiEDTheme.colors
+import ua.wied.presentation.common.theme.WiEDTheme.dimen
 import ua.wied.presentation.common.theme.WiEDTheme.typography
 
 @Composable
@@ -22,22 +21,23 @@ fun SecondaryButton(
     title: String,
     onClick: () -> Unit
 ) {
-    Button(
+    OutlinedButton(
+        modifier = modifier
+            .fillMaxWidth()
+            .height(42.dp),
         onClick = onClick,
-        modifier = modifier.fillMaxWidth().height(42.dp),
-        colors = ButtonDefaults.buttonColors(
-            containerColor = Color.Transparent
+        colors = ButtonDefaults.outlinedButtonColors(
+            contentColor = colors.tintColor,
+            disabledContentColor = colors.tintColor.copy(alpha = ContentAlpha.disabled)
         ),
-        shape = RoundedCornerShape(4.dp),
-        contentPadding = PaddingValues(horizontal = 10.dp, vertical = 10.dp),
-        border = BorderStroke(1.25.dp, colors.tintColor)
+        shape = dimen.shape,
+        border = BorderStroke(1.25.dp, colors.tintColor),
+        contentPadding = PaddingValues(horizontal = dimen.paddingM, vertical = dimen.paddingM)
     ) {
         Text(
             text = title,
-            style = typography.w700.copy(
-                color = colors.tintColor,
-                fontSize = 16.sp
-            )
+            style = typography.button1,
+            color = colors.tintColor
         )
     }
 }

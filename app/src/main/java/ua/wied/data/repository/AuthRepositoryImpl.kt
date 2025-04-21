@@ -11,6 +11,7 @@ import ua.wied.data.datasource.network.dto.ErrorResponse
 import ua.wied.domain.models.auth.AuthResult
 import ua.wied.domain.models.auth.SignInRequest
 import ua.wied.domain.models.auth.SignUpRequest
+import ua.wied.domain.models.user.Role
 import ua.wied.domain.models.user.User
 import ua.wied.domain.repository.AuthRepository
 import ua.wied.domain.usecases.ClearAllTokensUseCase
@@ -53,7 +54,7 @@ class AuthRepositoryImpl @Inject constructor(
                     }
                 }
 
-                AuthResult.Success
+                AuthResult.Success(responseBody?.data?.role.let { it != Role.EMPLOYEE })
             } else {
                 val errorBody = response.errorBody()
                 val errorResponse = errorBody?.let { jsonAdapter.fromJson(it.string()) }
@@ -94,7 +95,7 @@ class AuthRepositoryImpl @Inject constructor(
                     }
                 }
 
-                AuthResult.Success
+                AuthResult.Success(responseBody?.data?.role.let { it != Role.EMPLOYEE })
             } else {
                 val errorBody = response.errorBody()
                 val errorResponse = errorBody?.let { jsonAdapter.fromJson(it.string()) }

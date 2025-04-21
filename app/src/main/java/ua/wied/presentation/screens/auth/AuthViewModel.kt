@@ -19,7 +19,6 @@ import ua.wied.domain.usecases.SignInUseCase
 import ua.wied.domain.usecases.SignUpUseCase
 import ua.wied.presentation.common.utils.ToastManager
 import ua.wied.presentation.screens.auth.models.AuthState
-import ua.wied.presentation.screens.auth.models.PageState
 import ua.wied.presentation.screens.auth.models.SignInState
 import ua.wied.presentation.screens.auth.models.SignInUiEvent
 import ua.wied.presentation.screens.auth.models.SignUpState
@@ -35,13 +34,8 @@ class AuthViewModel @Inject constructor(
     private var _state by mutableStateOf(AuthState())
     val state: AuthState get() = _state
 
-    private var _pageState by mutableStateOf(PageState())
-    val pageState: PageState get() = _pageState
-
     private val resultChannel = Channel<AuthResult>()
     val authResult = resultChannel.receiveAsFlow()
-
-    val toastManager = ToastManager()
 
 
     fun onEvent(event: SignInUiEvent) {
@@ -143,23 +137,23 @@ class AuthViewModel @Inject constructor(
 
     private fun signIn(request: SignInRequest) {
         viewModelScope.launch {
-            _pageState = _pageState.copy(isLoading = true)
+            _state = _state.copy(isLoading = true)
             resultChannel.send(signInUseCase.invoke(request))
-            _pageState = _pageState.copy(isLoading = false)
+            _state = _state.copy(isLoading = false)
         }
     }
 
     private fun signUp(request: SignUpRequest) {
         viewModelScope.launch {
-            _pageState = _pageState.copy(isLoading = true)
+            _state = _state.copy(isLoading = true)
             resultChannel.send(signUpUseCase.invoke(request))
-            _pageState = _pageState.copy(isLoading = false)
+            _state = _state.copy(isLoading = false)
         }
     }
 
     fun showErrorToast(@StringRes messageResId: Int) {
         viewModelScope.launch {
-            toastManager.showToast(messageResId)
+            ToastManager.showToast(messageResId)
         }
     }
 

@@ -12,10 +12,10 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentHeight
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
@@ -32,13 +32,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
-import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import ua.wied.R
 import ua.wied.presentation.common.theme.WiEDTheme.colors
 import ua.wied.presentation.common.theme.WiEDTheme.typography
@@ -46,6 +47,9 @@ import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.input.OffsetMapping
 import androidx.compose.ui.text.input.TransformedText
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.sp
+import ua.wied.presentation.common.theme.WiEDTheme.dimen
 
 @Composable
 fun BaseTextField(
@@ -69,14 +73,12 @@ fun BaseTextField(
         modifier = Modifier
             .fillMaxWidth()
             .wrapContentHeight(),
-        verticalArrangement = Arrangement.spacedBy(4.dp)
+        verticalArrangement = Arrangement.spacedBy(dimen.padding2Xs)
     ) {
         Text(
             text = title,
             color = colors.secondaryText,
-            style = typography.w400.copy(
-                fontSize = 16.sp
-            )
+            style = typography.body1
         )
         BasicTextField(
             modifier = Modifier.height(52.dp),
@@ -86,8 +88,7 @@ fun BaseTextField(
             },
             keyboardOptions = keyboardOptions,
             keyboardActions = keyboardActions,
-            textStyle = typography.w400.copy(
-                fontSize = 16.sp,
+            textStyle = typography.body1.copy(
                 color = if(errorMessage != null) colors.errorColor else colors.primaryText
             ),
             maxLines = 1,
@@ -100,14 +101,14 @@ fun BaseTextField(
                     .height(IntrinsicSize.Max)
                     .background(
                         color = backgroundColor,
-                        shape = RoundedCornerShape(4.dp)
+                        shape = dimen.shape
                     )
                     .border(
                         width = 1.dp,
                         color = if(errorMessage != null) colors.errorColor else Color.Transparent,
-                        shape = RoundedCornerShape(4.dp)
+                        shape = dimen.shape
                     )
-                    .padding(vertical = 10.dp, horizontal = 20.dp),
+                    .padding(vertical = dimen.paddingM, horizontal = dimen.padding3Xl),
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Box (
@@ -121,9 +122,7 @@ fun BaseTextField(
                             Text(
                                 text = it,
                                 color = colors.secondaryText,
-                                style = typography.w400.copy(
-                                    fontSize = 16.sp
-                                ),
+                                style = typography.body1,
                                 modifier = Modifier.animateContentSize()
                             )
                         }
@@ -134,11 +133,11 @@ fun BaseTextField(
 
                 trailingIcon?.let {
                     IconButton(
-                        modifier = Modifier.size(21.dp),
+                        modifier = Modifier.size(dimen.sizeM),
                         onClick = { onTrailingIconClick?.invoke() }
                     ) {
                         Icon(
-                            painter = painterResource(id = it),
+                            imageVector = ImageVector.vectorResource(id = it),
                             contentDescription = null,
                             tint = colors.primaryText
                         )
@@ -157,7 +156,7 @@ fun BaseTextField(
                     Text(
                         text = errorMessage,
                         color = colors.errorColor,
-                        style = typography.w400.copy(fontSize = 14.sp),
+                        style = typography.body2,
                         modifier = Modifier.weight(1f),
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis
@@ -167,7 +166,7 @@ fun BaseTextField(
                     Text(
                         text = buttonText,
                         color = colors.secondaryText,
-                        style = typography.w400.copy(fontSize = 14.sp),
+                        style = typography.body2,
                         modifier = Modifier.clickable { onTextButtonClick?.invoke() }
                     )
                 }
@@ -258,10 +257,7 @@ fun UnderlineTextField(
         },
         keyboardOptions = keyboardOptions,
         keyboardActions = keyboardActions,
-        textStyle = typography.w400.copy(
-            fontSize = 16.sp,
-            color = colors.primaryText
-        ),
+        textStyle = typography.body1,
         maxLines = 1,
         singleLine = true,
         cursorBrush = SolidColor(colors.primaryText)
@@ -271,7 +267,7 @@ fun UnderlineTextField(
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(IntrinsicSize.Max)
-                    .padding(vertical = 10.dp),
+                    .padding(vertical = dimen.paddingM),
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Box (
@@ -285,9 +281,7 @@ fun UnderlineTextField(
                             Text(
                                 text = it,
                                 color = colors.secondaryText,
-                                style = typography.w400.copy(
-                                    fontSize = 14.sp
-                                ),
+                                style = typography.body2,
                                 modifier = Modifier.animateContentSize()
                             )
                         }
@@ -309,22 +303,169 @@ fun UnderlineTextField(
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(IntrinsicSize.Max)
-                    .padding(vertical = 4.dp),
+                    .padding(vertical = dimen.padding2Xs),
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.End
             ) {
                 Text(
                     text = "$textLength/$maxTextLength",
                     color = colors.secondaryText,
-                    style = typography.w400.copy(
-                        fontSize = 10.sp
-                    ),
+                    style = typography.body4,
                     modifier = Modifier.animateContentSize()
                 )
             }
         }
     }
 }
+
+@Composable
+fun SearchField(
+    modifier: Modifier = Modifier,
+    text: String,
+    onSearchValueChange: (String) -> Unit = {},
+) {
+
+    BasicTextField(
+        modifier = modifier.height(52.dp),
+        value = text,
+        onValueChange = {
+            onSearchValueChange(it)
+        },
+        keyboardOptions = KeyboardOptions(
+            keyboardType = KeyboardType.Text,
+            imeAction = ImeAction.Done
+        ),
+        textStyle = typography.body1,
+        maxLines = 1,
+        singleLine = true,
+        cursorBrush = SolidColor(colors.primaryText)
+    ) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(IntrinsicSize.Max)
+                .background(
+                    color = Color(0xFFF4F4FA),
+                    shape = dimen.shape
+                )
+                .padding(vertical = dimen.paddingM, horizontal = dimen.padding3Xl),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Icon(
+                modifier = Modifier.size(17.dp),
+                imageVector = ImageVector.vectorResource(R.drawable.icon_search),
+                tint = colors.primaryText,
+                contentDescription = stringResource(R.string.icon)
+            )
+
+            Box (
+                modifier = Modifier
+                    .padding(horizontal = 2.dp)
+                    .weight(1f),
+                contentAlignment = Alignment.CenterStart
+            ) {
+
+                if (text.isEmpty()) {
+                    Text(
+                        text = stringResource(R.string.search),
+                        color = colors.secondaryText,
+                        style = typography.body1,
+                        modifier = Modifier.animateContentSize()
+                    )
+                }
+
+                it.invoke()
+            }
+
+
+            SquareIconButton(
+                icon = ImageVector.vectorResource(R.drawable.icon_microphone),
+                backgroundColor = Color.Transparent,
+                borderColor = Color.Transparent,
+                iconColor = colors.primaryText,
+                onClick = {}
+            )
+
+        }
+    }
+
+}
+
+@Composable
+fun DetailTextField(
+    modifier: Modifier = Modifier,
+    title: String,
+    text: String,
+    minHeight: Dp? = null,
+    maxTextLength: Int? = null,
+    isEditing: Boolean = false,
+    onTextChange: (String) -> Unit = {}
+) {
+    val heightModifier = if (minHeight != null) Modifier.heightIn(min = minHeight)
+                         else Modifier
+    val textLength = text.length
+
+    Column(modifier) {
+        Row {
+            Text(
+                text = title,
+                style = typography.h5.copy(fontSize = 16.sp),
+                color = colors.secondaryText
+            )
+
+            Spacer(Modifier.weight(1f))
+
+            if (maxTextLength != null) {
+                Text(
+                    modifier = Modifier.animateContentSize(),
+                    text = "$textLength/$maxTextLength",
+                    style = typography.h5.copy(fontSize = 16.sp),
+                    color = colors.secondaryText
+                )
+            }
+        }
+
+        Spacer(Modifier.height(4.dp))
+
+        if (isEditing) {
+            BasicTextField(
+                value = text,
+                onValueChange = {
+                    if (maxTextLength != null) {
+                        if (textLength > maxTextLength) {
+                            onTextChange(it)
+                        }
+                    } else {
+                        onTextChange(it)
+                    }
+                },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .then(heightModifier)
+                    .background(
+                        colors.secondaryBackground.copy(alpha = 0.6f),
+                        dimen.shape
+                    )
+                    .padding(dimen.paddingL),
+                textStyle = typography.body1,
+                cursorBrush = SolidColor(colors.primaryText)
+            )
+        } else {
+            Text(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .background(
+                        colors.secondaryBackground,
+                        dimen.shape
+                    )
+                    .padding(dimen.paddingL),
+                text = text,
+                style = typography.body1
+            )
+        }
+    }
+}
+
 
 private fun phoneNumberVisualTransformation(): VisualTransformation {
     return VisualTransformation { text ->

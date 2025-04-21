@@ -7,21 +7,18 @@ import ua.wied.domain.models.report.Report
 
 @JsonClass(generateAdapter = true)
 data class InstructionWithReportsDto(
-    @Json(name = "id")
     val id: Int,
     @Json(name = "folder_id")
     val folderId: Int,
-    @Json(name = "title")
     val title: String,
     @Json(name = "poster_url")
-    val posterUrl: String,
+    val posterUrl: String?,
     @Json(name = "order_num")
     val orderNum: Int,
     @Json(name = "create_time")
     val createTime: String,
     @Json(name = "update_time")
     val updateTime: String,
-    @Json(name = "reports")
     val reports: List<ReportDto>
 ) {
     fun toReportsDomain(): List<Report> {

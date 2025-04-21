@@ -9,7 +9,7 @@ import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.*
 
-class ToastManager {
+object ToastManager {
     private val toastChannel = Channel<Int>(Channel.CONFLATED)
     val toastMessages: Flow<Int> = toastChannel.receiveAsFlow()
 

@@ -10,7 +10,7 @@ data class Instruction(
     override val id: Int,
     val title: String,
     val folderId: Int,
-    val posterUrl: String,
+    val posterUrl: String?,
     val elements: List<Element>,
     @Serializable(with = LocalDateTimeSerializer::class)  val createTime: LocalDateTime,
     @Serializable(with = LocalDateTimeSerializer::class)  val updateTime: LocalDateTime,
@@ -21,7 +21,8 @@ data class Instruction(
 data class Element(
     val id: Int,
     val title: String,
-    val videoUrl: String,
+    val info: String?,
+    val videoUrl: String?,
     val instructionId: Int,
     val orderNum: Int
 )

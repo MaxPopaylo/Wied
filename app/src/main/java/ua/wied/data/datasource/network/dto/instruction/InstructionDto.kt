@@ -10,10 +10,11 @@ import java.time.format.DateTimeFormatter
 @JsonClass(generateAdapter = true)
 data class InstructionItemDto(
     val title: String,
+    val info: String?,
     @Json(name = "order_num")
     val orderNum: Int,
     @Json(name = "video_url")
-    val videoUrl: String,
+    val videoUrl: String?,
     @Json(name = "instruction_id")
     val instructionId: Int,
     val id: Int
@@ -24,6 +25,7 @@ data class InstructionItemDto(
             title = title,
             videoUrl = videoUrl,
             instructionId = instructionId,
+            info = info,
             orderNum = orderNum
         )
     }
@@ -42,7 +44,7 @@ data class InstructionDto(
     val folderId: Int,
     val id: Int,
     @Json(name = "poster_url")
-    val posterUrl: String,
+    val posterUrl: String?,
     val items: List<InstructionItemDto>
 ) {
     fun toDomain(): Instruction {

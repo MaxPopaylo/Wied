@@ -21,14 +21,14 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.res.vectorResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import ua.wied.R
 import ua.wied.presentation.common.composable.BaseTextField
@@ -38,6 +38,7 @@ import ua.wied.presentation.common.composable.PrimaryButton
 import ua.wied.presentation.common.composable.SecondaryButton
 import ua.wied.presentation.common.navigation.AuthNav
 import ua.wied.presentation.common.theme.WiEDTheme.colors
+import ua.wied.presentation.common.theme.WiEDTheme.dimen
 import ua.wied.presentation.common.theme.WiEDTheme.typography
 import ua.wied.presentation.common.utils.extensions.positionAwareImePadding
 import ua.wied.presentation.screens.auth.models.SignUpUiEvent
@@ -67,27 +68,26 @@ fun SignUpScreen(
                 .background(
                     colors.secondaryBackground
                 )
-                .padding(16.dp)
-                .padding(bottom = 12.dp),
+                .padding(dimen.containerPadding)
+                .padding(bottom = dimen.paddingL),
             contentAlignment = Alignment.BottomCenter
         ) {
             Column(
-                verticalArrangement = Arrangement.spacedBy(12.dp)
+                verticalArrangement = Arrangement.spacedBy(dimen.paddingL)
             ) {
                 Image(
                     modifier = Modifier
                         .fillMaxWidth(0.5f)
                         .wrapContentHeight(),
-                    painter = painterResource(R.drawable.icon_big),
+                    imageVector = ImageVector.vectorResource(R.drawable.icon_big),
                     contentScale = ContentScale.Crop,
                     contentDescription = stringResource(R.string.logo)
                 )
                 Text(
-                    modifier = Modifier.padding(top = 4.dp),
+                    modifier = Modifier.padding(top = dimen.padding2Xs),
                     text = stringResource(R.string.welcome),
-                    color = colors.primaryText,
-                    style = typography.w500.copy(
-                        fontSize = 15.sp
+                    style = typography.body1.copy(
+                        fontWeight = FontWeight.W500
                     )
                 )
             }
@@ -97,7 +97,7 @@ fun SignUpScreen(
             modifier = Modifier
                 .fillMaxWidth()
                 .positionAwareImePadding()
-                .padding(horizontal = 16.dp, vertical = 24.dp)
+                .padding(horizontal = dimen.padding2Xl, vertical = dimen.paddingLarge)
         ) {
             Row {
                 SecondaryButton (
@@ -110,7 +110,7 @@ fun SignUpScreen(
                     }
                 )
 
-                Spacer(modifier = Modifier.width(10.dp))
+                Spacer(modifier = Modifier.width(dimen.paddingM))
 
                 PrimaryButton (
                     modifier = Modifier.fillMaxWidth().weight(1f),
@@ -121,11 +121,11 @@ fun SignUpScreen(
                 )
             }
 
-            Spacer(modifier = Modifier.height(16.dp))
+            Spacer(modifier = Modifier.height(dimen.padding2Xl))
 
             Column(
                 Modifier.weight(1f).verticalScroll(scrollState),
-                verticalArrangement = Arrangement.spacedBy(16.dp)
+                verticalArrangement = Arrangement.spacedBy(dimen.padding2Xl)
             ) {
                 BaseTextField(
                     title = stringResource(R.string.login_hint),
@@ -207,7 +207,7 @@ fun SignUpScreen(
                 )
             }
 
-            Spacer(modifier = Modifier.height(16.dp))
+            Spacer(modifier = Modifier.height(dimen.padding2Xl))
 
             PrimaryButton(
                 title = stringResource(R.string.create_account),
