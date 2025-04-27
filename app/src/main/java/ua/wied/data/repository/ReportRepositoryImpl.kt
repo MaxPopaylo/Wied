@@ -24,7 +24,7 @@ class ReportRepositoryImpl @Inject constructor(
     override suspend fun createReport(instructionId: Int, title: String, info: String, imageUris: List<String?>) =
         handlePOSTApiCall(
             apiCall = {
-                val images = convertImagesToMultipartList(context, imageUris)
+                val images = convertImagesToMultipartList(context, imageUris, "files")
                 api.createReport(
                     instructionId = instructionId,
                     files = images,

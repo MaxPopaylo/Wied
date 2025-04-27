@@ -30,6 +30,7 @@ import ua.wied.presentation.common.theme.WiEDTheme.dimen
 import ua.wied.presentation.common.theme.WiEDTheme.typography
 import ua.wied.presentation.screens.instructions.detail.model.InstructionDetailEvent
 import ua.wied.presentation.screens.instructions.detail.model.InstructionDetailState
+import ua.wied.presentation.screens.main.models.MainEvent
 
 @Composable
 fun InstructionDetailScreen(
@@ -37,6 +38,7 @@ fun InstructionDetailScreen(
     isEditing: Boolean?,
     state: InstructionDetailState,
     onEvent: (InstructionDetailEvent) -> Unit,
+    onMainEvent: (MainEvent) -> Unit,
     navigateToElementDetail: (Element) -> Unit
 ) {
     var choseImage by remember { mutableStateOf("") }
@@ -89,23 +91,25 @@ fun InstructionDetailScreen(
             }
         )
 
-        Text(
-            modifier = Modifier.padding(top = dimen.paddingLarge),
-            text = stringResource(R.string.video),
-            style = typography.h5.copy(fontSize = 16.sp),
-            color = colors.secondaryText
-        )
-        MediaGrid(
-            urls = instruction.elements.mapNotNull { it.videoUrl },
-            gridItem = { url, index ->
-                GridVideoItem(
-                    modifier = Modifier.fillMaxWidth(),
-                    videoUrl = url,
-                    title = instruction.elements[index].title,
-                    onViewClick = { navigateToElementDetail(instruction.elements[index]) }
-                )
-            }
-        )
+        if (instruction.elements.isNotEmpty()) {
+            Text(
+                modifier = Modifier.padding(top = dimen.paddingLarge),
+                text = stringResource(R.string.video),
+                style = typography.h5.copy(fontSize = 16.sp),
+                color = colors.secondaryText
+            )
+            MediaGrid(
+                urls = instruction.elements.mapNotNull { it.videoUrl },
+                gridItem = { url, index ->
+                    GridVideoItem(
+                        modifier = Modifier.fillMaxWidth(),
+                        videoUrl = url,
+                        title = instruction.elements[index].title,
+                        onViewClick = { navigateToElementDetail(instruction.elements[index]) }
+                    )
+                }
+            )
+        }
 
     }
 
@@ -121,7 +125,10 @@ fun InstructionDetailScreen(
 
     if (showConfirmDialog) {
         SuccessDialog(
-            onDismiss = { showConfirmDialog = false },
+            onDismiss = {
+                showConfirmDialog = false
+                onMainEvent(MainEvent.InstructionEditingChanged(null))
+            },
             onSuccess = { onEvent(InstructionDetailEvent.ChangeData) }
         )
     }

@@ -101,7 +101,7 @@ fun MainTopAppBar(
                         else dimen.zero
                     ),
                     onClick = {
-                        onEvent(MainEvent.InstructionEditingChanged(mainState.isInstructionEditing?.not() ?: true))
+                        onEvent(MainEvent.InstructionEditingChanged(mainState.isInstructionEditing?.not() != false))
                     }
                 )
             )

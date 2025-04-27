@@ -1,15 +1,14 @@
-package ua.wied.presentation.screens.reports.detail.models
+package ua.wied.presentation.screens.instructions.elements.create.model
 
-import ua.wied.domain.models.report.Report
-import ua.wied.domain.models.user.User
 import ua.wied.presentation.common.base.BaseNetworkResponseState
 
-data class ReportDetailState (
+data class CreateElementState (
+    override val isLoading: Boolean = false,
     override val isRefreshing: Boolean = false,
     override val isEmpty: Boolean = false,
     override val isNotInternetConnection: Boolean = false,
-    override val isLoading: Boolean = false,
     override val requestBeforeNetworkError: () -> Unit = {},
-    val localUser: User? = null,
-    val report: Report? = null
+    val title: String = "",
+    val info: String = "",
+    val videoUrl: String? = null
 ): BaseNetworkResponseState

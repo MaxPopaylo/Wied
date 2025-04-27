@@ -25,6 +25,8 @@
     <string name="cancel">Cancel</string>
     <string name="make_video">Make video</string>
     <string name="choose_from_gallery">Choose from gallery</string>
+    <string name="image_is_empty">No image selected</string>
+    <string name="video_is_empty">No video selected</string>
 
 
     <!-- Errors -->

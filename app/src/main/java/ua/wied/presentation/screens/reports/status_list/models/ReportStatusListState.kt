@@ -8,6 +8,7 @@ data class ReportStatusListState(
     override val isEmpty: Boolean = false,
     override val isNotInternetConnection: Boolean = false,
     override val isRefreshing: Boolean = false,
+    override val requestBeforeNetworkError: () -> Unit = {},
     val reports: List<Report> = emptyList(),
     val todoReports: List<Report> = emptyList(),
     val inProgressReports: List<Report> = emptyList(),

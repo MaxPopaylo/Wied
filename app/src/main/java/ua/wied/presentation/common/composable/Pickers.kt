@@ -35,7 +35,6 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil3.ImageLoader
@@ -44,7 +43,6 @@ import coil3.request.ImageRequest
 import coil3.video.VideoFrameDecoder
 import coil3.video.videoFrameMillis
 import ua.wied.R
-import ua.wied.presentation.common.theme.WiEDTheme
 import ua.wied.presentation.common.theme.WiEDTheme.colors
 import ua.wied.presentation.common.theme.WiEDTheme.dimen
 import ua.wied.presentation.common.theme.WiEDTheme.typography
@@ -135,16 +133,18 @@ fun LargeImagePicker(
         onImageChosen(uri.toString())
     }
 
+    val isClickable =  isEditing || imageUri != null
+
     Box(
         modifier = modifier
             .fillMaxWidth()
             .background(
-                colors.primaryBackground,
+                colors.secondaryBackground,
                 shape
             )
             .aspectRatio(1f / .5f)
             .clip(shape)
-            .clickable {
+            .clickable(isClickable) {
                 if (isEditing) {
                     if (imageUri == null) {
                         launcher.launch("image/*")
@@ -190,19 +190,35 @@ fun LargeImagePicker(
                 verticalArrangement = Arrangement.spacedBy(dimen.paddingS, Alignment.CenterVertically),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Text(
-                    text = stringResource(R.string.upload_video),
-                    style = typography.h5.copy(fontSize = 16.sp),
-                    color = colors.primaryText
-                )
+                if (isEditing) {
+                    Text(
+                        text = stringResource(R.string.upload_image),
+                        style = typography.h5.copy(fontSize = 16.sp),
+                        color = colors.primaryText
+                    )
 
-                Image(
-                    modifier = Modifier.size(dimen.sizeL),
-                    imageVector = ImageVector.vectorResource(R.drawable.icon_add_photo),
-                    contentDescription = null,
-                    contentScale = ContentScale.Crop,
-                    colorFilter = ColorFilter.tint(colors.primaryText)
-                )
+                    Image(
+                        modifier = Modifier.size(dimen.sizeL),
+                        imageVector = ImageVector.vectorResource(R.drawable.icon_add_photo),
+                        contentDescription = null,
+                        contentScale = ContentScale.Crop,
+                        colorFilter = ColorFilter.tint(colors.primaryText)
+                    )
+                } else {
+                    Text(
+                        text = stringResource(R.string.image_is_empty),
+                        style = typography.h5.copy(fontSize = 16.sp),
+                        color = colors.primaryText
+                    )
+
+                    Image(
+                        modifier = Modifier.size(dimen.sizeL),
+                        imageVector = ImageVector.vectorResource(R.drawable.icon_view_photo),
+                        contentDescription = null,
+                        contentScale = ContentScale.Crop,
+                        colorFilter = ColorFilter.tint(colors.primaryText)
+                    )
+                }
             }
         }
     }
@@ -231,6 +247,8 @@ fun LargeVideoPicker(
         .videoFrameMillis(0)
         .build()
 
+    val isClickable =  isEditing || videoUri != null
+
     Box(
         modifier = modifier
             .fillMaxWidth()
@@ -240,7 +258,7 @@ fun LargeVideoPicker(
             )
             .aspectRatio(1f / .5f)
             .clip(shape)
-            .clickable {
+            .clickable(isClickable) {
                 if (isEditing) {
                     if (videoUri == null) {
                         onChooseVideo()
@@ -292,19 +310,35 @@ fun LargeVideoPicker(
                 verticalArrangement = Arrangement.spacedBy(dimen.paddingS, Alignment.CenterVertically),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Text(
-                    text = stringResource(R.string.upload_video),
-                    style = typography.h5.copy(fontSize = 16.sp),
-                    color = colors.primaryText
-                )
+                if (isEditing) {
+                    Text(
+                        text = stringResource(R.string.upload_video),
+                        style = typography.h5.copy(fontSize = 16.sp),
+                        color = colors.primaryText
+                    )
 
-                Image(
-                    modifier = Modifier.size(dimen.sizeL),
-                    imageVector = ImageVector.vectorResource(R.drawable.icon_add_video),
-                    contentDescription = null,
-                    contentScale = ContentScale.Crop,
-                    colorFilter = ColorFilter.tint(colors.primaryText)
-                )
+                    Image(
+                        modifier = Modifier.size(dimen.sizeL),
+                        imageVector = ImageVector.vectorResource(R.drawable.icon_add_video),
+                        contentDescription = null,
+                        contentScale = ContentScale.Crop,
+                        colorFilter = ColorFilter.tint(colors.primaryText)
+                    )
+                } else {
+                    Text(
+                        text = stringResource(R.string.video_is_empty),
+                        style = typography.h5.copy(fontSize = 16.sp),
+                        color = colors.primaryText
+                    )
+
+                    Image(
+                        modifier = Modifier.size(dimen.sizeL),
+                        imageVector = ImageVector.vectorResource(R.drawable.icon_view_video),
+                        contentDescription = null,
+                        contentScale = ContentScale.Crop,
+                        colorFilter = ColorFilter.tint(colors.primaryText)
+                    )
+                }
             }
         }
     }

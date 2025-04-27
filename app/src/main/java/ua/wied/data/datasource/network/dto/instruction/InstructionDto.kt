@@ -60,3 +60,20 @@ data class InstructionDto(
         )
     }
 }
+
+@JsonClass(generateAdapter = true)
+data class CreateInstructionDto (
+    val title: String,
+    @Json(name = "order_num")
+    val orderNum: Int,
+    @Json(name = "folder_id")
+    val folderId: Int
+)
+
+@JsonClass(generateAdapter = true)
+data class CreateElementDto (
+    val title: String,
+    val info: String,
+    @Json(name = "order_num")
+    val orderNum: Int,
+)

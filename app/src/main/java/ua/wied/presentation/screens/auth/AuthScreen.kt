@@ -1,8 +1,7 @@
 package ua.wied.presentation.screens.auth
 
-import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
@@ -13,7 +12,6 @@ import ua.wied.domain.models.auth.AuthResult
 import ua.wied.presentation.common.composable.LoadingIndicator
 import ua.wied.presentation.common.navigation.global.AuthNavGraph
 import ua.wied.presentation.common.navigation.GlobalNav
-import ua.wied.presentation.common.theme.WiEDTheme.dimen
 import ua.wied.presentation.common.utils.ToastManager
 
 @Composable
@@ -42,7 +40,7 @@ fun AuthScreen(
         }
     }
 
-    Column (modifier = Modifier.fillMaxSize().padding(dimen.containerPadding)) {
+    Box(modifier = Modifier.fillMaxSize()) {
         AuthNavGraph(authViewModel = viewModel)
     }
 

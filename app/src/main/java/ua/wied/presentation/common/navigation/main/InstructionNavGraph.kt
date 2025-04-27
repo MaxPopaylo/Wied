@@ -1,5 +1,6 @@
 package ua.wied.presentation.common.navigation.main
 
+import androidx.compose.animation.ExperimentalSharedTransitionApi
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.toRoute
@@ -12,36 +13,70 @@ import ua.wied.presentation.common.navigation.TabType
 import ua.wied.presentation.common.navigation.screenComposable
 import ua.wied.presentation.screens.instructions.InstructionViewModel
 import ua.wied.presentation.screens.instructions.InstructionsScreen
+import ua.wied.presentation.screens.instructions.create.CreateInstructionScreen
+import ua.wied.presentation.screens.instructions.create.CreateInstructionViewModel
+import ua.wied.presentation.screens.instructions.create.models.CreateInstructionState
 import ua.wied.presentation.screens.instructions.detail.InstructionDetailScreen
 import ua.wied.presentation.screens.instructions.detail.InstructionDetailViewModel
 import ua.wied.presentation.screens.instructions.detail.model.InstructionDetailState
 import ua.wied.presentation.screens.instructions.elements.ElementDetailScreen
 import ua.wied.presentation.screens.instructions.elements.ElementDetailViewModel
+import ua.wied.presentation.screens.instructions.elements.create.CreateElementScreen
+import ua.wied.presentation.screens.instructions.elements.create.CreateElementViewModel
+import ua.wied.presentation.screens.instructions.elements.create.model.CreateElementState
 import ua.wied.presentation.screens.instructions.elements.model.ElementDetailState
 import ua.wied.presentation.screens.instructions.model.InstructionsState
+import ua.wied.presentation.screens.main.models.MainEvent
 import ua.wied.presentation.screens.main.models.MainState
 import kotlin.reflect.typeOf
 
+@OptIn(ExperimentalSharedTransitionApi::class)
 fun NavGraphBuilder.instructionNavGraph(
     navController: NavHostController,
-    mainState: MainState
+    mainState: MainState,
+    onMainEvent: (MainEvent) -> Unit
 ) {
     screenComposable<
-       InstructionNav.Instructions,
-       InstructionViewModel,
-       InstructionsState
-    >(
+        InstructionNav.Instructions,
+        InstructionViewModel,
+        InstructionsState
+     >(
         tabType = TabType.START,
         stateProvider = { it.uiState }
     ) { vm, state, _ ->
         InstructionsScreen(
             state = state,
             onEvent = vm::onEvent,
+            onMainEvent = onMainEvent,
             navigateToDetail = {
                 navController.navigate(InstructionNav.InstructionDetail(it))
+            },
+            navigateToCreation = { orderNum, folderId ->
+                navController.navigate(InstructionNav.CreateInstruction(orderNum, folderId))
             }
         )
     }
+
+    screenComposable<
+        InstructionNav.CreateInstruction,
+        CreateInstructionViewModel,
+        CreateInstructionState
+     >(
+        tabType = TabType.BACK,
+        stateProvider = { it.uiState }
+    ) { vm, state, backStackEntry ->
+        val args = backStackEntry.toRoute<InstructionNav.CreateInstruction>()
+        CreateInstructionScreen(
+            orderNum = args.orderNum,
+            folderId = args.folderId,
+            state = state,
+            onEvent = vm::onEvent,
+            backToInstructions = {
+                navController.popBackStack()
+            }
+        )
+    }
+
 
     screenComposable<
         InstructionNav.InstructionDetail,
@@ -60,8 +95,28 @@ fun NavGraphBuilder.instructionNavGraph(
             instruction = args.instruction,
             isEditing = mainState.isInstructionEditing,
             onEvent = vm::onEvent,
+            onMainEvent = onMainEvent,
             navigateToElementDetail = {
                 navController.navigate(InstructionNav.InstructionElementDetail(it))
+            }
+        )
+    }
+
+    screenComposable<
+        InstructionNav.CreateElement,
+        CreateElementViewModel,
+        CreateElementState
+    >(
+        tabType = TabType.BACK,
+        stateProvider = { it.uiState }
+    ) { vm, state, backStackEntry ->
+        val args = backStackEntry.toRoute<InstructionNav.CreateInstruction>()
+        CreateElementScreen (
+            orderNum = args.orderNum,
+            state = state,
+            onEvent = vm::onEvent,
+            backToInstructionDetail = {
+                navController.popBackStack()
             }
         )
     }
@@ -82,7 +137,8 @@ fun NavGraphBuilder.instructionNavGraph(
             state = state,
             element = args.element,
             isEditing = mainState.isInstructionEditing,
-            onEvent = vm::onEvent
+            onEvent = vm::onEvent,
+            onMainEvent = onMainEvent
         )
     }
 }

@@ -21,6 +21,8 @@
     <string name="cancel">Отменить</string>
     <string name="make_video">Записать видео</string>
     <string name="choose_from_gallery">Выбрать из галереи</string>
+    <string name="image_is_empty">Изображение не выбрано</string>
+    <string name="video_is_empty">Видео не выбрано</string>
 
 
     <!--    Errors-->

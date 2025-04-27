@@ -37,6 +37,7 @@ import ua.wied.presentation.common.utils.extensions.hideBottomSheet
 import ua.wied.presentation.common.utils.extensions.showBottomSheet
 import ua.wied.presentation.screens.instructions.elements.model.ElementDetailEvent
 import ua.wied.presentation.screens.instructions.elements.model.ElementDetailState
+import ua.wied.presentation.screens.main.models.MainEvent
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -44,7 +45,8 @@ fun ElementDetailScreen(
     element: Element,
     isEditing: Boolean?,
     state: ElementDetailState,
-    onEvent: (ElementDetailEvent) -> Unit
+    onEvent: (ElementDetailEvent) -> Unit,
+    onMainEvent: (MainEvent) -> Unit
 ) {
     var choseImage by remember { mutableStateOf("") }
     var showDialog by remember { mutableStateOf(false) }
@@ -130,7 +132,10 @@ fun ElementDetailScreen(
 
     if (showConfirmDialog) {
         SuccessDialog(
-            onDismiss = { showConfirmDialog = false },
+            onDismiss = {
+                showConfirmDialog = false
+                onMainEvent(MainEvent.ElementEditingChanged(null))
+            },
             onSuccess = { onEvent(ElementDetailEvent.ChangeData) }
         )
     }
