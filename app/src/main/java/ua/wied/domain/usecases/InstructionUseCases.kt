@@ -44,6 +44,13 @@ class DeleteInstructionUseCase @Inject constructor(
         instructionRepository.deleteInstruction(instructionId = instructionId)
 }
 
+class GetInstructionUseCase @Inject constructor(
+    private val instructionRepository: InstructionRepository
+) {
+    suspend operator fun invoke(instructionId: Int) =
+        instructionRepository.getInstruction(instructionId = instructionId)
+}
+
 class CreateElementUseCase @Inject constructor(
     private val instructionRepository: InstructionRepository
 ) {

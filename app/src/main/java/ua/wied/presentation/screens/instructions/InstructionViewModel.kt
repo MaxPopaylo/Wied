@@ -58,7 +58,9 @@ class InstructionViewModel @Inject constructor(
         this.first().id
 
     private fun List<Folder<Instruction>>.getLastItemOrderNum() =
-        this.first().items.last().orderNum
+        if (this.first().items.isEmpty()) 0
+        else this.first().items.last().orderNum
+
 
     private fun List<Folder<Instruction>>.isFoldersEmpty() =
         this.size == 1 && this.first().items.isEmpty()

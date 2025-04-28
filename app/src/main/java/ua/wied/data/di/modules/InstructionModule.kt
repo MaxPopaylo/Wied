@@ -22,6 +22,7 @@ import ua.wied.domain.usecases.DeleteElementUseCase
 import ua.wied.domain.usecases.DeleteInstructionUseCase
 import ua.wied.domain.usecases.CreateElementUseCase
 import ua.wied.domain.usecases.CreateInstructionUseCase
+import ua.wied.domain.usecases.GetInstructionUseCase
 import ua.wied.domain.usecases.UpdateElementUseCase
 import ua.wied.domain.usecases.UpdateInstructionUseCase
 import javax.inject.Singleton
@@ -53,6 +54,14 @@ class InstructionModule {
         repository: InstructionRepository
     ): DeleteInstructionUseCase {
         return DeleteInstructionUseCase(repository)
+    }
+
+    @Provides
+    @Singleton
+    fun provideGetInstructionUseCase(
+        repository: InstructionRepository
+    ): GetInstructionUseCase {
+        return GetInstructionUseCase(repository)
     }
 
     @Provides

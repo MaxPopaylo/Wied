@@ -47,7 +47,7 @@ sealed class InstructionNav : MainNav() {
     data class CreateInstruction(val orderNum: Int, val folderId: Int) : InstructionNav()
 
     @Serializable
-    data class CreateElement(val orderNum: Int) : InstructionNav()
+    data class CreateElement(val orderNum: Int, val instructionId: Int) : InstructionNav()
 }
 
 @Serializable

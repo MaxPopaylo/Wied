@@ -3,6 +3,7 @@ package ua.wied.data.datasource.network.api
 import okhttp3.MultipartBody
 import retrofit2.Response
 import retrofit2.http.DELETE
+import retrofit2.http.GET
 import retrofit2.http.Multipart
 import retrofit2.http.POST
 import retrofit2.http.PUT
@@ -10,6 +11,7 @@ import retrofit2.http.Part
 import retrofit2.http.Path
 import ua.wied.data.datasource.network.dto.instruction.CreateElementDto
 import ua.wied.data.datasource.network.dto.instruction.CreateInstructionDto
+import ua.wied.domain.models.instruction.Instruction
 
 interface InstructionApi {
 
@@ -33,6 +35,11 @@ interface InstructionApi {
         @Path("instruction_id") instructionId: Int,
     ): Response<Any>
 
+    @GET("api/instructions/{instruction_id}")
+    suspend fun getInstruction(
+        @Path("instruction_id") instructionId: Int,
+    ): Response<Instruction>
+
     @Multipart
     @POST("api/instructions/{instruction_id}/items")
     suspend fun createElement(
@@ -55,4 +62,5 @@ interface InstructionApi {
         @Path("item_id") elementId: Int,
         @Path("instruction_id") instructionId: Int,
     ): Response<Any>
+
 }

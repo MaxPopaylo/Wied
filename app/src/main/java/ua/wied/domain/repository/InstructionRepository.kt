@@ -1,6 +1,8 @@
 package ua.wied.domain.repository
 
+import ua.wied.domain.models.FlowResult
 import ua.wied.domain.models.UnitFlow
+import ua.wied.domain.models.instruction.Instruction
 
 interface InstructionRepository {
     suspend fun saveInstruction(
@@ -17,6 +19,7 @@ interface InstructionRepository {
         folderId: Int
     ): UnitFlow
     suspend fun deleteInstruction(instructionId: Int): UnitFlow
+    suspend fun getInstruction(instructionId: Int): FlowResult<Instruction>
 
     suspend fun saveElement(
         title: String,

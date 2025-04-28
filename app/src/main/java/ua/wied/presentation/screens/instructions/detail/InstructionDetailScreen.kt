@@ -39,7 +39,9 @@ fun InstructionDetailScreen(
     state: InstructionDetailState,
     onEvent: (InstructionDetailEvent) -> Unit,
     onMainEvent: (MainEvent) -> Unit,
-    navigateToElementDetail: (Element) -> Unit
+    navigateToElementDetail: (Element) -> Unit,
+    navigateToCreation: (Int, Int) -> Unit,
+    backToInstructions: () -> Unit
 ) {
     var choseImage by remember { mutableStateOf("") }
     var showDialog by remember { mutableStateOf(false) }
@@ -47,12 +49,32 @@ fun InstructionDetailScreen(
     var showConfirmDialog by remember { mutableStateOf(false) }
 
     LaunchedEffect(Unit) {
-        onEvent(InstructionDetailEvent.LoadData(instruction))
+        onEvent(InstructionDetailEvent.LoadData(instruction.id))
     }
 
     LaunchedEffect(isEditing) {
         if (isEditing != null && !isEditing) {
             showConfirmDialog = true
+        }
+    }
+
+    LaunchedEffect(state.createResult) {
+        state.createResult.collect { result ->
+            result?.fold(
+                onSuccess = { backToInstructions() },
+                onFailure = {
+
+                }
+            )
+        }
+    }
+
+    LaunchedEffect(state.lastItemOrderNum) {
+        if (state.lastItemOrderNum != null) {
+            onMainEvent(MainEvent.FabVisibilityChanged(true))
+            onMainEvent(MainEvent.FabClickChanged(value = {
+                navigateToCreation(state.lastItemOrderNum, instruction.id)
+            }))
         }
     }
 
@@ -91,7 +113,7 @@ fun InstructionDetailScreen(
             }
         )
 
-        if (instruction.elements.isNotEmpty()) {
+        if (state.instruction?.elements?.isNotEmpty() == true) {
             Text(
                 modifier = Modifier.padding(top = dimen.paddingLarge),
                 text = stringResource(R.string.video),
@@ -99,13 +121,13 @@ fun InstructionDetailScreen(
                 color = colors.secondaryText
             )
             MediaGrid(
-                urls = instruction.elements.mapNotNull { it.videoUrl },
+                urls = state.instruction.elements.mapNotNull { it.videoUrl },
                 gridItem = { url, index ->
                     GridVideoItem(
                         modifier = Modifier.fillMaxWidth(),
                         videoUrl = url,
-                        title = instruction.elements[index].title,
-                        onViewClick = { navigateToElementDetail(instruction.elements[index]) }
+                        title = state.instruction.elements[index].title,
+                        onViewClick = { navigateToElementDetail(state.instruction.elements[index]) }
                     )
                 }
             )
@@ -134,6 +156,6 @@ fun InstructionDetailScreen(
     }
 
     if (state.isLoading) {
-        LoadingIndicator(false)
+        LoadingIndicator(true)
     }
 }

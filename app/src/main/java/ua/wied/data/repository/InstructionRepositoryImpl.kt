@@ -4,7 +4,9 @@ import android.content.Context
 import ua.wied.data.datasource.network.api.InstructionApi
 import ua.wied.data.datasource.network.dto.instruction.CreateElementDto
 import ua.wied.data.datasource.network.dto.instruction.CreateInstructionDto
+import ua.wied.domain.models.FlowResult
 import ua.wied.domain.models.UnitFlow
+import ua.wied.domain.models.instruction.Instruction
 import ua.wied.domain.repository.InstructionRepository
 import javax.inject.Inject
 
@@ -54,6 +56,14 @@ class InstructionRepositoryImpl @Inject constructor(
     override suspend fun deleteInstruction(instructionId: Int): UnitFlow =
         handleDELETEApiCall (
             apiCall = { api.deleteInstruction(instructionId) }
+        )
+
+    override suspend fun getInstruction(instructionId: Int): FlowResult<Instruction> =
+        handleGETApiCall (
+            apiCall = {
+                api.getInstruction(instructionId)
+            },
+            transform = { it }
         )
 
     override suspend fun saveElement(

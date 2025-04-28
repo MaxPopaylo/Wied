@@ -36,6 +36,9 @@ fun NavGraphBuilder.instructionNavGraph(
     mainState: MainState,
     onMainEvent: (MainEvent) -> Unit
 ) {
+    var elementCreateCallback = {}
+
+
     screenComposable<
         InstructionNav.Instructions,
         InstructionViewModel,
@@ -48,8 +51,8 @@ fun NavGraphBuilder.instructionNavGraph(
             state = state,
             onEvent = vm::onEvent,
             onMainEvent = onMainEvent,
-            navigateToDetail = {
-                navController.navigate(InstructionNav.InstructionDetail(it))
+            navigateToDetail = { instruction ->
+                navController.navigate(InstructionNav.InstructionDetail(instruction))
             },
             navigateToCreation = { orderNum, folderId ->
                 navController.navigate(InstructionNav.CreateInstruction(orderNum, folderId))
@@ -98,6 +101,12 @@ fun NavGraphBuilder.instructionNavGraph(
             onMainEvent = onMainEvent,
             navigateToElementDetail = {
                 navController.navigate(InstructionNav.InstructionElementDetail(it))
+            },
+            navigateToCreation = { orderNum, instructionId ->
+                navController.navigate(InstructionNav.CreateElement(orderNum, instructionId))
+            },
+            backToInstructions = {
+                navController.popBackStack()
             }
         )
     }
@@ -110,12 +119,14 @@ fun NavGraphBuilder.instructionNavGraph(
         tabType = TabType.BACK,
         stateProvider = { it.uiState }
     ) { vm, state, backStackEntry ->
-        val args = backStackEntry.toRoute<InstructionNav.CreateInstruction>()
+        val args = backStackEntry.toRoute<InstructionNav.CreateElement>()
         CreateElementScreen (
             orderNum = args.orderNum,
+            instructionId = args.instructionId,
             state = state,
             onEvent = vm::onEvent,
             backToInstructionDetail = {
+                elementCreateCallback()
                 navController.popBackStack()
             }
         )

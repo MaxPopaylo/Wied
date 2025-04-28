@@ -18,16 +18,11 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import ua.wied.R
 import ua.wied.presentation.common.navigation.InstructionNav
 import ua.wied.presentation.common.navigation.global.MainNavGraph
 import ua.wied.presentation.common.theme.WiEDTheme.colors
@@ -51,7 +46,7 @@ fun MainScreen(
     LaunchedEffect(currentDestinationRoute) {
         when {
             currentDestinationRoute == InstructionNav.Instructions::class.qualifiedName -> {}
-            currentDestinationRoute?.startsWith(InstructionNav.InstructionElementDetail::class.qualifiedName ?: "") == true -> {}
+            currentDestinationRoute?.startsWith(InstructionNav.InstructionDetail::class.qualifiedName ?: "") == true -> {}
             else -> {
                 onEvent(MainEvent.FabVisibilityChanged(false))
                 onEvent(MainEvent.FabClickChanged(value = {}))

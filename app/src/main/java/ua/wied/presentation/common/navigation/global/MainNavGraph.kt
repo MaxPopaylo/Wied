@@ -17,9 +17,13 @@ fun MainNavGraph(
 ) {
     NavHost(
         navController = navController,
-        startDestination = InstructionNav.Instructions
+        startDestination = InstructionNav.Instructions,
     ) {
-        instructionNavGraph(navController, mainState, onMainEvent)
+        instructionNavGraph(
+            navController = navController,
+            mainState = mainState,
+            onMainEvent = onMainEvent
+        )
         reportsNavGraph(navController)
     }
 }
