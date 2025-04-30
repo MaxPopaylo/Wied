@@ -46,9 +46,10 @@ fun NavGraphBuilder.instructionNavGraph(
      >(
         tabType = TabType.START,
         stateProvider = { it.uiState }
-    ) { vm, state, _ ->
+    ) { vm, state, backStakeEntry ->
         InstructionsScreen(
             state = state,
+            savedStateHandle = backStakeEntry.savedStateHandle,
             onEvent = vm::onEvent,
             onMainEvent = onMainEvent,
             navigateToDetail = { instruction ->
@@ -75,6 +76,10 @@ fun NavGraphBuilder.instructionNavGraph(
             state = state,
             onEvent = vm::onEvent,
             backToInstructions = {
+                navController.previousBackStackEntry
+                    ?.savedStateHandle
+                    ?.set("shouldRefresh", it)
+
                 navController.popBackStack()
             }
         )

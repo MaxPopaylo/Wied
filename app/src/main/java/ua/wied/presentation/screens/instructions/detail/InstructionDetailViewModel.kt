@@ -1,6 +1,8 @@
 package ua.wied.presentation.screens.instructions.detail
 
+import android.util.Log
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.delay
 import ua.wied.domain.models.instruction.Instruction
 import ua.wied.domain.usecases.GetInstructionUseCase
 import ua.wied.domain.usecases.UpdateInstructionUseCase
@@ -25,7 +27,7 @@ class InstructionDetailViewModel @Inject constructor(
         }
     }
 
-    private fun loadInstruction(instructionId: Int) {
+    private fun loadInstruction(instructionId: Int, isRefresh: Boolean = false) {
         collectNetworkRequest(
             apiCall = {
                 getInstruction(instructionId = instructionId)
@@ -37,9 +39,17 @@ class InstructionDetailViewModel @Inject constructor(
                     instruction = instruction,
                     lastItemOrderNum = instruction.getLastItemOrderNum() + 1
                 ) }
+                updateState { it.copy(isNotInternetConnection = false) }
+            },
+            onRefresh = { value ->
+                if (isRefresh) {
+                    if (!value) delay(100)
+                    updateState { it.copy(isRefreshing = value ) }
+                }
             }
         )
     }
+
 
     private fun changeInstruction() {
         val state = uiState.value

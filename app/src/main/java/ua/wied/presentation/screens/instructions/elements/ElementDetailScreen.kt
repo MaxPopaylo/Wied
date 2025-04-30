@@ -152,7 +152,6 @@ fun ElementDetailScreen(
                     showBottomSheet = false
                 }
             },
-            onMakeVideo = {},
             onVideoChosen = {
                 onEvent(ElementDetailEvent.VideoChanged(it))
             }

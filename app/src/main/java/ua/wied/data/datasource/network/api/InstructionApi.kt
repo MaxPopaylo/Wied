@@ -9,9 +9,10 @@ import retrofit2.http.POST
 import retrofit2.http.PUT
 import retrofit2.http.Part
 import retrofit2.http.Path
+import ua.wied.data.datasource.network.dto.DtoWrapper
 import ua.wied.data.datasource.network.dto.instruction.CreateElementDto
 import ua.wied.data.datasource.network.dto.instruction.CreateInstructionDto
-import ua.wied.domain.models.instruction.Instruction
+import ua.wied.data.datasource.network.dto.instruction.InstructionDto
 
 interface InstructionApi {
 
@@ -38,7 +39,7 @@ interface InstructionApi {
     @GET("api/instructions/{instruction_id}")
     suspend fun getInstruction(
         @Path("instruction_id") instructionId: Int,
-    ): Response<Instruction>
+    ): Response<DtoWrapper<InstructionDto>>
 
     @Multipart
     @POST("api/instructions/{instruction_id}/items")

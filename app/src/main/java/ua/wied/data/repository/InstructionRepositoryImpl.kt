@@ -63,7 +63,7 @@ class InstructionRepositoryImpl @Inject constructor(
             apiCall = {
                 api.getInstruction(instructionId)
             },
-            transform = { it }
+            transform = { it.data.toDomain() }
         )
 
     override suspend fun saveElement(

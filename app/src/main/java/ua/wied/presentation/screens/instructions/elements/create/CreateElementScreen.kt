@@ -132,7 +132,6 @@ fun CreateElementScreen(
                     showBottomSheet = false
                 }
             },
-            onMakeVideo = {},
             onVideoChosen = {
                 onEvent(CreateElementEvent.OnVideoUrlChanged(it))
             }

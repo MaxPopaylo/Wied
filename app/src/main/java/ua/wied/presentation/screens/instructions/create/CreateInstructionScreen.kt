@@ -29,14 +29,14 @@ fun CreateInstructionScreen(
     folderId: Int,
     state: CreateInstructionState,
     onEvent: (CreateInstructionEvent) -> Unit,
-    backToInstructions: () -> Unit
+    backToInstructions: (Boolean) -> Unit
 ) {
     val isButtonEnabled = state.title.isNotEmpty()
 
     LaunchedEffect(state.createResult) {
         state.createResult.collect { result ->
             result?.fold(
-                onSuccess = { backToInstructions() },
+                onSuccess = { backToInstructions(true) },
                 onFailure = {
 
                 }

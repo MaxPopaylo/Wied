@@ -4,6 +4,8 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.lifecycle.SavedStateHandle
 import ua.wied.domain.models.instruction.Instruction
 import ua.wied.presentation.common.composable.ContentBox
 import ua.wied.presentation.common.composable.FolderList
@@ -19,11 +21,23 @@ import ua.wied.presentation.screens.main.models.MainEvent
 @Composable
 fun InstructionsScreen(
     state: InstructionsState,
+    savedStateHandle: SavedStateHandle,
     onEvent: (InstructionsEvent) -> Unit,
     onMainEvent: (MainEvent) -> Unit,
     navigateToDetail: (Instruction) -> Unit,
     navigateToCreation: (Int, Int) -> Unit
 ) {
+    val shouldRefresh = savedStateHandle
+        .getStateFlow("shouldRefresh", false)
+        .collectAsState()
+
+    LaunchedEffect(shouldRefresh) {
+        if (shouldRefresh.value) {
+            onEvent(InstructionsEvent.Refresh)
+            savedStateHandle["shouldRefresh"] = false
+        }
+    }
+
     LaunchedEffect(state.firstFolderId, state.lastItemOrderNum) {
         if (state.firstFolderId != null && state.lastItemOrderNum != null) {
             onMainEvent(MainEvent.FabVisibilityChanged(true))
