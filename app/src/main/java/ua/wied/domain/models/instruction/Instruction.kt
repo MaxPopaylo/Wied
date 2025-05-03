@@ -1,7 +1,7 @@
 package ua.wied.domain.models.instruction
 
 import kotlinx.serialization.Serializable
-import ua.wied.domain.models.HasId
+import ua.wied.domain.models.DragAndDropItem
 import ua.wied.domain.serializer.LocalDateTimeSerializer
 import java.time.LocalDateTime
 
@@ -14,8 +14,8 @@ data class Instruction(
     val elements: List<Element>,
     @Serializable(with = LocalDateTimeSerializer::class)  val createTime: LocalDateTime,
     @Serializable(with = LocalDateTimeSerializer::class)  val updateTime: LocalDateTime,
-    val orderNum: Int
-) : HasId
+    override val orderNum: Int
+): DragAndDropItem
 
 @Serializable
 data class Element(

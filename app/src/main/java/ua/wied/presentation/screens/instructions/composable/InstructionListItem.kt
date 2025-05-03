@@ -17,7 +17,7 @@ import ua.wied.presentation.common.theme.WiEDTheme.colors
 fun InstructionListItem(
     modifier: Modifier = Modifier,
     instruction: Instruction,
-    onClick: () -> Unit
+    onDelete: (Int) -> Unit
 ) {
     SwipeToReveal(
         actions = {
@@ -42,10 +42,10 @@ fun InstructionListItem(
                 icon = ImageVector.vectorResource(R.drawable.icon_filled_delete),
                 tint = Color.White,
                 title = stringResource(R.string.delete),
-                onClick = {}
+                onClick = { onDelete(instruction.id) }
             )
         },
-        onClick = onClick
+        onClick = null
     ) {
         InstructionItem(
             modifier = modifier,

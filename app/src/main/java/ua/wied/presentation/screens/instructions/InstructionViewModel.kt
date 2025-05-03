@@ -4,7 +4,9 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
 import ua.wied.domain.models.folder.Folder
 import ua.wied.domain.models.instruction.Instruction
+import ua.wied.domain.usecases.DeleteInstructionUseCase
 import ua.wied.domain.usecases.GetInstructionFoldersUseCase
+import ua.wied.domain.usecases.UpdateInstructionUseCase
 import ua.wied.presentation.common.base.BaseViewModel
 import ua.wied.presentation.screens.instructions.model.InstructionsEvent
 import ua.wied.presentation.screens.instructions.model.InstructionsState
@@ -12,7 +14,9 @@ import javax.inject.Inject
 
 @HiltViewModel
 class InstructionViewModel @Inject constructor(
-    private val getInstructionFoldersUseCase: GetInstructionFoldersUseCase
+    private val getInstructionFoldersUseCase: GetInstructionFoldersUseCase,
+    private val updateInstruction: UpdateInstructionUseCase,
+    private val deleteInstructionUseCase: DeleteInstructionUseCase
 ) : BaseViewModel<InstructionsState, InstructionsEvent>(InstructionsState()) {
 
     init {
@@ -22,7 +26,8 @@ class InstructionViewModel @Inject constructor(
     override fun onEvent(event: InstructionsEvent) {
         when (event) {
             is InstructionsEvent.SearchChanged -> { updateState { it.copy(search = event.value) } }
-            is InstructionsEvent.DeletePressed -> {  }
+            is InstructionsEvent.DeletePressed -> deleteInstruction(event.value)
+            is InstructionsEvent.ChangeOrderNum -> changeInstructionOrderNum(event.instruction, event.folderId, event.orderNum)
             is InstructionsEvent.Refresh -> { initialize(true) }
         }
     }
@@ -50,6 +55,38 @@ class InstructionViewModel @Inject constructor(
                     if (!value) delay(100)
                     updateState { it.copy(isRefreshing = value ) }
                 }
+            }
+        )
+    }
+
+    private fun changeInstructionOrderNum(instruction: Instruction, folderId: Int, orderNum: Int) {
+        collectNetworkRequest(
+            apiCall = {
+                updateInstruction(
+                    instructionId = instruction.id,
+                    title = instruction.title,
+                    posterUrl = instruction.posterUrl,
+                    orderNum = orderNum,
+                    folderId = folderId
+                )
+            },
+            updateLoadingState = { value -> updateState { it.copy(isLoading = value) } },
+            onFailure = {  },
+            onSuccess = {
+                initialize(true)
+            }
+        )
+    }
+
+    private fun deleteInstruction(instructionId: Int) {
+        collectNetworkRequest(
+            apiCall = {
+                deleteInstructionUseCase(instructionId)
+            },
+            updateLoadingState = { value -> updateState { it.copy(isLoading = value) } },
+            onFailure = {  },
+            onSuccess = {
+                initialize(true)
             }
         )
     }

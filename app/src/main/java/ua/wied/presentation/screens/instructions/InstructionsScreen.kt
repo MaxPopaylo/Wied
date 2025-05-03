@@ -2,13 +2,15 @@ package ua.wied.presentation.screens.instructions
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
+import androidx.compose.ui.Modifier
 import androidx.lifecycle.SavedStateHandle
 import ua.wied.domain.models.instruction.Instruction
 import ua.wied.presentation.common.composable.ContentBox
-import ua.wied.presentation.common.composable.FolderList
+import ua.wied.presentation.common.composable.DragAndDropFolderList
 import ua.wied.presentation.common.composable.SearchField
 import ua.wied.presentation.common.theme.WiEDTheme.dimen
 import ua.wied.presentation.screens.instructions.composable.InstructionEmptyScreen
@@ -47,7 +49,10 @@ fun InstructionsScreen(
         }
     }
 
-    Column(verticalArrangement = Arrangement.spacedBy(dimen.padding2Xl)) {
+    Column(
+        modifier = Modifier.padding(bottom = dimen.paddingS),
+        verticalArrangement = Arrangement.spacedBy(dimen.padding2Xl)
+    ) {
         SearchField(
             text = state.search,
             onSearchValueChange = {
@@ -59,12 +64,19 @@ fun InstructionsScreen(
             onRefresh = { onEvent(InstructionsEvent.Refresh) },
             emptyScreen = { InstructionEmptyScreen() }
         ) {
-            FolderList (
+            DragAndDropFolderList (
                 folders = state.folders,
-                itemView = { instruction ->
+                onItemDropped = { instruction, folderId, orderNum ->
+                    onEvent(InstructionsEvent.ChangeOrderNum(instruction, folderId, orderNum))
+                },
+                onItemClick = { navigateToDetail(it) } ,
+                itemView = { modifier, instruction ->
                     InstructionListItem(
+                        modifier = modifier,
                         instruction = instruction,
-                        onClick = { navigateToDetail(instruction) }
+                        onDelete = {
+                            onEvent(InstructionsEvent.DeletePressed(it))
+                        }
                     )
                 }
             )
