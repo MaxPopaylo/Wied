@@ -45,6 +45,10 @@ fun MainScreen(
 
     LaunchedEffect(currentDestinationRoute) {
         when {
+            !isManager -> {
+                onEvent(MainEvent.FabVisibilityChanged(false))
+                onEvent(MainEvent.FabClickChanged(value = {}))
+            }
             currentDestinationRoute == InstructionNav.Instructions::class.qualifiedName -> {}
             currentDestinationRoute?.startsWith(InstructionNav.InstructionDetail::class.qualifiedName ?: "") == true -> {}
             else -> {
@@ -89,7 +93,7 @@ fun MainScreen(
                 .background(colors.primaryBackground)
                 .padding(horizontal = dimen.containerPadding)
         ) {
-            MainNavGraph(navController, state, onEvent)
+            MainNavGraph(navController, state, isManager, onEvent)
         }
     }
 }

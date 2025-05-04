@@ -17,6 +17,8 @@ import ua.wied.presentation.common.theme.WiEDTheme.colors
 fun InstructionListItem(
     modifier: Modifier = Modifier,
     instruction: Instruction,
+    isManager: Boolean,
+    toVideoScreen: (Instruction) -> Unit,
     onDelete: (Int) -> Unit
 ) {
     SwipeToReveal(
@@ -26,24 +28,28 @@ fun InstructionListItem(
                 icon = ImageVector.vectorResource(R.drawable.icon_camcorder),
                 tint = Color.White,
                 title = stringResource(R.string.video),
-                onClick = {}
+                onClick = {
+                    toVideoScreen(instruction)
+                }
             )
 
-            ActionIcon(
-                backgroundColor = colors.tintColor,
-                icon = ImageVector.vectorResource(R.drawable.icon_add_person),
-                tint = Color.White,
-                title = stringResource(R.string.accesses),
-                onClick = {}
-            )
+            if (isManager) {
+                ActionIcon(
+                    backgroundColor = colors.tintColor,
+                    icon = ImageVector.vectorResource(R.drawable.icon_add_person),
+                    tint = Color.White,
+                    title = stringResource(R.string.accesses),
+                    onClick = {}
+                )
 
-            ActionIcon(
-                backgroundColor = colors.errorColor,
-                icon = ImageVector.vectorResource(R.drawable.icon_filled_delete),
-                tint = Color.White,
-                title = stringResource(R.string.delete),
-                onClick = { onDelete(instruction.id) }
-            )
+                ActionIcon(
+                    backgroundColor = colors.errorColor,
+                    icon = ImageVector.vectorResource(R.drawable.icon_filled_delete),
+                    tint = Color.White,
+                    title = stringResource(R.string.delete),
+                    onClick = { onDelete(instruction.id) }
+                )
+            }
         },
         onClick = null
     ) {

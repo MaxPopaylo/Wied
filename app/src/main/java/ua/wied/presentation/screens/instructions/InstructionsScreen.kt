@@ -23,9 +23,11 @@ import ua.wied.presentation.screens.main.models.MainEvent
 @Composable
 fun InstructionsScreen(
     state: InstructionsState,
+    isManager: Boolean,
     savedStateHandle: SavedStateHandle,
     onEvent: (InstructionsEvent) -> Unit,
     onMainEvent: (MainEvent) -> Unit,
+    navigateToVideoScreen: (Instruction) -> Unit,
     navigateToDetail: (Instruction) -> Unit,
     navigateToCreation: (Int, Int) -> Unit
 ) {
@@ -41,7 +43,7 @@ fun InstructionsScreen(
     }
 
     LaunchedEffect(state.firstFolderId, state.lastItemOrderNum) {
-        if (state.firstFolderId != null && state.lastItemOrderNum != null) {
+        if (isManager && state.firstFolderId != null && state.lastItemOrderNum != null) {
             onMainEvent(MainEvent.FabVisibilityChanged(true))
             onMainEvent(MainEvent.FabClickChanged(value = {
                 navigateToCreation(state.lastItemOrderNum, state.firstFolderId)
@@ -74,6 +76,8 @@ fun InstructionsScreen(
                     InstructionListItem(
                         modifier = modifier,
                         instruction = instruction,
+                        isManager = isManager,
+                        toVideoScreen = navigateToVideoScreen,
                         onDelete = {
                             onEvent(InstructionsEvent.DeletePressed(it))
                         }

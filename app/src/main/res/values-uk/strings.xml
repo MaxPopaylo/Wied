@@ -72,6 +72,8 @@
     <string name="instructions">Інструкції</string>
     <string name="instruction">Інструкція</string>
     <string name="no_instructions">Не створено ще жодної інструкції</string>
+    <string name="all_videos">Всі відео</string>
+    <string name="create_instruction">Створити інструкцію</string>
 
     <!-- Reports Screen -->
     <string name="reports">Заявки</string>

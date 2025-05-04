@@ -26,6 +26,9 @@ import ua.wied.presentation.screens.instructions.elements.create.CreateElementVi
 import ua.wied.presentation.screens.instructions.elements.create.model.CreateElementState
 import ua.wied.presentation.screens.instructions.elements.model.ElementDetailState
 import ua.wied.presentation.screens.instructions.model.InstructionsState
+import ua.wied.presentation.screens.instructions.video.VideoScreen
+import ua.wied.presentation.screens.instructions.video.VideoViewModel
+import ua.wied.presentation.screens.instructions.video.model.VideoState
 import ua.wied.presentation.screens.main.models.MainEvent
 import ua.wied.presentation.screens.main.models.MainState
 import kotlin.reflect.typeOf
@@ -34,6 +37,7 @@ import kotlin.reflect.typeOf
 fun NavGraphBuilder.instructionNavGraph(
     navController: NavHostController,
     mainState: MainState,
+    isManager: Boolean,
     onMainEvent: (MainEvent) -> Unit
 ) {
     var elementCreateCallback = {}
@@ -49,11 +53,15 @@ fun NavGraphBuilder.instructionNavGraph(
     ) { vm, state, backStakeEntry ->
         InstructionsScreen(
             state = state,
+            isManager = isManager,
             savedStateHandle = backStakeEntry.savedStateHandle,
             onEvent = vm::onEvent,
             onMainEvent = onMainEvent,
             navigateToDetail = { instruction ->
                 navController.navigate(InstructionNav.InstructionDetail(instruction))
+            },
+            navigateToVideoScreen = {
+                navController.navigate(InstructionNav.Video(it))
             },
             navigateToCreation = { orderNum, folderId ->
                 navController.navigate(InstructionNav.CreateInstruction(orderNum, folderId))
@@ -100,6 +108,7 @@ fun NavGraphBuilder.instructionNavGraph(
         val args = backStackEntry.toRoute<InstructionNav.InstructionDetail>()
         InstructionDetailScreen(
             state = state,
+            isManager = isManager,
             instruction = args.instruction,
             isEditing = mainState.isInstructionEditing,
             onEvent = vm::onEvent,
@@ -154,7 +163,37 @@ fun NavGraphBuilder.instructionNavGraph(
             element = args.element,
             isEditing = mainState.isInstructionEditing,
             onEvent = vm::onEvent,
-            onMainEvent = onMainEvent
+            onMainEvent = onMainEvent,
+            onPlayerEvent = vm::onEvent
+        )
+    }
+
+    screenComposable<
+            InstructionNav.Video,
+            VideoViewModel,
+            VideoState
+            >(
+        tabType = TabType.BACK,
+        typeMap = mapOf(
+            typeOf<Instruction>() to InstructionType
+        ),
+        stateProvider = { it.uiState }
+    ) { vm, state, backStackEntry ->
+        val args = backStackEntry.toRoute<InstructionNav.Video>()
+        VideoScreen (
+            initInstruction = args.instruction,
+            state = state,
+            onEvent = vm::onEvent,
+            onPlayerEvent = vm::onEvent,
+            onBackToInstructions = {
+                navController.navigate(InstructionNav.Instructions) {
+                    launchSingleTop = true
+                    restoreState = false
+                    popUpTo(navController.graph.id) {
+                        saveState = false
+                    }
+                }
+            }
         )
     }
 }

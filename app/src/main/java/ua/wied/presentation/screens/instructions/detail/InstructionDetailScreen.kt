@@ -24,7 +24,6 @@ import ua.wied.presentation.common.composable.DetailTextField
 import ua.wied.presentation.common.composable.FullScreenImageDialog
 import ua.wied.presentation.common.composable.GridVideoItem
 import ua.wied.presentation.common.composable.LargeImagePicker
-import ua.wied.presentation.common.composable.LoadingIndicator
 import ua.wied.presentation.common.composable.MediaGrid
 import ua.wied.presentation.common.composable.SuccessDialog
 import ua.wied.presentation.common.theme.WiEDTheme.colors
@@ -38,6 +37,7 @@ import ua.wied.presentation.screens.main.models.MainEvent
 fun InstructionDetailScreen(
     instruction: Instruction,
     isEditing: Boolean?,
+    isManager: Boolean,
     state: InstructionDetailState,
     onEvent: (InstructionDetailEvent) -> Unit,
     onMainEvent: (MainEvent) -> Unit,
@@ -72,7 +72,7 @@ fun InstructionDetailScreen(
     }
 
     LaunchedEffect(state.lastItemOrderNum) {
-        if (state.lastItemOrderNum != null) {
+        if (isManager &&  state.lastItemOrderNum != null) {
             onMainEvent(MainEvent.FabVisibilityChanged(true))
             onMainEvent(MainEvent.FabClickChanged(value = {
                 navigateToCreation(state.lastItemOrderNum, instruction.id)

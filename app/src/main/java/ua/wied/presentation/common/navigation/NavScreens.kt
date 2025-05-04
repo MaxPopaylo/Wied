@@ -38,6 +38,9 @@ sealed class InstructionNav : MainNav() {
     data object Instructions: InstructionNav()
 
     @Serializable
+    data class Video(val instruction: Instruction) : InstructionNav()
+
+    @Serializable
     data class InstructionDetail(val instruction: Instruction) : InstructionNav()
 
     @Serializable

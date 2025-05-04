@@ -13,6 +13,7 @@ import ua.wied.presentation.screens.main.models.MainState
 fun MainNavGraph(
     navController: NavHostController,
     mainState: MainState,
+    isManager: Boolean,
     onMainEvent: (MainEvent) -> Unit
 ) {
     NavHost(
@@ -22,6 +23,7 @@ fun MainNavGraph(
         instructionNavGraph(
             navController = navController,
             mainState = mainState,
+            isManager = isManager,
             onMainEvent = onMainEvent
         )
         reportsNavGraph(navController)

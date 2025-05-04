@@ -38,6 +38,9 @@ coil = "3.1.0"
 # MARK: - Serialization
 kotlinx-serialization = "1.6.3"
 
+# MARK: - Exoplayer
+jetpackMedia = "1.6.1"
+
 
 
 [libraries]
@@ -88,6 +91,12 @@ coil-video = { module = "io.coil-kt.coil3:coil-video", version.ref = "coil" }
 
 # MARK: - Serialization
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinx-serialization" }
+
+# MARK: - Exoplayer
+androidx-media-exoplayer = { group = "androidx.media3", name = "media3-exoplayer", version.ref = "jetpackMedia" }
+androidx-media-session = { group = "androidx.media3", name = "media3-session", version.ref = "jetpackMedia" }
+androidx-media-exoplayer-dash = { group = "androidx.media3", name = "media3-exoplayer-dash", version.ref = "jetpackMedia" }
+androidx-media-ui = { group = "androidx.media3", name = "media3-ui", version.ref = "jetpackMedia" }
 
 
 
@@ -140,3 +149,6 @@ moshi = ["squareup-moshi-kotlin", "retrofit2-converter-moshi"]
 retrofit = ["squareup-retrofit", "skydoves-sandwich-retrofit"]
 okhttp = ["okhttp", "okhttp-logging-interceptor"]
 coil = ["coil-compose", "coil_okhttp", "coil-video"]
+
+# MARK: - Exoplayer
+exoplayer = ["androidx-media-exoplayer", "androidx-media-session", "androidx-media-exoplayer-dash", "androidx-media-ui"]

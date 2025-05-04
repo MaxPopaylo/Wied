@@ -4,6 +4,7 @@ import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
@@ -24,8 +25,10 @@ import androidx.compose.ui.unit.sp
 import androidx.core.net.toUri
 import ua.wied.R
 import ua.wied.domain.models.instruction.Element
+import ua.wied.domain.repository.VideoPlayerEvent
 import ua.wied.presentation.common.composable.DetailTextField
 import ua.wied.presentation.common.composable.FullScreenImageDialog
+import ua.wied.presentation.common.composable.FullScreenVideoDialog
 import ua.wied.presentation.common.composable.LargeVideoPicker
 import ua.wied.presentation.common.composable.LoadingIndicator
 import ua.wied.presentation.common.composable.SuccessDialog
@@ -37,6 +40,7 @@ import ua.wied.presentation.common.utils.extensions.hideBottomSheet
 import ua.wied.presentation.common.utils.extensions.showBottomSheet
 import ua.wied.presentation.screens.instructions.elements.model.ElementDetailEvent
 import ua.wied.presentation.screens.instructions.elements.model.ElementDetailState
+import ua.wied.presentation.screens.instructions.video.model.VideoEvent
 import ua.wied.presentation.screens.main.models.MainEvent
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -46,6 +50,7 @@ fun ElementDetailScreen(
     isEditing: Boolean?,
     state: ElementDetailState,
     onEvent: (ElementDetailEvent) -> Unit,
+    onPlayerEvent: (VideoPlayerEvent) -> Unit,
     onMainEvent: (MainEvent) -> Unit
 ) {
     var choseImage by remember { mutableStateOf("") }
@@ -120,15 +125,16 @@ fun ElementDetailScreen(
 
     }
 
-    if (showDialog) {
-        FullScreenImageDialog(
-            url = choseImage,
-            onDismissRequest = {
-                choseImage = ""
-                showDialog = false
-            }
-        )
-    }
+    FullScreenVideoDialog(
+        modifier = Modifier.fillMaxSize(),
+        player = state.player,
+        url = state.fullScreenVideoUrl ?: "",
+        showDialog = state.showFullScreenVideo,
+        onEvent = onPlayerEvent,
+        onDismiss = {
+            onEvent(ElementDetailEvent.ChangeFullScreenVideoState(null, false))
+        }
+    )
 
     if (showConfirmDialog) {
         SuccessDialog(
