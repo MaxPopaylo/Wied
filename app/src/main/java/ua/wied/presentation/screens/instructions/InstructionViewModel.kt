@@ -2,6 +2,8 @@ package ua.wied.presentation.screens.instructions
 
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.update
 import ua.wied.domain.models.folder.Folder
 import ua.wied.domain.models.instruction.Instruction
 import ua.wied.domain.usecases.DeleteInstructionUseCase
@@ -18,6 +20,7 @@ class InstructionViewModel @Inject constructor(
     private val updateInstruction: UpdateInstructionUseCase,
     private val deleteInstructionUseCase: DeleteInstructionUseCase
 ) : BaseViewModel<InstructionsState, InstructionsEvent>(InstructionsState()) {
+    val foldersFlow = MutableStateFlow<List<Folder<Instruction>>>(emptyList())
 
     init {
         initialize()
@@ -25,10 +28,34 @@ class InstructionViewModel @Inject constructor(
 
     override fun onEvent(event: InstructionsEvent) {
         when (event) {
-            is InstructionsEvent.SearchChanged -> { updateState { it.copy(search = event.value) } }
+            is InstructionsEvent.SearchChanged -> {
+                updateState {
+                    it.copy(
+                        search = event.value,
+                        folders = filterFolders(event.value)
+                    )
+                }
+            }
             is InstructionsEvent.DeletePressed -> deleteInstruction(event.value)
             is InstructionsEvent.ChangeOrderNum -> changeInstructionOrderNum(event.instruction, event.folderId, event.orderNum)
             is InstructionsEvent.Refresh -> { initialize(true) }
+        }
+    }
+
+    private fun filterFolders(query: String): List<Folder<Instruction>> {
+        if (query.isEmpty()) return foldersFlow.value
+
+        val lowerQuery = query.trim().lowercase()
+        return foldersFlow.value.mapNotNull { folder ->
+            val matchingItems = folder.items.filter { instruction ->
+                instruction.title.lowercase().contains(lowerQuery)
+            }
+
+            if (matchingItems.isNotEmpty()) {
+                folder.copy(items = matchingItems)
+            } else {
+                null
+            }
         }
     }
 
@@ -40,15 +67,16 @@ class InstructionViewModel @Inject constructor(
                 updateState { it.copy(isNotInternetConnection = true) }
             },
             onSuccess = { folders ->
+                foldersFlow.update { folders }
                 updateState {
                     it.copy(
-                        folders = folders,
+                        folders = foldersFlow.value,
                         isEmpty = folders.isFoldersEmpty(),
                         lastItemOrderNum = folders.getLastItemOrderNum() + 1,
-                        firstFolderId = folders.getFirstFolderId()
+                        firstFolderId = folders.getFirstFolderId(),
+                        isNotInternetConnection = false
                     )
                 }
-                updateState { it.copy(isNotInternetConnection = false) }
             },
             onRefresh = { value ->
                 if (isRefresh) {
