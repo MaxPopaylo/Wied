@@ -1,10 +1,12 @@
 package ua.wied.data
 
+import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
 
 object UserPreferencesConstants {
     const val USER_STORAGE_PREFERENCES_NAME = "user_storage_preferences"
     const val JWT_TOKEN_PREFERENCES = "jwt_token_preferences"
+    const val SETTINGS_PREFERENCES = "settings_preference"
 
     val KEY_USER_ID = stringPreferencesKey("key_user_id")
     val KEY_USER_LOGIN = stringPreferencesKey("key_user_login")
@@ -16,6 +18,9 @@ object UserPreferencesConstants {
     val KEY_USER_ROLE = stringPreferencesKey("key_user_role")
 
     val ACCESS_JWT_KEY = stringPreferencesKey("access_jwt")
+
+    val LANGUAGE_KEY = stringPreferencesKey("language")
+    val DARK_THEME_KEY = booleanPreferencesKey("dark_theme")
 }
 
 internal object NetworkKeys {

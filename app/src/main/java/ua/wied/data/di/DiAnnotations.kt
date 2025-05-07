@@ -12,6 +12,10 @@ annotation class JwtTokenPreference
 
 @Qualifier
 @Retention(AnnotationRetention.RUNTIME)
+annotation class SettingsPreference
+
+@Qualifier
+@Retention(AnnotationRetention.RUNTIME)
 annotation class AuthenticatedClient
 
 @Qualifier

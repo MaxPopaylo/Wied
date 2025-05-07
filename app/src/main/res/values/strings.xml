@@ -107,6 +107,13 @@
     <!-- Profile Screen -->
     <string name="profile">Profile</string>
 
+    <!-- Settings Screen -->
+    <string name="english">English</string>
+    <string name="ukrainian">Ukrainian</string>
+    <string name="russian">Russian</string>
+    <string name="dark_theme">Dark Theme</string>
+    <string name="light_theme">Light Theme</string>
+
 
 
 </resources>

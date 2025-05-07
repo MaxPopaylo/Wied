@@ -100,4 +100,10 @@
     <!-- Profile Screen -->
     <string name="profile">Профиль</string>
 
+    <!-- Settings Screen -->
+    <string name="english">Английский</string>
+    <string name="ukrainian">Украинский</string>
+    <string name="russian">Русский</string>
+    <string name="dark_theme">Тёмная тема</string>
+    <string name="light_theme">Светлая тема</string>
 </resources>

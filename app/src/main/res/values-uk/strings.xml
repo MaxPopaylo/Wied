@@ -98,4 +98,11 @@
 
     <!-- Profile Screen -->
     <string name="profile">Профіль</string>
+
+    <!-- Settings Screen -->
+    <string name="english">Англійська</string>
+    <string name="ukrainian">Українська</string>
+    <string name="russian">Російська</string>
+    <string name="dark_theme">Темна тема</string>
+    <string name="light_theme">Світла тема</string>
 </resources>
