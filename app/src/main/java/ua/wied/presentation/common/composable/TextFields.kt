@@ -352,7 +352,7 @@ fun SearchField(
                 .fillMaxWidth()
                 .height(IntrinsicSize.Max)
                 .background(
-                    color = Color(0xFFF4F4FA),
+                    color = colors.secondaryBackground,
                     shape = dimen.shape
                 )
                 .padding(vertical = dimen.paddingM, horizontal = dimen.padding3Xl),
@@ -421,7 +421,7 @@ fun DetailTextField(
         Row {
             Text(
                 text = title,
-                style = typography.h5.copy(fontSize = 16.sp),
+                style = typography.body1,
                 color = colors.secondaryText
             )
 

@@ -28,6 +28,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import ua.wied.R
 import ua.wied.presentation.common.navigation.InstructionNav
+import ua.wied.presentation.common.navigation.ProfileNav
 import ua.wied.presentation.common.navigation.ReportNav
 import ua.wied.presentation.common.theme.WiEDTheme.colors
 import ua.wied.presentation.common.theme.WiEDTheme.dimen
@@ -129,8 +130,6 @@ fun MainTopAppBar(
                 }
             )
 
-
-
         currentDestinationRoute == ReportNav.Reports::class.qualifiedName ->
             DefaultTopAppBar(stringResource(R.string.reports))
 
@@ -145,6 +144,11 @@ fun MainTopAppBar(
 
         currentDestinationRoute?.startsWith(ReportNav.ReportDetail::class.qualifiedName ?: "") == true ->
             TopAppBarWithBackButton(stringResource(R.string.report), navController)
+
+
+
+        currentDestinationRoute == ProfileNav.Profile::class.qualifiedName ->
+            DefaultTopAppBar(stringResource(R.string.profile))
 
 
 

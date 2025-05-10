@@ -98,8 +98,13 @@
 
     <!-- Profile Screen -->
     <string name="profile">Профіль</string>
+    <string name="full_name">Ваше ім’я та прізвище</string>
+    <string name="position">Посада</string>
+
 
     <!-- Settings Screen -->
+    <string name="language">Мова</string>
+    <string name="theme">Тема</string>
     <string name="english">Англійська</string>
     <string name="ukrainian">Українська</string>
     <string name="russian">Російська</string>

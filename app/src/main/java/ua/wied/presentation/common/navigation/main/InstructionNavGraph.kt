@@ -40,9 +40,6 @@ fun NavGraphBuilder.instructionNavGraph(
     isManager: Boolean,
     onMainEvent: (MainEvent) -> Unit
 ) {
-    var elementCreateCallback = {}
-
-
     screenComposable<
         InstructionNav.Instructions,
         InstructionViewModel,
@@ -140,7 +137,6 @@ fun NavGraphBuilder.instructionNavGraph(
             state = state,
             onEvent = vm::onEvent,
             backToInstructionDetail = {
-                elementCreateCallback()
                 navController.popBackStack()
             }
         )

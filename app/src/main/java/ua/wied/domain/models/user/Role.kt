@@ -2,13 +2,13 @@ package ua.wied.domain.models.user
 
 import com.squareup.moshi.Json
 
-enum class Role {
+enum class Role(val displayName: String) {
     @Json(name = "owner")
-    OWNER,
+    OWNER("Owner"),
     @Json(name = "admin")
-    ADMIN,
+    ADMIN("Admin"),
     @Json(name = "manager")
-    MANAGER,
+    MANAGER("Manager"),
     @Json(name = "employee")
-    EMPLOYEE
+    EMPLOYEE("Employee")
 }

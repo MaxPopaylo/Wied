@@ -12,7 +12,7 @@ import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
+import ua.wied.presentation.common.theme.WiEDTheme.colors
 import ua.wied.presentation.common.theme.WiEDTheme.dimen
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -32,7 +32,7 @@ fun BaseBottomSheet(
     ModalBottomSheet(
         sheetState = sheetState,
         onDismissRequest = onClose,
-        containerColor = Color.White
+        containerColor = colors.primaryBackground
     ) {
         Column(
             modifier = modifier

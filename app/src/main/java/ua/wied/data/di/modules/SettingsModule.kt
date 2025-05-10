@@ -24,7 +24,7 @@ import javax.inject.Singleton
 
 @Module(includes = [NetworkModule::class, StorageModule::class])
 @InstallIn(SingletonComponent::class)
-class UserModule {
+class SettingsModule {
 
     @Provides
     @Singleton
@@ -64,8 +64,8 @@ class UserModule {
 
     @Provides
     @Singleton
-    fun provideSettingsRepository(@SettingsPreference dataStore: DataStore<Preferences>): SettingsRepository {
-        return SettingsRepositoryImpl(dataStore = dataStore)
+    fun provideSettingsRepository(@SettingsPreference dataStore: DataStore<Preferences>, @ApplicationContext context: Context): SettingsRepository {
+        return SettingsRepositoryImpl(dataStore = dataStore, context = context)
     }
 
     @Provides

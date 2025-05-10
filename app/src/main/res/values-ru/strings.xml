@@ -99,8 +99,12 @@
 
     <!-- Profile Screen -->
     <string name="profile">Профиль</string>
+    <string name="full_name">Ваше имя и фамилия</string>
+    <string name="position">Должность</string>
 
     <!-- Settings Screen -->
+    <string name="language">Язык</string>
+    <string name="theme">Тема</string>
     <string name="english">Английский</string>
     <string name="ukrainian">Украинский</string>
     <string name="russian">Русский</string>

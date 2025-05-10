@@ -106,15 +106,17 @@
 
     <!-- Profile Screen -->
     <string name="profile">Profile</string>
+    <string name="full_name">Your Full Name</string>
+    <string name="position">Position</string>
 
     <!-- Settings Screen -->
+    <string name="language">Language</string>
+    <string name="theme">Theme</string>
     <string name="english">English</string>
     <string name="ukrainian">Ukrainian</string>
     <string name="russian">Russian</string>
     <string name="dark_theme">Dark Theme</string>
     <string name="light_theme">Light Theme</string>
-
-
 
 </resources>
 

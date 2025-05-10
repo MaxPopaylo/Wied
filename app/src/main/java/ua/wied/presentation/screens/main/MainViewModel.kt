@@ -9,6 +9,7 @@ import javax.inject.Inject
 @HiltViewModel
 class MainViewModel @Inject constructor(
 ): BaseViewModel<MainState, MainEvent>(MainState()) {
+
     override fun onEvent(event: MainEvent) {
         when(event) {
             is MainEvent.InstructionEditingChanged -> updateState { it.copy(isInstructionEditing = event.value) }

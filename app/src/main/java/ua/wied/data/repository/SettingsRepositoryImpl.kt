@@ -1,5 +1,11 @@
 package ua.wied.data.repository
 
+import android.app.LocaleManager
+import android.content.Context
+import android.os.Build
+import android.os.LocaleList
+import androidx.appcompat.app.AppCompatDelegate
+import androidx.core.os.LocaleListCompat
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.edit
 import ua.wied.data.UserPreferencesConstants.LANGUAGE_KEY
@@ -14,7 +20,8 @@ import ua.wied.domain.models.settings.Settings
 import javax.inject.Inject
 
 class SettingsRepositoryImpl @Inject constructor(
-    private val dataStore: DataStore<Preferences>
+    private val dataStore: DataStore<Preferences>,
+    private val context: Context
 ) : SettingsRepository {
 
     override suspend fun getLanguage(): Language {
@@ -27,6 +34,7 @@ class SettingsRepositoryImpl @Inject constructor(
         dataStore.edit { preferences ->
             preferences[LANGUAGE_KEY] = language.name
         }
+        changeLanguage(context, language)
     }
 
     override suspend fun isDarkThemeEnabled(): Boolean? {
@@ -62,6 +70,18 @@ class SettingsRepositoryImpl @Inject constructor(
                 language = language,
                 darkTheme = darkTheme
             )
+        }
+    }
+
+    private fun changeLanguage(context: Context, language: Language) {
+        val languageCode = language.value
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            val localeList = LocaleList.forLanguageTags(languageCode)
+            context.getSystemService(LocaleManager::class.java).applicationLocales = localeList
+        } else {
+            val localeListCompat = LocaleListCompat.forLanguageTags(languageCode)
+            AppCompatDelegate.setApplicationLocales(localeListCompat)
         }
     }
 }

@@ -7,7 +7,7 @@ data class Settings(
     companion object {
         fun getDefaultSettings() = Settings(
             language = Language.ENGLISH,
-            darkTheme = true
+            darkTheme = false
         )
     }
 }
