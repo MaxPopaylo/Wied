@@ -110,5 +110,5 @@ sealed class BottomBarScreen(@StringRes val label: Int, @DrawableRes val icon: I
     data object Accesses : BottomBarScreen(R.string.accesses, R.drawable.icon_add_person, EvaluationNav.Evaluations)
 
     @Serializable
-    data object Profile : BottomBarScreen(R.string.profile, R.drawable.icon_account, ProfileNav.Profile)
+    data object People : BottomBarScreen(R.string.people, R.drawable.icon_people, PeopleNav.People)
 }

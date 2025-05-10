@@ -50,7 +50,7 @@ interface InstructionApi {
     ): Response<Any>
 
     @Multipart
-    @POST("api/instructions/{instruction_id}/items")
+    @PUT("api/instructions/{instruction_id}/items/{item_id}")
     suspend fun updateElement(
         @Path("item_id") elementId: Int,
         @Path("instruction_id") instructionId: Int,
@@ -58,7 +58,7 @@ interface InstructionApi {
         @Part file: MultipartBody.Part?
     ): Response<Any>
 
-    @DELETE("api/instructions/{instruction_id}/items")
+    @DELETE("api/instructions/{instruction_id}/items/{item_id}")
     suspend fun deleteElement(
         @Path("item_id") elementId: Int,
         @Path("instruction_id") instructionId: Int,

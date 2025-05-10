@@ -31,7 +31,7 @@ interface InstructionRepository {
     suspend fun updateElement(
         elementId: Int,
         title: String,
-        info: String,
+        info: String?,
         videoUrl: String?,
         orderNum: Int,
         instructionId: Int

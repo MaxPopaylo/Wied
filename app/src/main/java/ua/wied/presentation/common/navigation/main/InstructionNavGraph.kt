@@ -157,10 +157,13 @@ fun NavGraphBuilder.instructionNavGraph(
         ElementDetailScreen(
             state = state,
             element = args.element,
-            isEditing = mainState.isInstructionEditing,
+            isEditing = mainState.isElementEditing,
             onEvent = vm::onEvent,
             onMainEvent = onMainEvent,
-            onPlayerEvent = vm::onEvent
+            onPlayerEvent = vm::onEvent,
+            backToInstruction = {
+                navController.popBackStack()
+            }
         )
     }
 

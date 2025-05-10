@@ -74,6 +74,8 @@
     <string name="no_instructions">Не створено ще жодної інструкції</string>
     <string name="all_videos">Всі відео</string>
     <string name="create_instruction">Створити інструкцію</string>
+    <string name="instruction_item">Елемент</string>
+    <string name="instruction_items">Елементb</string>
 
     <!-- Reports Screen -->
     <string name="reports">Заявки</string>
@@ -101,6 +103,8 @@
     <string name="full_name">Ваше ім’я та прізвище</string>
     <string name="position">Посада</string>
 
+    <!-- People Screen -->
+    <string name="people">Люди</string>
 
     <!-- Settings Screen -->
     <string name="language">Мова</string>

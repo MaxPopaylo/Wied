@@ -75,7 +75,7 @@ class UpdateElementUseCase @Inject constructor(
     suspend operator fun invoke(
         elementId: Int,
         title: String,
-        info: String,
+        info: String?,
         videoUrl: String?,
         orderNum: Int,
         instructionId: Int

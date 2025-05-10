@@ -88,7 +88,7 @@ class InstructionRepositoryImpl @Inject constructor(
 
     override suspend fun updateElement(
         elementId: Int, title: String,
-        info: String, videoUrl: String?,
+        info: String?, videoUrl: String?,
         orderNum: Int, instructionId: Int
     ): UnitFlow =
         handlePUTApiCall (

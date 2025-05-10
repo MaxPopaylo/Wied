@@ -81,6 +81,8 @@
     <string name="no_instructions">No instructions have been created yet</string>
     <string name="all_videos">All Videos</string>
     <string name="create_instruction">Create Instruction</string>
+    <string name="instruction_item">Item</string>
+    <string name="instruction_items">Items</string>
 
 
     <!-- Reports Screen -->
@@ -103,6 +105,8 @@
     <!-- Access Screen -->
     <string name="accesses">Accesses</string>
 
+    <!-- People Screen -->
+    <string name="people">People</string>
 
     <!-- Profile Screen -->
     <string name="profile">Profile</string>

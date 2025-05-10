@@ -40,7 +40,7 @@ fun MainBottomAppBar(
                     BottomBarScreen.Reports,
                     BottomBarScreen.Evaluations,
                     BottomBarScreen.Accesses,
-                    BottomBarScreen.Profile
+                    BottomBarScreen.People
                 )
             }
 
@@ -49,7 +49,7 @@ fun MainBottomAppBar(
                     BottomBarScreen.Instructions,
                     BottomBarScreen.Reports,
                     BottomBarScreen.Evaluations,
-                    BottomBarScreen.Profile
+                    BottomBarScreen.People
                 )
             }
         }

@@ -27,7 +27,6 @@ import ua.wied.R
 import ua.wied.domain.models.instruction.Element
 import ua.wied.domain.repository.VideoPlayerEvent
 import ua.wied.presentation.common.composable.DetailTextField
-import ua.wied.presentation.common.composable.FullScreenImageDialog
 import ua.wied.presentation.common.composable.FullScreenVideoDialog
 import ua.wied.presentation.common.composable.LargeVideoPicker
 import ua.wied.presentation.common.composable.LoadingIndicator
@@ -40,7 +39,6 @@ import ua.wied.presentation.common.utils.extensions.hideBottomSheet
 import ua.wied.presentation.common.utils.extensions.showBottomSheet
 import ua.wied.presentation.screens.instructions.elements.model.ElementDetailEvent
 import ua.wied.presentation.screens.instructions.elements.model.ElementDetailState
-import ua.wied.presentation.screens.instructions.video.model.VideoEvent
 import ua.wied.presentation.screens.main.models.MainEvent
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -51,11 +49,9 @@ fun ElementDetailScreen(
     state: ElementDetailState,
     onEvent: (ElementDetailEvent) -> Unit,
     onPlayerEvent: (VideoPlayerEvent) -> Unit,
-    onMainEvent: (MainEvent) -> Unit
+    onMainEvent: (MainEvent) -> Unit,
+    backToInstruction: () -> Unit
 ) {
-    var choseImage by remember { mutableStateOf("") }
-    var showDialog by remember { mutableStateOf(false) }
-
     var showConfirmDialog by remember { mutableStateOf(false) }
 
     var showBottomSheet by remember { mutableStateOf(false) }
@@ -69,6 +65,17 @@ fun ElementDetailScreen(
     LaunchedEffect(isEditing) {
         if (isEditing != null && !isEditing) {
             showConfirmDialog = true
+        }
+    }
+
+    LaunchedEffect(state.updateResult) {
+        state.updateResult.collect { result ->
+            result?.fold(
+                onSuccess = { backToInstruction() },
+                onFailure = {
+
+                }
+            )
         }
     }
 
@@ -89,7 +96,8 @@ fun ElementDetailScreen(
 
         (state.element?.info ?: element.info) ?.let {
             DetailTextField(
-                title = stringResource(R.string.title),
+                modifier = Modifier.padding(top = dimen.paddingLarge),
+                title = stringResource(R.string.description),
                 text = it,
                 isEditing = (isEditing != null && isEditing),
                 minHeight = 120.dp,
@@ -110,8 +118,7 @@ fun ElementDetailScreen(
             videoUri = state.element?.videoUrl?.toUri(),
             isEditing = (isEditing != null && isEditing),
             onViewClick = {
-                choseImage = it
-                showDialog = true
+                onEvent(ElementDetailEvent.ChangeFullScreenVideoState(it, true))
             },
             onChooseVideo = {
                 showBottomSheet(coroutineScope, bottomSheetState) {

@@ -73,7 +73,7 @@ data class CreateInstructionDto (
 @JsonClass(generateAdapter = true)
 data class CreateElementDto (
     val title: String,
-    val info: String,
+    val info: String?,
     @Json(name = "order_num")
     val orderNum: Int,
 )

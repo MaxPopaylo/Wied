@@ -1,6 +1,5 @@
 package ua.wied.presentation.screens.instructions.detail
 
-import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -60,8 +59,8 @@ fun InstructionDetailScreen(
         }
     }
 
-    LaunchedEffect(state.createResult) {
-        state.createResult.collect { result ->
+    LaunchedEffect(state.updateResult) {
+        state.updateResult.collect { result ->
             result?.fold(
                 onSuccess = { backToInstructions() },
                 onFailure = {
@@ -122,7 +121,7 @@ fun InstructionDetailScreen(
             if (state.instruction?.elements?.isNotEmpty() == true) {
                 Text(
                     modifier = Modifier.padding(top = dimen.paddingLarge),
-                    text = stringResource(R.string.video),
+                    text = stringResource(R.string.instruction_items),
                     style = typography.h5.copy(fontSize = 16.sp),
                     color = colors.secondaryText
                 )

@@ -74,6 +74,8 @@
     <string name="no_instructions">Еще не создано ни одной инструкции</string>
     <string name="all_videos">Все видео</string>
     <string name="create_instruction">Создать инструкцию</string>
+    <string name="instruction_item">Элемент</string>
+    <string name="instruction_items">Элементы</string>
 
 
     <!-- Reports Screen -->
@@ -96,6 +98,8 @@
     <!-- Access Screen -->
     <string name="accesses">Доступа</string>
 
+    <!-- People Screen -->
+    <string name="people">Люди</string>
 
     <!-- Profile Screen -->
     <string name="profile">Профиль</string>
