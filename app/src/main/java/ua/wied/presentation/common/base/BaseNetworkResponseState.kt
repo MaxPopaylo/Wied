@@ -5,4 +5,5 @@ interface BaseNetworkResponseState : BaseState {
     val isRefreshing: Boolean
     val isEmpty: Boolean
     val isNotInternetConnection: Boolean
+    val requestBeforeNetworkError: () -> Unit
 }

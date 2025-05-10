@@ -5,5 +5,7 @@ import ua.wied.presentation.common.base.BaseState
 data class MainState (
     override val isLoading: Boolean = false,
     val isInstructionEditing: Boolean? = null,
-    val isElementEditing: Boolean? = null
+    val isElementEditing: Boolean? = null,
+    val isFabVisible: Boolean = false,
+    val fabClick: () -> Unit = {}
 ): BaseState

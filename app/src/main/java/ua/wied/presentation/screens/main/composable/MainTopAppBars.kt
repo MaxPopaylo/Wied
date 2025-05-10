@@ -28,6 +28,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import ua.wied.R
 import ua.wied.presentation.common.navigation.InstructionNav
+import ua.wied.presentation.common.navigation.ProfileNav
 import ua.wied.presentation.common.navigation.ReportNav
 import ua.wied.presentation.common.theme.WiEDTheme.colors
 import ua.wied.presentation.common.theme.WiEDTheme.dimen
@@ -48,21 +49,12 @@ fun MainTopAppBar(
     val instructionListActions = when {
         isManager -> {
             listOf(
-                TopAppBarAction(ImageVector.vectorResource(R.drawable.icon_note), onClick = {}),
                 TopAppBarAction(ImageVector.vectorResource(R.drawable.icon_ai), onClick = {}),
-                TopAppBarAction(
-                    icon =  ImageVector.vectorResource(R.drawable.icon_plus),
-                    contentPadding =  PaddingValues(3.dp),
-                    onClick = {}
-                )
             )
         }
 
         else -> {
-            listOf(
-                TopAppBarAction(ImageVector.vectorResource(R.drawable.icon_note), onClick = {}),
-                TopAppBarAction(ImageVector.vectorResource(R.drawable.icon_ai), onClick = {})
-            )
+            emptyList()
         }
     }
 
@@ -79,7 +71,7 @@ fun MainTopAppBar(
                         else dimen.zero
                     ),
                     onClick = {
-                        onEvent(MainEvent.InstructionEditingChanged(mainState.isInstructionEditing?.not() ?: true))
+                        onEvent(MainEvent.InstructionEditingChanged(mainState.isInstructionEditing?.not() != false))
                     }
                 )
             )
@@ -101,7 +93,7 @@ fun MainTopAppBar(
                         else dimen.zero
                     ),
                     onClick = {
-                        onEvent(MainEvent.InstructionEditingChanged(mainState.isInstructionEditing?.not() ?: true))
+                        onEvent(MainEvent.InstructionEditingChanged(mainState.isInstructionEditing?.not() != false))
                     }
                 )
             )
@@ -120,7 +112,23 @@ fun MainTopAppBar(
         currentDestinationRoute?.startsWith(InstructionNav.InstructionElementDetail::class.qualifiedName ?: "") == true ->
             TopAppBarWithBackAndActions(stringResource(R.string.video), elementDetailActions, navController)
 
+        currentDestinationRoute?.startsWith(InstructionNav.CreateInstruction::class.qualifiedName ?: "") == true ->
+            TopAppBarWithBackButton(stringResource(R.string.create_instruction), navController)
 
+        currentDestinationRoute?.startsWith(InstructionNav.Video::class.qualifiedName ?: "") == true ->
+            TopAppBarWithBackButton(
+                stringResource(R.string.all_videos),
+                navController,
+                onBack = {
+                    navController.navigate(InstructionNav.Instructions) {
+                        launchSingleTop = true
+                        restoreState = false
+                        popUpTo(navController.graph.id) {
+                            saveState = false
+                        }
+                    }
+                }
+            )
 
         currentDestinationRoute == ReportNav.Reports::class.qualifiedName ->
             DefaultTopAppBar(stringResource(R.string.reports))
@@ -136,6 +144,11 @@ fun MainTopAppBar(
 
         currentDestinationRoute?.startsWith(ReportNav.ReportDetail::class.qualifiedName ?: "") == true ->
             TopAppBarWithBackButton(stringResource(R.string.report), navController)
+
+
+
+        currentDestinationRoute == ProfileNav.Profile::class.qualifiedName ->
+            DefaultTopAppBar(stringResource(R.string.profile))
 
 
 
@@ -294,7 +307,8 @@ private data class TopAppBarAction(
 @Composable
 private fun TopAppBarWithBackButton(
     title: String,
-    navController: NavHostController
+    navController: NavHostController,
+    onBack: () -> Unit = { navController.popBackStack() }
 ) {
     TopAppBar(
         colors = TopAppBarDefaults.topAppBarColors().copy(
@@ -318,9 +332,7 @@ private fun TopAppBarWithBackButton(
                 ),
                 shape = dimen.shape,
                 contentPadding = PaddingValues(dimen.paddingM),
-                onClick = {
-                    navController.popBackStack()
-                },
+                onClick = onBack,
             ) {
                 Icon(
                     imageVector = ImageVector.vectorResource(R.drawable.icon_arrow_back),

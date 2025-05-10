@@ -25,6 +25,8 @@
     <string name="cancel">Cancel</string>
     <string name="make_video">Make video</string>
     <string name="choose_from_gallery">Choose from gallery</string>
+    <string name="image_is_empty">No image selected</string>
+    <string name="video_is_empty">No video selected</string>
 
 
     <!-- Errors -->
@@ -77,6 +79,8 @@
     <string name="instructions">Instructions</string>
     <string name="instruction">Instruction</string>
     <string name="no_instructions">No instructions have been created yet</string>
+    <string name="all_videos">All Videos</string>
+    <string name="create_instruction">Create Instruction</string>
 
 
     <!-- Reports Screen -->
@@ -102,8 +106,17 @@
 
     <!-- Profile Screen -->
     <string name="profile">Profile</string>
+    <string name="full_name">Your Full Name</string>
+    <string name="position">Position</string>
 
-
+    <!-- Settings Screen -->
+    <string name="language">Language</string>
+    <string name="theme">Theme</string>
+    <string name="english">English</string>
+    <string name="ukrainian">Ukrainian</string>
+    <string name="russian">Russian</string>
+    <string name="dark_theme">Dark Theme</string>
+    <string name="light_theme">Light Theme</string>
 
 </resources>
 

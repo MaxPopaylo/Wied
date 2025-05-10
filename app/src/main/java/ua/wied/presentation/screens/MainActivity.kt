@@ -4,15 +4,22 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.viewModels
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import dagger.hilt.android.AndroidEntryPoint
 import ua.wied.presentation.common.navigation.GlobalNav
 import ua.wied.presentation.common.navigation.GlobalNavGraph
 import ua.wied.presentation.common.theme.WiEDTheme
+import kotlin.getValue
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
+
+    private val viewModel: MainActivityViewModel by viewModels()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -28,7 +35,9 @@ class MainActivity : ComponentActivity() {
         } ?: GlobalNav.Auth
 
         setContent {
-            WiEDTheme {
+            val settings by viewModel.settings.collectAsState()
+
+            WiEDTheme(settings) {
                 val navController: NavHostController = rememberNavController()
                 GlobalNavGraph(
                     navController = navController,

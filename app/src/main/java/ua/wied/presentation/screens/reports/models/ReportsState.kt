@@ -9,5 +9,6 @@ data class ReportsState (
     override val isEmpty: Boolean = false,
     override val isNotInternetConnection: Boolean = false,
     override val isRefreshing: Boolean = false,
+    override val requestBeforeNetworkError: () -> Unit = {},
     val folders: List<Folder<InstructionWithReportCount>> = emptyList()
 ): BaseNetworkResponseState

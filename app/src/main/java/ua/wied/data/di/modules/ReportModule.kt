@@ -53,7 +53,7 @@ class ReportModule {
 
     @Provides
     @Singleton
-    fun provideFolderRepository(
+    fun provideReportRepository(
         api: ReportApi,
         @ApplicationContext context: Context
     ): ReportRepository {

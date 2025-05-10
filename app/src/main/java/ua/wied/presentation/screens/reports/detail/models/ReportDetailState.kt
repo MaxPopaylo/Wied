@@ -9,6 +9,7 @@ data class ReportDetailState (
     override val isEmpty: Boolean = false,
     override val isNotInternetConnection: Boolean = false,
     override val isLoading: Boolean = false,
+    override val requestBeforeNetworkError: () -> Unit = {},
     val localUser: User? = null,
     val report: Report? = null
 ): BaseNetworkResponseState

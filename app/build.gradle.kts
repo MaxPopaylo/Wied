@@ -48,6 +48,8 @@ android {
 }
 
 dependencies {
+    implementation(libs.bundles.exoplayer)
+
     // MARK: - Serialization
     implementation(libs.kotlinx.serialization.json)
 

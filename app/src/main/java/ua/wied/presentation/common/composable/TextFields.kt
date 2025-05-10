@@ -33,6 +33,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.input.ImeAction
@@ -324,6 +325,7 @@ fun SearchField(
     text: String,
     onSearchValueChange: (String) -> Unit = {},
 ) {
+    val focusManager = LocalFocusManager.current
 
     BasicTextField(
         modifier = modifier.height(52.dp),
@@ -335,6 +337,11 @@ fun SearchField(
             keyboardType = KeyboardType.Text,
             imeAction = ImeAction.Done
         ),
+        keyboardActions = KeyboardActions(
+            onDone = {
+                focusManager.clearFocus()
+            }
+        ),
         textStyle = typography.body1,
         maxLines = 1,
         singleLine = true,
@@ -345,7 +352,7 @@ fun SearchField(
                 .fillMaxWidth()
                 .height(IntrinsicSize.Max)
                 .background(
-                    color = Color(0xFFF4F4FA),
+                    color = colors.secondaryBackground,
                     shape = dimen.shape
                 )
                 .padding(vertical = dimen.paddingM, horizontal = dimen.padding3Xl),
@@ -378,13 +385,18 @@ fun SearchField(
             }
 
 
-            SquareIconButton(
-                icon = ImageVector.vectorResource(R.drawable.icon_microphone),
-                backgroundColor = Color.Transparent,
-                borderColor = Color.Transparent,
-                iconColor = colors.primaryText,
-                onClick = {}
-            )
+            if (text.isNotEmpty()) {
+                SquareIconButton(
+                    icon = ImageVector.vectorResource(R.drawable.icon_close),
+                    backgroundColor = Color.Transparent,
+                    borderColor = Color.Transparent,
+                    iconColor = colors.primaryText,
+                    onClick = {
+                        onSearchValueChange("")
+                        focusManager.clearFocus()
+                    }
+                )
+            }
 
         }
     }
@@ -409,7 +421,7 @@ fun DetailTextField(
         Row {
             Text(
                 text = title,
-                style = typography.h5.copy(fontSize = 16.sp),
+                style = typography.body1,
                 color = colors.secondaryText
             )
 

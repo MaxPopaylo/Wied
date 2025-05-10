@@ -2,6 +2,7 @@ package ua.wied.data.repository
 
 import android.content.Context
 import android.util.Log
+import android.webkit.MimeTypeMap
 import kotlinx.coroutines.flow.flow
 import okhttp3.MultipartBody
 import retrofit2.Response
@@ -83,6 +84,25 @@ abstract class BaseRepository {
         ))
     }
 
+    protected fun handleDELETEApiCall(
+        apiCall: suspend () -> Response<Any>
+    ): UnitFlow = flow {
+        val response = apiCall()
+        if (response.isSuccessful) {
+            emit(Result.success(Unit))
+        } else {
+            emit(Result.failure(mapErrorStatus(response.code())))
+        }
+    }.catch { e ->
+        Log.d("TAG", e.message ?: "Exception occurred")
+        emit(Result.failure(
+            when(e) {
+                is IOException -> NetworkException.NoConnectionException
+                else -> NetworkException.UnknownErrorException
+            }
+        ))
+    }
+
 
     private fun mapErrorStatus(code: Int): NetworkException {
         return when (code) {
@@ -93,16 +113,23 @@ abstract class BaseRepository {
         }
     }
 
-    suspend fun convertImagesToMultipartList(context: Context, imageUris: List<String?>): List<MultipartBody.Part> =
+    suspend fun convertImagesToMultipartList(context: Context, imageUris: List<String?>, fileName: String): List<MultipartBody.Part> =
         withContext(Dispatchers.IO) {
             imageUris.mapNotNull { imageUri ->
                 async {
-                    convertImgUrlToMultipart(context, imageUri)
+                    urlToImageMultipart(context, imageUri, fileName)
                 }
             }.awaitAll().filterNotNull()
         }
 
-    fun convertImgUrlToMultipart(context: Context, imageUri: String?): MultipartBody.Part? {
+    suspend fun convertImgUrlToMultipart(context: Context, imageUri: String?, fileName: String) =
+        withContext(Dispatchers.IO) {
+            async {
+                urlToImageMultipart(context, imageUri, fileName)
+            }.await()
+        }
+
+    private fun urlToImageMultipart(context: Context, imageUri: String?, fileName: String): MultipartBody.Part? {
         if (imageUri == null) return null
         val uri = imageUri.toUri()
 
@@ -114,13 +141,48 @@ abstract class BaseRepository {
                 }
 
                 val requestBody = tempFile.asRequestBody("image/jpeg".toMediaTypeOrNull())
-                MultipartBody.Part.createFormData("files", tempFile.name, requestBody)
+                MultipartBody.Part.createFormData(fileName, tempFile.name, requestBody)
             }
         } catch (e: Exception) {
             e.printStackTrace()
             null
         }
     }
+
+    suspend fun convertVideoUrlToMultipart(context: Context, videoUri: String?, fileName: String) =
+        withContext(Dispatchers.IO) {
+            async {
+                urlToVideoMultipart(context, videoUri, fileName)
+            }.await()
+        }
+
+    private fun urlToVideoMultipart(context: Context, videoUri: String?, fileName: String): MultipartBody.Part? {
+        if (videoUri == null) return null
+        val uri = videoUri.toUri()
+
+        return try {
+            context.contentResolver.openInputStream(uri)?.use { inputStream ->
+                val mimeType = context.contentResolver.getType(uri) ?: "video/mp4"
+                val extension = MimeTypeMap.getSingleton()
+                    .getExtensionFromMimeType(mimeType)
+                    ?.let { ".$it" }
+                    ?: ".mp4"
+
+                val tempFile = File.createTempFile("selectedVideo", extension, context.cacheDir)
+                tempFile.outputStream().use { fileOut ->
+                    inputStream.copyTo(fileOut)
+                }
+
+                val requestBody = tempFile
+                    .asRequestBody(mimeType.toMediaTypeOrNull())
+                MultipartBody.Part.createFormData(fileName, tempFile.name, requestBody)
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+            null
+        }
+    }
+
 
 }
 

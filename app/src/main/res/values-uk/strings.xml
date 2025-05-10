@@ -21,6 +21,8 @@
     <string name="cancel">Відмінити</string>
     <string name="make_video">Записати відео</string>
     <string name="choose_from_gallery">Вибрати з галереї</string>
+    <string name="image_is_empty">Зображення не вибрано</string>
+    <string name="video_is_empty">Відео не вибрано</string>
 
 
     <!--    Errors-->
@@ -70,6 +72,8 @@
     <string name="instructions">Інструкції</string>
     <string name="instruction">Інструкція</string>
     <string name="no_instructions">Не створено ще жодної інструкції</string>
+    <string name="all_videos">Всі відео</string>
+    <string name="create_instruction">Створити інструкцію</string>
 
     <!-- Reports Screen -->
     <string name="reports">Заявки</string>
@@ -94,4 +98,16 @@
 
     <!-- Profile Screen -->
     <string name="profile">Профіль</string>
+    <string name="full_name">Ваше ім’я та прізвище</string>
+    <string name="position">Посада</string>
+
+
+    <!-- Settings Screen -->
+    <string name="language">Мова</string>
+    <string name="theme">Тема</string>
+    <string name="english">Англійська</string>
+    <string name="ukrainian">Українська</string>
+    <string name="russian">Російська</string>
+    <string name="dark_theme">Темна тема</string>
+    <string name="light_theme">Світла тема</string>
 </resources>

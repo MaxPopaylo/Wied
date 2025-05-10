@@ -9,6 +9,9 @@ data class InstructionsState(
     override val isEmpty: Boolean = false,
     override val isNotInternetConnection: Boolean = false,
     override val isRefreshing: Boolean = false,
+    override val requestBeforeNetworkError: () -> Unit = {},
     val search: String = "",
-    val folders: List<Folder<Instruction>> = emptyList()
+    val folders: List<Folder<Instruction>> = emptyList(),
+    val firstFolderId: Int? = null,
+    val lastItemOrderNum: Int? = null
 ): BaseNetworkResponseState

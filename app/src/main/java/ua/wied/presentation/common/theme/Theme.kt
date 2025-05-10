@@ -8,16 +8,18 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import ua.wied.domain.models.settings.Settings
 
 @Composable
 fun WiEDTheme(
+    settings: Settings,
     content: @Composable () -> Unit
 ) {
-    val darkTheme = isSystemInDarkTheme()
+    val darkTheme = settings.darkTheme ?: isSystemInDarkTheme()
 
     val colors = when(darkTheme) {
         false -> defaultLightPalette
-        else -> defaultLightPalette
+        else -> defaultDarkPalette
     }
 
     val baseTextStyle = TextStyle(

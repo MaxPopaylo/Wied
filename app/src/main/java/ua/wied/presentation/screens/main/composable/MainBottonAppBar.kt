@@ -93,7 +93,7 @@ fun MainBottomAppBar(
                         navController.navigate(screen.route) {
                             launchSingleTop = true
                             restoreState = false
-                            popUpTo(navController.graph.startDestinationId) {
+                            popUpTo(navController.graph.id) {
                                 saveState = false
                             }
                         }

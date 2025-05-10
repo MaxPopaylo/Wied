@@ -1,6 +1,9 @@
 package ua.wied.presentation.common.composable
 
+import android.app.Activity
+import android.content.Intent
 import android.net.Uri
+import android.provider.MediaStore
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
@@ -25,6 +28,10 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -35,20 +42,20 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.content.FileProvider
 import coil3.ImageLoader
 import coil3.compose.AsyncImage
 import coil3.request.ImageRequest
 import coil3.video.VideoFrameDecoder
 import coil3.video.videoFrameMillis
 import ua.wied.R
-import ua.wied.presentation.common.theme.WiEDTheme
 import ua.wied.presentation.common.theme.WiEDTheme.colors
 import ua.wied.presentation.common.theme.WiEDTheme.dimen
 import ua.wied.presentation.common.theme.WiEDTheme.typography
 import ua.wied.presentation.common.utils.bounceClick
+import ua.wied.presentation.common.utils.makeVideoFile
 
 
 @Composable
@@ -135,16 +142,18 @@ fun LargeImagePicker(
         onImageChosen(uri.toString())
     }
 
+    val isClickable =  isEditing || imageUri != null
+
     Box(
         modifier = modifier
             .fillMaxWidth()
             .background(
-                colors.primaryBackground,
+                colors.secondaryBackground,
                 shape
             )
             .aspectRatio(1f / .5f)
             .clip(shape)
-            .clickable {
+            .clickable(isClickable) {
                 if (isEditing) {
                     if (imageUri == null) {
                         launcher.launch("image/*")
@@ -190,19 +199,35 @@ fun LargeImagePicker(
                 verticalArrangement = Arrangement.spacedBy(dimen.paddingS, Alignment.CenterVertically),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Text(
-                    text = stringResource(R.string.upload_video),
-                    style = typography.h5.copy(fontSize = 16.sp),
-                    color = colors.primaryText
-                )
+                if (isEditing) {
+                    Text(
+                        text = stringResource(R.string.upload_image),
+                        style = typography.h5.copy(fontSize = 16.sp),
+                        color = colors.primaryText
+                    )
 
-                Image(
-                    modifier = Modifier.size(dimen.sizeL),
-                    imageVector = ImageVector.vectorResource(R.drawable.icon_add_photo),
-                    contentDescription = null,
-                    contentScale = ContentScale.Crop,
-                    colorFilter = ColorFilter.tint(colors.primaryText)
-                )
+                    Image(
+                        modifier = Modifier.size(dimen.sizeL),
+                        imageVector = ImageVector.vectorResource(R.drawable.icon_add_photo),
+                        contentDescription = null,
+                        contentScale = ContentScale.Crop,
+                        colorFilter = ColorFilter.tint(colors.primaryText)
+                    )
+                } else {
+                    Text(
+                        text = stringResource(R.string.image_is_empty),
+                        style = typography.h5.copy(fontSize = 16.sp),
+                        color = colors.primaryText
+                    )
+
+                    Image(
+                        modifier = Modifier.size(dimen.sizeL),
+                        imageVector = ImageVector.vectorResource(R.drawable.icon_view_photo),
+                        contentDescription = null,
+                        contentScale = ContentScale.Crop,
+                        colorFilter = ColorFilter.tint(colors.primaryText)
+                    )
+                }
             }
         }
     }
@@ -231,6 +256,8 @@ fun LargeVideoPicker(
         .videoFrameMillis(0)
         .build()
 
+    val isClickable =  isEditing || videoUri != null
+
     Box(
         modifier = modifier
             .fillMaxWidth()
@@ -240,7 +267,7 @@ fun LargeVideoPicker(
             )
             .aspectRatio(1f / .5f)
             .clip(shape)
-            .clickable {
+            .clickable(isClickable) {
                 if (isEditing) {
                     if (videoUri == null) {
                         onChooseVideo()
@@ -292,19 +319,35 @@ fun LargeVideoPicker(
                 verticalArrangement = Arrangement.spacedBy(dimen.paddingS, Alignment.CenterVertically),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Text(
-                    text = stringResource(R.string.upload_video),
-                    style = typography.h5.copy(fontSize = 16.sp),
-                    color = colors.primaryText
-                )
+                if (isEditing) {
+                    Text(
+                        text = stringResource(R.string.upload_video),
+                        style = typography.h5.copy(fontSize = 16.sp),
+                        color = colors.primaryText
+                    )
 
-                Image(
-                    modifier = Modifier.size(dimen.sizeL),
-                    imageVector = ImageVector.vectorResource(R.drawable.icon_add_video),
-                    contentDescription = null,
-                    contentScale = ContentScale.Crop,
-                    colorFilter = ColorFilter.tint(colors.primaryText)
-                )
+                    Image(
+                        modifier = Modifier.size(dimen.sizeL),
+                        imageVector = ImageVector.vectorResource(R.drawable.icon_add_video),
+                        contentDescription = null,
+                        contentScale = ContentScale.Crop,
+                        colorFilter = ColorFilter.tint(colors.primaryText)
+                    )
+                } else {
+                    Text(
+                        text = stringResource(R.string.video_is_empty),
+                        style = typography.h5.copy(fontSize = 16.sp),
+                        color = colors.primaryText
+                    )
+
+                    Image(
+                        modifier = Modifier.size(dimen.sizeL),
+                        imageVector = ImageVector.vectorResource(R.drawable.icon_view_video),
+                        contentDescription = null,
+                        contentScale = ContentScale.Crop,
+                        colorFilter = ColorFilter.tint(colors.primaryText)
+                    )
+                }
             }
         }
     }
@@ -316,13 +359,24 @@ fun VideoPickerBottomSheet(
     modifier: Modifier = Modifier,
     videoUri: Uri?,
     onVideoChosen: (String) -> Unit,
-    onClose: () -> Unit,
-    onMakeVideo: () -> Unit
+    onClose: () -> Unit
 ) {
-    val launcher = rememberLauncherForActivityResult(
+    val context = LocalContext.current
+
+    val galleryLauncher = rememberLauncherForActivityResult(
         ActivityResultContracts.GetContent()
     ) { uri: Uri? ->
         uri?.let { onVideoChosen(it.toString()) }
+        onClose()
+    }
+    var pendingVideoUri by remember { mutableStateOf<Uri?>(null) }
+
+    val cameraLauncher = rememberLauncherForActivityResult(
+        ActivityResultContracts.StartActivityForResult()
+    ) { result ->
+        if (result.resultCode == Activity.RESULT_OK) {
+            pendingVideoUri?.let { onVideoChosen(it.toString()) }
+        }
         onClose()
     }
 
@@ -331,8 +385,7 @@ fun VideoPickerBottomSheet(
         onClose = onClose
     ) {
         Column(
-            modifier = Modifier
-                .padding(dimen.containerPadding),
+            modifier = Modifier.padding(dimen.containerPadding),
             verticalArrangement = Arrangement.spacedBy(2.dp)
         ) {
             Row(
@@ -346,8 +399,24 @@ fun VideoPickerBottomSheet(
                         )
                     )
                     .bounceClick {
-                        onMakeVideo()
-                        onClose()
+                        val videoFile = makeVideoFile(context)
+                        val uri = FileProvider.getUriForFile(
+                            context,
+                            "${context.packageName}.provider",
+                            videoFile
+                        )
+                        pendingVideoUri = uri
+
+                        val intent = Intent(MediaStore.ACTION_VIDEO_CAPTURE).apply {
+                            putExtra(MediaStore.EXTRA_OUTPUT, uri)
+                            putExtra(MediaStore.EXTRA_VIDEO_QUALITY, 1)
+                        }
+
+                        context.grantUriPermission(
+                            "com.android.camera", uri,
+                            Intent.FLAG_GRANT_WRITE_URI_PERMISSION
+                        )
+                        cameraLauncher.launch(intent)
                     }
                     .padding(vertical = dimen.paddingL),
                 horizontalArrangement = Arrangement.spacedBy(dimen.paddingM, Alignment.CenterHorizontally),
@@ -356,7 +425,7 @@ fun VideoPickerBottomSheet(
                 Icon(
                     modifier = Modifier.size(dimen.sizeM),
                     imageVector = ImageVector.vectorResource(R.drawable.icon_camcorder_filled),
-                    contentDescription = "CamCorder",
+                    contentDescription = "Camcorder",
                     tint = colors.primaryText
                 )
                 Text(
@@ -377,7 +446,7 @@ fun VideoPickerBottomSheet(
                     )
                     .bounceClick {
                         if (videoUri == null) {
-                            launcher.launch("video/*")
+                            galleryLauncher.launch("video/*")
                         }
                     }
                     .padding(vertical = dimen.paddingL),
@@ -401,19 +470,13 @@ fun VideoPickerBottomSheet(
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .background(
-                        color = colors.secondaryBackground,
-                        shape = dimen.shape
-                    )
+                    .background(color = colors.secondaryBackground, shape = dimen.shape)
                     .bounceClick(onClose)
                     .padding(vertical = dimen.paddingXl),
-                horizontalArrangement = Arrangement.spacedBy(dimen.paddingXs, Alignment.CenterHorizontally),
+                horizontalArrangement = Arrangement.Center,
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Text(
-                    text = stringResource(R.string.cancel),
-                    style = typography.button2
-                )
+                Text(text = stringResource(R.string.cancel), style = typography.button2)
             }
         }
     }
