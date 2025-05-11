@@ -61,14 +61,10 @@ fun <T : HasId> FolderList (
 fun <T : DragAndDropItem> DragAndDropFolderList(
     modifier: Modifier = Modifier,
     folders: List<Folder<T>>,
-    onItemDropped: (item: T, targetFolderId: Int, newOrderNum: Int) -> Unit = { _, _, _ -> },
+    onItemDropped: (itemId: Int, targetFolderId: Int, newOrderNum: Int) -> Unit = { _, _, _ -> },
     onItemClick: (T) -> Unit,
     itemView: @Composable (Modifier, T) -> Unit
 ) {
-    val allItemsById: Map<Int, T> = remember(folders) {
-        folders.flatMap { it.items }.associateBy { it.id }
-    }
-
     LazyColumn(
         modifier = modifier,
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -81,8 +77,7 @@ fun <T : DragAndDropItem> DragAndDropFolderList(
                     isDragAndDrop = true,
                     onDrop = { sourceFolderId, itemId ->
                         val targetOrder = folder.items.lastOrNull()?.orderNum?.plus(1) ?: 0
-                        val item = allItemsById[itemId] ?: return@FolderListHeader
-                        onItemDropped(item, folder.id, targetOrder)
+                        onItemDropped(itemId, folder.id, targetOrder)
                     }
                 )
             }
@@ -101,14 +96,11 @@ fun <T : DragAndDropItem> DragAndDropFolderList(
                                 object : DragAndDropTarget {
                                     override fun onDrop(event: DragAndDropEvent): Boolean {
                                         extractDragData(event)?.let { data ->
-                                            val droppedItem = allItemsById[data.itemId] ?: return true
-                                            if (droppedItem != item) {
-                                                onItemDropped(
-                                                    droppedItem,
-                                                    folder.id,
-                                                    item.orderNum
-                                                )
-                                            }
+                                            onItemDropped(
+                                                data.itemId,
+                                                folder.id,
+                                                item.orderNum
+                                            )
                                         }
                                         return true
                                     }

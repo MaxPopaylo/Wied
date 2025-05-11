@@ -40,26 +40,6 @@ class UserModule {
     }
 
     @Provides
-    fun provideSaveUserUseCase(userRepository: UserRepository): SaveUserUseCase {
-        return SaveUserUseCase(userRepository)
-    }
-
-    @Provides
-    fun provideGetUserUseCase(userRepository: UserRepository): GetUserUseCase {
-        return GetUserUseCase(userRepository)
-    }
-
-    @Provides
-    fun provideUpdateUserDataUseCase(userRepository: UserRepository): UpdateUserDataUseCase {
-        return UpdateUserDataUseCase(userRepository)
-    }
-
-    @Provides
-    fun provideClearUserDataUseCase(userRepository: UserRepository): ClearUserDataUseCase {
-        return ClearUserDataUseCase(userRepository)
-    }
-
-    @Provides
     @Singleton
     fun provideUserStoreManager(@UserStoragePreference dataStore: DataStore<Preferences>, api: UserApi): UserRepository {
         return UserRepositoryImpl(dataStore = dataStore, api = api)

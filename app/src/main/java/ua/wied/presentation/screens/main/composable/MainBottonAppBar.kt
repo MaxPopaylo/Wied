@@ -19,6 +19,7 @@ import androidx.navigation.NavDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import ua.wied.R
+import ua.wied.presentation.common.navigation.AccessNav
 import ua.wied.presentation.common.navigation.BottomBarScreen
 import ua.wied.presentation.common.navigation.EvaluationNav
 import ua.wied.presentation.common.navigation.InstructionNav
@@ -114,6 +115,7 @@ private fun isSelected(currentDestination: NavDestination?, screen: BottomBarScr
         "EvaluationNav" in currentRoute -> EvaluationNav.Evaluations
         "ProfileNav" in currentRoute -> ProfileNav.Profile
         "PeopleNav" in currentRoute -> PeopleNav.People
+        "AccessNav" in currentRoute -> AccessNav.Accesses
         else -> null
     }
 

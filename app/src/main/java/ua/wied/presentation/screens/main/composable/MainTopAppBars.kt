@@ -27,6 +27,7 @@ import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import ua.wied.R
+import ua.wied.presentation.common.navigation.AccessNav
 import ua.wied.presentation.common.navigation.InstructionNav
 import ua.wied.presentation.common.navigation.PeopleNav
 import ua.wied.presentation.common.navigation.ProfileNav
@@ -92,6 +93,28 @@ fun MainTopAppBar(
                     ),
                     onClick = {
                         onEvent(MainEvent.ElementEditingChanged(mainState.isElementEditing?.not() != false))
+                    }
+                )
+            )
+        }
+
+        else -> emptyList()
+    }
+
+    val accessDetailActions = when {
+        isManager -> {
+            listOf(
+                TopAppBarAction(
+                    ImageVector.vectorResource(
+                        if (mainState.isAccessEditing == true) R.drawable.icon_save_changes
+                        else R.drawable.icon_pencil
+                    ),
+                    contentPadding = PaddingValues(
+                        if (mainState.isAccessEditing == true) dimen.padding2Xs
+                        else dimen.zero
+                    ),
+                    onClick = {
+                        onEvent(MainEvent.ElementEditingChanged(mainState.isAccessEditing?.not() != false))
                     }
                 )
             )
@@ -218,6 +241,22 @@ fun MainTopAppBar(
         route.isRoute(PeopleNav.EmployeeDetail::class.qualifiedName) -> {
             RenderTopBar(
                 title = stringResource(R.string.employe),
+                showBack = true
+            )
+        }
+
+        // People top bars
+        route.isRoute(AccessNav.Accesses::class.qualifiedName) -> {
+            RenderTopBar(
+                title = stringResource(R.string.accesses),
+                actions = profileAction
+            )
+        }
+
+        route.isRoute(AccessNav.FolderDetail::class.qualifiedName) -> {
+            RenderTopBar(
+                title = stringResource(R.string.folder),
+                actions = accessDetailActions,
                 showBack = true
             )
         }

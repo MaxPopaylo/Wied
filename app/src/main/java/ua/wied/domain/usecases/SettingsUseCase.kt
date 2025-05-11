@@ -4,15 +4,16 @@ import kotlinx.coroutines.flow.Flow
 import ua.wied.domain.models.settings.Language
 import ua.wied.domain.models.settings.Settings
 import ua.wied.domain.repository.SettingsRepository
+import javax.inject.Inject
 
-class GetLanguageUseCase(
+class GetLanguageUseCase @Inject constructor(
     private val repo: SettingsRepository
 ) {
     suspend operator fun invoke(): Language =
         repo.getLanguage()
 }
 
-class SetLanguageUseCase(
+class SetLanguageUseCase @Inject constructor(
     private val repo: SettingsRepository
 ) {
     suspend operator fun invoke(language: Language) {
@@ -20,14 +21,14 @@ class SetLanguageUseCase(
     }
 }
 
-class IsDarkThemeEnabledUseCase(
+class IsDarkThemeEnabledUseCase @Inject constructor(
     private val repo: SettingsRepository
 ) {
     suspend operator fun invoke(): Boolean? =
         repo.isDarkThemeEnabled()
 }
 
-class SetDarkThemeEnabledUseCase(
+class SetDarkThemeEnabledUseCase @Inject constructor(
     private val repo: SettingsRepository
 ) {
     suspend operator fun invoke(isEnabled: Boolean) {
@@ -35,14 +36,14 @@ class SetDarkThemeEnabledUseCase(
     }
 }
 
-class GetSettingsUseCase(
+class GetSettingsUseCase @Inject constructor(
     private val repo: SettingsRepository
 ) {
     suspend operator fun invoke(): Settings =
         repo.getSettings()
 }
 
-class ObserveSettingsUseCase(
+class ObserveSettingsUseCase @Inject constructor(
     private val repo: SettingsRepository
 ) {
     suspend operator fun invoke(): Flow<Settings> =

@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import ua.wied.presentation.common.navigation.InstructionNav
+import ua.wied.presentation.common.navigation.main.accessNavGraph
 import ua.wied.presentation.common.navigation.main.instructionNavGraph
 import ua.wied.presentation.common.navigation.main.peopleNavGraph
 import ua.wied.presentation.common.navigation.main.profileNavGraph
@@ -35,6 +36,13 @@ fun MainNavGraph(
 
         peopleNavGraph(
             navController = navController,
+            isManager = isManager,
+            onMainEvent = onMainEvent
+        )
+
+        accessNavGraph (
+            navController = navController,
+            mainState = mainState,
             isManager = isManager,
             onMainEvent = onMainEvent
         )

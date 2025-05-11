@@ -4,6 +4,7 @@ import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import kotlinx.serialization.Serializable
 import ua.wied.R
+import ua.wied.domain.models.folder.Folder
 import ua.wied.domain.models.instruction.Element
 import ua.wied.domain.models.instruction.Instruction
 import ua.wied.domain.models.report.Report
@@ -94,6 +95,12 @@ sealed class PeopleNav : MainNav() {
 sealed class AccessNav : MainNav() {
     @Serializable
     data object Accesses: AccessNav()
+
+    @Serializable
+    data class FolderDetail(val folder: Folder<Instruction>): AccessNav()
+
+    @Serializable
+    data object CreateFolder: AccessNav()
 }
 
 @Serializable
@@ -114,7 +121,7 @@ sealed class BottomBarScreen(@StringRes val label: Int, @DrawableRes val icon: I
     data object Evaluations : BottomBarScreen(R.string.evaluations, R.drawable.icon_star, EvaluationNav.Evaluations)
 
     @Serializable
-    data object Accesses : BottomBarScreen(R.string.accesses, R.drawable.icon_add_person, EvaluationNav.Evaluations)
+    data object Accesses : BottomBarScreen(R.string.accesses, R.drawable.icon_add_person, AccessNav.Accesses)
 
     @Serializable
     data object People : BottomBarScreen(R.string.people, R.drawable.icon_people, PeopleNav.People)

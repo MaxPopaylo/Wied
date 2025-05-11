@@ -39,27 +39,6 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 class AuthModule {
 
-    //SIGN IN/UP
-    @Provides
-    fun provideSignInUseCase(repository: AuthRepository): SignInUseCase {
-        return SignInUseCase(repository)
-    }
-
-    @Provides
-    fun provideSignUpUseCase(repository: AuthRepository): SignUpUseCase {
-        return SignUpUseCase(repository)
-    }
-
-    @Provides
-    fun provideLogoutUseCase(repository: AuthRepository): LogoutUseCase {
-        return LogoutUseCase(repository)
-    }
-
-    @Provides
-    fun provideDeleteAccountUseCase(repository: AuthRepository): DeleteAccountUseCase {
-        return DeleteAccountUseCase(repository)
-    }
-
     @Provides
     @Singleton
     fun provideAuthRepository(
@@ -88,23 +67,6 @@ class AuthModule {
             .create(AuthApi::class.java)
     }
 
-
-    //JWT
-    @Provides
-    fun provideSaveAccessJwtUseCase(tokenManager: JwtTokenManager): SaveAccessJwtUseCase {
-        return SaveAccessJwtUseCase(tokenManager)
-    }
-
-    @Provides
-    fun provideGetAccessJwtUseCase(tokenManager: JwtTokenManager): GetAccessJwtUseCase {
-        return GetAccessJwtUseCase(tokenManager)
-    }
-
-    @Provides
-    fun provideClearAllTokensUseCase(tokenManager: JwtTokenManager): ClearAllTokensUseCase {
-        return ClearAllTokensUseCase(tokenManager)
-    }
-
     @Provides
     @Singleton
     fun provideUserStoreManager(@JwtTokenPreference dataStore: DataStore<Preferences>): JwtTokenManager {
@@ -117,5 +79,4 @@ class AuthModule {
     fun provideJwtStore(@ApplicationContext context: Context): DataStore<Preferences> {
         return StorageModule.createPreferenceDataStore(context, JWT_TOKEN_PREFERENCES)
     }
-
 }

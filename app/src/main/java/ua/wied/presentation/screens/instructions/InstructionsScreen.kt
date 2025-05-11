@@ -77,8 +77,8 @@ fun InstructionsScreen(
         ) {
             DragAndDropFolderList (
                 folders = state.folders,
-                onItemDropped = { instruction, folderId, orderNum ->
-                    onEvent(InstructionsEvent.ChangeOrderNum(instruction, folderId, orderNum))
+                onItemDropped = { instructionId, folderId, orderNum ->
+                    onEvent(InstructionsEvent.ChangeOrderNum(instructionId, folderId, orderNum))
                 },
                 onItemClick = { navigateToDetail(it) } ,
                 itemView = { modifier, instruction ->

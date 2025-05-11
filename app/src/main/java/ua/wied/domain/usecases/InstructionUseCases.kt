@@ -44,6 +44,20 @@ class DeleteInstructionUseCase @Inject constructor(
         instructionRepository.deleteInstruction(instructionId = instructionId)
 }
 
+class ReorderInstructionUseCase @Inject constructor(
+    private val instructionRepository: InstructionRepository
+) {
+    suspend operator fun invoke(
+        instructionId: Int,
+        folderId: Int,
+        newOrder: Int
+    ) = instructionRepository.reorderInstruction(
+        instructionId = instructionId,
+        folderId = folderId,
+        newOrder = newOrder
+    )
+}
+
 class GetInstructionUseCase @Inject constructor(
     private val instructionRepository: InstructionRepository
 ) {

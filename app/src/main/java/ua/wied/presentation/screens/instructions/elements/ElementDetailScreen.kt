@@ -64,7 +64,9 @@ fun ElementDetailScreen(
 
     LaunchedEffect(isEditing) {
         if (isEditing != null && !isEditing) {
-            showConfirmDialog = true
+            if (state.element?.title?.isNotEmpty() == true) {
+                showConfirmDialog = true
+            }
         }
     }
 

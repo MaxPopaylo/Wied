@@ -1,0 +1,91 @@
+package ua.wied.presentation.screens.accesses
+
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.padding
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.ui.Modifier
+import androidx.lifecycle.SavedStateHandle
+import ua.wied.domain.models.folder.Folder
+import ua.wied.domain.models.instruction.Instruction
+import ua.wied.presentation.common.composable.ContentBox
+import ua.wied.presentation.common.composable.DragAndDropItemList
+import ua.wied.presentation.common.composable.SearchField
+import ua.wied.presentation.common.theme.WiEDTheme.dimen
+import ua.wied.presentation.screens.accesses.composable.FolderListItem
+import ua.wied.presentation.screens.accesses.model.AccessesEvent
+import ua.wied.presentation.screens.accesses.model.AccessesState
+import ua.wied.presentation.screens.main.models.MainEvent
+import ua.wied.presentation.screens.people.composable.EmployeeEmptyScreen
+
+@Composable
+fun AccessesScreen(
+    state: AccessesState,
+    isManager: Boolean,
+    savedStateHandle: SavedStateHandle,
+    onMainEvent: (MainEvent) -> Unit,
+    onEvent: (AccessesEvent) -> Unit,
+    navigateToCreation: () -> Unit,
+    navigateToDetail: (Folder<Instruction>) -> Unit
+) {
+    val shouldRefresh = savedStateHandle
+        .getStateFlow("shouldRefresh", false)
+        .collectAsState()
+
+    LaunchedEffect(shouldRefresh) {
+        if (shouldRefresh.value) {
+            onEvent(AccessesEvent.Refresh)
+            savedStateHandle["shouldRefresh"] = false
+        }
+    }
+
+    LaunchedEffect(isManager) {
+        if (isManager) {
+            onMainEvent(MainEvent.FabVisibilityChanged(true))
+            onMainEvent(MainEvent.FabClickChanged(value = {
+                navigateToCreation()
+            }))
+        }
+    }
+
+    Column(
+        modifier = Modifier.padding(bottom = dimen.paddingS),
+        verticalArrangement = Arrangement.spacedBy(dimen.padding2Xl)
+    ) {
+        SearchField(
+            text = state.search,
+            onSearchValueChange = {
+                onEvent(AccessesEvent.SearchChanged(it))
+            }
+        )
+        ContentBox(
+            state = state,
+            onRefresh = { onEvent(AccessesEvent.Refresh) },
+            emptyScreen = { EmployeeEmptyScreen(navigateToCreation) }
+        ) {
+            DragAndDropItemList(
+                items = state.folders,
+                onItemDropped = { folderId, orderNum ->
+                    onEvent(AccessesEvent.ChangeOrderNum(folderId, orderNum))
+                },
+                onItemClick = {
+                    navigateToDetail(it)
+                },
+                itemView = { modifier, folder ->
+                    FolderListItem (
+                        modifier = modifier,
+                        folder = folder,
+                        isManager = isManager,
+                        onDelete = {
+                            if (folder.items.size > 1) {
+                                onEvent(AccessesEvent.DeletePressed(it))
+                            }
+                        }
+                    )
+                }
+            )
+        }
+    }
+}

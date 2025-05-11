@@ -1,4 +1,4 @@
-package ua.wied.presentation.screens.instructions
+package ua.wied.presentation.screens.accesses
 
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
@@ -6,29 +6,29 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.update
 import ua.wied.domain.models.folder.Folder
 import ua.wied.domain.models.instruction.Instruction
-import ua.wied.domain.usecases.DeleteInstructionUseCase
+import ua.wied.domain.usecases.DeleteFolderUseCase
 import ua.wied.domain.usecases.GetInstructionFoldersUseCase
-import ua.wied.domain.usecases.ReorderInstructionUseCase
+import ua.wied.domain.usecases.ReorderFolderUseCase
 import ua.wied.presentation.common.base.BaseViewModel
-import ua.wied.presentation.screens.instructions.model.InstructionsEvent
-import ua.wied.presentation.screens.instructions.model.InstructionsState
+import ua.wied.presentation.screens.accesses.model.AccessesEvent
+import ua.wied.presentation.screens.accesses.model.AccessesState
 import javax.inject.Inject
 
 @HiltViewModel
-class InstructionViewModel @Inject constructor(
-    private val getInstructionFoldersUseCase: GetInstructionFoldersUseCase,
-    private val reorderInstruction: ReorderInstructionUseCase,
-    private val deleteInstructionUseCase: DeleteInstructionUseCase
-) : BaseViewModel<InstructionsState, InstructionsEvent>(InstructionsState()) {
+class AccessesViewModel @Inject constructor(
+    private val getInstructionFolders: GetInstructionFoldersUseCase,
+    private val reorderFolder: ReorderFolderUseCase,
+    private val deleteFolder: DeleteFolderUseCase
+): BaseViewModel<AccessesState, AccessesEvent>(AccessesState()) {
     val foldersFlow = MutableStateFlow<List<Folder<Instruction>>>(emptyList())
 
     init {
         initialize()
     }
 
-    override fun onEvent(event: InstructionsEvent) {
+    override fun onEvent(event: AccessesEvent) {
         when (event) {
-            is InstructionsEvent.SearchChanged -> {
+            is AccessesEvent.SearchChanged -> {
                 updateState {
                     it.copy(
                         search = event.value,
@@ -36,9 +36,9 @@ class InstructionViewModel @Inject constructor(
                     )
                 }
             }
-            is InstructionsEvent.DeletePressed -> deleteInstruction(event.value)
-            is InstructionsEvent.ChangeOrderNum -> changeInstructionOrderNum(event.instructionId, event.folderId, event.orderNum)
-            is InstructionsEvent.Refresh -> { initialize(true) }
+            is AccessesEvent.DeletePressed -> deleteInstruction(event.value)
+            is AccessesEvent.ChangeOrderNum -> changeFolderOrderNum(event.folderId, event.orderNum)
+            is AccessesEvent.Refresh -> { initialize(true) }
         }
     }
 
@@ -46,22 +46,14 @@ class InstructionViewModel @Inject constructor(
         if (query.isEmpty()) return foldersFlow.value
 
         val lowerQuery = query.trim().lowercase()
-        return foldersFlow.value.mapNotNull { folder ->
-            val matchingItems = folder.items.filter { instruction ->
-                instruction.title.lowercase().contains(lowerQuery)
-            }
-
-            if (matchingItems.isNotEmpty()) {
-                folder.copy(items = matchingItems)
-            } else {
-                null
-            }
+        return foldersFlow.value.filter { folder ->
+            folder.title.lowercase().contains(lowerQuery)
         }
     }
 
     private fun initialize(isRefresh: Boolean = false) {
         collectNetworkRequest(
-            apiCall = { getInstructionFoldersUseCase() },
+            apiCall = { getInstructionFolders() },
             updateLoadingState = { value -> updateState { it.copy(isLoading = value) } },
             onFailure = {
                 updateState { it.copy(isNotInternetConnection = true) }
@@ -71,9 +63,7 @@ class InstructionViewModel @Inject constructor(
                 updateState {
                     it.copy(
                         folders = foldersFlow.value,
-                        isEmpty = folders.isFoldersEmpty(),
-                        lastItemOrderNum = folders.getLastItemOrderNum() + 1,
-                        firstFolderId = folders.getFirstFolderId(),
+                        isEmpty = folders.isEmpty(),
                         isNotInternetConnection = false
                     )
                 }
@@ -87,11 +77,10 @@ class InstructionViewModel @Inject constructor(
         )
     }
 
-    private fun changeInstructionOrderNum(instructionId: Int, folderId: Int, orderNum: Int) {
+    private fun changeFolderOrderNum(folderId: Int, orderNum: Int) {
         collectNetworkRequest(
             apiCall = {
-                reorderInstruction(
-                    instructionId = instructionId,
+                reorderFolder(
                     folderId = folderId,
                     newOrder = orderNum + 1
                 )
@@ -104,10 +93,10 @@ class InstructionViewModel @Inject constructor(
         )
     }
 
-    private fun deleteInstruction(instructionId: Int) {
+    private fun deleteInstruction(folderId: Int) {
         collectNetworkRequest(
             apiCall = {
-                deleteInstructionUseCase(instructionId)
+                deleteFolder(folderId)
             },
             updateLoadingState = { value -> updateState { it.copy(isLoading = value) } },
             onFailure = {  },
@@ -116,16 +105,4 @@ class InstructionViewModel @Inject constructor(
             }
         )
     }
-
-    private fun List<Folder<Instruction>>.getFirstFolderId() =
-        this.first().id
-
-    private fun List<Folder<Instruction>>.getLastItemOrderNum() =
-        if (this.first().items.isEmpty()) 0
-        else this.first().items.last().orderNum
-
-
-    private fun List<Folder<Instruction>>.isFoldersEmpty() =
-        this.size == 1 && this.first().items.isEmpty()
-
 }

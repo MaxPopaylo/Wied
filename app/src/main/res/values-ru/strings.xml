@@ -101,6 +101,7 @@
 
     <!-- Access Screen -->
     <string name="accesses">Доступа</string>
+    <string name="folder">Папка</string>
 
     <!-- People Screen -->
     <string name="people">Люди</string>

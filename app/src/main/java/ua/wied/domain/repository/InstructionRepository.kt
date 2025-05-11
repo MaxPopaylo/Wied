@@ -37,4 +37,5 @@ interface InstructionRepository {
         instructionId: Int
     ): UnitFlow
     suspend fun deleteElement(elementId: Int, instructionId: Int): UnitFlow
+    suspend fun reorderInstruction(instructionId: Int, folderId: Int, newOrder: Int): UnitFlow
 }

@@ -55,7 +55,9 @@ fun InstructionDetailScreen(
 
     LaunchedEffect(isEditing) {
         if (isEditing != null && !isEditing) {
-            showConfirmDialog = true
+            if (state.instruction?.title?.isNotEmpty() == true) {
+                showConfirmDialog = true
+            }
         }
     }
 

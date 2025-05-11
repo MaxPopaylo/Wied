@@ -1,4 +1,4 @@
-package ua.wied.presentation.screens.people.composable
+package ua.wied.presentation.screens.accesses.composable
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -20,6 +20,8 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import ua.wied.R
+import ua.wied.domain.models.folder.Folder
+import ua.wied.domain.models.instruction.Instruction
 import ua.wied.domain.models.user.User
 import ua.wied.presentation.common.composable.ActionIcon
 import ua.wied.presentation.common.composable.SwipeToReveal
@@ -28,11 +30,10 @@ import ua.wied.presentation.common.theme.WiEDTheme.dimen
 import ua.wied.presentation.common.theme.WiEDTheme.typography
 
 @Composable
-fun UserListItem(
+fun FolderListItem(
     modifier: Modifier = Modifier,
-    user: User,
+    folder: Folder<Instruction>,
     isManager: Boolean,
-    onClick: (User) -> Unit,
     onDelete: (Int) -> Unit
 ) {
     if (isManager) {
@@ -43,7 +44,7 @@ fun UserListItem(
                     icon = ImageVector.vectorResource(R.drawable.icon_filled_delete),
                     tint = Color.White,
                     title = stringResource(R.string.delete),
-                    onClick = { onDelete(user.id) }
+                    onClick = { onDelete(folder.id) }
                 )
             },
             onClick = null
@@ -55,9 +56,6 @@ fun UserListItem(
                         colors.secondaryBackground,
                         dimen.shape
                     )
-                    .clickable {
-                        onClick(user)
-                    }
                     .padding(vertical = 16.dp, horizontal = 14.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
@@ -65,7 +63,7 @@ fun UserListItem(
                     modifier = Modifier
                         .padding(start = dimen.paddingS)
                         .weight(1f),
-                    text = user.name,
+                    text = folder.title,
                     style = typography.h5,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis
@@ -89,9 +87,6 @@ fun UserListItem(
                     colors.secondaryBackground,
                     dimen.shape
                 )
-                .clickable {
-                    onClick(user)
-                }
                 .padding(vertical = 16.dp, horizontal = 14.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
@@ -99,7 +94,7 @@ fun UserListItem(
                 modifier = Modifier
                     .padding(start = dimen.paddingS)
                     .weight(1f),
-                text = user.name,
+                text = folder.title,
                 style = typography.h5,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis

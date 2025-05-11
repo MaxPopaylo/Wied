@@ -108,6 +108,7 @@
 
     <!-- Access Screen -->
     <string name="accesses">Accesses</string>
+    <string name="folder">Folder</string>
 
     <!-- People Screen -->
     <string name="people">People</string>

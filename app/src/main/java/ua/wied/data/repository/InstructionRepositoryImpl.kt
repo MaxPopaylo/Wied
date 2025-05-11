@@ -114,4 +114,19 @@ class InstructionRepositoryImpl @Inject constructor(
             apiCall = { api.deleteElement(elementId, instructionId) }
         )
 
+
+    override suspend fun reorderInstruction(
+        instructionId: Int,
+        folderId: Int,
+        newOrder: Int
+    ): UnitFlow = handlePUTApiCall (
+        apiCall = {
+            api.reorderInstruction(
+                instructionId = instructionId,
+                folderId = folderId,
+                newOrder = newOrder
+            )
+        }
+    )
+
 }
