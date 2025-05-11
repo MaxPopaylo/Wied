@@ -23,6 +23,10 @@
     <string name="choose_from_gallery">Выбрать из галереи</string>
     <string name="image_is_empty">Изображение не выбрано</string>
     <string name="video_is_empty">Видео не выбрано</string>
+    <string name="role_owner">Владелец</string>
+    <string name="role_admin">Админ</string>
+    <string name="role_manager">Менеджер</string>
+    <string name="role_employee">Сотрудник</string>
 
 
     <!--    Errors-->
@@ -100,6 +104,25 @@
 
     <!-- People Screen -->
     <string name="people">Люди</string>
+    <string name="no_employees">Еще не создано ни одного работника</string>
+    <string name="employee_login">Логин сотрудника</string>
+    <string name="employee_login_hint">Введите логин сотрудника</string>
+    <string name="employee_password">Пароль сотрудника</string>
+    <string name="employee_password_hint">Введите пароль сотрудника</string>
+    <string name="employee_confirm_password">Подтвердите пароль сотрудника</string>
+    <string name="employee_name">Полное имя сотрудника</string>
+    <string name="employee_name_hint">Введите полное имя</string>
+    <string name="employee_phone">Телефон сотрудника</string>
+    <string name="employee_phone_hint">Введите номер телефона</string>
+    <string name="employee_email">Email сотрудника</string>
+    <string name="employee_email_hint">Введите адрес email</string>
+    <string name="employee_company">Компания сотрудника</string>
+    <string name="employee_company_hint">Введите название компании</string>
+    <string name="employee_info">Дополнительная информация</string>
+    <string name="employee_info_hint">Введите дополнительную информацию (необязательно)</string>
+    <string name="create_employee">Создать сотрудника</string>
+    <string name="employe">Сотрудник</string>
+
 
     <!-- Profile Screen -->
     <string name="profile">Профиль</string>

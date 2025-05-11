@@ -55,7 +55,7 @@ fun <T: SelectableEnum> TypeDropdown(
     val heightModifier = if (minHeight != null) Modifier.heightIn(min = minHeight)
     else Modifier
 
-    val selectedType by remember { mutableStateOf(initType) }
+    var selectedType by remember { mutableStateOf(initType) }
 
     var showBottomSheet by remember { mutableStateOf(false) }
     val bottomSheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
@@ -138,7 +138,10 @@ fun <T: SelectableEnum> TypeDropdown(
                     showBottomSheet = false
                 }
             },
-            onChosen = onSelected
+            onChosen = {
+                selectedType = it
+                onSelected(it)
+            }
         )
     }
 }
@@ -170,6 +173,7 @@ private fun <T : SelectableEnum> TypeDropdownBottomSheet(
                         )
                         .bounceClick {
                             onChosen(type)
+                            onClose()
                         }
                         .padding(
                             vertical = dimen.paddingL,

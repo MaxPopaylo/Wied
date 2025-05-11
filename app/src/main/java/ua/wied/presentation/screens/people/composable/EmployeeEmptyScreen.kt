@@ -1,4 +1,4 @@
-package ua.wied.presentation.screens.instructions.composable
+package ua.wied.presentation.screens.people.composable
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -20,8 +20,7 @@ import ua.wied.presentation.common.theme.WiEDTheme.dimen
 import ua.wied.presentation.common.theme.WiEDTheme.typography
 
 @Composable
-fun InstructionEmptyScreen(
-    isManager: Boolean,
+fun EmployeeEmptyScreen(
     onCreationClick: () -> Unit
 ) {
     Column(
@@ -31,20 +30,18 @@ fun InstructionEmptyScreen(
     ) {
         Icon(
             modifier = Modifier.size(dimen.sizeL),
-            imageVector = ImageVector.vectorResource(R.drawable.icon_camcorder),
+            imageVector = ImageVector.vectorResource(R.drawable.icon_people),
             tint = colors.primaryText,
-            contentDescription = "Camcorder"
+            contentDescription = "People"
         )
         Text(
             modifier = Modifier.padding(top = dimen.padding2Xs),
-            text = stringResource(R.string.no_instructions),
+            text = stringResource(R.string.no_employees),
             style = typography.body1
         )
-        if (isManager) {
-            PrimaryTextButton(
-                title = stringResource(R.string.create),
-                onClick = onCreationClick
-            )
-        }
+        PrimaryTextButton(
+            title = stringResource(R.string.create),
+            onClick = onCreationClick
+        )
     }
 }

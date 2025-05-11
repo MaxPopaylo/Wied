@@ -101,8 +101,8 @@ fun MainTopAppBar(
     }
 
     when {
-        //Instruction top bars
-        route == InstructionNav.Instructions::class.qualifiedName -> {
+        // Instruction top bars
+        route.isRoute(InstructionNav.Instructions::class.qualifiedName) -> {
             RenderTopBar(
                 title = stringResource(R.string.instructions),
                 actions = (if (isManager) listOf(
@@ -111,7 +111,7 @@ fun MainTopAppBar(
             )
         }
 
-        route?.startsWith(InstructionNav.InstructionDetail::class.qualifiedName ?: "") == true -> {
+        route.isRoute(InstructionNav.InstructionDetail::class.qualifiedName) -> {
             RenderTopBar(
                 title = stringResource(R.string.instruction),
                 navController = navController,
@@ -120,7 +120,7 @@ fun MainTopAppBar(
             )
         }
 
-        route?.startsWith(InstructionNav.InstructionElementDetail::class.qualifiedName ?: "") == true -> {
+        route.isRoute(InstructionNav.InstructionElementDetail::class.qualifiedName) -> {
             RenderTopBar(
                 title = stringResource(R.string.instruction_item),
                 navController = navController,
@@ -129,7 +129,7 @@ fun MainTopAppBar(
             )
         }
 
-        route?.startsWith(InstructionNav.CreateInstruction::class.qualifiedName ?: "") == true -> {
+        route.isRoute(InstructionNav.CreateInstruction::class.qualifiedName) -> {
             RenderTopBar(
                 title = stringResource(R.string.create_instruction),
                 navController = navController,
@@ -137,7 +137,7 @@ fun MainTopAppBar(
             )
         }
 
-        route?.startsWith(InstructionNav.Video::class.qualifiedName ?: "") == true -> {
+        route.isRoute(InstructionNav.Video::class.qualifiedName) -> {
             RenderTopBar(
                 title = stringResource(R.string.all_videos),
                 showBack = true,
@@ -151,16 +151,15 @@ fun MainTopAppBar(
             )
         }
 
-
-        //Report top bars
-        route == ReportNav.Reports::class.qualifiedName -> {
+        // Report top bars
+        route.isRoute(ReportNav.Reports::class.qualifiedName) -> {
             RenderTopBar(
                 title = stringResource(R.string.reports),
                 actions = profileAction
             )
         }
 
-        route?.startsWith(ReportNav.CreateReport::class.qualifiedName ?: "") == true -> {
+        route.isRoute(ReportNav.CreateReport::class.qualifiedName) -> {
             RenderTopBar(
                 title = stringResource(R.string.create_report),
                 navController = navController,
@@ -168,7 +167,7 @@ fun MainTopAppBar(
             )
         }
 
-        route?.startsWith(ReportNav.ReportStatusList::class.qualifiedName ?: "") == true -> {
+        route.isRoute(ReportNav.ReportStatusList::class.qualifiedName) -> {
             RenderTopBar(
                 title = stringResource(R.string.current_reports),
                 navController = navController,
@@ -176,7 +175,7 @@ fun MainTopAppBar(
             )
         }
 
-        route?.startsWith(ReportNav.ReportsByStatusList::class.qualifiedName ?: "") == true -> {
+        route.isRoute(ReportNav.ReportsByStatusList::class.qualifiedName) -> {
             RenderTopBar(
                 title = stringResource(titleForReportsByStatusList(navBackStackEntry)),
                 navController = navController,
@@ -184,7 +183,7 @@ fun MainTopAppBar(
             )
         }
 
-        route?.startsWith(ReportNav.ReportDetail::class.qualifiedName ?: "") == true -> {
+        route.isRoute(ReportNav.ReportDetail::class.qualifiedName) -> {
             RenderTopBar(
                 title = stringResource(R.string.report),
                 navController = navController,
@@ -192,9 +191,8 @@ fun MainTopAppBar(
             )
         }
 
-
-        //Profile top bar
-        route == ProfileNav.Profile::class.qualifiedName -> {
+        // Profile top bar
+        route.isRoute(ProfileNav.Profile::class.qualifiedName) -> {
             RenderTopBar(
                 title = stringResource(R.string.profile),
                 navController = navController,
@@ -202,12 +200,25 @@ fun MainTopAppBar(
             )
         }
 
-
-        //People top bars
-        route == PeopleNav.People::class.qualifiedName -> {
+        // People top bars
+        route.isRoute(PeopleNav.People::class.qualifiedName) -> {
             RenderTopBar(
                 title = stringResource(R.string.people),
                 actions = profileAction
+            )
+        }
+
+        route.isRoute(PeopleNav.CreateEmployee::class.qualifiedName) -> {
+            RenderTopBar(
+                title = stringResource(R.string.create_employee),
+                showBack = true
+            )
+        }
+
+        route.isRoute(PeopleNav.EmployeeDetail::class.qualifiedName) -> {
+            RenderTopBar(
+                title = stringResource(R.string.employe),
+                showBack = true
             )
         }
 
@@ -215,6 +226,7 @@ fun MainTopAppBar(
             RenderTopBar(title = stringResource(R.string.main))
         }
     }
+
 }
 
 
@@ -298,3 +310,6 @@ private fun titleForReportsByStatusList(navBackStackEntry: NavBackStackEntry?) =
         "DONE" -> R.string.done_reports
         else -> R.string.reports
     }
+
+private fun String?.isRoute(destination: String?) =
+    this?.startsWith(destination ?: "") == true

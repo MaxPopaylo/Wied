@@ -27,6 +27,10 @@
     <string name="choose_from_gallery">Choose from gallery</string>
     <string name="image_is_empty">No image selected</string>
     <string name="video_is_empty">No video selected</string>
+    <string name="role_owner">Owner</string>
+    <string name="role_admin">Admin</string>
+    <string name="role_manager">Manager</string>
+    <string name="role_employee">Employee</string>
 
 
     <!-- Errors -->
@@ -107,11 +111,29 @@
 
     <!-- People Screen -->
     <string name="people">People</string>
+    <string name="no_employees">No employees have been created yet</string>
 
     <!-- Profile Screen -->
     <string name="profile">Profile</string>
     <string name="full_name">Your Full Name</string>
     <string name="position">Position</string>
+    <string name="employee_login">Employee login</string>
+    <string name="employee_login_hint">Enter employee login</string>
+    <string name="employee_password">Employee password</string>
+    <string name="employee_password_hint">Enter employee password</string>
+    <string name="employee_confirm_password">Confirm employee password</string>
+    <string name="employee_name">Employee full name</string>
+    <string name="employee_name_hint">Enter full name</string>
+    <string name="employee_phone">Employee phone</string>
+    <string name="employee_phone_hint">Enter phone number</string>
+    <string name="employee_email">Employee email</string>
+    <string name="employee_email_hint">Enter email address</string>
+    <string name="employee_company">Employee company</string>
+    <string name="employee_company_hint">Enter company name</string>
+    <string name="employee_info">Additional info</string>
+    <string name="employee_info_hint">Enter optional info (optional)</string>
+    <string name="create_employee">Create employee</string>
+    <string name="employe">Employee</string>
 
     <!-- Settings Screen -->
     <string name="language">Language</string>

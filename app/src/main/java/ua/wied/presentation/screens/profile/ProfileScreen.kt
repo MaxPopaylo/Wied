@@ -54,7 +54,7 @@ fun ProfileScreen(
 
             DetailTextField(
                 title = stringResource(R.string.position),
-                text = state.user?.role?.displayName ?: "...",
+                text = state.user?.role?.displayName?.let { stringResource(it) } ?: "...",
             )
 
             TypeDropdown(

@@ -51,7 +51,10 @@ fun VideoScreen(
 
     ContentBox(
         state = state,
-        emptyScreen = { InstructionEmptyScreen() },
+        emptyScreen = { InstructionEmptyScreen(
+            isManager = false,
+            onCreationClick = {}
+        ) },
 
         onRefresh = { onEvent(VideoEvent.Refresh) }
     ) {

@@ -64,7 +64,16 @@ fun InstructionsScreen(
         ContentBox(
             state = state,
             onRefresh = { onEvent(InstructionsEvent.Refresh) },
-            emptyScreen = { InstructionEmptyScreen() }
+            emptyScreen = {
+                InstructionEmptyScreen(
+                    isManager = isManager,
+                    onCreationClick = {
+                        if (state.firstFolderId != null && state.lastItemOrderNum != null) {
+                            navigateToCreation(state.lastItemOrderNum, state.firstFolderId)
+                        }
+                    }
+                )
+            }
         ) {
             DragAndDropFolderList (
                 folders = state.folders,

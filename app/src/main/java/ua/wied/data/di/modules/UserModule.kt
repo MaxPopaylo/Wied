@@ -3,17 +3,25 @@ package ua.wied.data.di.modules
 import android.content.Context
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
+import com.skydoves.sandwich.retrofit.adapters.ApiResponseCallAdapterFactory
+import com.squareup.moshi.Moshi
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import okhttp3.OkHttpClient
+import retrofit2.Retrofit
+import retrofit2.converter.moshi.MoshiConverterFactory
+import ua.wied.data.NetworkKeys.BASE_URL
 import ua.wied.data.UserPreferencesConstants.USER_STORAGE_PREFERENCES_NAME
+import ua.wied.data.datasource.network.api.UserApi
+import ua.wied.data.di.AuthenticatedClient
 import ua.wied.data.di.NetworkModule
 import ua.wied.data.di.StorageModule
 import ua.wied.data.di.UserStoragePreference
-import ua.wied.data.repository.UserStoreManagerImpl
-import ua.wied.domain.repository.UserStoreManager
+import ua.wied.data.repository.UserRepositoryImpl
+import ua.wied.domain.repository.UserRepository
 import ua.wied.domain.usecases.ClearUserDataUseCase
 import ua.wied.domain.usecases.GetUserUseCase
 import ua.wied.domain.usecases.SaveUserUseCase
@@ -26,35 +34,50 @@ class UserModule {
 
     @Provides
     @Singleton
-    fun provideUserStoreManager(@UserStoragePreference dataStore: DataStore<Preferences>): UserStoreManager {
-        return UserStoreManagerImpl(dataStore = dataStore)
-    }
-
-    @Provides
-    @Singleton
     @UserStoragePreference
     fun provideUserStore(@ApplicationContext context: Context): DataStore<Preferences> {
         return StorageModule.createPreferenceDataStore(context, USER_STORAGE_PREFERENCES_NAME)
     }
 
     @Provides
-    fun provideSaveUserUseCase(userStoreManager: UserStoreManager): SaveUserUseCase {
-        return SaveUserUseCase(userStoreManager)
+    fun provideSaveUserUseCase(userRepository: UserRepository): SaveUserUseCase {
+        return SaveUserUseCase(userRepository)
     }
 
     @Provides
-    fun provideGetUserUseCase(userStoreManager: UserStoreManager): GetUserUseCase {
-        return GetUserUseCase(userStoreManager)
+    fun provideGetUserUseCase(userRepository: UserRepository): GetUserUseCase {
+        return GetUserUseCase(userRepository)
     }
 
     @Provides
-    fun provideUpdateUserDataUseCase(userStoreManager: UserStoreManager): UpdateUserDataUseCase {
-        return UpdateUserDataUseCase(userStoreManager)
+    fun provideUpdateUserDataUseCase(userRepository: UserRepository): UpdateUserDataUseCase {
+        return UpdateUserDataUseCase(userRepository)
     }
 
     @Provides
-    fun provideClearUserDataUseCase(userStoreManager: UserStoreManager): ClearUserDataUseCase {
-        return ClearUserDataUseCase(userStoreManager)
+    fun provideClearUserDataUseCase(userRepository: UserRepository): ClearUserDataUseCase {
+        return ClearUserDataUseCase(userRepository)
+    }
+
+    @Provides
+    @Singleton
+    fun provideUserStoreManager(@UserStoragePreference dataStore: DataStore<Preferences>, api: UserApi): UserRepository {
+        return UserRepositoryImpl(dataStore = dataStore, api = api)
+    }
+
+    @Provides
+    @Singleton
+    fun provideUserApi(
+        @AuthenticatedClient okHttpClient: OkHttpClient,
+        moshi: Moshi
+    ): UserApi {
+        return Retrofit.Builder()
+            .baseUrl(BASE_URL)
+            .addConverterFactory(MoshiConverterFactory.create(moshi))
+            .addCallAdapterFactory(ApiResponseCallAdapterFactory.create())
+            .client(okHttpClient)
+            .build()
+            .create(UserApi::class.java)
     }
 
 }

@@ -7,6 +7,7 @@ import ua.wied.R
 import ua.wied.domain.models.instruction.Element
 import ua.wied.domain.models.instruction.Instruction
 import ua.wied.domain.models.report.Report
+import ua.wied.domain.models.user.User
 
 @Serializable
 sealed class Screen
@@ -81,6 +82,12 @@ sealed class EvaluationNav : MainNav() {
 sealed class PeopleNav : MainNav() {
     @Serializable
     data object People: PeopleNav()
+
+    @Serializable
+    data object CreateEmployee: PeopleNav()
+
+    @Serializable
+    data class EmployeeDetail(val user: User): PeopleNav()
 }
 
 @Serializable

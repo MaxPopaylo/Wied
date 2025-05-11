@@ -22,6 +22,7 @@ import ua.wied.R
 import ua.wied.presentation.common.navigation.BottomBarScreen
 import ua.wied.presentation.common.navigation.EvaluationNav
 import ua.wied.presentation.common.navigation.InstructionNav
+import ua.wied.presentation.common.navigation.PeopleNav
 import ua.wied.presentation.common.navigation.ProfileNav
 import ua.wied.presentation.common.navigation.ReportNav
 import ua.wied.presentation.common.theme.WiEDTheme.colors
@@ -112,6 +113,7 @@ private fun isSelected(currentDestination: NavDestination?, screen: BottomBarScr
         "ReportNav" in currentRoute -> ReportNav.Reports
         "EvaluationNav" in currentRoute -> EvaluationNav.Evaluations
         "ProfileNav" in currentRoute -> ProfileNav.Profile
+        "PeopleNav" in currentRoute -> PeopleNav.People
         else -> null
     }
 
