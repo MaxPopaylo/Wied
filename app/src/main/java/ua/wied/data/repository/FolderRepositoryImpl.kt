@@ -2,6 +2,7 @@ package ua.wied.data.repository
 
 import ua.wied.data.datasource.network.api.FolderApi
 import ua.wied.data.datasource.network.dto.folders.UpdateFolderDto
+import ua.wied.domain.models.FlowResult
 import ua.wied.domain.models.FlowResultList
 import ua.wied.domain.models.UnitFlow
 import ua.wied.domain.models.folder.Folder
@@ -13,6 +14,14 @@ import javax.inject.Inject
 class FolderRepositoryImpl @Inject constructor(
     private val api: FolderApi
 ) : BaseRepository(), FolderRepository {
+
+    override suspend fun getFolder(folderId: Int): FlowResult<Folder<Instruction>> =
+        handleGETApiCall (
+            apiCall = { api.getFolder(folderId) },
+            transform = {
+                it.data.toDomain()
+            }
+        )
 
     override suspend fun getInstructionFolders(): FlowResultList<Folder<Instruction>> =
         handleGETApiCall(
@@ -30,6 +39,18 @@ class FolderRepositoryImpl @Inject constructor(
             }
         )
 
+    override suspend fun createFolder(title: String, orderNum: Int): UnitFlow =
+        handlePOSTApiCall (
+            apiCall = {
+                api.createFolder(
+                    UpdateFolderDto(
+                        title = title,
+                        orderNum = orderNum
+                    )
+                )
+            }
+        )
+
     override suspend fun updateFolder(folderId: Int, orderNum: Int, title: String): UnitFlow =
         handlePUTApiCall (
             apiCall = {
@@ -39,6 +60,16 @@ class FolderRepositoryImpl @Inject constructor(
                         orderNum = orderNum
                     ),
                     folderId = folderId
+                )
+            }
+        )
+
+    override suspend fun toggleAccess(folderId: Int, userId: Int): UnitFlow =
+        handlePUTApiCall (
+            apiCall = {
+                api.toggleFolderAccess(
+                    folderId = folderId,
+                    userId = userId
                 )
             }
         )

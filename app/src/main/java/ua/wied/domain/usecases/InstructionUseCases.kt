@@ -1,5 +1,6 @@
 package ua.wied.domain.usecases
 
+import ua.wied.domain.repository.FolderRepository
 import ua.wied.domain.repository.InstructionRepository
 import javax.inject.Inject
 
@@ -34,6 +35,17 @@ class UpdateInstructionUseCase @Inject constructor(
         posterUrl = posterUrl,
         orderNum = orderNum,
         folderId = folderId
+    )
+}
+
+class ToggleInstructionAccessUseCase @Inject constructor(
+    private val instructionRepository: InstructionRepository
+) {
+    suspend operator fun invoke(
+        instructionId: Int, userId: Int
+    ) = instructionRepository.toggleAccess(
+        instructionId = instructionId,
+        userId = userId
     )
 }
 

@@ -97,7 +97,7 @@ sealed class AccessNav : MainNav() {
     data object Accesses: AccessNav()
 
     @Serializable
-    data class FolderDetail(val folder: Folder<Instruction>): AccessNav()
+    data class FolderDetail(val folderId: Int): AccessNav()
 
     @Serializable
     data object CreateFolder: AccessNav()

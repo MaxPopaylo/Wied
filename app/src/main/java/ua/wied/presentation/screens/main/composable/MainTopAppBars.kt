@@ -57,72 +57,6 @@ fun MainTopAppBar(
             })
     )
 
-    val instructionDetailActions = when {
-        isManager -> {
-            listOf(
-                TopAppBarAction(
-                    ImageVector.vectorResource(
-                        if (mainState.isInstructionEditing == true) R.drawable.icon_save_changes
-                        else R.drawable.icon_pencil
-                    ),
-                    contentPadding = PaddingValues(
-                        if (mainState.isInstructionEditing == true) dimen.padding2Xs
-                        else dimen.zero
-                    ),
-                    onClick = {
-                        onEvent(MainEvent.InstructionEditingChanged(mainState.isInstructionEditing?.not() != false))
-                    }
-                )
-            )
-        }
-
-        else -> emptyList()
-    }
-
-    val elementDetailActions = when {
-        isManager -> {
-            listOf(
-                TopAppBarAction(
-                    ImageVector.vectorResource(
-                        if (mainState.isElementEditing == true) R.drawable.icon_save_changes
-                        else R.drawable.icon_pencil
-                    ),
-                    contentPadding = PaddingValues(
-                        if (mainState.isElementEditing == true) dimen.padding2Xs
-                        else dimen.zero
-                    ),
-                    onClick = {
-                        onEvent(MainEvent.ElementEditingChanged(mainState.isElementEditing?.not() != false))
-                    }
-                )
-            )
-        }
-
-        else -> emptyList()
-    }
-
-    val accessDetailActions = when {
-        isManager -> {
-            listOf(
-                TopAppBarAction(
-                    ImageVector.vectorResource(
-                        if (mainState.isAccessEditing == true) R.drawable.icon_save_changes
-                        else R.drawable.icon_pencil
-                    ),
-                    contentPadding = PaddingValues(
-                        if (mainState.isAccessEditing == true) dimen.padding2Xs
-                        else dimen.zero
-                    ),
-                    onClick = {
-                        onEvent(MainEvent.ElementEditingChanged(mainState.isAccessEditing?.not() != false))
-                    }
-                )
-            )
-        }
-
-        else -> emptyList()
-    }
-
     when {
         // Instruction top bars
         route.isRoute(InstructionNav.Instructions::class.qualifiedName) -> {
@@ -138,7 +72,13 @@ fun MainTopAppBar(
             RenderTopBar(
                 title = stringResource(R.string.instruction),
                 navController = navController,
-                actions = instructionDetailActions,
+                actions = editActions(
+                    isManager = isManager,
+                    state = mainState.isInstructionEditing,
+                    onClick = {
+                        onEvent(MainEvent.InstructionEditingChanged(it))
+                    }
+                ),
                 showBack = true
             )
         }
@@ -147,7 +87,13 @@ fun MainTopAppBar(
             RenderTopBar(
                 title = stringResource(R.string.instruction_item),
                 navController = navController,
-                actions = elementDetailActions,
+                actions = editActions(
+                    isManager = isManager,
+                    state = mainState.isElementEditing,
+                    onClick = {
+                        onEvent(MainEvent.ElementEditingChanged(it))
+                    }
+                ),
                 showBack = true
             )
         }
@@ -234,18 +180,20 @@ fun MainTopAppBar(
         route.isRoute(PeopleNav.CreateEmployee::class.qualifiedName) -> {
             RenderTopBar(
                 title = stringResource(R.string.create_employee),
+                navController = navController,
                 showBack = true
             )
         }
 
         route.isRoute(PeopleNav.EmployeeDetail::class.qualifiedName) -> {
             RenderTopBar(
-                title = stringResource(R.string.employe),
+                title = stringResource(R.string.employee),
+                navController = navController,
                 showBack = true
             )
         }
 
-        // People top bars
+        // Access top bars
         route.isRoute(AccessNav.Accesses::class.qualifiedName) -> {
             RenderTopBar(
                 title = stringResource(R.string.accesses),
@@ -256,10 +204,18 @@ fun MainTopAppBar(
         route.isRoute(AccessNav.FolderDetail::class.qualifiedName) -> {
             RenderTopBar(
                 title = stringResource(R.string.folder),
-                actions = accessDetailActions,
+                actions = editActions(
+                    isManager = isManager,
+                    state = mainState.isAccessEditing,
+                    onClick = {
+                        onEvent(MainEvent.ElementEditingChanged(it))
+                    }
+                ),
+                navController = navController,
                 showBack = true
             )
         }
+
 
         else -> {
             RenderTopBar(title = stringResource(R.string.main))
@@ -352,3 +308,26 @@ private fun titleForReportsByStatusList(navBackStackEntry: NavBackStackEntry?) =
 
 private fun String?.isRoute(destination: String?) =
     this?.startsWith(destination ?: "") == true
+
+@Composable
+private fun editActions(isManager: Boolean, state: Boolean?, onClick: (Boolean) -> Unit) = when {
+    isManager -> {
+        listOf(
+            TopAppBarAction(
+                ImageVector.vectorResource(
+                    if (state == true) R.drawable.icon_save_changes
+                    else R.drawable.icon_pencil
+                ),
+                contentPadding = PaddingValues(
+                    if (state == true) dimen.padding2Xs
+                    else dimen.zero
+                ),
+                onClick = {
+                    onClick(state?.not() != false)
+                }
+            )
+        )
+    }
+
+    else -> emptyList()
+}

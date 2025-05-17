@@ -9,5 +9,6 @@ data class Folder<T : HasId> (
     override val id: Int,
     val title: String,
     val items: List<T>,
+    val accesses: List<Access>,
     override val orderNum: Int
 ): HasId, DragAndDropItem

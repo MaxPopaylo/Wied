@@ -4,7 +4,7 @@ import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import com.squareup.moshi.Json
 import ua.wied.R
-import ua.wied.domain.SelectableEnum
+import ua.wied.domain.models.SelectableEnum
 
 enum class Role(
     @StringRes override val displayName: Int,
@@ -16,6 +16,6 @@ enum class Role(
     ADMIN(displayName = R.string.role_admin, icon = R.drawable.icon_admin),
     @Json(name = "manager")
     MANAGER(displayName = R.string.role_manager, icon = R.drawable.icon_manager),
-    @Json(name = "employee")
+    @Json(name = "worker")
     EMPLOYEE(displayName = R.string.role_employee, icon = R.drawable.icon_employee)
 }

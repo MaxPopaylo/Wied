@@ -102,6 +102,8 @@
     <!-- Access Screen -->
     <string name="accesses">Доступа</string>
     <string name="folder">Папка</string>
+    <string name="available_to_everyone">Доступно для всех</string>
+    <string name="add_access">Добавить доступ</string>
 
     <!-- People Screen -->
     <string name="people">Люди</string>
@@ -122,7 +124,9 @@
     <string name="employee_info">Дополнительная информация</string>
     <string name="employee_info_hint">Введите дополнительную информацию (необязательно)</string>
     <string name="create_employee">Создать сотрудника</string>
-    <string name="employe">Сотрудник</string>
+    <string name="employee">Сотрудник</string>
+    <string name="employees">Сотрудники</string>
+    <string name="create_folder">Создать папку</string>
 
 
     <!-- Profile Screen -->

@@ -101,6 +101,8 @@
     <!-- Access Screen -->
     <string name="accesses">Доступи</string>
     <string name="folder">Папка</string>
+    <string name="available_to_everyone">Доступно для всіх</string>
+    <string name="add_access">Додати доступ</string>
 
 
     <!-- Profile Screen -->
@@ -127,7 +129,9 @@
     <string name="employee_info">Додаткова інформація</string>
     <string name="employee_info_hint">Введіть додаткову інформацію (необов’язково)</string>
     <string name="create_employee">Створити працівника</string>
-    <string name="employe">Працівник</string>
+    <string name="employee">Працівник</string>
+    <string name="employees">Працівники</string>
+    <string name="create_folder">Створити папку</string>
 
 
     <!-- Settings Screen -->

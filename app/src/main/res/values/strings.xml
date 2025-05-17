@@ -109,6 +109,9 @@
     <!-- Access Screen -->
     <string name="accesses">Accesses</string>
     <string name="folder">Folder</string>
+    <string name="available_to_everyone">Available to everyone</string>
+    <string name="add_access">Add access</string>
+
 
     <!-- People Screen -->
     <string name="people">People</string>
@@ -134,7 +137,9 @@
     <string name="employee_info">Additional info</string>
     <string name="employee_info_hint">Enter optional info (optional)</string>
     <string name="create_employee">Create employee</string>
-    <string name="employe">Employee</string>
+    <string name="employee">Employee</string>
+    <string name="employees">Employees</string>
+    <string name="create_folder">Create folder</string>
 
     <!-- Settings Screen -->
     <string name="language">Language</string>

@@ -1,4 +1,4 @@
-package ua.wied.domain
+package ua.wied.domain.models
 
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes

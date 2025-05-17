@@ -66,6 +66,17 @@ class InstructionRepositoryImpl @Inject constructor(
             transform = { it.data.toDomain() }
         )
 
+    override suspend fun toggleAccess(instructionId: Int, userId: Int): UnitFlow =
+        handlePUTApiCall (
+            apiCall = {
+                api.toggleInstructionAccess(
+                    instructionId = instructionId,
+                    userId = userId
+                )
+            }
+        )
+
+
     override suspend fun saveElement(
         title: String, info: String,
         videoUrl: String?, orderNum: Int,

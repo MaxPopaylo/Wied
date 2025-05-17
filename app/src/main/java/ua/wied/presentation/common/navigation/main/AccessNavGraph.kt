@@ -38,11 +38,10 @@ fun NavGraphBuilder.accessNavGraph(
         AccessesScreen (
             state = state,
             isManager = isManager,
-            savedStateHandle = backStakeEntry.savedStateHandle,
             onEvent = vm::onEvent,
             onMainEvent = onMainEvent,
-            navigateToDetail = { folder ->
-                navController.navigate(AccessNav.FolderDetail(folder))
+            navigateToDetail = { folderId ->
+                navController.navigate(AccessNav.FolderDetail(folderId))
             },
             navigateToCreation = {
                 navController.navigate(AccessNav.CreateFolder)
@@ -56,17 +55,14 @@ fun NavGraphBuilder.accessNavGraph(
         AccessDetailState
     >(
         tabType = TabType.BACK,
-        typeMap = mapOf(
-            typeOf<Folder<Instruction>>() to FolderType
-        ),
         stateProvider = { it.uiState }
     ) { vm, state, backStackEntry ->
         val args = backStackEntry.toRoute<AccessNav.FolderDetail>()
         AccessDetailScreen (
             state = state,
             isManager = isManager,
-            folder = args.folder,
-            isEditing = mainState.isInstructionEditing,
+            folderId = args.folderId,
+            isEditing = mainState.isAccessEditing,
             onEvent = vm::onEvent,
             onMainEvent = onMainEvent,
             backToInstructions = {

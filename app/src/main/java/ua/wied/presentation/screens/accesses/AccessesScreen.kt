@@ -5,9 +5,11 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.lifecycle.SavedStateHandle
 import ua.wied.domain.models.folder.Folder
 import ua.wied.domain.models.instruction.Instruction
 import ua.wied.presentation.common.composable.ContentBox
@@ -15,6 +17,7 @@ import ua.wied.presentation.common.composable.DragAndDropItemList
 import ua.wied.presentation.common.composable.SearchField
 import ua.wied.presentation.common.theme.WiEDTheme.dimen
 import ua.wied.presentation.screens.accesses.composable.FolderListItem
+import ua.wied.presentation.screens.accesses.create.CreateFolderDialog
 import ua.wied.presentation.screens.accesses.model.AccessesEvent
 import ua.wied.presentation.screens.accesses.model.AccessesState
 import ua.wied.presentation.screens.main.models.MainEvent
@@ -24,28 +27,18 @@ import ua.wied.presentation.screens.people.composable.EmployeeEmptyScreen
 fun AccessesScreen(
     state: AccessesState,
     isManager: Boolean,
-    savedStateHandle: SavedStateHandle,
     onMainEvent: (MainEvent) -> Unit,
     onEvent: (AccessesEvent) -> Unit,
     navigateToCreation: () -> Unit,
-    navigateToDetail: (Folder<Instruction>) -> Unit
+    navigateToDetail: (Int) -> Unit
 ) {
-    val shouldRefresh = savedStateHandle
-        .getStateFlow("shouldRefresh", false)
-        .collectAsState()
-
-    LaunchedEffect(shouldRefresh) {
-        if (shouldRefresh.value) {
-            onEvent(AccessesEvent.Refresh)
-            savedStateHandle["shouldRefresh"] = false
-        }
-    }
+    var showCreateDialog by remember { mutableStateOf(false) }
 
     LaunchedEffect(isManager) {
         if (isManager) {
             onMainEvent(MainEvent.FabVisibilityChanged(true))
             onMainEvent(MainEvent.FabClickChanged(value = {
-                navigateToCreation()
+                showCreateDialog = true
             }))
         }
     }
@@ -71,7 +64,7 @@ fun AccessesScreen(
                     onEvent(AccessesEvent.ChangeOrderNum(folderId, orderNum))
                 },
                 onItemClick = {
-                    navigateToDetail(it)
+                    navigateToDetail(it.id)
                 },
                 itemView = { modifier, folder ->
                     FolderListItem (
@@ -79,7 +72,7 @@ fun AccessesScreen(
                         folder = folder,
                         isManager = isManager,
                         onDelete = {
-                            if (folder.items.size > 1) {
+                            if (folder.items.size <= 1) {
                                 onEvent(AccessesEvent.DeletePressed(it))
                             }
                         }
@@ -87,5 +80,18 @@ fun AccessesScreen(
                 }
             )
         }
+    }
+
+    if (showCreateDialog) {
+        CreateFolderDialog(
+            orderNum = state.folders.last().orderNum + 1,
+            onCreated = {
+                showCreateDialog = false
+                onEvent(AccessesEvent.Refresh)
+            },
+            onDismiss = {
+                showCreateDialog = false
+            }
+        )
     }
 }
