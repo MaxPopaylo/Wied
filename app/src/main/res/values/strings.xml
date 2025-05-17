@@ -89,6 +89,8 @@
     <string name="create_item">Create Item</string>
     <string name="instruction_item">Item</string>
     <string name="instruction_items">Items</string>
+    <string name="instruction_public_url">Public link to instruction</string>
+    <string name="instruction_acceesses">Instruction accesses</string>
 
 
     <!-- Reports Screen -->

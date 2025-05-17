@@ -82,6 +82,8 @@
     <string name="create_item">Создать Элемент</string>
     <string name="instruction_item">Элемент</string>
     <string name="instruction_items">Элементы</string>
+    <string name="instruction_public_url">Публичная ссылка на инструкцию</string>
+    <string name="instruction_acceesses">Доступа инструкции</string>
 
 
     <!-- Reports Screen -->

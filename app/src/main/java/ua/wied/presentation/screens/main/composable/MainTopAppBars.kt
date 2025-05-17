@@ -135,6 +135,14 @@ fun MainTopAppBar(
             )
         }
 
+        route.isRoute(InstructionNav.InstructionAccess::class.qualifiedName) -> {
+            RenderTopBar(
+                title = stringResource(R.string.instruction_acceesses),
+                navController = navController,
+                showBack = true
+            )
+        }
+
         // Report top bars
         route.isRoute(ReportNav.Reports::class.qualifiedName) -> {
             RenderTopBar(

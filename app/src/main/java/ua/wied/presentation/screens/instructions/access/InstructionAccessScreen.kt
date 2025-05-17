@@ -1,4 +1,4 @@
-package ua.wied.presentation.screens.accesses.detail
+package ua.wied.presentation.screens.instructions.access
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -21,55 +21,31 @@ import ua.wied.presentation.common.composable.ContentBox
 import ua.wied.presentation.common.composable.DetailTextField
 import ua.wied.presentation.common.composable.EmployeesBottomSheet
 import ua.wied.presentation.common.composable.ItemList
-import ua.wied.presentation.common.composable.SuccessDialog
 import ua.wied.presentation.common.theme.WiEDTheme.dimen
 import ua.wied.presentation.common.theme.WiEDTheme.typography
 import ua.wied.presentation.common.utils.extensions.hideBottomSheet
 import ua.wied.presentation.common.utils.extensions.showBottomSheet
 import ua.wied.presentation.screens.accesses.composable.AccessAvailableForEveryone
 import ua.wied.presentation.screens.accesses.composable.AccessListItem
-import ua.wied.presentation.screens.accesses.detail.model.AccessDetailEvent
-import ua.wied.presentation.screens.accesses.detail.model.AccessDetailState
+import ua.wied.presentation.screens.instructions.access.model.InstructionAccessEvent
+import ua.wied.presentation.screens.instructions.access.model.InstructionAccessState
 import ua.wied.presentation.screens.main.models.MainEvent
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AccessDetailScreen(
-    folderId: Int,
-    isEditing: Boolean?,
+fun InstructionAccessScreen(
+    instructionId: Int,
     isManager: Boolean,
-    state: AccessDetailState,
-    onEvent: (AccessDetailEvent) -> Unit,
     onMainEvent: (MainEvent) -> Unit,
-    backToInstructions: (Boolean) -> Unit
+    state: InstructionAccessState,
+    onEvent: (InstructionAccessEvent) -> Unit,
 ) {
-    var showConfirmDialog by remember { mutableStateOf(false) }
-
     var showBottomSheet by remember { mutableStateOf(false) }
     val bottomSheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
     val coroutineScope = rememberCoroutineScope()
 
     LaunchedEffect(Unit) {
-        onEvent(AccessDetailEvent.LoadData(folderId))
-    }
-
-    LaunchedEffect(isEditing) {
-        if (isManager && isEditing != null && !isEditing) {
-            if (state.folder?.title?.isNotEmpty() == true) {
-                showConfirmDialog = true
-            }
-        }
-    }
-
-    LaunchedEffect(state.updateResult) {
-        state.updateResult.collect { result ->
-            result?.fold(
-                onSuccess = { backToInstructions(true) },
-                onFailure = {
-
-                }
-            )
-        }
+        onEvent(InstructionAccessEvent.LoadData(instructionId))
     }
 
     LaunchedEffect(isManager) {
@@ -77,7 +53,7 @@ fun AccessDetailScreen(
             onMainEvent(MainEvent.FabVisibilityChanged(true))
             onMainEvent(MainEvent.FabClickChanged(value = {
                 showBottomSheet(coroutineScope, bottomSheetState) {
-                    onEvent(AccessDetailEvent.LoadEmployees)
+                    onEvent(InstructionAccessEvent.LoadEmployees)
                     showBottomSheet = true
                 }
             }))
@@ -87,7 +63,7 @@ fun AccessDetailScreen(
     ContentBox(
         state = state,
         onRefresh = {
-            onEvent(AccessDetailEvent.Refresh)
+            onEvent(InstructionAccessEvent.Refresh)
         }
     ) {
         Column(
@@ -95,12 +71,8 @@ fun AccessDetailScreen(
             verticalArrangement = Arrangement.spacedBy(dimen.padding2Xs)
         ) {
             DetailTextField(
-                title = stringResource(R.string.title),
-                text = state.folder?.title ?: "...",
-                isEditing = (isEditing != null && isEditing),
-                onTextChange = {
-                    onEvent(AccessDetailEvent.TitleChanged(it))
-                }
+                title = stringResource(R.string.instruction_public_url),
+                text = state.instructionPublicUrl
             )
 
             Text(
@@ -114,14 +86,14 @@ fun AccessDetailScreen(
                 style = typography.h4
             )
 
-            if (state.folder?.accesses != null && state.folder.accesses.isNotEmpty()) {
+            if (state.instruction?.accesses != null && state.instruction.accesses.isNotEmpty()) {
                 ItemList (
-                    items = state.folder.accesses,
+                    items = state.instruction.accesses,
                     itemView = { access ->
                         AccessListItem (
                             access = access,
                             onDelete = {
-                                onEvent(AccessDetailEvent.AccessToggled(access.id, access.name))
+                                onEvent(InstructionAccessEvent.AccessToggled(access.id, access.name))
                             }
                         )
                     }
@@ -130,7 +102,7 @@ fun AccessDetailScreen(
                 AccessAvailableForEveryone(
                     onAddAccessClick = {
                         showBottomSheet(coroutineScope, bottomSheetState) {
-                            onEvent(AccessDetailEvent.LoadEmployees)
+                            onEvent(InstructionAccessEvent.LoadEmployees)
                             showBottomSheet = true
                         }
                     }
@@ -139,15 +111,6 @@ fun AccessDetailScreen(
         }
     }
 
-    if (showConfirmDialog) {
-        SuccessDialog(
-            onDismiss = {
-                showConfirmDialog = false
-                onMainEvent(MainEvent.FolderEditingChanged(null))
-            },
-            onSuccess = { onEvent(AccessDetailEvent.ChangeData) }
-        )
-    }
 
     if (showBottomSheet) {
         EmployeesBottomSheet (
@@ -158,7 +121,7 @@ fun AccessDetailScreen(
                 }
             },
             userChosen = {
-                onEvent(AccessDetailEvent.AccessToggled(it.id, it.name))
+                onEvent(InstructionAccessEvent.AccessToggled(it.id, it.name))
             }
         )
     }

@@ -43,7 +43,7 @@ interface InstructionApi {
         @Path("instruction_id") instructionId: Int,
     ): Response<DtoWrapper<InstructionDto>>
 
-    @PUT("api/instructions/{instruction_id}/{user_id}")
+    @PUT("api/instructions/toggle_access/{instruction_id}/{user_id}")
     suspend fun toggleInstructionAccess(
         @Path("instruction_id") instructionId: Int,
         @Path("user_id") userId: Int

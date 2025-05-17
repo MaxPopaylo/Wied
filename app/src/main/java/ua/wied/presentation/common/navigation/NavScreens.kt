@@ -53,6 +53,9 @@ sealed class InstructionNav : MainNav() {
 
     @Serializable
     data class CreateElement(val orderNum: Int, val instructionId: Int) : InstructionNav()
+
+    @Serializable
+    data class InstructionAccess(val instructionId: Int) : InstructionNav()
 }
 
 @Serializable

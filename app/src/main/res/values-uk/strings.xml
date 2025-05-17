@@ -81,7 +81,9 @@
     <string name="create_instruction">Створити інструкцію</string>
     <string name="create_item">Створити Елемент</string>
     <string name="instruction_item">Елемент</string>
-    <string name="instruction_items">Елементb</string>
+    <string name="instruction_items">Елемент</string>
+    <string name="instruction_public_url">Публічне посилання на інструкцію</string>
+    <string name="instruction_acceesses">Доступи інструкції</string>
 
     <!-- Reports Screen -->
     <string name="reports">Заявки</string>

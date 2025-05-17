@@ -24,7 +24,8 @@ fun InstructionListItem(
     instruction: Instruction,
     isManager: Boolean,
     toVideoScreen: (Instruction) -> Unit,
-    onDelete: (Int) -> Unit
+    onDelete: (Int) -> Unit,
+    onAccess: (Int) -> Unit
 ) {
     var showConfirmDialog by remember { mutableStateOf(false) }
 
@@ -46,7 +47,7 @@ fun InstructionListItem(
                     icon = ImageVector.vectorResource(R.drawable.icon_add_person),
                     tint = Color.White,
                     title = stringResource(R.string.accesses),
-                    onClick = {}
+                    onClick = { onAccess(instruction.id) }
                 )
 
                 ActionIcon(

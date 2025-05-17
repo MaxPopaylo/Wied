@@ -29,7 +29,8 @@ fun InstructionsScreen(
     onMainEvent: (MainEvent) -> Unit,
     navigateToVideoScreen: (Instruction) -> Unit,
     navigateToDetail: (Instruction) -> Unit,
-    navigateToCreation: (Int, Int) -> Unit
+    navigateToCreation: (Int, Int) -> Unit,
+    navigateToAccess: (Int) -> Unit
 ) {
     val shouldRefresh = savedStateHandle
         .getStateFlow("shouldRefresh", false)
@@ -89,6 +90,9 @@ fun InstructionsScreen(
                         toVideoScreen = navigateToVideoScreen,
                         onDelete = {
                             onEvent(InstructionsEvent.DeletePressed(it))
+                        },
+                        onAccess = {
+                            navigateToAccess(it)
                         }
                     )
                 }

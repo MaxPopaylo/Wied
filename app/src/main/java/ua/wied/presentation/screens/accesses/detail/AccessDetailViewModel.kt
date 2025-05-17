@@ -27,6 +27,7 @@ class AccessDetailViewModel @Inject constructor(
             is AccessDetailEvent.AccessToggled -> toggleFolderAccess(event.userId, event.userName)
             is AccessDetailEvent.LoadEmployees -> getEmployees()
             is AccessDetailEvent.ChangeData -> { changeFolder() }
+            is AccessDetailEvent.Refresh -> { uiState.value.folder?.id?.let { loadFolder(it) } }
         }
     }
 

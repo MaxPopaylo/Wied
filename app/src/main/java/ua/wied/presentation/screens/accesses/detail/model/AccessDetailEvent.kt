@@ -10,4 +10,5 @@ sealed class AccessDetailEvent {
     data class AccessToggled(val userId: Int, val userName: String): AccessDetailEvent()
     data object LoadEmployees: AccessDetailEvent()
     data object ChangeData: AccessDetailEvent()
+    data object Refresh: AccessDetailEvent()
 }
