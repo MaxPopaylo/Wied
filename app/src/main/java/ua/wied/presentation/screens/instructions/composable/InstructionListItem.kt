@@ -1,6 +1,10 @@
 package ua.wied.presentation.screens.instructions.composable
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -10,6 +14,7 @@ import ua.wied.R
 import ua.wied.domain.models.instruction.Instruction
 import ua.wied.presentation.common.composable.ActionIcon
 import ua.wied.presentation.common.composable.InstructionItem
+import ua.wied.presentation.common.composable.SuccessDialog
 import ua.wied.presentation.common.composable.SwipeToReveal
 import ua.wied.presentation.common.theme.WiEDTheme.colors
 
@@ -21,6 +26,8 @@ fun InstructionListItem(
     toVideoScreen: (Instruction) -> Unit,
     onDelete: (Int) -> Unit
 ) {
+    var showConfirmDialog by remember { mutableStateOf(false) }
+
     SwipeToReveal(
         actions = {
             ActionIcon(
@@ -47,7 +54,7 @@ fun InstructionListItem(
                     icon = ImageVector.vectorResource(R.drawable.icon_filled_delete),
                     tint = Color.White,
                     title = stringResource(R.string.delete),
-                    onClick = { onDelete(instruction.id) }
+                    onClick = { showConfirmDialog = true }
                 )
             }
         },
@@ -56,6 +63,16 @@ fun InstructionListItem(
         InstructionItem(
             modifier = modifier,
             instruction = instruction
+        )
+    }
+
+    if (showConfirmDialog) {
+        SuccessDialog(
+            isDelete = true,
+            onDismiss = {
+                showConfirmDialog = false
+            },
+            onSuccess = { onDelete(instruction.id) }
         )
     }
 }

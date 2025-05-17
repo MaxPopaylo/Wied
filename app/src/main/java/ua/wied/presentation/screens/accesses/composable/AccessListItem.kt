@@ -7,6 +7,10 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -18,6 +22,7 @@ import androidx.compose.ui.unit.dp
 import ua.wied.R
 import ua.wied.domain.models.folder.Access
 import ua.wied.presentation.common.composable.ActionIcon
+import ua.wied.presentation.common.composable.SuccessDialog
 import ua.wied.presentation.common.composable.SwipeToReveal
 import ua.wied.presentation.common.theme.WiEDTheme.colors
 import ua.wied.presentation.common.theme.WiEDTheme.dimen
@@ -30,6 +35,8 @@ fun AccessListItem (
     onClick: (Access) -> Unit = {},
     onDelete: (Int) -> Unit
 ) {
+    var showConfirmDialog by remember { mutableStateOf(false) }
+
     SwipeToReveal(
         actions = {
             ActionIcon(
@@ -37,7 +44,7 @@ fun AccessListItem (
                 icon = ImageVector.vectorResource(R.drawable.icon_filled_delete),
                 tint = Color.White,
                 title = stringResource(R.string.delete),
-                onClick = { onDelete(access.id) }
+                onClick = { showConfirmDialog = true }
             )
         },
         onClick = null
@@ -65,5 +72,16 @@ fun AccessListItem (
                 overflow = TextOverflow.Ellipsis
             )
         }
+    }
+
+
+    if (showConfirmDialog) {
+        SuccessDialog(
+            isDelete = true,
+            onDismiss = {
+                showConfirmDialog = false
+            },
+            onSuccess = { onDelete(access.id) }
+        )
     }
 }

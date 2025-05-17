@@ -117,6 +117,10 @@ fun NavGraphBuilder.instructionNavGraph(
                 navController.navigate(InstructionNav.CreateElement(orderNum, instructionId))
             },
             backToInstructions = {
+                navController.previousBackStackEntry
+                    ?.savedStateHandle
+                    ?.set("shouldRefresh", it)
+
                 navController.popBackStack()
             }
         )
@@ -158,6 +162,7 @@ fun NavGraphBuilder.instructionNavGraph(
             state = state,
             element = args.element,
             isEditing = mainState.isElementEditing,
+            isDeleting = mainState.isElementDeleting,
             onEvent = vm::onEvent,
             onMainEvent = onMainEvent,
             onPlayerEvent = vm::onEvent,

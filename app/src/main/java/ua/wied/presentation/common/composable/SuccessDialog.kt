@@ -18,6 +18,7 @@ import ua.wied.presentation.common.theme.WiEDTheme.typography
 
 @Composable
 fun SuccessDialog(
+    isDelete: Boolean = false,
     onDismiss: () -> Unit,
     onSuccess: () -> Unit
 ) {
@@ -37,7 +38,8 @@ fun SuccessDialog(
                 verticalArrangement = Arrangement.spacedBy(dimen.paddingL)
             ) {
                 Text(
-                    text = stringResource(R.string.confirm_changes_message),
+                    text = if (isDelete) stringResource(R.string.confirm_delete_message)
+                    else stringResource(R.string.confirm_changes_message),
                     style = typography.h5
                 )
 

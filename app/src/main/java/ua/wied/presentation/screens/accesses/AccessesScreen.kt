@@ -5,11 +5,13 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.lifecycle.SavedStateHandle
 import ua.wied.domain.models.folder.Folder
 import ua.wied.domain.models.instruction.Instruction
 import ua.wied.presentation.common.composable.ContentBox
@@ -27,12 +29,24 @@ import ua.wied.presentation.screens.people.composable.EmployeeEmptyScreen
 fun AccessesScreen(
     state: AccessesState,
     isManager: Boolean,
+    savedStateHandle: SavedStateHandle,
     onMainEvent: (MainEvent) -> Unit,
     onEvent: (AccessesEvent) -> Unit,
     navigateToCreation: () -> Unit,
     navigateToDetail: (Int) -> Unit
 ) {
     var showCreateDialog by remember { mutableStateOf(false) }
+
+    val shouldRefresh = savedStateHandle
+        .getStateFlow("shouldRefresh", false)
+        .collectAsState()
+
+    LaunchedEffect(shouldRefresh) {
+        if (shouldRefresh.value) {
+            onEvent(AccessesEvent.Refresh)
+            savedStateHandle["shouldRefresh"] = false
+        }
+    }
 
     LaunchedEffect(isManager) {
         if (isManager) {

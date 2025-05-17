@@ -17,6 +17,7 @@
     <string name="upload_image">Завантажити зображення</string>
     <string name="upload_video">Завантажити відео</string>
     <string name="confirm_changes_message">Ви впевнені, що хочете застосувати ці зміни?</string>
+    <string name="confirm_delete_message">Ви впевнені, що хочете видалити це?</string>
     <string name="confirm_button">Застосувати</string>
     <string name="cancel">Відмінити</string>
     <string name="make_video">Записати відео</string>
@@ -78,6 +79,7 @@
     <string name="no_instructions">Не створено ще жодної інструкції</string>
     <string name="all_videos">Всі відео</string>
     <string name="create_instruction">Створити інструкцію</string>
+    <string name="create_item">Створити Елемент</string>
     <string name="instruction_item">Елемент</string>
     <string name="instruction_items">Елементb</string>
 

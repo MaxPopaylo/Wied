@@ -42,7 +42,7 @@ fun InstructionDetailScreen(
     onMainEvent: (MainEvent) -> Unit,
     navigateToElementDetail: (Element) -> Unit,
     navigateToCreation: (Int, Int) -> Unit,
-    backToInstructions: () -> Unit
+    backToInstructions: (Boolean) -> Unit
 ) {
     var choseImage by remember { mutableStateOf("") }
     var showDialog by remember { mutableStateOf(false) }
@@ -64,7 +64,7 @@ fun InstructionDetailScreen(
     LaunchedEffect(state.updateResult) {
         state.updateResult.collect { result ->
             result?.fold(
-                onSuccess = { backToInstructions() },
+                onSuccess = { backToInstructions(true) },
                 onFailure = {
 
                 }

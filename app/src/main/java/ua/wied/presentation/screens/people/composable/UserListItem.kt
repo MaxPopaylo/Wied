@@ -10,6 +10,10 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
@@ -22,6 +26,7 @@ import androidx.compose.ui.unit.dp
 import ua.wied.R
 import ua.wied.domain.models.user.User
 import ua.wied.presentation.common.composable.ActionIcon
+import ua.wied.presentation.common.composable.SuccessDialog
 import ua.wied.presentation.common.composable.SwipeToReveal
 import ua.wied.presentation.common.theme.WiEDTheme.colors
 import ua.wied.presentation.common.theme.WiEDTheme.dimen
@@ -35,6 +40,8 @@ fun UserListItem(
     onClick: (User) -> Unit,
     onDelete: (Int) -> Unit
 ) {
+    var showConfirmDialog by remember { mutableStateOf(false) }
+
     if (isManager) {
         SwipeToReveal(
             actions = {
@@ -43,7 +50,7 @@ fun UserListItem(
                     icon = ImageVector.vectorResource(R.drawable.icon_filled_delete),
                     tint = Color.White,
                     title = stringResource(R.string.delete),
-                    onClick = { onDelete(user.id) }
+                    onClick = { showConfirmDialog = true }
                 )
             },
             onClick = null
@@ -114,5 +121,15 @@ fun UserListItem(
                 )
             }
         }
+    }
+
+    if (showConfirmDialog) {
+        SuccessDialog(
+            isDelete = true,
+            onDismiss = {
+                showConfirmDialog = false
+            },
+            onSuccess = { onDelete(user.id) }
+        )
     }
 }

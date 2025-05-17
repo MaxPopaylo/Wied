@@ -21,6 +21,7 @@
     <string name="upload_image">Upload Image</string>
     <string name="upload_video">Upload Video</string>
     <string name="confirm_changes_message">Are you sure you want to apply these changes?</string>
+    <string name="confirm_delete_message">Are you sure you want to delete it?</string>
     <string name="confirm_button">Apply</string>
     <string name="cancel">Cancel</string>
     <string name="make_video">Make video</string>
@@ -85,6 +86,7 @@
     <string name="no_instructions">No instructions have been created yet</string>
     <string name="all_videos">All Videos</string>
     <string name="create_instruction">Create Instruction</string>
+    <string name="create_item">Create Item</string>
     <string name="instruction_item">Item</string>
     <string name="instruction_items">Items</string>
 

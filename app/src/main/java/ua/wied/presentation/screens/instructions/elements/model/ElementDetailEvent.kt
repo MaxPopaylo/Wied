@@ -9,5 +9,6 @@ sealed class ElementDetailEvent {
     data class InfoChanged(val value: String): ElementDetailEvent()
     data class VideoChanged(val value: String?): ElementDetailEvent()
     data class ChangeFullScreenVideoState(val url: String?, val showDialog: Boolean) : ElementDetailEvent()
+    data object Delete: ElementDetailEvent()
     data object ChangeData: ElementDetailEvent()
 }

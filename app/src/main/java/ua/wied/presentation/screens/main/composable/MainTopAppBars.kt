@@ -37,6 +37,7 @@ import ua.wied.presentation.common.theme.WiEDTheme.dimen
 import ua.wied.presentation.common.theme.WiEDTheme.typography
 import ua.wied.presentation.screens.main.models.MainEvent
 import ua.wied.presentation.screens.main.models.MainState
+import kotlin.collections.plus
 
 @Composable
 fun MainTopAppBar(
@@ -93,6 +94,12 @@ fun MainTopAppBar(
                     onClick = {
                         onEvent(MainEvent.ElementEditingChanged(it))
                     }
+                ) + deleteActions(
+                    isManager = isManager,
+                    state = mainState.isElementDeleting,
+                    onClick = {
+                        onEvent(MainEvent.ElementDeletingChanged(it))
+                    }
                 ),
                 showBack = true
             )
@@ -101,6 +108,14 @@ fun MainTopAppBar(
         route.isRoute(InstructionNav.CreateInstruction::class.qualifiedName) -> {
             RenderTopBar(
                 title = stringResource(R.string.create_instruction),
+                navController = navController,
+                showBack = true
+            )
+        }
+
+        route.isRoute(InstructionNav.CreateElement::class.qualifiedName) -> {
+            RenderTopBar(
+                title = stringResource(R.string.create_item),
                 navController = navController,
                 showBack = true
             )
@@ -206,9 +221,9 @@ fun MainTopAppBar(
                 title = stringResource(R.string.folder),
                 actions = editActions(
                     isManager = isManager,
-                    state = mainState.isAccessEditing,
+                    state = mainState.isFolderEditing,
                     onClick = {
-                        onEvent(MainEvent.ElementEditingChanged(it))
+                        onEvent(MainEvent.FolderEditingChanged(it))
                     }
                 ),
                 navController = navController,
@@ -322,6 +337,23 @@ private fun editActions(isManager: Boolean, state: Boolean?, onClick: (Boolean) 
                     if (state == true) dimen.padding2Xs
                     else dimen.zero
                 ),
+                onClick = {
+                    onClick(state?.not() != false)
+                }
+            )
+        )
+    }
+
+    else -> emptyList()
+}
+
+@Composable
+private fun deleteActions(isManager: Boolean, state: Boolean?, onClick: (Boolean) -> Unit) = when {
+    isManager -> {
+        listOf(
+            TopAppBarAction(
+                ImageVector.vectorResource(R.drawable.icon_delete),
+                contentPadding = PaddingValues(dimen.padding2Xs),
                 onClick = {
                     onClick(state?.not() != false)
                 }

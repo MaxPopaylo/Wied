@@ -3,11 +3,7 @@ package ua.wied.presentation.common.navigation.main
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.toRoute
-import ua.wied.domain.models.folder.Folder
-import ua.wied.domain.models.instruction.Instruction
 import ua.wied.presentation.common.navigation.AccessNav
-import ua.wied.presentation.common.navigation.FolderType
-import ua.wied.presentation.common.navigation.InstructionNav
 import ua.wied.presentation.common.navigation.TabType
 import ua.wied.presentation.common.navigation.screenComposable
 import ua.wied.presentation.screens.accesses.AccessesScreen
@@ -18,7 +14,6 @@ import ua.wied.presentation.screens.accesses.detail.model.AccessDetailState
 import ua.wied.presentation.screens.accesses.model.AccessesState
 import ua.wied.presentation.screens.main.models.MainEvent
 import ua.wied.presentation.screens.main.models.MainState
-import kotlin.reflect.typeOf
 
 
 fun NavGraphBuilder.accessNavGraph(
@@ -40,6 +35,7 @@ fun NavGraphBuilder.accessNavGraph(
             isManager = isManager,
             onEvent = vm::onEvent,
             onMainEvent = onMainEvent,
+            savedStateHandle = backStakeEntry.savedStateHandle,
             navigateToDetail = { folderId ->
                 navController.navigate(AccessNav.FolderDetail(folderId))
             },
@@ -62,10 +58,14 @@ fun NavGraphBuilder.accessNavGraph(
             state = state,
             isManager = isManager,
             folderId = args.folderId,
-            isEditing = mainState.isAccessEditing,
+            isEditing = mainState.isFolderEditing,
             onEvent = vm::onEvent,
             onMainEvent = onMainEvent,
             backToInstructions = {
+                navController.previousBackStackEntry
+                    ?.savedStateHandle
+                    ?.set("shouldRefresh", it)
+
                 navController.popBackStack()
             }
         )

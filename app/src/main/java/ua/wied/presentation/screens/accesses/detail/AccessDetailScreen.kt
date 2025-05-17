@@ -17,8 +17,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import ua.wied.R
-import ua.wied.domain.models.folder.Folder
-import ua.wied.domain.models.instruction.Instruction
 import ua.wied.presentation.common.composable.ContentBox
 import ua.wied.presentation.common.composable.DetailTextField
 import ua.wied.presentation.common.composable.EmployeesBottomSheet
@@ -43,7 +41,7 @@ fun AccessDetailScreen(
     state: AccessDetailState,
     onEvent: (AccessDetailEvent) -> Unit,
     onMainEvent: (MainEvent) -> Unit,
-    backToInstructions: () -> Unit
+    backToInstructions: (Boolean) -> Unit
 ) {
     var showConfirmDialog by remember { mutableStateOf(false) }
 
@@ -66,7 +64,7 @@ fun AccessDetailScreen(
     LaunchedEffect(state.updateResult) {
         state.updateResult.collect { result ->
             result?.fold(
-                onSuccess = { backToInstructions() },
+                onSuccess = { backToInstructions(true) },
                 onFailure = {
 
                 }
@@ -143,7 +141,7 @@ fun AccessDetailScreen(
         SuccessDialog(
             onDismiss = {
                 showConfirmDialog = false
-                onMainEvent(MainEvent.AccessEditingChanged(null))
+                onMainEvent(MainEvent.FolderEditingChanged(null))
             },
             onSuccess = { onEvent(AccessDetailEvent.ChangeData) }
         )

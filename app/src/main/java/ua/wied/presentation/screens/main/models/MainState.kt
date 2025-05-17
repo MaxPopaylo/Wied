@@ -6,7 +6,8 @@ data class MainState (
     override val isLoading: Boolean = false,
     val isInstructionEditing: Boolean? = null,
     val isElementEditing: Boolean? = null,
-    val isAccessEditing: Boolean? = null,
+    val isElementDeleting: Boolean? = null,
+    val isFolderEditing: Boolean? = null,
     val isFabVisible: Boolean = false,
     val fabClick: () -> Unit = {}
 ): BaseState

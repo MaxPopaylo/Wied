@@ -46,6 +46,7 @@ import ua.wied.presentation.screens.main.models.MainEvent
 fun ElementDetailScreen(
     element: Element,
     isEditing: Boolean?,
+    isDeleting: Boolean?,
     state: ElementDetailState,
     onEvent: (ElementDetailEvent) -> Unit,
     onPlayerEvent: (VideoPlayerEvent) -> Unit,
@@ -53,6 +54,7 @@ fun ElementDetailScreen(
     backToInstruction: () -> Unit
 ) {
     var showConfirmDialog by remember { mutableStateOf(false) }
+    var showDeletingConfirmDialog by remember { mutableStateOf(false) }
 
     var showBottomSheet by remember { mutableStateOf(false) }
     val bottomSheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
@@ -67,6 +69,12 @@ fun ElementDetailScreen(
             if (state.element?.title?.isNotEmpty() == true) {
                 showConfirmDialog = true
             }
+        }
+    }
+
+    LaunchedEffect(isDeleting) {
+        if (isDeleting != null && isDeleting) {
+            showDeletingConfirmDialog = true
         }
     }
 
@@ -152,6 +160,16 @@ fun ElementDetailScreen(
                 onMainEvent(MainEvent.ElementEditingChanged(null))
             },
             onSuccess = { onEvent(ElementDetailEvent.ChangeData) }
+        )
+    }
+
+    if (showDeletingConfirmDialog) {
+        SuccessDialog(
+            onDismiss = {
+                showConfirmDialog = false
+                onMainEvent(MainEvent.ElementDeletingChanged(null))
+            },
+            onSuccess = { onEvent(ElementDetailEvent.Delete) }
         )
     }
 

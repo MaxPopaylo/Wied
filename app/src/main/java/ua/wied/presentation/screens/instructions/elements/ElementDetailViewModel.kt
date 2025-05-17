@@ -5,6 +5,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import ua.wied.domain.repository.VideoPlayerEvent
+import ua.wied.domain.usecases.DeleteElementUseCase
 import ua.wied.domain.usecases.PlayVideoUseCase
 import ua.wied.domain.usecases.UpdateElementUseCase
 import ua.wied.presentation.common.base.BaseViewModel
@@ -15,7 +16,8 @@ import javax.inject.Inject
 @HiltViewModel
 class ElementDetailViewModel @Inject constructor(
     private val playVideo: PlayVideoUseCase,
-    private val updateElement: UpdateElementUseCase
+    private val updateElement: UpdateElementUseCase,
+    private val deleteElementUseCase: DeleteElementUseCase
 ): BaseViewModel<ElementDetailState, ElementDetailEvent>(ElementDetailState()) {
 
     init {
@@ -46,6 +48,7 @@ class ElementDetailViewModel @Inject constructor(
                     fullScreenVideoUrl = event.url
                 ) }
             }
+            is ElementDetailEvent.Delete -> deleteElement()
             is ElementDetailEvent.ChangeData -> { changeElement() }
         }
     }
@@ -63,6 +66,25 @@ class ElementDetailViewModel @Inject constructor(
                         videoUrl = state.element.videoUrl,
                         orderNum = state.element.orderNum
 
+                    )
+                },
+                updateLoadingState = { value -> updateState { it.copy(isLoading = value) } },
+                onFailure = { state.updateResult.emit(Result.failure(it)) },
+                onSuccess = {
+                    state.updateResult.emit(Result.success(Unit))
+                }
+            )
+        }
+    }
+
+    private fun deleteElement() {
+        val state = uiState.value
+        if (state.element != null) {
+            collectNetworkRequest(
+                apiCall = {
+                    deleteElementUseCase(
+                        instructionId = state.element.instructionId,
+                        elementId = state.element.id,
                     )
                 },
                 updateLoadingState = { value -> updateState { it.copy(isLoading = value) } },
