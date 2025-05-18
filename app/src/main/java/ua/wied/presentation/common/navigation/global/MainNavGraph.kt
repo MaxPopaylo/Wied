@@ -5,6 +5,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import ua.wied.presentation.common.navigation.InstructionNav
 import ua.wied.presentation.common.navigation.main.accessNavGraph
+import ua.wied.presentation.common.navigation.main.evaluationNavGraph
 import ua.wied.presentation.common.navigation.main.instructionNavGraph
 import ua.wied.presentation.common.navigation.main.peopleNavGraph
 import ua.wied.presentation.common.navigation.main.profileNavGraph
@@ -46,5 +47,7 @@ fun MainNavGraph(
             isManager = isManager,
             onMainEvent = onMainEvent
         )
+
+        evaluationNavGraph(navController)
     }
 }

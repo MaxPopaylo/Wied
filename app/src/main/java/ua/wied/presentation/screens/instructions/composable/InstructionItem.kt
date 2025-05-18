@@ -1,4 +1,4 @@
-package ua.wied.presentation.common.composable
+package ua.wied.presentation.screens.instructions.composable
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -19,6 +19,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import ua.wied.R
 import ua.wied.domain.models.instruction.Instruction
+import ua.wied.presentation.common.composable.CustomAsyncImage
 import ua.wied.presentation.common.theme.WiEDTheme.colors
 import ua.wied.presentation.common.theme.WiEDTheme.dimen
 import ua.wied.presentation.common.theme.WiEDTheme.typography

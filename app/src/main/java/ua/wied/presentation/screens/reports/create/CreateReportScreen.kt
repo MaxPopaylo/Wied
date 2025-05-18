@@ -12,7 +12,6 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -26,7 +25,7 @@ import ua.wied.R
 import ua.wied.domain.models.instruction.Instruction
 import ua.wied.presentation.common.composable.SquareIconButton
 import ua.wied.presentation.common.composable.ImagePickerButton
-import ua.wied.presentation.common.composable.InstructionItem
+import ua.wied.presentation.screens.instructions.composable.InstructionItem
 import ua.wied.presentation.common.composable.PrimaryButton
 import ua.wied.presentation.common.composable.UnderlineTextField
 import ua.wied.presentation.common.theme.WiEDTheme.colors

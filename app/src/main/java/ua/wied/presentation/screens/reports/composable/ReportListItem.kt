@@ -20,7 +20,7 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
 import ua.wied.R
 import ua.wied.domain.models.instruction.Instruction
-import ua.wied.presentation.common.composable.InstructionItem
+import ua.wied.presentation.screens.instructions.composable.InstructionItem
 import ua.wied.presentation.common.theme.WiEDTheme.colors
 import ua.wied.presentation.common.theme.WiEDTheme.dimen
 import ua.wied.presentation.common.theme.WiEDTheme.typography

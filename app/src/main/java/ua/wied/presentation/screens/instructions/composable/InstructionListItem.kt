@@ -13,7 +13,6 @@ import androidx.compose.ui.res.vectorResource
 import ua.wied.R
 import ua.wied.domain.models.instruction.Instruction
 import ua.wied.presentation.common.composable.ActionIcon
-import ua.wied.presentation.common.composable.InstructionItem
 import ua.wied.presentation.common.composable.SuccessDialog
 import ua.wied.presentation.common.composable.SwipeToReveal
 import ua.wied.presentation.common.theme.WiEDTheme.colors
