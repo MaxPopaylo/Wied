@@ -84,6 +84,9 @@
     <string name="instruction_items">Елемент</string>
     <string name="instruction_public_url">Публічне посилання на інструкцію</string>
     <string name="instruction_acceesses">Доступи інструкції</string>
+    <string name="ai_assistant_title">ШІ ПОМІЧНИК</string>
+    <string name="ai_assistant_description">Знайомтесь з вашим особистим помічником на базі штучного інтелекту</string>
+    <string name="ai_assistant_instruction">Він допоможе вам написати текст для ваших відео. Просто скажіть йому, який процес вам потрібно проінструктувати, і він зробить усе інше!</string>
 
     <!-- Reports Screen -->
     <string name="reports">Заявки</string>

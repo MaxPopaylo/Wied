@@ -91,6 +91,9 @@
     <string name="instruction_items">Items</string>
     <string name="instruction_public_url">Public link to instruction</string>
     <string name="instruction_acceesses">Instruction accesses</string>
+    <string name="ai_assistant_title">AI ASSISTANT</string>
+    <string name="ai_assistant_description">Meet your personal artificial intelligence assistant</string>
+    <string name="ai_assistant_instruction">It will help you write text for your videos. Just tell it which process you need instructions for, and it will do the rest!</string>
 
 
     <!-- Reports Screen -->
