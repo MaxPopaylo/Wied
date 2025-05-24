@@ -36,7 +36,7 @@ import ua.wied.presentation.common.theme.WiEDTheme.colors
 import ua.wied.presentation.common.theme.WiEDTheme.dimen
 import ua.wied.presentation.common.theme.WiEDTheme.typography
 import ua.wied.presentation.common.utils.ToastManager
-import ua.wied.presentation.common.utils.extensions.formatToShortDate
+import ua.wied.presentation.common.utils.Formatter.formatToShortDate
 import ua.wied.presentation.screens.reports.detail.models.ReportDetailEvent
 import ua.wied.presentation.screens.reports.detail.models.ReportDetailState
 

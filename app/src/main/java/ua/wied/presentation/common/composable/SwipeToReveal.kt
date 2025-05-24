@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
@@ -91,48 +90,32 @@ fun SwipeToReveal(
     threshold: Float = 0.3f,
     backgroundColorBehind: Color = Color.LightGray,
     onClick: (() -> Unit)? = null,
-    actions: @Composable RowScope.() -> Unit,
+    actions: @Composable () -> Unit,
     content: @Composable () -> Unit,
 ) {
     var actionsWidth by remember { mutableStateOf(0.dp) }
     val localDensity = LocalDensity.current
-
-    val swipeableState = rememberSwipeableState(initialValue = 0)
+    val initialValue = 0
 
     val anchors = remember(actionsWidth) {
-        if (actionsWidth == 0.dp) {
-            mapOf(0f to 0)
+        if (actionsWidth > 0.dp) {
+            mapOf(
+                0f to 0,
+                -actionsWidth.value * localDensity.density to 1
+            )
         } else {
-            mapOf(0f to 0, -actionsWidth.value * localDensity.density to 1)
+            emptyMap()
         }
     }
 
-    val measureActions = remember {
-        Modifier.onGloballyPositioned { coordinates ->
-            with(localDensity) {
-                actionsWidth = coordinates.size.width.toDp()
-            }
-        }
-    }
-
-    val offset = remember {
-        Modifier.offset {
-            IntOffset(swipeableState.offset.value.roundToInt(), 0)
-        }
-    }
-
-    val clickable = remember {
-        if (onClick != null) {
-            Modifier.bounceClick(onClick)
-        } else {
-            Modifier
-        }
-    }
+    val swipeableState = rememberSwipeableState(initialValue = initialValue)
 
     Box(
         modifier = modifier
             .height(IntrinsicSize.Min)
-            .then(clickable)
+            .let { boxModifier ->
+                if (onClick != null) boxModifier.bounceClick(onClick) else boxModifier
+            }
             .clip(cornerShape)
             .background(backgroundColorBehind)
     ) {
@@ -140,24 +123,35 @@ fun SwipeToReveal(
             modifier = Modifier
                 .fillMaxHeight(0.99f)
                 .align(Alignment.CenterEnd)
-                .then(measureActions),
+                .onGloballyPositioned { coordinates ->
+                    with(localDensity) {
+                        actionsWidth = coordinates.size.width.toDp()
+                    }
+                },
             horizontalArrangement = Arrangement.End,
-            content = {
-                actions()
-            }
-        )
+        ) {
+            actions()
+        }
 
         Box(
             modifier = Modifier
-                .then(offset)
-                .clip(cornerShape)
-                .swipeable(
-                    state = swipeableState,
-                    anchors = anchors,
-                    thresholds = { _, _ -> FractionalThreshold(threshold) },
-                    orientation = Orientation.Horizontal,
-                    resistance = null
-                )
+                .let {
+                    if (anchors.isNotEmpty()) {
+                        it.offset {
+                            IntOffset(swipeableState.offset.value.roundToInt(), 0)
+                        }
+                            .clip(cornerShape)
+                            .swipeable(
+                                state = swipeableState,
+                                anchors = anchors,
+                                thresholds = { _, _ -> FractionalThreshold(threshold) },
+                                orientation = Orientation.Horizontal,
+                                resistance = null
+                            )
+                    } else {
+                        it
+                    }
+                }
         ) {
             content()
         }

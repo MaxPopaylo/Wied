@@ -68,6 +68,7 @@ fun InstructionsScreen(
             emptyScreen = {
                 InstructionEmptyScreen(
                     isManager = isManager,
+                    isFiltered = state.search.isNotEmpty(),
                     onCreationClick = {
                         if (state.firstFolderId != null && state.lastItemOrderNum != null) {
                             navigateToCreation(state.lastItemOrderNum, state.firstFolderId)

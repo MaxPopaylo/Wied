@@ -9,6 +9,8 @@ import java.time.LocalDateTime
 @Serializable
 data class Evaluation (
     override val id: Int,
+    val instructionId: Int,
+    val instructionTitle: String,
     val employee: UserSummary,
     val manager: UserSummary,
     val evaluation: Double,
@@ -18,6 +20,7 @@ data class Evaluation (
 
 @Serializable
 data class ItemEvaluation (
+    val elementId: Int,
     val title: String,
     val evaluation: Double
 )

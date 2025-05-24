@@ -28,10 +28,10 @@ import ua.wied.domain.models.instruction.Element
 import ua.wied.domain.repository.VideoPlayerEvent
 import ua.wied.presentation.common.composable.DetailTextField
 import ua.wied.presentation.common.composable.FullScreenVideoDialog
-import ua.wied.presentation.common.composable.LargeVideoPicker
+import ua.wied.presentation.common.composable.pickers.LargeVideoPicker
 import ua.wied.presentation.common.composable.LoadingIndicator
 import ua.wied.presentation.common.composable.SuccessDialog
-import ua.wied.presentation.common.composable.VideoPickerBottomSheet
+import ua.wied.presentation.common.composable.pickers.VideoPickerBottomSheet
 import ua.wied.presentation.common.theme.WiEDTheme.colors
 import ua.wied.presentation.common.theme.WiEDTheme.dimen
 import ua.wied.presentation.common.theme.WiEDTheme.typography

@@ -12,12 +12,11 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.SavedStateHandle
-import ua.wied.domain.models.folder.Folder
-import ua.wied.domain.models.instruction.Instruction
 import ua.wied.presentation.common.composable.ContentBox
 import ua.wied.presentation.common.composable.DragAndDropItemList
 import ua.wied.presentation.common.composable.SearchField
 import ua.wied.presentation.common.theme.WiEDTheme.dimen
+import ua.wied.presentation.screens.accesses.composable.FolderEmptyScreen
 import ua.wied.presentation.screens.accesses.composable.FolderListItem
 import ua.wied.presentation.screens.accesses.create.CreateFolderDialog
 import ua.wied.presentation.screens.accesses.model.AccessesEvent
@@ -70,7 +69,12 @@ fun AccessesScreen(
         ContentBox(
             state = state,
             onRefresh = { onEvent(AccessesEvent.Refresh) },
-            emptyScreen = { EmployeeEmptyScreen(navigateToCreation) }
+            emptyScreen = {
+                FolderEmptyScreen(
+                    isFiltered = state.search.isNotEmpty(),
+                    onCreationClick = navigateToCreation
+                )
+            }
         ) {
             DragAndDropItemList(
                 items = state.folders,

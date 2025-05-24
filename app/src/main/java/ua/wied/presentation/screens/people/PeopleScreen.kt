@@ -26,6 +26,7 @@ fun PeopleScreen(
     savedStateHandle: SavedStateHandle,
     onMainEvent: (MainEvent) -> Unit,
     onEvent: (PeopleEvent) -> Unit,
+    navigateToEvaluations: (User) -> Unit,
     navigateToCreation: () -> Unit,
     navigateToDetail: (User) -> Unit
 ) {
@@ -62,19 +63,26 @@ fun PeopleScreen(
         ContentBox(
             state = state,
             onRefresh = { onEvent(PeopleEvent.Refresh) },
-            emptyScreen = { EmployeeEmptyScreen(navigateToCreation) }
+            emptyScreen = {
+                EmployeeEmptyScreen(
+                    isFiltered = state.search.isNotEmpty(),
+                    onCreationClick = navigateToCreation
+                )
+            }
         ) {
             ItemList (
                 items = state.employees,
                 itemView = { user ->
                     UserListItem(
                         user = user,
-                        isManager = isManager,
                         onClick = {
                             navigateToDetail(user)
                         },
+                        onEvaluations = {
+                            navigateToEvaluations(user)
+                        },
                         onDelete = {
-                            onEvent(PeopleEvent.DeletePressed(it))
+                            onEvent(PeopleEvent.DeletePressed(user.id))
                         }
                     )
                 }

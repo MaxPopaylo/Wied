@@ -21,6 +21,7 @@ import ua.wied.presentation.common.theme.WiEDTheme.typography
 
 @Composable
 fun EmployeeEmptyScreen(
+    isFiltered: Boolean,
     onCreationClick: () -> Unit
 ) {
     Column(
@@ -29,19 +30,24 @@ fun EmployeeEmptyScreen(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Icon(
-            modifier = Modifier.size(dimen.sizeL),
+            modifier = Modifier.size(dimen.sizeM),
             imageVector = ImageVector.vectorResource(R.drawable.icon_people),
             tint = colors.primaryText,
             contentDescription = "People"
         )
         Text(
-            modifier = Modifier.padding(top = dimen.padding2Xs),
-            text = stringResource(R.string.no_employees),
+            modifier = Modifier.padding(top = dimen.paddingS),
+            text = stringResource(
+                if (isFiltered) R.string.no_employees_filtered
+                else R.string.no_employees
+            ),
             style = typography.body1
         )
-        PrimaryTextButton(
-            title = stringResource(R.string.create),
-            onClick = onCreationClick
-        )
+        if (!isFiltered) {
+            PrimaryTextButton(
+                title = stringResource(R.string.create),
+                onClick = onCreationClick
+            )
+        }
     }
 }

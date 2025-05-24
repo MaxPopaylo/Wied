@@ -28,6 +28,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import ua.wied.R
 import ua.wied.presentation.common.navigation.AccessNav
+import ua.wied.presentation.common.navigation.EvaluationNav
 import ua.wied.presentation.common.navigation.InstructionNav
 import ua.wied.presentation.common.navigation.PeopleNav
 import ua.wied.presentation.common.navigation.ProfileNav
@@ -124,14 +125,8 @@ fun MainTopAppBar(
         route.isRoute(InstructionNav.Video::class.qualifiedName) -> {
             RenderTopBar(
                 title = stringResource(R.string.all_videos),
-                showBack = true,
-                onBack = {
-                    navController.navigate(InstructionNav.Instructions) {
-                        launchSingleTop = true
-                        restoreState = false
-                        popUpTo(navController.graph.id) { saveState = false }
-                    }
-                }
+                navController = navController,
+                showBack = true
             )
         }
 
@@ -239,6 +234,38 @@ fun MainTopAppBar(
             )
         }
 
+        // Evaluations top bars
+        route.isRoute(EvaluationNav.Evaluations::class.qualifiedName) -> {
+            RenderTopBar(
+                title = stringResource(R.string.evaluations),
+                actions = profileAction
+            )
+        }
+
+        route.isRoute(EvaluationNav.InstructionEvaluations::class.qualifiedName) -> {
+            RenderTopBar(
+                title = stringResource(R.string.evaluations),
+                navController = navController,
+                showBack = true
+            )
+        }
+
+        route.isRoute(EvaluationNav.EmployeeEvaluations::class.qualifiedName) -> {
+            RenderTopBar(
+                title = stringResource(R.string.employee_evaluations),
+                navController = navController,
+                showBack = true
+            )
+        }
+
+        route.isRoute(EvaluationNav.CreateEvaluation::class.qualifiedName) -> {
+            RenderTopBar(
+                title = stringResource(R.string.create_employee),
+                navController = navController,
+                showBack = true
+            )
+        }
+
 
         else -> {
             RenderTopBar(title = stringResource(R.string.main))
@@ -254,8 +281,7 @@ private fun RenderTopBar(
     title: String,
     navController: NavHostController? = null,
     actions: List<TopAppBarAction> = emptyList(),
-    showBack: Boolean = false,
-    onBack: (() -> Unit)? = null
+    showBack: Boolean = false
 ) {
     TopAppBar(
         colors = TopAppBarDefaults.topAppBarColors(containerColor = colors.primaryBackground),
@@ -278,7 +304,7 @@ private fun RenderTopBar(
                     ),
                     shape = dimen.shape,
                     contentPadding = PaddingValues(dimen.paddingM),
-                    onClick = { onBack?.invoke() ?: navController?.popBackStack() }
+                    onClick = { navController?.popBackStack()}
                 ) {
                     Icon(
                         imageVector = ImageVector.vectorResource(R.drawable.icon_arrow_back),

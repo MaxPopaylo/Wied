@@ -19,7 +19,7 @@ import androidx.compose.ui.res.stringResource
 import ua.wied.R
 import ua.wied.presentation.common.composable.ContentBox
 import ua.wied.presentation.common.composable.DetailTextField
-import ua.wied.presentation.common.composable.EmployeesBottomSheet
+import ua.wied.presentation.common.composable.dropdowns.EmployeesBottomSheet
 import ua.wied.presentation.common.composable.ItemList
 import ua.wied.presentation.common.theme.WiEDTheme.dimen
 import ua.wied.presentation.common.theme.WiEDTheme.typography

@@ -48,6 +48,11 @@ fun MainNavGraph(
             onMainEvent = onMainEvent
         )
 
-        evaluationNavGraph(navController)
+        evaluationNavGraph(
+            navController = navController,
+            mainState = mainState,
+            isManager = isManager,
+            onMainEvent = onMainEvent
+        )
     }
 }

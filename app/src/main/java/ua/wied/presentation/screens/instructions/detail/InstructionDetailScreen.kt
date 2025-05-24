@@ -22,7 +22,7 @@ import ua.wied.presentation.common.composable.ContentBox
 import ua.wied.presentation.common.composable.DetailTextField
 import ua.wied.presentation.common.composable.FullScreenImageDialog
 import ua.wied.presentation.common.composable.GridVideoItem
-import ua.wied.presentation.common.composable.LargeImagePicker
+import ua.wied.presentation.common.composable.pickers.LargeImagePicker
 import ua.wied.presentation.common.composable.MediaGrid
 import ua.wied.presentation.common.composable.SuccessDialog
 import ua.wied.presentation.common.theme.WiEDTheme.colors

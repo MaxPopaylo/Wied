@@ -24,6 +24,7 @@
     <string name="confirm_delete_message">Are you sure you want to delete it?</string>
     <string name="confirm_button">Apply</string>
     <string name="cancel">Cancel</string>
+    <string name="clear">Clear</string>
     <string name="make_video">Make video</string>
     <string name="choose_from_gallery">Choose from gallery</string>
     <string name="image_is_empty">No image selected</string>
@@ -32,6 +33,10 @@
     <string name="role_admin">Admin</string>
     <string name="role_manager">Manager</string>
     <string name="role_employee">Employee</string>
+    <string name="date_picker_title">Choose date range</string>
+    <string name="all_time">All Time</string>
+    <string name="select">Select</string>
+    <string name="choose_date">Choose date …</string>
 
 
     <!-- Errors -->
@@ -84,6 +89,7 @@
     <string name="instructions">Instructions</string>
     <string name="instruction">Instruction</string>
     <string name="no_instructions">No instructions have been created yet</string>
+    <string name="no_instructions_filtered">No instructions found for the selected filters</string>
     <string name="all_videos">All Videos</string>
     <string name="create_instruction">Create Instruction</string>
     <string name="create_item">Create Item</string>
@@ -94,6 +100,8 @@
     <string name="ai_assistant_title">AI ASSISTANT</string>
     <string name="ai_assistant_description">Meet your personal artificial intelligence assistant</string>
     <string name="ai_assistant_instruction">It will help you write text for your videos. Just tell it which process you need instructions for, and it will do the rest!</string>
+    <string name="choose_instruction">Choose instruction …</string>
+    <string name="no_instruction_items">Instruction has no items</string>
 
 
     <!-- Reports Screen -->
@@ -111,6 +119,12 @@
 
     <!-- Evaluations Screen -->
     <string name="evaluations">Evaluations</string>
+    <string name="instruction_evaluations">Evaluations by instructions</string>
+    <string name="employee_evaluations">Employee evaluations</string>
+    <string name="create_evaluation">Create evaluation</string>
+    <string name="no_evaluations">No evaluations have been created yet</string>
+    <string name="no_evaluations_filtered">No evaluations found for the selected filters</string>
+    <string name="instruction_items_evaluations">Item evaluations</string>
 
 
     <!-- Access Screen -->
@@ -118,16 +132,18 @@
     <string name="folder">Folder</string>
     <string name="available_to_everyone">Available to everyone</string>
     <string name="add_access">Add access</string>
+    <string name="no_folders">No folders have been created yet</string>
+    <string name="no_folders_filtered">No folders found for the selected filters</string>
 
-
-    <!-- People Screen -->
-    <string name="people">People</string>
-    <string name="no_employees">No employees have been created yet</string>
 
     <!-- Profile Screen -->
     <string name="profile">Profile</string>
     <string name="full_name">Your Full Name</string>
     <string name="position">Position</string>
+
+    <!-- People Screen -->
+    <string name="people">People</string>
+    <string name="no_employees">No employees have been created yet</string>
     <string name="employee_login">Employee login</string>
     <string name="employee_login_hint">Enter employee login</string>
     <string name="employee_password">Employee password</string>
@@ -147,6 +163,8 @@
     <string name="employee">Employee</string>
     <string name="employees">Employees</string>
     <string name="create_folder">Create folder</string>
+    <string name="no_employees_filtered">No employees found for the selected filters</string>
+    <string name="choose_employee">Choose employee …</string>
 
     <!-- Settings Screen -->
     <string name="language">Language</string>

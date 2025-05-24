@@ -47,14 +47,13 @@ data class InstructionFoldersWithReportsCountDto(
     @Json(name = "order_num")
     val orderNum: Int,
     val id: Int,
-    val accesses: List<Access>,
     val instructions: List<InstructionWithReportsCountDto>
 ) {
    fun toDomain(): Folder<InstructionWithReportCount> =
        Folder(
            id = id,
            title = title,
-           accesses = accesses,
+           accesses = emptyList(),
            items = instructions.map { it.toDomain() },
            orderNum = orderNum
        )

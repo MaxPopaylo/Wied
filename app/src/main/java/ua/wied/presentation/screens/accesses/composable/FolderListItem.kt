@@ -22,7 +22,6 @@ import androidx.compose.ui.unit.dp
 import ua.wied.R
 import ua.wied.domain.models.folder.Folder
 import ua.wied.domain.models.instruction.Instruction
-import ua.wied.domain.models.user.User
 import ua.wied.presentation.common.composable.ActionIcon
 import ua.wied.presentation.common.composable.SwipeToReveal
 import ua.wied.presentation.common.theme.WiEDTheme.colors

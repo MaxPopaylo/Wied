@@ -21,7 +21,7 @@ import ua.wied.presentation.common.composable.BaseTextField
 import ua.wied.presentation.common.composable.PasswordTextField
 import ua.wied.presentation.common.composable.PhoneTextField
 import ua.wied.presentation.common.composable.PrimaryButton
-import ua.wied.presentation.common.composable.TypeDropdown
+import ua.wied.presentation.common.composable.dropdowns.TypeDropdown
 import ua.wied.presentation.common.theme.WiEDTheme.colors
 import ua.wied.presentation.common.theme.WiEDTheme.dimen
 import ua.wied.presentation.common.utils.extensions.positionAwareImePadding

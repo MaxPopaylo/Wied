@@ -29,10 +29,12 @@ class InstructionViewModel @Inject constructor(
     override fun onEvent(event: InstructionsEvent) {
         when (event) {
             is InstructionsEvent.SearchChanged -> {
+                val filteredFolders = filterFolders(event.value)
                 updateState {
                     it.copy(
                         search = event.value,
-                        folders = filterFolders(event.value)
+                        isEmpty = filteredFolders.isEmpty(),
+                        folders = filteredFolders
                     )
                 }
             }

@@ -14,7 +14,7 @@ import androidx.compose.ui.unit.sp
 import androidx.core.net.toUri
 import ua.wied.R
 import ua.wied.presentation.common.composable.DetailTextField
-import ua.wied.presentation.common.composable.LargeImagePicker
+import ua.wied.presentation.common.composable.pickers.LargeImagePicker
 import ua.wied.presentation.common.composable.PrimaryButton
 import ua.wied.presentation.common.theme.WiEDTheme.colors
 import ua.wied.presentation.common.theme.WiEDTheme.dimen

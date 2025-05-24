@@ -15,7 +15,7 @@ import ua.wied.domain.models.settings.Language
 import ua.wied.domain.models.settings.Theme
 import ua.wied.presentation.common.composable.ContentBox
 import ua.wied.presentation.common.composable.DetailTextField
-import ua.wied.presentation.common.composable.TypeDropdown
+import ua.wied.presentation.common.composable.dropdowns.TypeDropdown
 import ua.wied.presentation.common.theme.WiEDTheme.colors
 import ua.wied.presentation.common.theme.WiEDTheme.dimen
 import ua.wied.presentation.screens.profile.model.ProfileEvent

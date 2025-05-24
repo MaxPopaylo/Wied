@@ -1,4 +1,4 @@
-package ua.wied.presentation.common.composable
+package ua.wied.presentation.common.composable.pickers
 
 import android.app.Activity
 import android.content.Intent
@@ -51,6 +51,7 @@ import coil3.request.ImageRequest
 import coil3.video.VideoFrameDecoder
 import coil3.video.videoFrameMillis
 import ua.wied.R
+import ua.wied.presentation.common.composable.BaseBottomSheet
 import ua.wied.presentation.common.theme.WiEDTheme.colors
 import ua.wied.presentation.common.theme.WiEDTheme.dimen
 import ua.wied.presentation.common.theme.WiEDTheme.typography
@@ -419,7 +420,10 @@ fun VideoPickerBottomSheet(
                         cameraLauncher.launch(intent)
                     }
                     .padding(vertical = dimen.paddingL),
-                horizontalArrangement = Arrangement.spacedBy(dimen.paddingM, Alignment.CenterHorizontally),
+                horizontalArrangement = Arrangement.spacedBy(
+                    dimen.paddingM,
+                    Alignment.CenterHorizontally
+                ),
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Icon(
@@ -450,7 +454,10 @@ fun VideoPickerBottomSheet(
                         }
                     }
                     .padding(vertical = dimen.paddingL),
-                horizontalArrangement = Arrangement.spacedBy(dimen.paddingM, Alignment.CenterHorizontally),
+                horizontalArrangement = Arrangement.spacedBy(
+                    dimen.paddingM,
+                    Alignment.CenterHorizontally
+                ),
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Icon(

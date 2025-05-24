@@ -24,7 +24,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import ua.wied.R
 import ua.wied.domain.models.instruction.Instruction
 import ua.wied.presentation.common.composable.SquareIconButton
-import ua.wied.presentation.common.composable.ImagePickerButton
+import ua.wied.presentation.common.composable.pickers.ImagePickerButton
 import ua.wied.presentation.screens.instructions.composable.InstructionItem
 import ua.wied.presentation.common.composable.PrimaryButton
 import ua.wied.presentation.common.composable.UnderlineTextField

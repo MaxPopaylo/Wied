@@ -26,10 +26,12 @@ class PeopleViewModel @Inject constructor(
     override fun onEvent(event: PeopleEvent) {
         when (event) {
             is PeopleEvent.SearchChanged -> {
+                val filteredEmployees = filterEmployees(event.value)
                 updateState {
                     it.copy(
                         search = event.value,
-                        employees = filterEmployees(event.value)
+                        isEmpty = filteredEmployees.isEmpty(),
+                        employees = filteredEmployees
                     )
                 }
             }

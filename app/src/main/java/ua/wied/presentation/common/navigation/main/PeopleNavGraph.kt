@@ -4,13 +4,8 @@ import androidx.compose.animation.ExperimentalSharedTransitionApi
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.toRoute
-import ua.wied.domain.models.instruction.Element
-import ua.wied.domain.models.instruction.Instruction
 import ua.wied.domain.models.user.User
-import ua.wied.presentation.common.navigation.AuthNav
-import ua.wied.presentation.common.navigation.ElementType
-import ua.wied.presentation.common.navigation.InstructionNav
-import ua.wied.presentation.common.navigation.InstructionType
+import ua.wied.presentation.common.navigation.EvaluationNav
 import ua.wied.presentation.common.navigation.PeopleNav
 import ua.wied.presentation.common.navigation.TabType
 import ua.wied.presentation.common.navigation.UserType
@@ -45,6 +40,9 @@ fun NavGraphBuilder.peopleNavGraph(
             savedStateHandle = backStakeEntry.savedStateHandle,
             onEvent = vm::onEvent,
             onMainEvent = onMainEvent,
+            navigateToEvaluations = { user ->
+                navController.navigate(EvaluationNav.EmployeeEvaluations(user))
+            },
             navigateToDetail = { user ->
                 navController.navigate(PeopleNav.EmployeeDetail(user))
             },

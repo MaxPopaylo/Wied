@@ -36,59 +36,32 @@ import ua.wied.presentation.common.theme.WiEDTheme.typography
 fun UserListItem(
     modifier: Modifier = Modifier,
     user: User,
-    isManager: Boolean,
-    onClick: (User) -> Unit,
-    onDelete: (Int) -> Unit
+    onClick: () -> Unit,
+    onEvaluations: () -> Unit,
+    onDelete: () -> Unit
 ) {
     var showConfirmDialog by remember { mutableStateOf(false) }
 
-    if (isManager) {
-        SwipeToReveal(
-            actions = {
-                ActionIcon(
-                    backgroundColor = colors.errorColor,
-                    icon = ImageVector.vectorResource(R.drawable.icon_filled_delete),
-                    tint = Color.White,
-                    title = stringResource(R.string.delete),
-                    onClick = { showConfirmDialog = true }
-                )
-            },
-            onClick = null
-        ) {
-            Row(
-                modifier = modifier
-                    .fillMaxWidth()
-                    .background(
-                        colors.secondaryBackground,
-                        dimen.shape
-                    )
-                    .clickable {
-                        onClick(user)
-                    }
-                    .padding(vertical = 16.dp, horizontal = 14.dp),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Text(
-                    modifier = Modifier
-                        .padding(start = dimen.paddingS)
-                        .weight(1f),
-                    text = user.name,
-                    style = typography.h5,
-                    maxLines = 1,
-                    overflow = TextOverflow.Ellipsis
-                )
+    SwipeToReveal(
+        actions = {
+            ActionIcon(
+                backgroundColor = colors.tintColor,
+                icon = ImageVector.vectorResource(R.drawable.icon_star_filled),
+                tint = Color.White,
+                title = stringResource(R.string.evaluations),
+                onClick = onEvaluations
+            )
 
-                Box(modifier = Modifier.padding(start = dimen.paddingS)) {
-                    Icon(
-                        modifier = Modifier.rotate(180f).size(dimen.sizeM),
-                        imageVector = ImageVector.vectorResource(R.drawable.icon_arrow_back),
-                        tint = colors.tintColor,
-                        contentDescription = stringResource(R.string.icon)
-                    )
-                }
-            }
-        }
-    } else {
+            ActionIcon(
+                backgroundColor = colors.errorColor,
+                icon = ImageVector.vectorResource(R.drawable.icon_filled_delete),
+                tint = Color.White,
+                title = stringResource(R.string.delete),
+                onClick = { showConfirmDialog = true }
+            )
+        },
+        onClick = null
+    ) {
         Row(
             modifier = modifier
                 .fillMaxWidth()
@@ -97,7 +70,7 @@ fun UserListItem(
                     dimen.shape
                 )
                 .clickable {
-                    onClick(user)
+                    onClick()
                 }
                 .padding(vertical = 16.dp, horizontal = 14.dp),
             verticalAlignment = Alignment.CenterVertically
@@ -129,7 +102,7 @@ fun UserListItem(
             onDismiss = {
                 showConfirmDialog = false
             },
-            onSuccess = { onDelete(user.id) }
+            onSuccess = onDelete
         )
     }
 }

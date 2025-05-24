@@ -8,6 +8,7 @@ import ua.wied.domain.models.folder.Folder
 import ua.wied.domain.models.instruction.Element
 import ua.wied.domain.models.instruction.Instruction
 import ua.wied.domain.models.report.Report
+import ua.wied.domain.models.report.UserSummary
 import ua.wied.domain.models.user.User
 
 @Serializable
@@ -80,6 +81,15 @@ sealed class ReportNav : MainNav() {
 sealed class EvaluationNav : MainNav() {
     @Serializable
     data object Evaluations: EvaluationNav()
+
+    @Serializable
+    data class InstructionEvaluations(val instruction: Instruction): EvaluationNav()
+
+    @Serializable
+    data class EmployeeEvaluations(val employee: User): EvaluationNav()
+
+    @Serializable
+    data class CreateEvaluation(val user: User? = null, val instruction: Instruction? = null): EvaluationNav()
 }
 
 @Serializable

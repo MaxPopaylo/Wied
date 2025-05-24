@@ -28,6 +28,11 @@
     <string name="role_admin">Адмін</string>
     <string name="role_manager">Менеджер</string>
     <string name="role_employee">Працівник</string>
+    <string name="date_picker_title">Виберіть діапазон дат</string>
+    <string name="all_time">Весь час</string>
+    <string name="select">Вибрати</string>
+    <string name="clear">Очистити</string>
+    <string name="choose_date">Оберіть дату …</string>
 
 
     <!--    Errors-->
@@ -76,6 +81,7 @@
     <!-- Instructions Screen -->
     <string name="instructions">Інструкції</string>
     <string name="instruction">Інструкція</string>
+    <string name="no_instructions_filtered">Інструкції за вибраними фільтрами не знайдено</string>
     <string name="no_instructions">Не створено ще жодної інструкції</string>
     <string name="all_videos">Всі відео</string>
     <string name="create_instruction">Створити інструкцію</string>
@@ -87,6 +93,8 @@
     <string name="ai_assistant_title">ШІ ПОМІЧНИК</string>
     <string name="ai_assistant_description">Знайомтесь з вашим особистим помічником на базі штучного інтелекту</string>
     <string name="ai_assistant_instruction">Він допоможе вам написати текст для ваших відео. Просто скажіть йому, який процес вам потрібно проінструктувати, і він зробить усе інше!</string>
+    <string name="no_instruction_items">Інструкція не містить жодного елемента</string>
+    <string name="choose_instruction">Оберіть інструкцію …</string>
 
     <!-- Reports Screen -->
     <string name="reports">Заявки</string>
@@ -103,6 +111,13 @@
 
     <!-- Evaluations Screen -->
     <string name="evaluations">Оцінки</string>
+    <string name="instruction_evaluations">Оцінки по інструкціями</string>
+    <string name="employee_evaluations">Оцінюки працівника</string>
+    <string name="create_evaluation">Створити оцінку</string>
+    <string name="no_evaluations">Оцінки ще не створено</string>
+    <string name="no_evaluations_filtered">Оцінки за вибраними фільтрами не знайдено</string>
+    <string name="instruction_items_evaluations">Оцінювання елементів</string>
+
 
 
     <!-- Access Screen -->
@@ -110,6 +125,8 @@
     <string name="folder">Папка</string>
     <string name="available_to_everyone">Доступно для всіх</string>
     <string name="add_access">Додати доступ</string>
+    <string name="no_folders_filtered">Папок за вибраними фільтрами не знайдено</string>
+    <string name="no_folders">Не створено ще жодної папки</string>
 
 
     <!-- Profile Screen -->
@@ -139,6 +156,8 @@
     <string name="employee">Працівник</string>
     <string name="employees">Працівники</string>
     <string name="create_folder">Створити папку</string>
+    <string name="no_employees_filtered">Працівників за вибраними фільтрами не знайдено</string>
+    <string name="choose_employee">Оберіть співробітника …</string>
 
 
     <!-- Settings Screen -->
