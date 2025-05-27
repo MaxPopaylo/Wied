@@ -39,6 +39,7 @@ import ua.wied.presentation.common.theme.WiEDTheme.typography
 import ua.wied.presentation.screens.main.models.MainEvent
 import ua.wied.presentation.screens.main.models.MainState
 import kotlin.collections.plus
+import ua.wied.presentation.common.navigation.AiInstructionNav
 
 @Composable
 fun MainTopAppBar(
@@ -65,7 +66,11 @@ fun MainTopAppBar(
             RenderTopBar(
                 title = stringResource(R.string.instructions),
                 actions = (if (isManager) listOf(
-                    TopAppBarAction(ImageVector.vectorResource(R.drawable.icon_ai), onClick = {})
+                    TopAppBarAction(ImageVector.vectorResource(R.drawable.icon_ai), onClick = {
+                        navController.navigate(
+                            AiInstructionNav.AiInstructionResponseHistory
+                        )
+                    })
                 ) else emptyList()) + profileAction
             )
         }
@@ -258,7 +263,7 @@ fun MainTopAppBar(
             )
         }
 
-        route.isRoute(EvaluationNav.CreateEvaluation::class.qualifiedName) -> {
+        route.isRoute(EvaluationNav.CreateEvaluationByInstruction::class.qualifiedName) -> {
             RenderTopBar(
                 title = stringResource(R.string.create_employee),
                 navController = navController,
@@ -266,6 +271,30 @@ fun MainTopAppBar(
             )
         }
 
+        route.isRoute(EvaluationNav.CreateEvaluationByEmployee::class.qualifiedName) -> {
+            RenderTopBar(
+                title = stringResource(R.string.create_employee),
+                navController = navController,
+                showBack = true
+            )
+        }
+
+        // Ai instruction routes
+        route.isRoute(AiInstructionNav.AiInstructionResponseHistory::class.qualifiedName) -> {
+            RenderTopBar(
+                title = stringResource(R.string.ai_instructions_history),
+                navController = navController,
+                showBack = true
+            )
+        }
+
+        route.isRoute(AiInstructionNav.CreateAiRequest::class.qualifiedName) -> {
+            RenderTopBar(
+                title = stringResource(R.string.ai_request),
+                navController = navController,
+                showBack = true
+            )
+        }
 
         else -> {
             RenderTopBar(title = stringResource(R.string.main))

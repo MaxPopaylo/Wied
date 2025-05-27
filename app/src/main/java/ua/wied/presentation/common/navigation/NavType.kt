@@ -16,7 +16,6 @@ val ReportsType = navTypeOf<List<Report>>()
 val InstructionType = navTypeOf<Instruction>()
 val ElementType = navTypeOf<Element>()
 val UserType = navTypeOf<User>()
-val FolderType = navTypeOf<Folder<Instruction>>()
 
 private inline fun <reified T> navTypeOf(
     isNullableAllowed: Boolean = false,

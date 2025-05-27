@@ -93,8 +93,21 @@
     <string name="ai_assistant_title">ШІ ПОМІЧНИК</string>
     <string name="ai_assistant_description">Знайомтесь з вашим особистим помічником на базі штучного інтелекту</string>
     <string name="ai_assistant_instruction">Він допоможе вам написати текст для ваших відео. Просто скажіть йому, який процес вам потрібно проінструктувати, і він зробить усе інше!</string>
-    <string name="no_instruction_items">Інструкція не містить жодного елемента</string>
+    <string name="no_instruction_items">Інструкція не містить жодного елемента. Оцінити неможливо</string>
     <string name="choose_instruction">Оберіть інструкцію …</string>
+    <string name="no_ai_instructions">Не створено ще жодної ШІ інструкції</string>
+    <string name="business_type">Тип бізнесу</string>
+    <string name="job_position">Посада працівника</string>
+    <string name="work_task">Назва діяльності</string>
+    <string name="additional_notes">Додаткові нотатки</string>
+    <string name="ai_request">ШІ запит</string>
+    <string name="ai_response">ШІ відповідь</string>
+    <string name="ai_request_description">
+           * Створення відповіді може тривати до 2 хвилин. Будь ласка, будьте терплячі.\n\n
+           * Дані, введені на цій сторінці, і дані з чату надсилаються в OpenApi для створення результатів за вашими запитами.
+    </string>
+    <string name="ai_instructions_history">Історія ШІ-інструкцій</string>
+
 
     <!-- Reports Screen -->
     <string name="reports">Заявки</string>
@@ -117,7 +130,6 @@
     <string name="no_evaluations">Оцінки ще не створено</string>
     <string name="no_evaluations_filtered">Оцінки за вибраними фільтрами не знайдено</string>
     <string name="instruction_items_evaluations">Оцінювання елементів</string>
-
 
 
     <!-- Access Screen -->

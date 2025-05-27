@@ -35,11 +35,9 @@ class CreateEvaluationUseCase @Inject constructor(
         createTime: LocalDateTime
     ): UnitFlow = evaluationRepository.createEvaluation(
         instructionId = instructionId,
-        dto = CreateEvaluationDto(
-            employeeId = employeeId,
-            evaluationItems = itemsEvaluation.map { CreateItemEvaluationDto(it.elementId, evaluation = it.evaluation) },
-            createdAt = createTime,
-            info = info
-        )
+        employeeId = employeeId,
+        info = info,
+        itemsEvaluation = itemsEvaluation,
+        createTime = createTime
     )
 }

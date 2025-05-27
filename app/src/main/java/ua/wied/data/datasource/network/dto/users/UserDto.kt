@@ -1,4 +1,4 @@
-package ua.wied.data.datasource.network.dto
+package ua.wied.data.datasource.network.dto.users
 
 import ua.wied.domain.models.user.Role
 

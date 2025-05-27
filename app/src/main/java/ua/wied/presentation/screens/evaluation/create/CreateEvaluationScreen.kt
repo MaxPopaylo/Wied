@@ -132,9 +132,7 @@ fun CreateEvaluationScreen(
                 )
 
                 if (state.itemsEvaluation.isEmpty()) {
-                    ItemsEmpty(
-                        modifier = Modifier.padding(horizontal = dimen.paddingM)
-                    )
+                    ItemsEmpty()
                 } else {
                     state.itemsEvaluation.forEach { item ->
                         ElementEvaluationRow(
@@ -212,7 +210,7 @@ private fun ItemsEmpty(
     modifier: Modifier = Modifier,
 ) {
     Column(
-        modifier = modifier.fillMaxWidth(),
+        modifier = modifier.fillMaxWidth().padding(vertical = 64.dp),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {

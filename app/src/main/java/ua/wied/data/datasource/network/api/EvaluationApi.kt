@@ -7,22 +7,22 @@ import retrofit2.http.POST
 import retrofit2.http.Path
 import ua.wied.data.datasource.network.dto.WrappedResponse
 import ua.wied.data.datasource.network.dto.evaluation.CreateEvaluationDto
-import ua.wied.data.datasource.network.dto.folders.UpdateFolderDto
-import ua.wied.domain.models.evaluation.Evaluation
+import ua.wied.data.datasource.network.dto.evaluation.EmployeeEvaluationsDto
+import ua.wied.data.datasource.network.dto.evaluation.InstructionEvaluationsDto
 
 interface EvaluationApi {
-    @GET("api/evaluations/{instruction_id}")
+    @GET("api/evaluations/instruction/{instruction_id}")
     suspend fun getEvaluationByInstructionId(
         @Path("instruction_id") instructionId: Int,
-    ): WrappedResponse<Evaluation>
+    ): WrappedResponse<InstructionEvaluationsDto>
 
-    @GET("api/evaluations/{employee_id}")
+    @GET("api/evaluations/employee/{employee_id}")
     suspend fun getEvaluationByEmployeeId(
         @Path("employee_id") employeeId: Int,
-    ): WrappedResponse<Evaluation>
+    ): WrappedResponse<EmployeeEvaluationsDto>
 
-    @POST("api/evaluations/{instruction_id}")
-    suspend fun createFolder(
+    @POST("api/evaluations/create/{instruction_id}")
+    suspend fun createEvaluation(
         @Path("instruction_id") instructionId: Int,
         @Body dto: CreateEvaluationDto
     ): Response<Any>

@@ -27,11 +27,13 @@ import ua.wied.presentation.common.utils.ItemTransferData.Companion.extractDragD
 @Composable
 fun <T : HasId> ItemList (
     modifier: Modifier = Modifier,
+    reverseLayout: Boolean = false,
     items: List<T>,
     itemView: @Composable (T) -> Unit
 ) {
     LazyColumn(
         modifier = modifier,
+        reverseLayout = reverseLayout,
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(dimen.paddingL)
     ) {

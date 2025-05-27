@@ -31,7 +31,6 @@ import kotlin.reflect.typeOf
 @OptIn(ExperimentalSharedTransitionApi::class)
 fun NavGraphBuilder.evaluationNavGraph(
     navController: NavHostController,
-    mainState: MainState,
     isManager: Boolean,
     onMainEvent: (MainEvent) -> Unit
 ) {
@@ -62,6 +61,9 @@ fun NavGraphBuilder.evaluationNavGraph(
         InstructionEvaluationsState
     >(
         tabType = TabType.BACK,
+        typeMap = mapOf(
+            typeOf<Instruction>() to InstructionType
+        ),
         stateProvider = { it.uiState }
     ) { vm, state, backStackEntry ->
         val args = backStackEntry.toRoute<EvaluationNav.InstructionEvaluations>()
@@ -73,7 +75,7 @@ fun NavGraphBuilder.evaluationNavGraph(
             isManager = isManager,
             onEvent = vm::onEvent,
             navigateToCreation = { instruction ->
-                navController.navigate(EvaluationNav.CreateEvaluation(instruction = instruction))
+                navController.navigate(EvaluationNav.CreateEvaluationByInstruction(instruction = instruction))
             }
         )
     }
@@ -98,13 +100,13 @@ fun NavGraphBuilder.evaluationNavGraph(
             onEvent = vm::onEvent,
             onMainEvent = onMainEvent,
             navigateToCreation = { user ->
-                navController.navigate(EvaluationNav.CreateEvaluation(user))
+                navController.navigate(EvaluationNav.CreateEvaluationByEmployee(user))
             }
         )
     }
 
     screenComposable<
-        EvaluationNav.CreateEvaluation,
+        EvaluationNav.CreateEvaluationByEmployee,
         CreateEvaluationViewModel,
         CreateEvaluationState
     >(
@@ -114,10 +116,35 @@ fun NavGraphBuilder.evaluationNavGraph(
         ),
         stateProvider = { it.uiState }
     ) { vm, state, backStackEntry ->
-        val args = backStackEntry.toRoute<EvaluationNav.CreateEvaluation>()
+        val args = backStackEntry.toRoute<EvaluationNav.CreateEvaluationByEmployee>()
         CreateEvaluationScreen(
             employee = args.user,
-            instruction = null,
+            state = state,
+            onEvent = vm::onEvent,
+            backToEvaluations = {
+                navController.previousBackStackEntry
+                    ?.savedStateHandle
+                    ?.set("shouldRefresh", it)
+
+                navController.popBackStack()
+            }
+        )
+    }
+
+    screenComposable<
+        EvaluationNav.CreateEvaluationByInstruction,
+        CreateEvaluationViewModel,
+        CreateEvaluationState
+    >(
+        tabType = TabType.BACK,
+        typeMap = mapOf(
+            typeOf<Instruction>() to InstructionType
+        ),
+        stateProvider = { it.uiState }
+    ) { vm, state, backStackEntry ->
+        val args = backStackEntry.toRoute<EvaluationNav.CreateEvaluationByInstruction>()
+        CreateEvaluationScreen(
+            instruction = args.instruction,
             state = state,
             onEvent = vm::onEvent,
             backToEvaluations = {

@@ -4,11 +4,9 @@ import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import kotlinx.serialization.Serializable
 import ua.wied.R
-import ua.wied.domain.models.folder.Folder
 import ua.wied.domain.models.instruction.Element
 import ua.wied.domain.models.instruction.Instruction
 import ua.wied.domain.models.report.Report
-import ua.wied.domain.models.report.UserSummary
 import ua.wied.domain.models.user.User
 
 @Serializable
@@ -60,6 +58,15 @@ sealed class InstructionNav : MainNav() {
 }
 
 @Serializable
+sealed class AiInstructionNav: MainNav() {
+    @Serializable
+    data object AiInstructionResponseHistory: AiInstructionNav()
+
+    @Serializable
+    data object CreateAiRequest: AiInstructionNav()
+}
+
+@Serializable
 sealed class ReportNav : MainNav() {
     @Serializable
     data object Reports: ReportNav()
@@ -89,7 +96,10 @@ sealed class EvaluationNav : MainNav() {
     data class EmployeeEvaluations(val employee: User): EvaluationNav()
 
     @Serializable
-    data class CreateEvaluation(val user: User? = null, val instruction: Instruction? = null): EvaluationNav()
+    data class CreateEvaluationByEmployee(val user: User): EvaluationNav()
+
+    @Serializable
+    data class CreateEvaluationByInstruction(val instruction: Instruction): EvaluationNav()
 }
 
 @Serializable

@@ -19,6 +19,8 @@ import ua.wied.data.UserPreferencesConstants.DARK_THEME_KEY
 import ua.wied.domain.models.settings.Settings
 import javax.inject.Inject
 
+import ua.wied.data.UserPreferencesConstants.SHOW_AI_SUMMARY_KEY
+
 class SettingsRepositoryImpl @Inject constructor(
     private val dataStore: DataStore<Preferences>,
     private val context: Context

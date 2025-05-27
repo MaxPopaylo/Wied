@@ -112,10 +112,9 @@ fun DateDropdown(
 
             Icon(
                 modifier = Modifier
-                    .size(20.dp)
                     .padding(
                         end = dimen.paddingM
-                    ),
+                    ).size(20.dp),
                 imageVector = ImageVector.vectorResource(R.drawable.icon_calendar),
                 contentDescription = "Calendar",
                 tint = colors.primaryText
