@@ -12,11 +12,11 @@ import ua.wied.presentation.screens.profile.model.ProfileState
 @OptIn(ExperimentalSharedTransitionApi::class)
 fun NavGraphBuilder.profileNavGraph() {
     screenComposable<
-            ProfileNav.Profile,
-            ProfileViewModel,
-            ProfileState
-            >(
-        tabType = TabType.START,
+        ProfileNav.Profile,
+        ProfileViewModel,
+        ProfileState
+    >(
+        tabType = TabType.BACK,
         stateProvider = { it.uiState }
     ) { vm, state, backStakeEntry ->
         ProfileScreen (

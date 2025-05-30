@@ -29,7 +29,8 @@ fun InstructionsScreen(
     onMainEvent: (MainEvent) -> Unit,
     navigateToVideoScreen: (Instruction) -> Unit,
     navigateToDetail: (Instruction) -> Unit,
-    navigateToCreation: (Int, Int) -> Unit
+    navigateToCreation: (Int, Int) -> Unit,
+    navigateToAccess: (Int) -> Unit
 ) {
     val shouldRefresh = savedStateHandle
         .getStateFlow("shouldRefresh", false)
@@ -64,12 +65,22 @@ fun InstructionsScreen(
         ContentBox(
             state = state,
             onRefresh = { onEvent(InstructionsEvent.Refresh) },
-            emptyScreen = { InstructionEmptyScreen() }
+            emptyScreen = {
+                InstructionEmptyScreen(
+                    isManager = isManager,
+                    isFiltered = state.search.isNotEmpty(),
+                    onCreationClick = {
+                        if (state.firstFolderId != null && state.lastItemOrderNum != null) {
+                            navigateToCreation(state.lastItemOrderNum, state.firstFolderId)
+                        }
+                    }
+                )
+            }
         ) {
             DragAndDropFolderList (
                 folders = state.folders,
-                onItemDropped = { instruction, folderId, orderNum ->
-                    onEvent(InstructionsEvent.ChangeOrderNum(instruction, folderId, orderNum))
+                onItemDropped = { instructionId, folderId, orderNum ->
+                    onEvent(InstructionsEvent.ChangeOrderNum(instructionId, folderId, orderNum))
                 },
                 onItemClick = { navigateToDetail(it) } ,
                 itemView = { modifier, instruction ->
@@ -80,6 +91,9 @@ fun InstructionsScreen(
                         toVideoScreen = navigateToVideoScreen,
                         onDelete = {
                             onEvent(InstructionsEvent.DeletePressed(it))
+                        },
+                        onAccess = {
+                            navigateToAccess(it)
                         }
                     )
                 }

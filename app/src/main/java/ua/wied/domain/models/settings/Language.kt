@@ -3,7 +3,7 @@ package ua.wied.domain.models.settings
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import ua.wied.R
-import ua.wied.domain.SelectableEnum
+import ua.wied.domain.models.SelectableEnum
 
 enum class Language(
     val value: String,

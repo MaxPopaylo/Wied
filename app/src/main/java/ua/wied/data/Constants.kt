@@ -21,6 +21,7 @@ object UserPreferencesConstants {
 
     val LANGUAGE_KEY = stringPreferencesKey("language")
     val DARK_THEME_KEY = booleanPreferencesKey("dark_theme")
+    val SHOW_AI_SUMMARY_KEY = booleanPreferencesKey("show_ai_summary")
 }
 
 internal object NetworkKeys {

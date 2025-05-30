@@ -27,7 +27,10 @@ import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import ua.wied.R
+import ua.wied.presentation.common.navigation.AccessNav
+import ua.wied.presentation.common.navigation.EvaluationNav
 import ua.wied.presentation.common.navigation.InstructionNav
+import ua.wied.presentation.common.navigation.PeopleNav
 import ua.wied.presentation.common.navigation.ProfileNav
 import ua.wied.presentation.common.navigation.ReportNav
 import ua.wied.presentation.common.theme.WiEDTheme.colors
@@ -35,6 +38,8 @@ import ua.wied.presentation.common.theme.WiEDTheme.dimen
 import ua.wied.presentation.common.theme.WiEDTheme.typography
 import ua.wied.presentation.screens.main.models.MainEvent
 import ua.wied.presentation.screens.main.models.MainState
+import kotlin.collections.plus
+import ua.wied.presentation.common.navigation.AiInstructionNav
 
 @Composable
 fun MainTopAppBar(
@@ -44,152 +49,271 @@ fun MainTopAppBar(
     onEvent: (MainEvent) -> Unit = {}
 ) {
     val navBackStackEntry by navController.currentBackStackEntryAsState()
-    val currentDestinationRoute = navBackStackEntry?.destination?.route
+    val route = navBackStackEntry?.destination?.route
 
-    val instructionListActions = when {
-        isManager -> {
-            listOf(
-                TopAppBarAction(ImageVector.vectorResource(R.drawable.icon_ai), onClick = {}),
+    val profileAction = listOf(
+        TopAppBarAction(
+            icon = ImageVector.vectorResource(R.drawable.icon_account),
+            contentPadding = PaddingValues(2.dp),
+            onClick = {
+                navController.navigate(ProfileNav.Profile)
+            })
+    )
+
+    when {
+        // Instruction top bars
+        route.isRoute(InstructionNav.Instructions::class.qualifiedName) -> {
+            RenderTopBar(
+                title = stringResource(R.string.instructions),
+                actions = (if (isManager) listOf(
+                    TopAppBarAction(ImageVector.vectorResource(R.drawable.icon_ai), onClick = {
+                        navController.navigate(
+                            AiInstructionNav.AiInstructionResponseHistory
+                        )
+                    })
+                ) else emptyList()) + profileAction
+            )
+        }
+
+        route.isRoute(InstructionNav.InstructionDetail::class.qualifiedName) -> {
+            RenderTopBar(
+                title = stringResource(R.string.instruction),
+                navController = navController,
+                actions = editActions(
+                    isManager = isManager,
+                    state = mainState.isInstructionEditing,
+                    onClick = {
+                        onEvent(MainEvent.InstructionEditingChanged(it))
+                    }
+                ),
+                showBack = true
+            )
+        }
+
+        route.isRoute(InstructionNav.InstructionElementDetail::class.qualifiedName) -> {
+            RenderTopBar(
+                title = stringResource(R.string.instruction_item),
+                navController = navController,
+                actions = editActions(
+                    isManager = isManager,
+                    state = mainState.isElementEditing,
+                    onClick = {
+                        onEvent(MainEvent.ElementEditingChanged(it))
+                    }
+                ) + deleteActions(
+                    isManager = isManager,
+                    state = mainState.isElementDeleting,
+                    onClick = {
+                        onEvent(MainEvent.ElementDeletingChanged(it))
+                    }
+                ),
+                showBack = true
+            )
+        }
+
+        route.isRoute(InstructionNav.CreateInstruction::class.qualifiedName) -> {
+            RenderTopBar(
+                title = stringResource(R.string.create_instruction),
+                navController = navController,
+                showBack = true
+            )
+        }
+
+        route.isRoute(InstructionNav.CreateElement::class.qualifiedName) -> {
+            RenderTopBar(
+                title = stringResource(R.string.create_item),
+                navController = navController,
+                showBack = true
+            )
+        }
+
+        route.isRoute(InstructionNav.Video::class.qualifiedName) -> {
+            RenderTopBar(
+                title = stringResource(R.string.all_videos),
+                navController = navController,
+                showBack = true
+            )
+        }
+
+        route.isRoute(InstructionNav.InstructionAccess::class.qualifiedName) -> {
+            RenderTopBar(
+                title = stringResource(R.string.instruction_acceesses),
+                navController = navController,
+                showBack = true
+            )
+        }
+
+        // Report top bars
+        route.isRoute(ReportNav.Reports::class.qualifiedName) -> {
+            RenderTopBar(
+                title = stringResource(R.string.reports),
+                actions = profileAction
+            )
+        }
+
+        route.isRoute(ReportNav.CreateReport::class.qualifiedName) -> {
+            RenderTopBar(
+                title = stringResource(R.string.create_report),
+                navController = navController,
+                showBack = true
+            )
+        }
+
+        route.isRoute(ReportNav.ReportStatusList::class.qualifiedName) -> {
+            RenderTopBar(
+                title = stringResource(R.string.current_reports),
+                navController = navController,
+                showBack = true
+            )
+        }
+
+        route.isRoute(ReportNav.ReportsByStatusList::class.qualifiedName) -> {
+            RenderTopBar(
+                title = stringResource(titleForReportsByStatusList(navBackStackEntry)),
+                navController = navController,
+                showBack = true
+            )
+        }
+
+        route.isRoute(ReportNav.ReportDetail::class.qualifiedName) -> {
+            RenderTopBar(
+                title = stringResource(R.string.report),
+                navController = navController,
+                showBack = true
+            )
+        }
+
+        // Profile top bar
+        route.isRoute(ProfileNav.Profile::class.qualifiedName) -> {
+            RenderTopBar(
+                title = stringResource(R.string.profile),
+                navController = navController,
+                showBack = true
+            )
+        }
+
+        // People top bars
+        route.isRoute(PeopleNav.People::class.qualifiedName) -> {
+            RenderTopBar(
+                title = stringResource(R.string.people),
+                actions = profileAction
+            )
+        }
+
+        route.isRoute(PeopleNav.CreateEmployee::class.qualifiedName) -> {
+            RenderTopBar(
+                title = stringResource(R.string.create_employee),
+                navController = navController,
+                showBack = true
+            )
+        }
+
+        route.isRoute(PeopleNav.EmployeeDetail::class.qualifiedName) -> {
+            RenderTopBar(
+                title = stringResource(R.string.employee),
+                navController = navController,
+                showBack = true
+            )
+        }
+
+        // Access top bars
+        route.isRoute(AccessNav.Accesses::class.qualifiedName) -> {
+            RenderTopBar(
+                title = stringResource(R.string.accesses),
+                actions = profileAction
+            )
+        }
+
+        route.isRoute(AccessNav.FolderDetail::class.qualifiedName) -> {
+            RenderTopBar(
+                title = stringResource(R.string.folder),
+                actions = editActions(
+                    isManager = isManager,
+                    state = mainState.isFolderEditing,
+                    onClick = {
+                        onEvent(MainEvent.FolderEditingChanged(it))
+                    }
+                ),
+                navController = navController,
+                showBack = true
+            )
+        }
+
+        // Evaluations top bars
+        route.isRoute(EvaluationNav.Evaluations::class.qualifiedName) -> {
+            RenderTopBar(
+                title = stringResource(R.string.evaluations),
+                actions = profileAction
+            )
+        }
+
+        route.isRoute(EvaluationNav.InstructionEvaluations::class.qualifiedName) -> {
+            RenderTopBar(
+                title = stringResource(R.string.evaluations),
+                navController = navController,
+                showBack = true
+            )
+        }
+
+        route.isRoute(EvaluationNav.EmployeeEvaluations::class.qualifiedName) -> {
+            RenderTopBar(
+                title = stringResource(R.string.employee_evaluations),
+                navController = navController,
+                showBack = true
+            )
+        }
+
+        route.isRoute(EvaluationNav.CreateEvaluationByInstruction::class.qualifiedName) -> {
+            RenderTopBar(
+                title = stringResource(R.string.create_employee),
+                navController = navController,
+                showBack = true
+            )
+        }
+
+        route.isRoute(EvaluationNav.CreateEvaluationByEmployee::class.qualifiedName) -> {
+            RenderTopBar(
+                title = stringResource(R.string.create_employee),
+                navController = navController,
+                showBack = true
+            )
+        }
+
+        // Ai instruction routes
+        route.isRoute(AiInstructionNav.AiInstructionResponseHistory::class.qualifiedName) -> {
+            RenderTopBar(
+                title = stringResource(R.string.ai_instructions_history),
+                navController = navController,
+                showBack = true
+            )
+        }
+
+        route.isRoute(AiInstructionNav.CreateAiRequest::class.qualifiedName) -> {
+            RenderTopBar(
+                title = stringResource(R.string.ai_request),
+                navController = navController,
+                showBack = true
             )
         }
 
         else -> {
-            emptyList()
+            RenderTopBar(title = stringResource(R.string.main))
         }
-    }
-
-    val instructionDetailActions = when {
-        isManager -> {
-            listOf(
-                TopAppBarAction(
-                    ImageVector.vectorResource(
-                        if (mainState.isInstructionEditing == true) R.drawable.icon_save_changes
-                        else R.drawable.icon_pencil
-                    ),
-                    contentPadding = PaddingValues(
-                        if (mainState.isInstructionEditing == true) dimen.padding2Xs
-                        else dimen.zero
-                    ),
-                    onClick = {
-                        onEvent(MainEvent.InstructionEditingChanged(mainState.isInstructionEditing?.not() != false))
-                    }
-                )
-            )
-        }
-
-        else -> emptyList()
-    }
-
-    val elementDetailActions = when {
-        isManager -> {
-            listOf(
-                TopAppBarAction(
-                    ImageVector.vectorResource(
-                        if (mainState.isInstructionEditing == true) R.drawable.icon_save_changes
-                        else R.drawable.icon_pencil
-                    ),
-                    contentPadding = PaddingValues(
-                        if (mainState.isInstructionEditing == true) dimen.padding2Xs
-                        else dimen.zero
-                    ),
-                    onClick = {
-                        onEvent(MainEvent.InstructionEditingChanged(mainState.isInstructionEditing?.not() != false))
-                    }
-                )
-            )
-        }
-
-        else -> emptyList()
-    }
-
-    when {
-        currentDestinationRoute == InstructionNav.Instructions::class.qualifiedName ->
-            TopAppBarWithActions(stringResource(R.string.instructions), instructionListActions)
-
-        currentDestinationRoute?.startsWith(InstructionNav.InstructionDetail::class.qualifiedName ?: "") == true ->
-            TopAppBarWithBackAndActions(stringResource(R.string.instruction), instructionDetailActions, navController)
-
-        currentDestinationRoute?.startsWith(InstructionNav.InstructionElementDetail::class.qualifiedName ?: "") == true ->
-            TopAppBarWithBackAndActions(stringResource(R.string.video), elementDetailActions, navController)
-
-        currentDestinationRoute?.startsWith(InstructionNav.CreateInstruction::class.qualifiedName ?: "") == true ->
-            TopAppBarWithBackButton(stringResource(R.string.create_instruction), navController)
-
-        currentDestinationRoute?.startsWith(InstructionNav.Video::class.qualifiedName ?: "") == true ->
-            TopAppBarWithBackButton(
-                stringResource(R.string.all_videos),
-                navController,
-                onBack = {
-                    navController.navigate(InstructionNav.Instructions) {
-                        launchSingleTop = true
-                        restoreState = false
-                        popUpTo(navController.graph.id) {
-                            saveState = false
-                        }
-                    }
-                }
-            )
-
-        currentDestinationRoute == ReportNav.Reports::class.qualifiedName ->
-            DefaultTopAppBar(stringResource(R.string.reports))
-
-        currentDestinationRoute?.startsWith(ReportNav.CreateReport::class.qualifiedName ?: "") == true ->
-            TopAppBarWithBackButton(stringResource(R.string.create_report), navController)
-
-        currentDestinationRoute?.startsWith(ReportNav.ReportStatusList::class.qualifiedName ?: "") == true ->
-            TopAppBarWithBackButton(stringResource(R.string.current_reports), navController)
-
-        currentDestinationRoute?.startsWith(ReportNav.ReportsByStatusList::class.qualifiedName ?: "") == true ->
-            TopAppBarWithBackButton(stringResource(titleForReportsByStatusList(navBackStackEntry)), navController)
-
-        currentDestinationRoute?.startsWith(ReportNav.ReportDetail::class.qualifiedName ?: "") == true ->
-            TopAppBarWithBackButton(stringResource(R.string.report), navController)
-
-
-
-        currentDestinationRoute == ProfileNav.Profile::class.qualifiedName ->
-            DefaultTopAppBar(stringResource(R.string.profile))
-
-
-
-        else ->
-            DefaultTopAppBar(stringResource(R.string.main))
     }
 
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-private fun DefaultTopAppBar(
-    title: String
-) {
-    TopAppBar(
-        colors = TopAppBarDefaults.topAppBarColors().copy(
-            containerColor = colors.primaryBackground
-        ),
-        title = {
-            Text(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(start = dimen.topBarPadding),
-                text = title,
-                style = typography.h3
-            )
-        }
-    )
-}
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun TopAppBarWithBackAndActions(
+private fun RenderTopBar(
     title: String,
-    actions: List<TopAppBarAction>,
-    navController: NavHostController
+    navController: NavHostController? = null,
+    actions: List<TopAppBarAction> = emptyList(),
+    showBack: Boolean = false
 ) {
     TopAppBar(
-        colors = TopAppBarDefaults.topAppBarColors().copy(
-            containerColor = colors.primaryBackground
-        ),
+        colors = TopAppBarDefaults.topAppBarColors(containerColor = colors.primaryBackground),
         title = {
             Text(
                 modifier = Modifier
@@ -198,98 +322,47 @@ private fun TopAppBarWithBackAndActions(
                 text = title,
                 style = typography.h3
             )
-        },
-        actions = {
-            Row(
-                modifier = Modifier
-                    .padding(end = (dimen.topBarPadding * 3)),
-                horizontalArrangement = Arrangement.spacedBy(dimen.paddingS),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                actions.forEach { action ->
-                    IconButton(
-                        modifier = Modifier
-                            .size(dimen.sizeM + 2.dp),
-                        onClick = action.onClick,
-                        content = {
-                            Icon(
-                                modifier = Modifier
-                                    .size(dimen.sizeM)
-                                    .padding(action.contentPadding),
-                                imageVector = action.icon,
-                                tint = colors.tintColor,
-                                contentDescription = "Action icon"
-                            )
-                        }
-                    )
-                }
-            }
         },
         navigationIcon = {
-            TextButton(
-                modifier = Modifier.padding(start = dimen.padding2Xl).size(dimen.sizeL),
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = colors.secondaryBackground,
-                    contentColor = colors.primaryText
-                ),
-                shape = dimen.shape,
-                contentPadding = PaddingValues(dimen.paddingM),
-                onClick = {
-                    navController.popBackStack()
-                },
-            ) {
-                Icon(
-                    imageVector = ImageVector.vectorResource(R.drawable.icon_arrow_back),
-                    tint = colors.primaryText,
-                    contentDescription = stringResource(R.string.icon)
-                )
+            if (showBack) {
+                TextButton(
+                    modifier = Modifier.padding(start = dimen.padding2Xl).size(dimen.sizeL),
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = colors.secondaryBackground,
+                        contentColor = colors.primaryText
+                    ),
+                    shape = dimen.shape,
+                    contentPadding = PaddingValues(dimen.paddingM),
+                    onClick = { navController?.popBackStack()}
+                ) {
+                    Icon(
+                        imageVector = ImageVector.vectorResource(R.drawable.icon_arrow_back),
+                        tint = colors.primaryText,
+                        contentDescription = stringResource(R.string.icon)
+                    )
+                }
             }
-        }
-    )
-}
-
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-private fun TopAppBarWithActions(
-    title: String,
-    actions: List<TopAppBarAction>
-) {
-    TopAppBar(
-        colors = TopAppBarDefaults.topAppBarColors().copy(
-            containerColor = colors.primaryBackground
-        ),
-        title = {
-            Text(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(start = dimen.topBarPadding),
-                text = title,
-                style = typography.h3
-            )
         },
         actions = {
             Row(
-                modifier = Modifier
-                    .padding(end = (dimen.topBarPadding * 3)),
+                modifier = Modifier.padding(end = dimen.topBarPadding * 3),
                 horizontalArrangement = Arrangement.spacedBy(dimen.paddingS),
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 actions.forEach { action ->
                     IconButton(
-                        modifier = Modifier
-                            .size(dimen.sizeM + 2.dp),
-                        onClick = action.onClick,
-                        content = {
-                            Icon(
-                                modifier = Modifier
-                                    .size(dimen.sizeM)
-                                    .padding(action.contentPadding),
-                                imageVector = action.icon,
-                                tint = action.iconColor ?: colors.tintColor,
-                                contentDescription = "Action icon"
-                            )
-                        }
-                    )
+                        modifier = Modifier.size(dimen.sizeM + 2.dp),
+                        onClick = action.onClick
+                    ) {
+                        Icon(
+                            modifier = Modifier
+                                .size(dimen.sizeM)
+                                .padding(action.contentPadding),
+                            imageVector = action.icon,
+                            tint = action.iconColor ?: colors.tintColor,
+                            contentDescription = "Action icon"
+                        )
+                    }
                 }
             }
         }
@@ -303,48 +376,6 @@ private data class TopAppBarAction(
     val iconColor: Color? = null
 )
 
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-private fun TopAppBarWithBackButton(
-    title: String,
-    navController: NavHostController,
-    onBack: () -> Unit = { navController.popBackStack() }
-) {
-    TopAppBar(
-        colors = TopAppBarDefaults.topAppBarColors().copy(
-            containerColor = colors.primaryBackground
-        ),
-        title = {
-            Text(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(start = dimen.topBarPadding),
-                text = title,
-                style = typography.h3
-            )
-        },
-        navigationIcon = {
-            TextButton(
-                modifier = Modifier.padding(start = dimen.padding2Xl).size(dimen.sizeL),
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = colors.secondaryBackground,
-                    contentColor = colors.primaryText
-                ),
-                shape = dimen.shape,
-                contentPadding = PaddingValues(dimen.paddingM),
-                onClick = onBack,
-            ) {
-                Icon(
-                    imageVector = ImageVector.vectorResource(R.drawable.icon_arrow_back),
-                    tint = colors.primaryText,
-                    contentDescription = stringResource(R.string.icon)
-                )
-            }
-        }
-    )
-}
-
-
 private fun titleForReportsByStatusList(navBackStackEntry: NavBackStackEntry?) =
     when (navBackStackEntry?.arguments?.getString("status")) {
         "TODO" -> R.string.new_reports
@@ -352,3 +383,46 @@ private fun titleForReportsByStatusList(navBackStackEntry: NavBackStackEntry?) =
         "DONE" -> R.string.done_reports
         else -> R.string.reports
     }
+
+private fun String?.isRoute(destination: String?) =
+    this?.startsWith(destination ?: "") == true
+
+@Composable
+private fun editActions(isManager: Boolean, state: Boolean?, onClick: (Boolean) -> Unit) = when {
+    isManager -> {
+        listOf(
+            TopAppBarAction(
+                ImageVector.vectorResource(
+                    if (state == true) R.drawable.icon_save_changes
+                    else R.drawable.icon_pencil
+                ),
+                contentPadding = PaddingValues(
+                    if (state == true) dimen.padding2Xs
+                    else dimen.zero
+                ),
+                onClick = {
+                    onClick(state?.not() != false)
+                }
+            )
+        )
+    }
+
+    else -> emptyList()
+}
+
+@Composable
+private fun deleteActions(isManager: Boolean, state: Boolean?, onClick: (Boolean) -> Unit) = when {
+    isManager -> {
+        listOf(
+            TopAppBarAction(
+                ImageVector.vectorResource(R.drawable.icon_delete),
+                contentPadding = PaddingValues(dimen.padding2Xs),
+                onClick = {
+                    onClick(state?.not() != false)
+                }
+            )
+        )
+    }
+
+    else -> emptyList()
+}

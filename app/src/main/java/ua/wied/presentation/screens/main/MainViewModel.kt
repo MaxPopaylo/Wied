@@ -14,6 +14,8 @@ class MainViewModel @Inject constructor(
         when(event) {
             is MainEvent.InstructionEditingChanged -> updateState { it.copy(isInstructionEditing = event.value) }
             is MainEvent.ElementEditingChanged -> updateState { it.copy(isElementEditing = event.value) }
+            is MainEvent.ElementDeletingChanged -> updateState { it.copy(isElementDeleting = event.value) }
+            is MainEvent.FolderEditingChanged -> updateState { it.copy(isFolderEditing = event.value) }
             is MainEvent.FabVisibilityChanged -> updateState { it.copy(isFabVisible = event.value) }
             is MainEvent.FabClickChanged -> updateState { it.copy(fabClick = event.value) }
         }

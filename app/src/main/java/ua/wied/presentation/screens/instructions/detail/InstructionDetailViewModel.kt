@@ -1,6 +1,5 @@
 package ua.wied.presentation.screens.instructions.detail
 
-import android.util.Log
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
 import ua.wied.domain.models.instruction.Instruction
@@ -65,9 +64,9 @@ class InstructionDetailViewModel @Inject constructor(
                     )
                 },
                 updateLoadingState = { value -> updateState { it.copy(isLoading = value) } },
-                onFailure = { state.createResult.emit(Result.failure(it)) },
+                onFailure = { state.updateResult.emit(Result.failure(it)) },
                 onSuccess = {
-                    state.createResult.emit(Result.success(Unit))
+                    state.updateResult.emit(Result.success(Unit))
                 }
             )
         }

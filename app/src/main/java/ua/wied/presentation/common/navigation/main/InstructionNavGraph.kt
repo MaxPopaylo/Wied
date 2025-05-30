@@ -13,6 +13,9 @@ import ua.wied.presentation.common.navigation.TabType
 import ua.wied.presentation.common.navigation.screenComposable
 import ua.wied.presentation.screens.instructions.InstructionViewModel
 import ua.wied.presentation.screens.instructions.InstructionsScreen
+import ua.wied.presentation.screens.instructions.access.InstructionAccessScreen
+import ua.wied.presentation.screens.instructions.access.InstructionAccessViewModel
+import ua.wied.presentation.screens.instructions.access.model.InstructionAccessState
 import ua.wied.presentation.screens.instructions.create.CreateInstructionScreen
 import ua.wied.presentation.screens.instructions.create.CreateInstructionViewModel
 import ua.wied.presentation.screens.instructions.create.models.CreateInstructionState
@@ -62,6 +65,9 @@ fun NavGraphBuilder.instructionNavGraph(
             },
             navigateToCreation = { orderNum, folderId ->
                 navController.navigate(InstructionNav.CreateInstruction(orderNum, folderId))
+            },
+            navigateToAccess = { instructionId ->
+                navController.navigate(InstructionNav.InstructionAccess(instructionId))
             }
         )
     }
@@ -117,6 +123,10 @@ fun NavGraphBuilder.instructionNavGraph(
                 navController.navigate(InstructionNav.CreateElement(orderNum, instructionId))
             },
             backToInstructions = {
+                navController.previousBackStackEntry
+                    ?.savedStateHandle
+                    ?.set("shouldRefresh", it)
+
                 navController.popBackStack()
             }
         )
@@ -157,18 +167,22 @@ fun NavGraphBuilder.instructionNavGraph(
         ElementDetailScreen(
             state = state,
             element = args.element,
-            isEditing = mainState.isInstructionEditing,
+            isEditing = mainState.isElementEditing,
+            isDeleting = mainState.isElementDeleting,
             onEvent = vm::onEvent,
             onMainEvent = onMainEvent,
-            onPlayerEvent = vm::onEvent
+            onPlayerEvent = vm::onEvent,
+            backToInstruction = {
+                navController.popBackStack()
+            }
         )
     }
 
     screenComposable<
-            InstructionNav.Video,
-            VideoViewModel,
-            VideoState
-            >(
+        InstructionNav.Video,
+        VideoViewModel,
+        VideoState
+    >(
         tabType = TabType.BACK,
         typeMap = mapOf(
             typeOf<Instruction>() to InstructionType
@@ -190,6 +204,24 @@ fun NavGraphBuilder.instructionNavGraph(
                     }
                 }
             }
+        )
+    }
+
+    screenComposable<
+        InstructionNav.InstructionAccess,
+        InstructionAccessViewModel,
+        InstructionAccessState
+    >(
+        tabType = TabType.BACK,
+        stateProvider = { it.uiState }
+    ) { vm, state, backStackEntry ->
+        val args = backStackEntry.toRoute<InstructionNav.InstructionAccess>()
+        InstructionAccessScreen(
+            instructionId = args.instructionId,
+            state = state,
+            onEvent = vm::onEvent,
+            isManager = isManager,
+            onMainEvent = onMainEvent
         )
     }
 }

@@ -34,62 +34,6 @@ class InstructionModule {
 
     @Provides
     @Singleton
-    fun provideSaveInstructionUseCase(
-        repository: InstructionRepository
-    ): CreateInstructionUseCase {
-        return CreateInstructionUseCase(repository)
-    }
-
-    @Provides
-    @Singleton
-    fun provideUpdateInstructionUseCase(
-        repository: InstructionRepository
-    ): UpdateInstructionUseCase {
-        return UpdateInstructionUseCase(repository)
-    }
-
-    @Provides
-    @Singleton
-    fun provideDeleteInstructionUseCase(
-        repository: InstructionRepository
-    ): DeleteInstructionUseCase {
-        return DeleteInstructionUseCase(repository)
-    }
-
-    @Provides
-    @Singleton
-    fun provideGetInstructionUseCase(
-        repository: InstructionRepository
-    ): GetInstructionUseCase {
-        return GetInstructionUseCase(repository)
-    }
-
-    @Provides
-    @Singleton
-    fun provideSaveElementUseCase(
-        repository: InstructionRepository
-    ): CreateElementUseCase {
-        return CreateElementUseCase(repository)
-    }
-
-    @Provides
-    @Singleton
-    fun provideUpdateElementUseCase(
-        repository: InstructionRepository
-    ): UpdateElementUseCase {
-        return UpdateElementUseCase(repository)
-    }
-
-    @Provides
-    @Singleton
-    fun provideDeleteElementUseCase(
-        repository: InstructionRepository
-    ): DeleteElementUseCase {
-        return DeleteElementUseCase(repository)
-    }
-
-    @Provides
-    @Singleton
     fun provideInstructionRepository(
         api: InstructionApi,
         @ApplicationContext context: Context

@@ -2,7 +2,7 @@ package ua.wied.data.datasource.network.dto.report
 
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
-import ua.wied.domain.models.report.Author
+import ua.wied.domain.models.report.UserSummary
 import ua.wied.domain.models.report.ImageUrl
 import ua.wied.domain.models.report.Report
 import ua.wied.domain.models.report.ReportStatus
@@ -28,7 +28,7 @@ data class ReportDto(
     val id: Int,
     @Json(name = "instruction_id")
     val instructionId: Int,
-    val author: Author,
+    val author: UserSummary,
     val title: String,
     val info: String,
     @Json(name = "image_urls")

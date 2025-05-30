@@ -25,20 +25,6 @@ import javax.inject.Singleton
 class FolderModule {
 
     @Provides
-    fun provideGetInstructionFoldersUseCase(
-        repository: FolderRepository
-    ): GetInstructionFoldersUseCase {
-        return GetInstructionFoldersUseCase(repository)
-    }
-
-    @Provides
-    fun provideGetInstructionWithReportCountFoldersUseCase(
-        repository: FolderRepository
-    ): GetInstructionWithReportCountFoldersUseCase {
-        return GetInstructionWithReportCountFoldersUseCase(repository)
-    }
-
-    @Provides
     @Singleton
     fun provideFolderRepository(
         api: FolderApi

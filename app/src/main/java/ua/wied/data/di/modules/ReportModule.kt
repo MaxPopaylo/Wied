@@ -18,38 +18,11 @@ import ua.wied.data.di.NetworkModule
 import ua.wied.data.di.StorageModule
 import ua.wied.data.repository.ReportRepositoryImpl
 import ua.wied.domain.repository.ReportRepository
-import ua.wied.domain.usecases.CreateReportUseCase
-import ua.wied.domain.usecases.GetReportsByInstructionUseCase
-import ua.wied.domain.usecases.UpdateReportStatusUseCase
 import javax.inject.Singleton
 
 @Module(includes = [NetworkModule::class, StorageModule::class])
 @InstallIn(SingletonComponent::class)
 class ReportModule {
-
-    @Provides
-    @Singleton
-    fun provideGetReportsByInstructionUseCase(
-        reportRepository: ReportRepository
-    ): GetReportsByInstructionUseCase {
-        return GetReportsByInstructionUseCase(reportRepository)
-    }
-
-    @Provides
-    @Singleton
-    fun provideCreateReportUseCase(
-        reportRepository: ReportRepository
-    ): CreateReportUseCase {
-        return CreateReportUseCase(reportRepository)
-    }
-
-    @Provides
-    @Singleton
-    fun provideUpdateReportStatusUseCase(
-        reportRepository: ReportRepository
-    ): UpdateReportStatusUseCase {
-        return UpdateReportStatusUseCase(reportRepository)
-    }
 
     @Provides
     @Singleton

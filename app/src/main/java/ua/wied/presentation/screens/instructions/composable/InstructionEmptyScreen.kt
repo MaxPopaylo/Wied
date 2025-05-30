@@ -20,26 +20,35 @@ import ua.wied.presentation.common.theme.WiEDTheme.dimen
 import ua.wied.presentation.common.theme.WiEDTheme.typography
 
 @Composable
-fun InstructionEmptyScreen() {
+fun InstructionEmptyScreen(
+    isManager: Boolean,
+    isFiltered: Boolean,
+    onCreationClick: () -> Unit
+) {
     Column(
         modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Icon(
-            modifier = Modifier.size(dimen.sizeL),
+            modifier = Modifier.size(dimen.sizeM),
             imageVector = ImageVector.vectorResource(R.drawable.icon_camcorder),
             tint = colors.primaryText,
             contentDescription = "Camcorder"
         )
         Text(
-            modifier = Modifier.padding(top = dimen.padding2Xs),
-            text = stringResource(R.string.no_instructions),
+            modifier = Modifier.padding(top = dimen.paddingS),
+            text = stringResource(
+                if (isFiltered) R.string.no_instructions_filtered
+                else R.string.no_instructions
+            ),
             style = typography.body1
         )
-        PrimaryTextButton(
-            title = stringResource(R.string.create),
-            onClick = {}
-        )
+        if (isManager && !isFiltered) {
+            PrimaryTextButton(
+                title = stringResource(R.string.create),
+                onClick = onCreationClick
+            )
+        }
     }
 }

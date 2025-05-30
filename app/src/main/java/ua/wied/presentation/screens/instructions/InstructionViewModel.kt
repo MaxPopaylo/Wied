@@ -8,7 +8,7 @@ import ua.wied.domain.models.folder.Folder
 import ua.wied.domain.models.instruction.Instruction
 import ua.wied.domain.usecases.DeleteInstructionUseCase
 import ua.wied.domain.usecases.GetInstructionFoldersUseCase
-import ua.wied.domain.usecases.UpdateInstructionUseCase
+import ua.wied.domain.usecases.ReorderInstructionUseCase
 import ua.wied.presentation.common.base.BaseViewModel
 import ua.wied.presentation.screens.instructions.model.InstructionsEvent
 import ua.wied.presentation.screens.instructions.model.InstructionsState
@@ -17,7 +17,7 @@ import javax.inject.Inject
 @HiltViewModel
 class InstructionViewModel @Inject constructor(
     private val getInstructionFoldersUseCase: GetInstructionFoldersUseCase,
-    private val updateInstruction: UpdateInstructionUseCase,
+    private val reorderInstruction: ReorderInstructionUseCase,
     private val deleteInstructionUseCase: DeleteInstructionUseCase
 ) : BaseViewModel<InstructionsState, InstructionsEvent>(InstructionsState()) {
     val foldersFlow = MutableStateFlow<List<Folder<Instruction>>>(emptyList())
@@ -29,15 +29,17 @@ class InstructionViewModel @Inject constructor(
     override fun onEvent(event: InstructionsEvent) {
         when (event) {
             is InstructionsEvent.SearchChanged -> {
+                val filteredFolders = filterFolders(event.value)
                 updateState {
                     it.copy(
                         search = event.value,
-                        folders = filterFolders(event.value)
+                        isEmpty = filteredFolders.isEmpty(),
+                        folders = filteredFolders
                     )
                 }
             }
             is InstructionsEvent.DeletePressed -> deleteInstruction(event.value)
-            is InstructionsEvent.ChangeOrderNum -> changeInstructionOrderNum(event.instruction, event.folderId, event.orderNum)
+            is InstructionsEvent.ChangeOrderNum -> changeInstructionOrderNum(event.instructionId, event.folderId, event.orderNum)
             is InstructionsEvent.Refresh -> { initialize(true) }
         }
     }
@@ -87,15 +89,13 @@ class InstructionViewModel @Inject constructor(
         )
     }
 
-    private fun changeInstructionOrderNum(instruction: Instruction, folderId: Int, orderNum: Int) {
+    private fun changeInstructionOrderNum(instructionId: Int, folderId: Int, orderNum: Int) {
         collectNetworkRequest(
             apiCall = {
-                updateInstruction(
-                    instructionId = instruction.id,
-                    title = instruction.title,
-                    posterUrl = instruction.posterUrl,
-                    orderNum = orderNum,
-                    folderId = folderId
+                reorderInstruction(
+                    instructionId = instructionId,
+                    folderId = folderId,
+                    newOrder = orderNum + 1
                 )
             },
             updateLoadingState = { value -> updateState { it.copy(isLoading = value) } },

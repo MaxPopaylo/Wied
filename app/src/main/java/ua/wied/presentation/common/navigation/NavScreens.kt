@@ -7,6 +7,7 @@ import ua.wied.R
 import ua.wied.domain.models.instruction.Element
 import ua.wied.domain.models.instruction.Instruction
 import ua.wied.domain.models.report.Report
+import ua.wied.domain.models.user.User
 
 @Serializable
 sealed class Screen
@@ -51,6 +52,18 @@ sealed class InstructionNav : MainNav() {
 
     @Serializable
     data class CreateElement(val orderNum: Int, val instructionId: Int) : InstructionNav()
+
+    @Serializable
+    data class InstructionAccess(val instructionId: Int) : InstructionNav()
+}
+
+@Serializable
+sealed class AiInstructionNav: MainNav() {
+    @Serializable
+    data object AiInstructionResponseHistory: AiInstructionNav()
+
+    @Serializable
+    data object CreateAiRequest: AiInstructionNav()
 }
 
 @Serializable
@@ -75,18 +88,42 @@ sealed class ReportNav : MainNav() {
 sealed class EvaluationNav : MainNav() {
     @Serializable
     data object Evaluations: EvaluationNav()
+
+    @Serializable
+    data class InstructionEvaluations(val instruction: Instruction): EvaluationNav()
+
+    @Serializable
+    data class EmployeeEvaluations(val employee: User): EvaluationNav()
+
+    @Serializable
+    data class CreateEvaluationByEmployee(val user: User): EvaluationNav()
+
+    @Serializable
+    data class CreateEvaluationByInstruction(val instruction: Instruction): EvaluationNav()
 }
 
 @Serializable
 sealed class PeopleNav : MainNav() {
     @Serializable
     data object People: PeopleNav()
+
+    @Serializable
+    data object CreateEmployee: PeopleNav()
+
+    @Serializable
+    data class EmployeeDetail(val user: User): PeopleNav()
 }
 
 @Serializable
 sealed class AccessNav : MainNav() {
     @Serializable
     data object Accesses: AccessNav()
+
+    @Serializable
+    data class FolderDetail(val folderId: Int): AccessNav()
+
+    @Serializable
+    data object CreateFolder: AccessNav()
 }
 
 @Serializable
@@ -107,8 +144,8 @@ sealed class BottomBarScreen(@StringRes val label: Int, @DrawableRes val icon: I
     data object Evaluations : BottomBarScreen(R.string.evaluations, R.drawable.icon_star, EvaluationNav.Evaluations)
 
     @Serializable
-    data object Accesses : BottomBarScreen(R.string.accesses, R.drawable.icon_add_person, EvaluationNav.Evaluations)
+    data object Accesses : BottomBarScreen(R.string.accesses, R.drawable.icon_add_person, AccessNav.Accesses)
 
     @Serializable
-    data object Profile : BottomBarScreen(R.string.profile, R.drawable.icon_account, ProfileNav.Profile)
+    data object People : BottomBarScreen(R.string.people, R.drawable.icon_people, PeopleNav.People)
 }

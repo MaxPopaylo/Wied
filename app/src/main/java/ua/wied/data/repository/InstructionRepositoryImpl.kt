@@ -66,6 +66,17 @@ class InstructionRepositoryImpl @Inject constructor(
             transform = { it.data.toDomain() }
         )
 
+    override suspend fun toggleAccess(instructionId: Int, userId: Int): UnitFlow =
+        handlePUTApiCall (
+            apiCall = {
+                api.toggleInstructionAccess(
+                    instructionId = instructionId,
+                    userId = userId
+                )
+            }
+        )
+
+
     override suspend fun saveElement(
         title: String, info: String,
         videoUrl: String?, orderNum: Int,
@@ -88,7 +99,7 @@ class InstructionRepositoryImpl @Inject constructor(
 
     override suspend fun updateElement(
         elementId: Int, title: String,
-        info: String, videoUrl: String?,
+        info: String?, videoUrl: String?,
         orderNum: Int, instructionId: Int
     ): UnitFlow =
         handlePUTApiCall (
@@ -113,5 +124,20 @@ class InstructionRepositoryImpl @Inject constructor(
         handleDELETEApiCall (
             apiCall = { api.deleteElement(elementId, instructionId) }
         )
+
+
+    override suspend fun reorderInstruction(
+        instructionId: Int,
+        folderId: Int,
+        newOrder: Int
+    ): UnitFlow = handlePUTApiCall (
+        apiCall = {
+            api.reorderInstruction(
+                instructionId = instructionId,
+                folderId = folderId,
+                newOrder = newOrder
+            )
+        }
+    )
 
 }

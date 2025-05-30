@@ -1,5 +1,6 @@
 package ua.wied.domain.usecases
 
+import ua.wied.domain.repository.FolderRepository
 import ua.wied.domain.repository.InstructionRepository
 import javax.inject.Inject
 
@@ -37,11 +38,36 @@ class UpdateInstructionUseCase @Inject constructor(
     )
 }
 
+class ToggleInstructionAccessUseCase @Inject constructor(
+    private val instructionRepository: InstructionRepository
+) {
+    suspend operator fun invoke(
+        instructionId: Int, userId: Int
+    ) = instructionRepository.toggleAccess(
+        instructionId = instructionId,
+        userId = userId
+    )
+}
+
 class DeleteInstructionUseCase @Inject constructor(
     private val instructionRepository: InstructionRepository
 ) {
     suspend operator fun invoke(instructionId: Int) =
         instructionRepository.deleteInstruction(instructionId = instructionId)
+}
+
+class ReorderInstructionUseCase @Inject constructor(
+    private val instructionRepository: InstructionRepository
+) {
+    suspend operator fun invoke(
+        instructionId: Int,
+        folderId: Int,
+        newOrder: Int
+    ) = instructionRepository.reorderInstruction(
+        instructionId = instructionId,
+        folderId = folderId,
+        newOrder = newOrder
+    )
 }
 
 class GetInstructionUseCase @Inject constructor(
@@ -75,7 +101,7 @@ class UpdateElementUseCase @Inject constructor(
     suspend operator fun invoke(
         elementId: Int,
         title: String,
-        info: String,
+        info: String?,
         videoUrl: String?,
         orderNum: Int,
         instructionId: Int

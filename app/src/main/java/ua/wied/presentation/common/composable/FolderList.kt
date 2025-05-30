@@ -1,7 +1,5 @@
 package ua.wied.presentation.common.composable
 
-import android.content.ClipData
-import android.content.ClipDescription
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.draganddrop.dragAndDropSource
@@ -21,16 +19,16 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draganddrop.DragAndDropEvent
 import androidx.compose.ui.draganddrop.DragAndDropTarget
-import androidx.compose.ui.draganddrop.DragAndDropTransferData
 import androidx.compose.ui.draganddrop.mimeTypes
-import androidx.compose.ui.draganddrop.toAndroidDragEvent
-import org.json.JSONObject
 import ua.wied.domain.models.DragAndDropItem
 import ua.wied.domain.models.HasId
 import ua.wied.domain.models.folder.Folder
 import ua.wied.presentation.common.theme.WiEDTheme
 import ua.wied.presentation.common.theme.WiEDTheme.colors
 import ua.wied.presentation.common.theme.WiEDTheme.dimen
+import ua.wied.presentation.common.utils.ItemTransferData
+import ua.wied.presentation.common.utils.ItemTransferData.Companion.createTransferData
+import ua.wied.presentation.common.utils.ItemTransferData.Companion.extractDragData
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -63,14 +61,10 @@ fun <T : HasId> FolderList (
 fun <T : DragAndDropItem> DragAndDropFolderList(
     modifier: Modifier = Modifier,
     folders: List<Folder<T>>,
-    onItemDropped: (item: T, targetFolderId: Int, newOrderNum: Int) -> Unit = { _, _, _ -> },
+    onItemDropped: (itemId: Int, targetFolderId: Int, newOrderNum: Int) -> Unit = { _, _, _ -> },
     onItemClick: (T) -> Unit,
     itemView: @Composable (Modifier, T) -> Unit
 ) {
-    val allItemsById: Map<Int, T> = remember(folders) {
-        folders.flatMap { it.items }.associateBy { it.id }
-    }
-
     LazyColumn(
         modifier = modifier,
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -83,8 +77,7 @@ fun <T : DragAndDropItem> DragAndDropFolderList(
                     isDragAndDrop = true,
                     onDrop = { sourceFolderId, itemId ->
                         val targetOrder = folder.items.lastOrNull()?.orderNum?.plus(1) ?: 0
-                        val item = allItemsById[itemId] ?: return@FolderListHeader
-                        onItemDropped(item, folder.id, targetOrder)
+                        onItemDropped(itemId, folder.id, targetOrder)
                     }
                 )
             }
@@ -103,14 +96,11 @@ fun <T : DragAndDropItem> DragAndDropFolderList(
                                 object : DragAndDropTarget {
                                     override fun onDrop(event: DragAndDropEvent): Boolean {
                                         extractDragData(event)?.let { data ->
-                                            val droppedItem = allItemsById[data.itemId] ?: return true
-                                            if (droppedItem != item) {
-                                                onItemDropped(
-                                                    droppedItem,
-                                                    folder.id,
-                                                    item.orderNum
-                                                )
-                                            }
+                                            onItemDropped(
+                                                data.itemId,
+                                                folder.id,
+                                                item.orderNum
+                                            )
                                         }
                                         return true
                                     }
@@ -161,7 +151,7 @@ private fun FolderListHeader(
                 object : DragAndDropTarget {
                     override fun onDrop(event: DragAndDropEvent): Boolean {
                         extractDragData(event)?.let { data ->
-                            onDrop(data.sourceFolderId, data.itemId)
+                            data.sourceFolderId?.let { onDrop(it, data.itemId) }
                         }
                         return true
                     }
@@ -183,50 +173,4 @@ private fun FolderListHeader(
         )
     }
 
-}
-
-private data class ItemTransferData(
-    val itemId: Int,
-    val sourceFolderId: Int
-) {
-    companion object {
-        const val MIME_TYPE = "application/vnd.wied.item-transfer"
-        private const val KEY_ITEM_ID = "itemId"
-        private const val KEY_SOURCE = "sourceFolderId"
-
-        fun fromJson(json: String): ItemTransferData? = try {
-            JSONObject(json).let {
-                ItemTransferData(
-                    itemId = it.getInt(KEY_ITEM_ID),
-                    sourceFolderId = it.getInt(KEY_SOURCE)
-                )
-            }
-        } catch (e: Exception) {
-            null
-        }
-    }
-
-    fun toJson(): String = JSONObject().apply {
-        put(KEY_ITEM_ID, itemId)
-        put(KEY_SOURCE, sourceFolderId)
-    }.toString()
-}
-
-private fun createTransferData(itemTransferData: ItemTransferData): DragAndDropTransferData {
-    val jsonData = itemTransferData.toJson()
-    val description = ClipDescription(
-        ItemTransferData.MIME_TYPE,
-        arrayOf(ItemTransferData.MIME_TYPE)
-    )
-    val item = ClipData.Item(jsonData)
-    val clipData = ClipData(description, item)
-    return DragAndDropTransferData(clipData = clipData)
-}
-
-private fun extractDragData(event: DragAndDropEvent): ItemTransferData? {
-    val androidEvent = event.toAndroidDragEvent()
-    val clipData = androidEvent.clipData ?: return null
-    return if (clipData.description.hasMimeType(ItemTransferData.MIME_TYPE)) {
-        clipData.getItemAt(0).text?.toString()?.let { ItemTransferData.fromJson(it) }
-    } else null
 }

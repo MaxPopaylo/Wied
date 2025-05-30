@@ -10,7 +10,7 @@ data class InstructionDetailState (
     override val isEmpty: Boolean = false,
     override val isNotInternetConnection: Boolean = false,
     override val requestBeforeNetworkError: () -> Unit = {},
-    val createResult: MutableStateFlow<Result<Unit>?> = MutableStateFlow(null),
+    val updateResult: MutableStateFlow<Result<Unit>?> = MutableStateFlow(null),
     val instruction: Instruction? = null,
     val lastItemOrderNum: Int? = null
 ): BaseNetworkResponseState

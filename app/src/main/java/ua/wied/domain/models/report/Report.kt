@@ -10,7 +10,7 @@ import java.time.LocalDateTime
 data class Report (
     override val id: Int,
     val instructionId: Int,
-    val author: Author,
+    val author: UserSummary,
     val title: String,
     val info: String,
     val imageUrls: List<ImageUrl>,
@@ -26,7 +26,7 @@ data class ImageUrl(
 )
 
 @Serializable
-data class Author(
+data class UserSummary(
     val id: Int,
     val name: String
 )

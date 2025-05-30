@@ -2,7 +2,7 @@ package ua.wied.data.datasource.network.api
 
 import retrofit2.http.Body
 import retrofit2.http.POST
-import ua.wied.data.datasource.network.dto.UserDto
+import ua.wied.data.datasource.network.dto.users.UserDto
 import ua.wied.data.datasource.network.dto.WrappedResponse
 import ua.wied.domain.models.auth.SignInRequest
 import ua.wied.domain.models.auth.SignUpRequest

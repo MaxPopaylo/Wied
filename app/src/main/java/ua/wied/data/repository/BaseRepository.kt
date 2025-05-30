@@ -20,6 +20,7 @@ import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.RequestBody.Companion.asRequestBody
 import ua.wied.domain.models.UnitFlow
 import java.io.File
+import ua.wied.domain.models.FlowResult
 
 abstract class BaseRepository {
 
@@ -52,6 +53,28 @@ abstract class BaseRepository {
         val response = apiCall()
         if (response.isSuccessful) {
             emit(Result.success(Unit))
+        } else {
+            emit(Result.failure(mapErrorStatus(response.code())))
+        }
+    }.catch { e ->
+        Log.d("TAG", e.message ?: "Exception occurred")
+        emit(Result.failure(
+            when(e) {
+                is IOException -> NetworkException.NoConnectionException
+                else -> NetworkException.UnknownErrorException
+            }
+        ))
+    }
+
+    protected fun <T, R> handlePOSTApiCall(
+        apiCall: suspend () -> Response<T>,
+        transform: (T) -> R
+    ): Flow<Result<R>> = flow {
+        val response = apiCall()
+        if (response.isSuccessful) {
+            response.body()?.let { data ->
+                emit(Result.success(transform(data)))
+            } ?: emit(Result.failure(NetworkException.UnknownErrorException))
         } else {
             emit(Result.failure(mapErrorStatus(response.code())))
         }

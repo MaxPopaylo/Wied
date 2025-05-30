@@ -20,41 +20,6 @@ import ua.wied.domain.usecases.validation.ValidatePhoneUseCase
 class ValidationModule {
 
     @Provides
-    fun provideValidateCompany(@ApplicationContext context: Context): ValidateCompanyUseCase {
-        return ValidateCompanyUseCase(context)
-    }
-
-    @Provides
-    fun provideValidateEmail(@ApplicationContext context: Context): ValidateEmailUseCase {
-        return ValidateEmailUseCase(context)
-    }
-
-    @Provides
-    fun provideValidateEmpty(@ApplicationContext context: Context): ValidateEmptyUseCase {
-        return ValidateEmptyUseCase(context)
-    }
-
-    @Provides
-    fun provideValidateLogin(@ApplicationContext context: Context): ValidateLoginUseCase {
-        return ValidateLoginUseCase(context)
-    }
-
-    @Provides
-    fun provideValidatePassword(@ApplicationContext context: Context): ValidatePasswordUseCase {
-        return ValidatePasswordUseCase(context)
-    }
-
-    @Provides
-    fun provideValidatePasswordConfirm(@ApplicationContext context: Context): ValidatePasswordConfirmUseCase {
-        return ValidatePasswordConfirmUseCase(context)
-    }
-
-    @Provides
-    fun provideValidatePhone(@ApplicationContext context: Context): ValidatePhoneUseCase {
-        return ValidatePhoneUseCase(context)
-    }
-
-    @Provides
     fun provideValidator(
         validateCompany: ValidateCompanyUseCase,
         validateEmail: ValidateEmailUseCase,

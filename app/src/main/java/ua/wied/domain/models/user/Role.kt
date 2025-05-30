@@ -1,14 +1,21 @@
 package ua.wied.domain.models.user
 
+import androidx.annotation.DrawableRes
+import androidx.annotation.StringRes
 import com.squareup.moshi.Json
+import ua.wied.R
+import ua.wied.domain.models.SelectableEnum
 
-enum class Role(val displayName: String) {
+enum class Role(
+    @StringRes override val displayName: Int,
+    @DrawableRes override val icon: Int
+): SelectableEnum {
     @Json(name = "owner")
-    OWNER("Owner"),
+    OWNER(displayName = R.string.role_owner, icon = R.drawable.icon_owner),
     @Json(name = "admin")
-    ADMIN("Admin"),
+    ADMIN(displayName = R.string.role_admin, icon = R.drawable.icon_admin),
     @Json(name = "manager")
-    MANAGER("Manager"),
-    @Json(name = "employee")
-    EMPLOYEE("Employee")
+    MANAGER(displayName = R.string.role_manager, icon = R.drawable.icon_manager),
+    @Json(name = "worker")
+    EMPLOYEE(displayName = R.string.role_employee, icon = R.drawable.icon_employee)
 }

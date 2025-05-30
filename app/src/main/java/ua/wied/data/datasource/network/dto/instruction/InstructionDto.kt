@@ -2,6 +2,8 @@ package ua.wied.data.datasource.network.dto.instruction
 
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
+import ua.wied.data.datasource.network.dto.folders.AccessDto
+import ua.wied.domain.models.folder.Access
 import ua.wied.domain.models.instruction.Element
 import ua.wied.domain.models.instruction.Instruction
 import java.time.LocalDateTime
@@ -43,6 +45,7 @@ data class InstructionDto(
     @Json(name = "folder_id")
     val folderId: Int,
     val id: Int,
+    val accesses: List<AccessDto>,
     @Json(name = "poster_url")
     val posterUrl: String?,
     val items: List<InstructionItemDto>
@@ -54,6 +57,7 @@ data class InstructionDto(
             folderId = folderId,
             posterUrl = posterUrl,
             elements = items.map { it.toDomain() },
+            accesses = accesses.map { it.toDomain() },
             createTime = LocalDateTime.parse(createTime, DateTimeFormatter.ISO_DATE_TIME),
             updateTime = LocalDateTime.parse(updateTime, DateTimeFormatter.ISO_DATE_TIME),
             orderNum = orderNum
@@ -73,7 +77,7 @@ data class CreateInstructionDto (
 @JsonClass(generateAdapter = true)
 data class CreateElementDto (
     val title: String,
-    val info: String,
+    val info: String?,
     @Json(name = "order_num")
     val orderNum: Int,
 )

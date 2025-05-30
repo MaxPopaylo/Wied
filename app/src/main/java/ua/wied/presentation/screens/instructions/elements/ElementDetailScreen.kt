@@ -27,12 +27,11 @@ import ua.wied.R
 import ua.wied.domain.models.instruction.Element
 import ua.wied.domain.repository.VideoPlayerEvent
 import ua.wied.presentation.common.composable.DetailTextField
-import ua.wied.presentation.common.composable.FullScreenImageDialog
 import ua.wied.presentation.common.composable.FullScreenVideoDialog
-import ua.wied.presentation.common.composable.LargeVideoPicker
+import ua.wied.presentation.common.composable.pickers.LargeVideoPicker
 import ua.wied.presentation.common.composable.LoadingIndicator
 import ua.wied.presentation.common.composable.SuccessDialog
-import ua.wied.presentation.common.composable.VideoPickerBottomSheet
+import ua.wied.presentation.common.composable.pickers.VideoPickerBottomSheet
 import ua.wied.presentation.common.theme.WiEDTheme.colors
 import ua.wied.presentation.common.theme.WiEDTheme.dimen
 import ua.wied.presentation.common.theme.WiEDTheme.typography
@@ -40,7 +39,6 @@ import ua.wied.presentation.common.utils.extensions.hideBottomSheet
 import ua.wied.presentation.common.utils.extensions.showBottomSheet
 import ua.wied.presentation.screens.instructions.elements.model.ElementDetailEvent
 import ua.wied.presentation.screens.instructions.elements.model.ElementDetailState
-import ua.wied.presentation.screens.instructions.video.model.VideoEvent
 import ua.wied.presentation.screens.main.models.MainEvent
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -48,15 +46,15 @@ import ua.wied.presentation.screens.main.models.MainEvent
 fun ElementDetailScreen(
     element: Element,
     isEditing: Boolean?,
+    isDeleting: Boolean?,
     state: ElementDetailState,
     onEvent: (ElementDetailEvent) -> Unit,
     onPlayerEvent: (VideoPlayerEvent) -> Unit,
-    onMainEvent: (MainEvent) -> Unit
+    onMainEvent: (MainEvent) -> Unit,
+    backToInstruction: () -> Unit
 ) {
-    var choseImage by remember { mutableStateOf("") }
-    var showDialog by remember { mutableStateOf(false) }
-
     var showConfirmDialog by remember { mutableStateOf(false) }
+    var showDeletingConfirmDialog by remember { mutableStateOf(false) }
 
     var showBottomSheet by remember { mutableStateOf(false) }
     val bottomSheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
@@ -68,7 +66,26 @@ fun ElementDetailScreen(
 
     LaunchedEffect(isEditing) {
         if (isEditing != null && !isEditing) {
-            showConfirmDialog = true
+            if (state.element?.title?.isNotEmpty() == true) {
+                showConfirmDialog = true
+            }
+        }
+    }
+
+    LaunchedEffect(isDeleting) {
+        if (isDeleting != null && isDeleting) {
+            showDeletingConfirmDialog = true
+        }
+    }
+
+    LaunchedEffect(state.updateResult) {
+        state.updateResult.collect { result ->
+            result?.fold(
+                onSuccess = { backToInstruction() },
+                onFailure = {
+
+                }
+            )
         }
     }
 
@@ -89,7 +106,8 @@ fun ElementDetailScreen(
 
         (state.element?.info ?: element.info) ?.let {
             DetailTextField(
-                title = stringResource(R.string.title),
+                modifier = Modifier.padding(top = dimen.paddingLarge),
+                title = stringResource(R.string.description),
                 text = it,
                 isEditing = (isEditing != null && isEditing),
                 minHeight = 120.dp,
@@ -110,8 +128,7 @@ fun ElementDetailScreen(
             videoUri = state.element?.videoUrl?.toUri(),
             isEditing = (isEditing != null && isEditing),
             onViewClick = {
-                choseImage = it
-                showDialog = true
+                onEvent(ElementDetailEvent.ChangeFullScreenVideoState(it, true))
             },
             onChooseVideo = {
                 showBottomSheet(coroutineScope, bottomSheetState) {
@@ -143,6 +160,16 @@ fun ElementDetailScreen(
                 onMainEvent(MainEvent.ElementEditingChanged(null))
             },
             onSuccess = { onEvent(ElementDetailEvent.ChangeData) }
+        )
+    }
+
+    if (showDeletingConfirmDialog) {
+        SuccessDialog(
+            onDismiss = {
+                showConfirmDialog = false
+                onMainEvent(MainEvent.ElementDeletingChanged(null))
+            },
+            onSuccess = { onEvent(ElementDetailEvent.Delete) }
         )
     }
 

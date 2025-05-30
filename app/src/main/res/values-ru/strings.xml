@@ -17,12 +17,23 @@
     <string name="upload_image">Загрузить изображение</string>
     <string name="upload_video">Загрузить видео</string>
     <string name="confirm_changes_message">Вы уверены, что хотите применить эти изменения?</string>
+    <string name="confirm_delete_message">Вы уверены, что хотите удалить это?</string>
     <string name="confirm_button">Применить</string>
     <string name="cancel">Отменить</string>
     <string name="make_video">Записать видео</string>
     <string name="choose_from_gallery">Выбрать из галереи</string>
     <string name="image_is_empty">Изображение не выбрано</string>
     <string name="video_is_empty">Видео не выбрано</string>
+    <string name="role_owner">Владелец</string>
+    <string name="role_admin">Админ</string>
+    <string name="role_manager">Менеджер</string>
+    <string name="role_employee">Сотрудник</string>
+    <string name="date_picker_title">Выберите диапазон дат</string>
+    <string name="all_time">Все время</string>
+    <string name="select">Выбрать</string>
+    <string name="clear">Очистить</string>
+    <string name="choose_date">Выберите дату …</string>
+
 
 
     <!--    Errors-->
@@ -72,8 +83,31 @@
     <string name="instructions">Инструкции</string>
     <string name="instruction">Инструкция</string>
     <string name="no_instructions">Еще не создано ни одной инструкции</string>
+    <string name="no_instructions_filtered">Инструкции по выбранным фильтрам не найдены</string>
     <string name="all_videos">Все видео</string>
     <string name="create_instruction">Создать инструкцию</string>
+    <string name="create_item">Создать Элемент</string>
+    <string name="instruction_item">Элемент</string>
+    <string name="instruction_items">Элементы</string>
+    <string name="instruction_public_url">Публичная ссылка на инструкцию</string>
+    <string name="instruction_acceesses">Доступа инструкции</string>
+    <string name="ai_assistant_title">ИИ ПОМОЩНИК</string>
+    <string name="ai_assistant_description">Познакомьтесь с вашим личным помощником на базе искусственного интеллекта</string>
+    <string name="ai_assistant_instruction">Он поможет вам написать текст для ваших видео. Просто скажите ему, какой процесс нужно проинструктировать — и он сделает всё остальное!</string>
+    <string name="no_instruction_items">В инструкции нет элементов. Оценить невозможно</string>
+    <string name="choose_instruction">Выберите инструкцию …</string>
+    <string name="no_ai_instructions">Еще не создано ни одной ИИ инструкции</string>
+    <string name="business_type">Тип бизнеса</string>
+    <string name="job_position">Должность работника</string>
+    <string name="work_task">Название деятельности</string>
+    <string name="additional_notes">Дополнительные заметки</string>
+    <string name="ai_request">ИИ запрос</string>
+    <string name="ai_response">ИИ ответ</string>
+    <string name="ai_request_description">
+          * Создание ответа может занять до 2 минут. Пожалуйста, будьте терпеливы.\n\n
+          * Данные, введённые на этой странице, и данные из чата отправляются в OpenApi для создания результатов по вашим запросам.
+    </string>
+    <string name="ai_instructions_history">История ИИ-инструкций</string>
 
 
     <!-- Reports Screen -->
@@ -91,10 +125,47 @@
 
     <!-- Evaluations Screen -->
     <string name="evaluations">Оценки</string>
+    <string name="instruction_evaluations">Оценки по инструкциям</string>
+    <string name="employee_evaluations">Оценки сотрудника</string>
+    <string name="create_evaluation">Создать оценку</string>
+    <string name="no_evaluations">Оценки еще не созданы</string>
+    <string name="no_evaluations_filtered">Оценки по выбранным фильтрам не найдены</string>
+    <string name="instruction_items_evaluations">Оценка элементов</string>
 
 
     <!-- Access Screen -->
     <string name="accesses">Доступа</string>
+    <string name="folder">Папка</string>
+    <string name="available_to_everyone">Доступно для всех</string>
+    <string name="add_access">Добавить доступ</string>
+    <string name="no_folders">Еще не создано ни одной папки</string>
+    <string name="no_folders_filtered">Папки по выбранным фильтрам не найдены</string>
+
+    <!-- People Screen -->
+    <string name="people">Люди</string>
+    <string name="no_employees">Еще не создано ни одного работника</string>
+    <string name="employee_login">Логин сотрудника</string>
+    <string name="employee_login_hint">Введите логин сотрудника</string>
+    <string name="employee_password">Пароль сотрудника</string>
+    <string name="employee_password_hint">Введите пароль сотрудника</string>
+    <string name="employee_confirm_password">Подтвердите пароль сотрудника</string>
+    <string name="employee_name">Полное имя сотрудника</string>
+    <string name="employee_name_hint">Введите полное имя</string>
+    <string name="employee_phone">Телефон сотрудника</string>
+    <string name="employee_phone_hint">Введите номер телефона</string>
+    <string name="employee_email">Email сотрудника</string>
+    <string name="employee_email_hint">Введите адрес email</string>
+    <string name="employee_company">Компания сотрудника</string>
+    <string name="employee_company_hint">Введите название компании</string>
+    <string name="employee_info">Дополнительная информация</string>
+    <string name="employee_info_hint">Введите дополнительную информацию (необязательно)</string>
+    <string name="create_employee">Создать сотрудника</string>
+    <string name="employee">Сотрудник</string>
+    <string name="employees">Сотрудники</string>
+    <string name="create_folder">Создать папку</string>
+    <string name="no_employees_filtered">Работники по выбранным фильтрам не найдены</string>
+    <string name="choose_employee">Выберите сотрудника …</string>
+
 
 
     <!-- Profile Screen -->

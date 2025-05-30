@@ -17,12 +17,22 @@
     <string name="upload_image">Завантажити зображення</string>
     <string name="upload_video">Завантажити відео</string>
     <string name="confirm_changes_message">Ви впевнені, що хочете застосувати ці зміни?</string>
+    <string name="confirm_delete_message">Ви впевнені, що хочете видалити це?</string>
     <string name="confirm_button">Застосувати</string>
     <string name="cancel">Відмінити</string>
     <string name="make_video">Записати відео</string>
     <string name="choose_from_gallery">Вибрати з галереї</string>
     <string name="image_is_empty">Зображення не вибрано</string>
     <string name="video_is_empty">Відео не вибрано</string>
+    <string name="role_owner">Власник</string>
+    <string name="role_admin">Адмін</string>
+    <string name="role_manager">Менеджер</string>
+    <string name="role_employee">Працівник</string>
+    <string name="date_picker_title">Виберіть діапазон дат</string>
+    <string name="all_time">Весь час</string>
+    <string name="select">Вибрати</string>
+    <string name="clear">Очистити</string>
+    <string name="choose_date">Оберіть дату …</string>
 
 
     <!--    Errors-->
@@ -71,9 +81,33 @@
     <!-- Instructions Screen -->
     <string name="instructions">Інструкції</string>
     <string name="instruction">Інструкція</string>
+    <string name="no_instructions_filtered">Інструкції за вибраними фільтрами не знайдено</string>
     <string name="no_instructions">Не створено ще жодної інструкції</string>
     <string name="all_videos">Всі відео</string>
     <string name="create_instruction">Створити інструкцію</string>
+    <string name="create_item">Створити Елемент</string>
+    <string name="instruction_item">Елемент</string>
+    <string name="instruction_items">Елемент</string>
+    <string name="instruction_public_url">Публічне посилання на інструкцію</string>
+    <string name="instruction_acceesses">Доступи інструкції</string>
+    <string name="ai_assistant_title">ШІ ПОМІЧНИК</string>
+    <string name="ai_assistant_description">Знайомтесь з вашим особистим помічником на базі штучного інтелекту</string>
+    <string name="ai_assistant_instruction">Він допоможе вам написати текст для ваших відео. Просто скажіть йому, який процес вам потрібно проінструктувати, і він зробить усе інше!</string>
+    <string name="no_instruction_items">Інструкція не містить жодного елемента. Оцінити неможливо</string>
+    <string name="choose_instruction">Оберіть інструкцію …</string>
+    <string name="no_ai_instructions">Не створено ще жодної ШІ інструкції</string>
+    <string name="business_type">Тип бізнесу</string>
+    <string name="job_position">Посада працівника</string>
+    <string name="work_task">Назва діяльності</string>
+    <string name="additional_notes">Додаткові нотатки</string>
+    <string name="ai_request">ШІ запит</string>
+    <string name="ai_response">ШІ відповідь</string>
+    <string name="ai_request_description">
+           * Створення відповіді може тривати до 2 хвилин. Будь ласка, будьте терплячі.\n\n
+           * Дані, введені на цій сторінці, і дані з чату надсилаються в OpenApi для створення результатів за вашими запитами.
+    </string>
+    <string name="ai_instructions_history">Історія ШІ-інструкцій</string>
+
 
     <!-- Reports Screen -->
     <string name="reports">Заявки</string>
@@ -90,16 +124,52 @@
 
     <!-- Evaluations Screen -->
     <string name="evaluations">Оцінки</string>
+    <string name="instruction_evaluations">Оцінки по інструкціями</string>
+    <string name="employee_evaluations">Оцінюки працівника</string>
+    <string name="create_evaluation">Створити оцінку</string>
+    <string name="no_evaluations">Оцінки ще не створено</string>
+    <string name="no_evaluations_filtered">Оцінки за вибраними фільтрами не знайдено</string>
+    <string name="instruction_items_evaluations">Оцінювання елементів</string>
 
 
     <!-- Access Screen -->
     <string name="accesses">Доступи</string>
+    <string name="folder">Папка</string>
+    <string name="available_to_everyone">Доступно для всіх</string>
+    <string name="add_access">Додати доступ</string>
+    <string name="no_folders_filtered">Папок за вибраними фільтрами не знайдено</string>
+    <string name="no_folders">Не створено ще жодної папки</string>
 
 
     <!-- Profile Screen -->
     <string name="profile">Профіль</string>
     <string name="full_name">Ваше ім’я та прізвище</string>
     <string name="position">Посада</string>
+
+    <!-- People Screen -->
+    <string name="people">Люди</string>
+    <string name="no_employees">Не створено ще жодного робітника</string>
+    <string name="employee_login">Логін працівника</string>
+    <string name="employee_login_hint">Введіть логін працівника</string>
+    <string name="employee_password">Пароль працівника</string>
+    <string name="employee_password_hint">Введіть пароль працівника</string>
+    <string name="employee_confirm_password">Підтвердьте пароль працівника</string>
+    <string name="employee_name">Повне ім’я працівника</string>
+    <string name="employee_name_hint">Введіть повне ім’я</string>
+    <string name="employee_phone">Телефон працівника</string>
+    <string name="employee_phone_hint">Введіть номер телефону</string>
+    <string name="employee_email">Email працівника</string>
+    <string name="employee_email_hint">Введіть email адресу</string>
+    <string name="employee_company">Компанія працівника</string>
+    <string name="employee_company_hint">Введіть назву компанії</string>
+    <string name="employee_info">Додаткова інформація</string>
+    <string name="employee_info_hint">Введіть додаткову інформацію (необов’язково)</string>
+    <string name="create_employee">Створити працівника</string>
+    <string name="employee">Працівник</string>
+    <string name="employees">Працівники</string>
+    <string name="create_folder">Створити папку</string>
+    <string name="no_employees_filtered">Працівників за вибраними фільтрами не знайдено</string>
+    <string name="choose_employee">Оберіть співробітника …</string>
 
 
     <!-- Settings Screen -->

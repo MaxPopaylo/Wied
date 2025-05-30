@@ -3,6 +3,7 @@ package ua.wied.data.datasource.network.dto.folders
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 import ua.wied.data.datasource.network.dto.instruction.InstructionDto
+import ua.wied.domain.models.folder.Access
 import ua.wied.domain.models.folder.Folder
 import ua.wied.domain.models.instruction.Instruction
 
@@ -20,6 +21,7 @@ data class InstructionFoldersDto(
             id = id,
             title = title,
             items = instructions.map { it.toDomain() },
+            accesses = accesses.map { it.toDomain() },
             orderNum = orderNum
         )
 }
@@ -30,4 +32,10 @@ data class AccessDto(
     val id: Int,
     @Json(name = "name")
     val name: String
-)
+) {
+    fun toDomain(): Access =
+        Access(
+            id = id,
+            name = name
+        )
+}

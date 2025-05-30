@@ -19,9 +19,11 @@ import androidx.navigation.NavDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import ua.wied.R
+import ua.wied.presentation.common.navigation.AccessNav
 import ua.wied.presentation.common.navigation.BottomBarScreen
 import ua.wied.presentation.common.navigation.EvaluationNav
 import ua.wied.presentation.common.navigation.InstructionNav
+import ua.wied.presentation.common.navigation.PeopleNav
 import ua.wied.presentation.common.navigation.ProfileNav
 import ua.wied.presentation.common.navigation.ReportNav
 import ua.wied.presentation.common.theme.WiEDTheme.colors
@@ -40,7 +42,7 @@ fun MainBottomAppBar(
                     BottomBarScreen.Reports,
                     BottomBarScreen.Evaluations,
                     BottomBarScreen.Accesses,
-                    BottomBarScreen.Profile
+                    BottomBarScreen.People
                 )
             }
 
@@ -49,7 +51,7 @@ fun MainBottomAppBar(
                     BottomBarScreen.Instructions,
                     BottomBarScreen.Reports,
                     BottomBarScreen.Evaluations,
-                    BottomBarScreen.Profile
+                    BottomBarScreen.People
                 )
             }
         }
@@ -112,6 +114,8 @@ private fun isSelected(currentDestination: NavDestination?, screen: BottomBarScr
         "ReportNav" in currentRoute -> ReportNav.Reports
         "EvaluationNav" in currentRoute -> EvaluationNav.Evaluations
         "ProfileNav" in currentRoute -> ProfileNav.Profile
+        "PeopleNav" in currentRoute -> PeopleNav.People
+        "AccessNav" in currentRoute -> AccessNav.Accesses
         else -> null
     }
 

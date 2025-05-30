@@ -19,7 +19,13 @@ fun ReportsScreen(
     ContentBox(
         state = state,
         onRefresh = { onEvent(ReportsEvent.Refresh) },
-        emptyScreen = { InstructionEmptyScreen() }
+        emptyScreen = {
+            InstructionEmptyScreen(
+                isManager = false,
+                isFiltered = false,
+                onCreationClick = {}
+            )
+        }
     ) {
         FolderList(
             folders = state.folders,

@@ -1,6 +1,5 @@
 package ua.wied.presentation.screens.instructions.detail
 
-import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -23,7 +22,7 @@ import ua.wied.presentation.common.composable.ContentBox
 import ua.wied.presentation.common.composable.DetailTextField
 import ua.wied.presentation.common.composable.FullScreenImageDialog
 import ua.wied.presentation.common.composable.GridVideoItem
-import ua.wied.presentation.common.composable.LargeImagePicker
+import ua.wied.presentation.common.composable.pickers.LargeImagePicker
 import ua.wied.presentation.common.composable.MediaGrid
 import ua.wied.presentation.common.composable.SuccessDialog
 import ua.wied.presentation.common.theme.WiEDTheme.colors
@@ -43,7 +42,7 @@ fun InstructionDetailScreen(
     onMainEvent: (MainEvent) -> Unit,
     navigateToElementDetail: (Element) -> Unit,
     navigateToCreation: (Int, Int) -> Unit,
-    backToInstructions: () -> Unit
+    backToInstructions: (Boolean) -> Unit
 ) {
     var choseImage by remember { mutableStateOf("") }
     var showDialog by remember { mutableStateOf(false) }
@@ -56,14 +55,16 @@ fun InstructionDetailScreen(
 
     LaunchedEffect(isEditing) {
         if (isEditing != null && !isEditing) {
-            showConfirmDialog = true
+            if (state.instruction?.title?.isNotEmpty() == true) {
+                showConfirmDialog = true
+            }
         }
     }
 
-    LaunchedEffect(state.createResult) {
-        state.createResult.collect { result ->
+    LaunchedEffect(state.updateResult) {
+        state.updateResult.collect { result ->
             result?.fold(
-                onSuccess = { backToInstructions() },
+                onSuccess = { backToInstructions(true) },
                 onFailure = {
 
                 }
@@ -122,7 +123,7 @@ fun InstructionDetailScreen(
             if (state.instruction?.elements?.isNotEmpty() == true) {
                 Text(
                     modifier = Modifier.padding(top = dimen.paddingLarge),
-                    text = stringResource(R.string.video),
+                    text = stringResource(R.string.instruction_items),
                     style = typography.h5.copy(fontSize = 16.sp),
                     color = colors.secondaryText
                 )

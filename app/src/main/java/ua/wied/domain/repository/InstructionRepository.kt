@@ -20,6 +20,7 @@ interface InstructionRepository {
     ): UnitFlow
     suspend fun deleteInstruction(instructionId: Int): UnitFlow
     suspend fun getInstruction(instructionId: Int): FlowResult<Instruction>
+    suspend fun toggleAccess(instructionId: Int, userId: Int): UnitFlow
 
     suspend fun saveElement(
         title: String,
@@ -31,10 +32,11 @@ interface InstructionRepository {
     suspend fun updateElement(
         elementId: Int,
         title: String,
-        info: String,
+        info: String?,
         videoUrl: String?,
         orderNum: Int,
         instructionId: Int
     ): UnitFlow
     suspend fun deleteElement(elementId: Int, instructionId: Int): UnitFlow
+    suspend fun reorderInstruction(instructionId: Int, folderId: Int, newOrder: Int): UnitFlow
 }

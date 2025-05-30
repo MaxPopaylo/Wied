@@ -5,14 +5,17 @@ import android.os.Bundle
 import androidx.navigation.NavType
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
+import ua.wied.domain.models.folder.Folder
 import ua.wied.domain.models.instruction.Element
 import ua.wied.domain.models.instruction.Instruction
 import ua.wied.domain.models.report.Report
+import ua.wied.domain.models.user.User
 
 val ReportType = navTypeOf<Report>()
 val ReportsType = navTypeOf<List<Report>>()
 val InstructionType = navTypeOf<Instruction>()
 val ElementType = navTypeOf<Element>()
+val UserType = navTypeOf<User>()
 
 private inline fun <reified T> navTypeOf(
     isNullableAllowed: Boolean = false,
