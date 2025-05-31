@@ -11,10 +11,12 @@ import kotlinx.coroutines.launch
 import ua.wied.domain.models.settings.Settings
 import ua.wied.domain.usecases.ObserveSettingsUseCase
 import javax.inject.Inject
+import ua.wied.domain.usecases.SetDarkThemeEnabledUseCase
 
 @HiltViewModel
 class MainActivityViewModel @Inject constructor(
     private val observeSettings: ObserveSettingsUseCase,
+    private val setDarkThemeEnabledUseCase: SetDarkThemeEnabledUseCase
 ) : ViewModel() {
 
     private val _settings = MutableStateFlow(Settings.getDefaultSettings())
@@ -22,6 +24,12 @@ class MainActivityViewModel @Inject constructor(
 
     init {
         loadSettings()
+    }
+
+    fun setDarkTheme(value: Boolean) {
+        viewModelScope.launch {
+            setDarkThemeEnabledUseCase(value)
+        }
     }
 
     private fun loadSettings() {

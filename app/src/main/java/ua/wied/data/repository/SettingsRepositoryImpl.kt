@@ -4,26 +4,23 @@ import android.app.LocaleManager
 import android.content.Context
 import android.os.Build
 import android.os.LocaleList
-import androidx.appcompat.app.AppCompatDelegate
-import androidx.core.os.LocaleListCompat
 import androidx.datastore.core.DataStore
-import androidx.datastore.preferences.core.edit
-import ua.wied.data.UserPreferencesConstants.LANGUAGE_KEY
-import ua.wied.domain.models.settings.Language
-import ua.wied.domain.repository.SettingsRepository
 import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.core.edit
+import dagger.hilt.android.qualifiers.ApplicationContext
+import javax.inject.Inject
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import ua.wied.data.UserPreferencesConstants.DARK_THEME_KEY
+import ua.wied.data.UserPreferencesConstants.LANGUAGE_KEY
+import ua.wied.domain.models.settings.Language
 import ua.wied.domain.models.settings.Settings
-import javax.inject.Inject
-
-import ua.wied.data.UserPreferencesConstants.SHOW_AI_SUMMARY_KEY
+import ua.wied.domain.repository.SettingsRepository
 
 class SettingsRepositoryImpl @Inject constructor(
     private val dataStore: DataStore<Preferences>,
-    private val context: Context
+    @ApplicationContext private val context: Context
 ) : SettingsRepository {
 
     override suspend fun getLanguage(): Language {
@@ -78,12 +75,13 @@ class SettingsRepositoryImpl @Inject constructor(
     private fun changeLanguage(context: Context, language: Language) {
         val languageCode = language.value
 
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             val localeList = LocaleList.forLanguageTags(languageCode)
             context.getSystemService(LocaleManager::class.java).applicationLocales = localeList
         } else {
-            val localeListCompat = LocaleListCompat.forLanguageTags(languageCode)
-            AppCompatDelegate.setApplicationLocales(localeListCompat)
+            val sharedPrefs = context.getSharedPreferences("settings_temp", Context.MODE_PRIVATE)
+            sharedPrefs.edit().putString("language", language.name).apply()
         }
     }
 }

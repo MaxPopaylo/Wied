@@ -83,7 +83,7 @@ class ProfileViewModel @Inject constructor(
                 flow.collect { settings ->
                     updateState { it.copy(
                         settings = Settings(
-                            language = configureLanguage(),
+                            language = configureLanguage(settings.language),
                             darkTheme = settings.darkTheme
                         )
                     ) }
@@ -92,12 +92,12 @@ class ProfileViewModel @Inject constructor(
         )
     }
 
-    private fun configureLanguage(): Language {
+    private fun configureLanguage(language: Language): Language {
         val currentLocale = Resources.getSystem().configuration.locales[0]
         return when (currentLocale.language) {
             "uk" -> Language.UKRAINIAN
             "ru" -> Language.RUSSIAN
-            else -> Language.ENGLISH
+            else -> language
         }
     }
 
