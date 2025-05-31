@@ -79,6 +79,8 @@ fun InstructionsScreen(
         ) {
             DragAndDropFolderList (
                 folders = state.folders,
+                isManager = isManager,
+                skipEmptyFolders = !isManager,
                 onItemDropped = { instructionId, folderId, orderNum ->
                     onEvent(InstructionsEvent.ChangeOrderNum(instructionId, folderId, orderNum))
                 },

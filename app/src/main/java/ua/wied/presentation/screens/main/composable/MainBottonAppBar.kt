@@ -50,8 +50,7 @@ fun MainBottomAppBar(
                 listOf(
                     BottomBarScreen.Instructions,
                     BottomBarScreen.Reports,
-                    BottomBarScreen.Evaluations,
-                    BottomBarScreen.People
+                    BottomBarScreen.Evaluations
                 )
             }
         }

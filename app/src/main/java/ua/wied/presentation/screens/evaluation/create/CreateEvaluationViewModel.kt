@@ -11,6 +11,7 @@ import ua.wied.presentation.common.utils.extensions.toEvaluation
 import ua.wied.presentation.screens.evaluation.create.model.CreateEvaluationEvent
 import ua.wied.presentation.screens.evaluation.create.model.CreateEvaluationState
 import javax.inject.Inject
+import kotlin.math.roundToInt
 
 @HiltViewModel
 class CreateEvaluationViewModel @Inject constructor(
@@ -62,7 +63,7 @@ class CreateEvaluationViewModel @Inject constructor(
     }
 
     private val calculateAverage: (List<ItemEvaluation>) -> Double = { items ->
-        if (items.isEmpty()) 0.0 else items.map { it.evaluation }.average()
+        if (items.isEmpty()) 0.0 else ((items.map { it.evaluation }.average() * 100).roundToInt() / 100.0)
     }
 
     private fun createEvaluation() {

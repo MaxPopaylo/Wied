@@ -69,7 +69,9 @@ fun ImagePickerButton(
 ) {
 
     val launcher = rememberLauncherForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
-        onImageChosen(uri.toString())
+        if (uri != null) {
+            onImageChosen(uri.toString())
+        }
     }
 
     Box(
@@ -140,7 +142,9 @@ fun LargeImagePicker(
     imageUri: Uri?
 ) {
     val launcher = rememberLauncherForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
-        onImageChosen(uri.toString())
+        if (uri != null) {
+            onImageChosen(uri.toString())
+        }
     }
 
     val isClickable =  isEditing || imageUri != null

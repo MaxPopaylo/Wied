@@ -18,7 +18,7 @@
     <string name="upload_video">Загрузить видео</string>
     <string name="confirm_changes_message">Вы уверены, что хотите применить эти изменения?</string>
     <string name="confirm_delete_message">Вы уверены, что хотите удалить это?</string>
-    <string name="confirm_button">Применить</string>
+    <string name="confirm_button">Принять</string>
     <string name="cancel">Отменить</string>
     <string name="make_video">Записать видео</string>
     <string name="choose_from_gallery">Выбрать из галереи</string>
@@ -54,7 +54,8 @@
     <string name="registration">Регистрация</string>
     <string name="create_account">Создать аккаунт</string>
     <string name="signin">Войти</string>
-    <string name="signup">Зарегистрироваться</string>
+   <string name="signup">Регистрация</string>
+    <string name="logout">Выйти</string>
     <string name="password">Пароль</string>
     <string name="password_hint">Введите пароль</string>
     <string name="confirm_password">Подтвердите пароль</string>

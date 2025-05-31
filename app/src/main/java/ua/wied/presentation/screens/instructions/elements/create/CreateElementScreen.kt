@@ -2,7 +2,6 @@ package ua.wied.presentation.screens.instructions.elements.create
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -30,7 +29,6 @@ import ua.wied.presentation.common.theme.WiEDTheme.colors
 import ua.wied.presentation.common.theme.WiEDTheme.dimen
 import ua.wied.presentation.common.theme.WiEDTheme.typography
 import ua.wied.presentation.common.utils.extensions.hideBottomSheet
-import ua.wied.presentation.common.utils.extensions.positionAwareImePadding
 import ua.wied.presentation.common.utils.extensions.showBottomSheet
 import ua.wied.presentation.screens.instructions.elements.create.model.CreateElementEvent
 import ua.wied.presentation.screens.instructions.elements.create.model.CreateElementState
@@ -106,12 +104,10 @@ fun CreateElementScreen(
             }
         )
 
-        Spacer(Modifier.weight(1f))
-
         PrimaryButton(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(vertical = dimen.padding2Xl).positionAwareImePadding(),
+                .padding(vertical = dimen.padding2Xl),
             title = stringResource(R.string.create),
             onClick = {
                 onEvent(CreateElementEvent.Create(orderNum, instructionId))
