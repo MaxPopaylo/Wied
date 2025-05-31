@@ -144,13 +144,6 @@ fun MainTopAppBar(
         }
 
         // Report top bars
-        route.isRoute(ReportNav.Reports::class.qualifiedName) -> {
-            RenderTopBar(
-                title = stringResource(R.string.reports),
-                actions = profileAction
-            )
-        }
-
         route.isRoute(ReportNav.CreateReport::class.qualifiedName) -> {
             RenderTopBar(
                 title = stringResource(R.string.create_report),
@@ -180,6 +173,13 @@ fun MainTopAppBar(
                 title = stringResource(R.string.report),
                 navController = navController,
                 showBack = true
+            )
+        }
+
+        route.isRoute(ReportNav.Reports::class.qualifiedName) -> {
+            RenderTopBar(
+                title = stringResource(R.string.reports),
+                actions = profileAction
             )
         }
 

@@ -1,6 +1,7 @@
 package ua.wied.presentation.screens.reports.by_status.composable
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -42,7 +43,8 @@ fun ReportsByStatusItem(
             )
             .padding(vertical = dimen.paddingM)
             .padding(start = dimen.paddingXl),
-        verticalAlignment = Alignment.CenterVertically
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.Start
     ) {
         Column {
             Text(

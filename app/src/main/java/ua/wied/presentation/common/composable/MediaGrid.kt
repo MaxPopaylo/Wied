@@ -29,6 +29,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import coil3.ImageLoader
 import coil3.compose.AsyncImage
@@ -185,6 +186,7 @@ fun GridVideoItem(
                     Text(
                         modifier = Modifier.padding(top = dimen.paddingS),
                         text = it,
+                        textAlign = TextAlign.Center,
                         style = typography.h6,
                         color = Color.White
                     )

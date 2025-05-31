@@ -3,12 +3,21 @@ package ua.wied.presentation.screens.profile
 import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ExitToApp
+import androidx.compose.material3.Icon
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import ua.wied.R
 import ua.wied.domain.models.settings.Language
@@ -18,6 +27,7 @@ import ua.wied.presentation.common.composable.DetailTextField
 import ua.wied.presentation.common.composable.dropdowns.TypeDropdown
 import ua.wied.presentation.common.theme.WiEDTheme.colors
 import ua.wied.presentation.common.theme.WiEDTheme.dimen
+import ua.wied.presentation.common.theme.WiEDTheme.typography
 import ua.wied.presentation.screens.profile.model.ProfileEvent
 import ua.wied.presentation.screens.profile.model.ProfileState
 
@@ -27,6 +37,8 @@ fun ProfileScreen(
     onEvent: (ProfileEvent) -> Unit
 ) {
     val scrollState = rememberScrollState()
+    val context = LocalContext.current
+
     ContentBox(
         state = state,
         onRefresh = {}
@@ -78,6 +90,30 @@ fun ProfileScreen(
                     onEvent(ProfileEvent.ChangeTheme(it))
                 }
             )
+
+            Box(
+                modifier = Modifier
+                    .weight(1f)
+                    .fillMaxWidth(),
+                contentAlignment = Alignment.Center
+            ) {
+                TextButton(
+                    onClick = { onEvent(ProfileEvent.Logout(context = context)) },
+                    content = {
+                        Icon(
+                            imageVector = Icons.AutoMirrored.Filled.ExitToApp,
+                            contentDescription = stringResource(R.string.logout),
+                            tint = colors.errorColor
+                        )
+                        Spacer(modifier = Modifier.padding(horizontal = dimen.paddingXs))
+                        Text(
+                            text = stringResource(R.string.logout),
+                            color = colors.errorColor,
+                            style = typography.h5
+                        )
+                    }
+                )
+            }
         }
     }
 }

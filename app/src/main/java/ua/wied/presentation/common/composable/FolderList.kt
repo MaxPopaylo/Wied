@@ -35,6 +35,7 @@ import ua.wied.presentation.common.utils.ItemTransferData.Companion.extractDragD
 fun <T : HasId> FolderList (
     modifier: Modifier = Modifier,
     folders: List<Folder<T>>,
+    skipEmptyFolders: Boolean = true,
     itemView: @Composable (T) -> Unit
 ) {
     LazyColumn(
@@ -44,7 +45,9 @@ fun <T : HasId> FolderList (
     ) {
         folders.forEach { folder ->
             stickyHeader(key = "${folder.id}") {
-                FolderListHeader(text = folder.title)
+                if (!(skipEmptyFolders && folder.items.isEmpty())) {
+                    FolderListHeader(text = folder.title)
+                }
             }
             items(
                 folder.items,
@@ -61,6 +64,8 @@ fun <T : HasId> FolderList (
 fun <T : DragAndDropItem> DragAndDropFolderList(
     modifier: Modifier = Modifier,
     folders: List<Folder<T>>,
+    isManager: Boolean = true,
+    skipEmptyFolders: Boolean = true,
     onItemDropped: (itemId: Int, targetFolderId: Int, newOrderNum: Int) -> Unit = { _, _, _ -> },
     onItemClick: (T) -> Unit,
     itemView: @Composable (Modifier, T) -> Unit
@@ -72,14 +77,17 @@ fun <T : DragAndDropItem> DragAndDropFolderList(
     ) {
         folders.forEach { folder ->
             stickyHeader(key = "folder-${folder.id}") {
-                FolderListHeader(
-                    text = folder.title,
-                    isDragAndDrop = true,
-                    onDrop = { sourceFolderId, itemId ->
-                        val targetOrder = folder.items.lastOrNull()?.orderNum?.plus(1) ?: 0
-                        onItemDropped(itemId, folder.id, targetOrder)
-                    }
-                )
+                if (!(skipEmptyFolders && folder.items.isEmpty())) {
+                    FolderListHeader(
+                        text = folder.title,
+                        isDragAndDrop = true,
+                        onDrop = { sourceFolderId, itemId ->
+                            val targetOrder = folder.items.firstOrNull()?.orderNum ?: 0
+                            onItemDropped(itemId, folder.id, targetOrder)
+                        }
+                    )
+                }
+
             }
             items(
                 folder.items,
@@ -112,13 +120,15 @@ fun <T : DragAndDropItem> DragAndDropFolderList(
                         Modifier.dragAndDropSource {
                             detectTapGestures(
                                 onLongPress = {
-                                    val data = ItemTransferData(
-                                        itemId = item.id,
-                                        sourceFolderId = folder.id
-                                    )
-                                    startTransfer(
-                                        transferData = createTransferData(data)
-                                    )
+                                    if (isManager) {
+                                        val data = ItemTransferData(
+                                            itemId = item.id,
+                                            sourceFolderId = folder.id
+                                        )
+                                        startTransfer(
+                                            transferData = createTransferData(data)
+                                        )
+                                    }
                                 },
                                 onTap = { onItemClick(item) }
                             )

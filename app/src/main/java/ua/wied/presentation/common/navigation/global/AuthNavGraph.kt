@@ -20,14 +20,14 @@ fun AuthNavGraph(
         navController = navController,
         startDestination = AuthNav.SignIn
     ) {
-        screenComposable<AuthNav.SignIn>(TabType.GLOBAL) {
+        screenComposable<AuthNav.SignIn>(TabType.DEFAULT) {
             SignInScreen(
                 authViewModel = authViewModel,
                 navController = navController
             )
         }
 
-        screenComposable<AuthNav.SignUp>(TabType.GLOBAL) {
+        screenComposable<AuthNav.SignUp>(TabType.DEFAULT) {
             SignUpScreen(
                 authViewModel = authViewModel,
                 navController = navController
